@@ -77,7 +77,9 @@ There\'s two ways to get this admin account.
 
 #### First way
 1) Go the FO register page (http://your.domain.tld/register/).
+
 2) Fill the form and create your account
+
 3) Promote your user account with the following command : 
 
 ``` bash
