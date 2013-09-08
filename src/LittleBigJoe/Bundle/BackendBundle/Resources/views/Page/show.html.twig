@@ -1,0 +1,44 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Page'|trans() }} {{ entity.title }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'Page'|trans() }} <span
+                    class="text-primary">{{ entity.title }}</span></h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find some informations regarding the page :'|trans() }}</p>
+
+    <div class="page-header">
+        <h3>{{ entity.title }}</h3>
+    </div>
+    {% if entity.isVisible %}
+        <span class="label label-success">{{ 'Visible'|trans() }}</span>
+    {% else %}
+        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
+    {% endif %}
+    <div class="clearfix">&nbsp;</div>
+    {{ entity.content|raw }}
+
+    <div class="page-header">
+        <h3>{{ 'META infos'|trans() }}</h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">{{ 'META Title'|trans() }}
+            : {% if entity.metaTitle %}{{ entity.metaTitle }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
+        <li class="list-group-item">{{ 'META Description'|trans() }}
+            : {% if entity.metaDescription %}{{ entity.metaDescription }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
+    </ul>
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_pages') }}">
+            {{ 'Back to the list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_pages_edit', { 'id': entity.id }) }}">
+            {{ 'Edit this page'|trans() }}
+        </a>
+    </p>
+{% endblock %}

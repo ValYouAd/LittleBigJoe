@@ -1,0 +1,87 @@
+{% extends "::admin.html.twig" %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-home"></span> {{ 'Home'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find some stats regarding Little Big Joe activity :'|trans() }}</p>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ 'Pages'|trans() }} ({{ nbPages }})</h3>
+                </div>
+                <div class="panel-body">
+                    <p><strong>{{ nbPagesVisible }}</strong> {{ 'visible page(s)'|trans() }}</p>
+
+                    <p><strong>{{ nbPagesNotVisible }}</strong> {{ 'invisible page(s)'|trans() }}</p>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ 'Users'|trans() }} ({{ nbUsers }})</h3>
+                </div>
+                <div class="panel-body">
+                    <p><strong>{{ nbUsers }}</strong> {{ 'created user(s) on the website'|trans() }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-sm-4 -->
+        <div class="col-sm-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ 'Projects'|trans() }} ({{ nbProjects }})</h3>
+                </div>
+                <div class="panel-body">
+                    <p><strong>{{ nbNotDeletedProjects }}</strong> {{ 'active project(s)'|trans() }}</p>
+
+                    <p><strong>{{ nbDeletedProjects }}</strong> {{ 'deleted project(s)'|trans() }}</p>
+
+                    <p>
+                        <strong>{{ nbEngagementProjects }}</strong> {{ 'project(s) that are in "engagement phase"'|trans() }}
+                    </p>
+
+                    <p><strong>{{ nbFundingProjects }}</strong> {{ 'project(s) that are in "funding phase"'|trans() }}
+                    </p>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ 'Categories'|trans() }} ({{ nbCategories }})</h3>
+                </div>
+                <div class="panel-body">
+                    <p><strong>{{ nbCategoriesVisible }}</strong> {{ 'visible categories'|trans() }}</p>
+
+                    <p><strong>{{ nbCategoriesNotVisible }}</strong> {{ 'invisible categories'|trans() }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-sm-4 -->
+        <div class="col-sm-4">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ 'Brands'|trans() }} ({{ nbBrands }})</h3>
+                </div>
+                <div class="panel-body">
+                    <p><strong>{{ nbBrands }}</strong> {{ 'created brand(s) on the website'|trans() }}</p>
+                </div>
+            </div>
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ 'Contributions'|trans() }} ({{ nbContributions }})</h3>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        <strong>{{ nbSucceededContributions }}</strong> {{ 'contribution(s) that have been successful'|trans() }}
+                    </p>
+
+                    <p>
+                        <strong>{{ nbCompletedContributions }}</strong> {{ 'contribution(s) that have been completed'|trans() }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-sm-4 -->
+    </div>
+{% endblock %}

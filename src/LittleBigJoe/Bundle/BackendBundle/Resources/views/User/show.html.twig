@@ -1,0 +1,80 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'User'|trans() }} {{ entity }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'User'|trans() }} <span
+                    class="text-primary">{{ entity }}</span></h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find some informations regarding the user :'|trans() }}</p>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-3 pull-left">
+            <a href="#" class="thumbnail text-center">
+                {% if entity.photo %}
+                    <img src="{{ asset(entity.photo) }}">
+                {% else %}
+                    <strong>{{ 'N/A'|trans() }}</strong>
+                {% endif %}
+            </a>
+        </div>
+        <div class="media-body">
+            <h3 class="media-heading">{{ entity }}</h4>
+                {{ entity.bio|raw }}
+        </div>
+    </div>
+
+    <div class="page-header">
+        <h3>{{ 'Social infos'|trans() }}</h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">{{ 'Facebook URL'|trans() }} : {% if entity.facebookUrl %}<a target="_blank"
+                                                                                                 href="{{ entity.facebookUrl }}">{{ entity.facebookUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
+        </li>
+        <li class="list-group-item">{{ 'Twitter URL'|trans() }} : {% if entity.twitterUrl %}<a target="_blank"
+                                                                                               href="{{ entity.twitterUrl }}">{{ entity.twitterUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
+        </li>
+        <li class="list-group-item">{{ 'Google+ URL'|trans() }} : {% if entity.googleUrl %}<a target="_blank"
+                                                                                              href="{{ entity.googleUrl }}">{{ entity.googleUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
+        </li>
+        <li class="list-group-item">{{ 'Website URL'|trans() }} : {% if entity.websiteUrl %}<a target="_blank"
+                                                                                               href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
+        </li>
+    </ul>
+
+    <div class="page-header">
+        <h3>{{ 'Regional infos'|trans() }}</h3>
+    </div>
+    <p><strong>{{ entity.city }}, {{ entity.country }}</strong></p>
+    <p>{{ 'Nationality'|trans() }} : <strong>{{ entity.nationality }}</strong></p>
+    <p>{{ 'Default language'|trans() }} : <strong>{{ entity.defaultLanguage }}</strong></p>
+
+    <div class="page-header">
+        <h3>{{ 'Activity infos'|trans() }}</h3>
+    </div>
+    <p>{{ 'Number of related projects'|trans() }} : <strong>{{ entity.projects|length }}</strong></p>
+    <p>{{ 'Number of posted likes'|trans() }} : <strong>{{ entity.likes|length }}</strong></p>
+    <p>{{ 'Number of contributions'|trans() }} : <strong>{{ entity.contributions|length }}</strong></p>
+
+    <div class="page-header">
+        <h3>{{ 'MangoPay infos'|trans() }}</h3>
+    </div>
+    <p>{{ 'MangoPay user id'|trans() }} : <strong>{{ entity.mangopayUserId }}</strong></p>
+    <p>{{ 'MangoPay user created at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
+    </p>
+    <p>{{ 'MangoPay user updated at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
+    </p>
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_users') }}">
+            {{ 'Back to the list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_users_edit', { 'id': entity.id }) }}">
+            {{ 'Edit this user'|trans() }}
+        </a>
+    </p>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'FAQ'|trans() }} {{ entity.question|striptags }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="faq-header">
+    <h1><span class="glyphicon glyphicon-search"></span> {{ 'FAQ'|trans() }} <span
+                class="text-primary">{{ entity.question|striptags }}</span></h1>
+</div>
+<p class="lead">{{ 'Below you\'ll find some informations regarding the FAQ :'|trans() }}</p>
+
+<h3 class="media-heading">{{ entity.question|striptags }}</h4>
+    {% if entity.isVisible %}
+        <span class="label label-success">{{ 'Visible'|trans() }}</span>
+    {% else %}
+        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
+    {% endif %}
+    <div class="clearfix">&nbsp;</div>
+    {{ entity.answer|raw }}
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_faqs') }}">
+            {{ 'Back to the list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_faqs_edit', { 'id': entity.id }) }}">
+            {{ 'Edit this faq'|trans() }}
+        </a>
+    </p>
+    {% endblock %}

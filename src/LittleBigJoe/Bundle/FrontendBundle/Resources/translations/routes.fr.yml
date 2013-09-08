@@ -1,0 +1,80 @@
+# Desc: /profile/change-password
+fos_user_change_password: /profil/changement-mot-de-passe
+
+# Desc: /profile/edit
+fos_user_profile_edit: /profil/edition
+
+# Desc: /profile/
+fos_user_profile_show: /profil/
+
+# Desc: /resetting/check-email
+fos_user_resetting_check_email: /reinitialisation/verification-email
+
+# Desc: /resetting/request
+fos_user_resetting_request: /demande-de-reinitialisation
+
+# Desc: /resetting/reset/{token}
+fos_user_resetting_reset: '/reinitialisation/{token}'
+
+# Desc: /resetting/send-email
+fos_user_resetting_send_email: /reinitialisation/envoi-email
+
+# Desc: /brand/{slug}/current-projects
+littlebigjoe_frontendbundle_brand_current_projects: '/marque/{slug}/projets-en-cours'
+
+# Desc: /brand/{slug}/ended-projects
+littlebigjoe_frontendbundle_brand_ended_projects: '/marque/{slug}/projets-termines'
+
+# Desc: /most-desired-brands
+littlebigjoe_frontendbundle_brand_most_desired_projects: /les-plus-plebiscitees
+
+# Desc: /brand/{slug}
+littlebigjoe_frontendbundle_brand_show: '/marque/{slug}'
+
+# Desc: /category/{slug}
+littlebigjoe_frontendbundle_category_show: '/categorie/{slug}'
+
+# Desc: /
+littlebigjoe_frontendbundle_home: /
+
+# Desc: /page/{slug}
+littlebigjoe_frontendbundle_page_show: '/page/{slug}'
+
+# Desc: /projects
+littlebigjoe_frontendbundle_project: /projets
+
+# Desc: /almost-ending-projects
+littlebigjoe_frontendbundle_project_almost_ending_projects: /projets-bientot-termines
+
+# Desc: /favorite-projects
+littlebigjoe_frontendbundle_project_favorite_projects: /coups-de-coeur
+
+# Desc: /funding-projects
+littlebigjoe_frontendbundle_project_funding_projects: /projets-a-financer
+
+# Desc: /latest-projects
+littlebigjoe_frontendbundle_project_latest_projects: /derniers-projets
+
+# Desc: /launch-my-project
+littlebigjoe_frontendbundle_project_new: /lancer-mon-projet
+
+# Desc: /popular-projects
+littlebigjoe_frontendbundle_project_popular_projects: /projets-populaires
+
+# Desc: /popular-projects-this-week
+littlebigjoe_frontendbundle_project_popular_week_projects: /projets-populaires-cette-semaine
+
+# Desc: /recently-updated-projects
+littlebigjoe_frontendbundle_project_recently_updated_projects: /projets-recemment-mis-a-jour
+
+# Desc: /project/{slug}
+littlebigjoe_frontendbundle_project_show: '/projet/{slug}'
+
+# Desc: /top-funded-projects
+littlebigjoe_frontendbundle_project_top_funded_projects: /projets-les-mieux-finances
+
+# Desc: /search
+littlebigjoe_frontendbundle_search: /recherche
+
+# Desc: /user/{id}
+littlebigjoe_frontendbundle_user_show: '/utilisateur/{id}'

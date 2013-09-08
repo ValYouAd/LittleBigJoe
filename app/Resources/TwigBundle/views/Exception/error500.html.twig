@@ -1,0 +1,7 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ 'Oups !'|trans() }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'There was an error during accessing the ressource. Please try again.'|trans() }}</h1>
+{% endblock %}

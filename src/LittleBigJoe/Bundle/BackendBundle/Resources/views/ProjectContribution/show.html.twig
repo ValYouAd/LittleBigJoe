@@ -1,0 +1,65 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Project contribution'|trans() }} #{{ entity.id }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'Project contribution'|trans() }} <span
+                    class="text-primary">#{{ entity.id }}</span></h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find some informations regarding the project contribution :'|trans() }}</p>
+
+    <div class="page-header">
+        <h3>{{ 'Related infos'|trans() }}</h3>
+    </div>
+    <p>{{ 'Related project'|trans() }} : <a
+                href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.project.id }) }}"><strong>{{ entity.project }}</strong></a>
+    </p>
+    <p>{{ 'Related user'|trans() }} : <a
+                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
+    </p>
+    <p>{{ 'Related reward'|trans() }} : <strong>{{ entity.reward }}</strong></p>
+
+    <div class="page-header">
+        <h3>{{ 'MangoPay infos'|trans() }}</h3>
+    </div>
+    <p>{{ 'MangoPay contribution id'|trans() }} : <strong>{{ entity.mangopayContributionId }}</strong></p>
+    <p>{{ 'MangoPay amount'|trans() }} : <strong>{{ entity.mangopayAmount }}</strong></p>
+    <p>{{ 'MangoPay is succeeded ?'|trans() }} :
+        {% if entity.mangopayIsSucceeded %}
+            <span class="label label-success">{{ 'Succeeded'|trans() }}</span>
+        {% else %}
+            <span class="label label-default">{{ 'Not succeeded'|trans() }}</span>
+        {% endif %}
+    </p>
+    <p>{{ 'MangoPay is completed ?'|trans() }} :
+        {% if entity.mangopayIsCompleted %}
+            <span class="label label-success">{{ 'Completed'|trans() }}</span>
+        {% else %}
+            <span class="label label-default">{{ 'Not completed'|trans() }}</span>
+        {% endif %}
+    </p>
+    <p>{{ 'MangoPay error'|trans() }} :
+        <strong>{% if entity.mangopayError %}{{ entity.mangopayError }}{% else %}{{ 'N/A'|trans() }}{% endif %}</strong>
+    </p>
+    <p>{{ 'MangoPay answer code'|trans() }} :
+        <strong>{% if entity.mangopayAnswerCode %}{{ entity.mangopayAnswerCode }}{% else %}{{ 'N/A'|trans() }}{% endif %}</strong>
+    </p>
+    <p>{{ 'MangoPay user created at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
+    </p>
+    <p>{{ 'MangoPay user updated at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
+    </p>
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_contributions') }}">
+            {{ 'Back to the list'|trans() }}
+        </a>
+        <a class="btn btn-primary"
+           href="{{ path('littlebigjoe_backendbundle_contributions_edit', { 'id': entity.id }) }}">
+            {{ 'Edit this project contribution'|trans() }}
+        </a>
+    </p>
+{% endblock %}

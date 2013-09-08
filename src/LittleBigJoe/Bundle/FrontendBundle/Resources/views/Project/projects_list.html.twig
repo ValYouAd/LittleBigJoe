@@ -1,0 +1,66 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ title|trans() }} - {{ parent() }}{% endblock %}
+
+{% block sidebar %}{% endblock %}
+
+{% block body %}
+    <h2>{{ title|trans() }}</h2>
+
+    {% if projects %}
+        {% for project in projects %}
+            {% if project.photo %}
+                <img src="{{ asset(project.photo) }}" width="200" height="200">
+            {% else %}
+                <strong>{{ 'No image'|trans() }}</strong>
+            {% endif %}
+
+            {% if project.brand.logo %}
+                <img src="{{ asset(project.brand.logo) }}" width="50" height="50">
+            {% endif %}
+
+            <h3>
+                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a>
+            </h3>
+            {% if project.status == '1' %}
+                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+            {% else %}
+                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+            {% endif %}
+
+            <p>{{ project.pitch }}</p>
+            <p>{{ 'By'|trans() }} <a
+                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': project.user.id}) }}">{{ project.user }}</a>
+            </p>
+
+            {% if project.status == '1' %}
+                <p>
+                    <strong>{{ project.likesCount }}</strong> {{ 'likes'|trans() }} |
+                    {% if project.likesCount == 0 %}
+                        0
+                    {% elseif ((project.likesCount/project.likesRequired) * 100) > 100 %}
+                        100
+                    {% else %}
+                        {{ ((project.likesCount/project.likesRequired) * 100)|number_format(1, '.', ',') }}
+                    {% endif %} %
+                </p>
+            {% else %}
+                <p>
+                    {% if project.amountCount == 0 %}
+                        0
+                    {% elseif ((project.amountCount/project.amountRequired) * 100) > 100 %}
+                        100
+                    {% else %}
+                        {{ ((project.amountCount/project.amountRequired) * 100)|number_format(1, '.', ',') }}
+                    {% endif %} % |
+                    <strong>{{ project.amountCount }}</strong>{{ '€'|trans() }} |
+                    {{ project.endingAt|time_remaining }}
+                </p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(projects) }}
+    </div>
+{% endblock %}

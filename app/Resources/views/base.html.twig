@@ -1,0 +1,88 @@
+{% if form is defined %}{% form_theme form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+{% if edit_form is defined %}{% form_theme edit_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+{% if delete_form is defined %}{% form_theme delete_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="{{ asset('bundles/littlebigjoebackend/assets/ico/favicon.png') }}">
+
+    <title>{% block title %}{{ 'Little Big Joe'|trans() }}{% endblock %}</title>
+
+    {% block css %}
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/theme.css') }}" rel="stylesheet">
+        <style type="text/css">
+            .main-content {
+                margin-top: 60px
+            }
+        </style>
+    {% endblock %}
+
+    {% block header_javascripts %}
+        <!--[if lt IE 9]>
+        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/html5shiv.js') }}"></script>
+        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/respond.min.js') }}"></script>
+        <![endif]-->
+    {% endblock %}
+</head>
+<body>
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{{ path('littlebigjoe_frontendbundle_home') }}" class="navbar-brand">Project name</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <div class="nav navbar-nav">
+                {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:topMenu') }}
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form method="post" action="{{ path('littlebigjoe_frontendbundle_search') }}">
+                        <input type="text" id="search" name="search"/>
+                        <input type="submit" class="btn btn-primary" value="{{ 'Go'|trans() }}"/>
+                    </form>
+                </li>
+                <li><a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans() }}</a></li>
+                <li><a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans() }}</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="clearfix">&nbsp;</div>
+<div class="container">
+    <div class="row row-offcanvas row-offcanvas-right">
+        <div class="col-xs-12 col-sm-9">
+            <div class="row">
+                {% block body %}{% endblock %}
+                {% block fos_user_content %}{% endblock %}
+            </div>
+        </div>
+        <div id="sidebar" class="col-xs-6 col-sm-3 sidebar-offcanvas" role="navigation">
+            {% block sidebar %}
+                {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:brandMenu') }}
+                {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:categoryMenu') }}
+            {% endblock %}
+        </div>
+        <hr>
+    </div>
+
+    {% block footer_javascripts %}
+        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/jquery.js') }}"></script>
+        <script src="{{ asset('bundles/littlebigjoebackend/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/holder.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

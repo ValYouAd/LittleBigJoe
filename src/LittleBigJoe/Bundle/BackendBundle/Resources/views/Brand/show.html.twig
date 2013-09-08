@@ -1,0 +1,61 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Brand'|trans() }} {{ entity.name }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'Brand'|trans() }} {{ entity.name }}</h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find some informations regarding the brand :'|trans() }}</p>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-3 pull-left">
+            <a href="#" class="thumbnail text-center">
+                {% if entity.logo %}
+                    <img src="{{ asset(entity.logo) }}">
+                {% else %}
+                    <strong>{{ 'N/A'|trans() }}</strong>
+                {% endif %}
+            </a>
+        </div>
+        <div class="media-body">
+            <h3 class="media-heading">{{ entity.name }}</h4>
+                {{ entity.description|raw }}
+        </div>
+    </div>
+
+    <div class="clearfix">&nbsp;</div>
+    <h4>{{ 'Social infos'|trans() }}</h4>
+    <ul class="list-group">
+        <li class="list-group-item">{{ 'Facebook URL'|trans() }} : {% if entity.facebookUrl %}<a target="_blank"
+                                                                                                 href="{{ entity.facebookUrl }}">{{ entity.facebookUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
+        </li>
+        <li class="list-group-item">{{ 'Twitter URL'|trans() }} : {% if entity.twitterUrl %}<a target="_blank"
+                                                                                               href="{{ entity.twitterUrl }}">{{ entity.twitterUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
+        </li>
+        <li class="list-group-item">{{ 'Google+ URL'|trans() }} : {% if entity.googleUrl %}<a target="_blank"
+                                                                                              href="{{ entity.googleUrl }}">{{ entity.googleUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
+        </li>
+        <li class="list-group-item">{{ 'Website URL'|trans() }} : {% if entity.websiteUrl %}<a target="_blank"
+                                                                                               href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
+        </li>
+    </ul>
+
+    <div class="clearfix">&nbsp;</div>
+    <h4>{{ 'Contact infos'|trans() }}</h4>
+    <p><strong>{{ entity.contactName }}</strong> (<a
+                href="mailto:{{ entity.contactEmail }}">{{ entity.contactEmail }}</a>)</p>
+    <p>{{ entity.contactStatus }} - {{ entity.contactPhone }}</p>
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_brands') }}">
+            {{ 'Back to the list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_brands_edit', { 'id': entity.id }) }}">
+            {{ 'Edit this brand'|trans() }}
+        </a>
+    </p>
+{% endblock %}

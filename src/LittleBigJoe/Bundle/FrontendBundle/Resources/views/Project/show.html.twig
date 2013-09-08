@@ -1,0 +1,108 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ 'Project'|trans() }} {{ entity }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Project'|trans() }} {{ entity }}</h1>
+    <p class="lead">{{ 'Below you\'ll find some informations regarding the project :'|trans() }}</p>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-3 pull-left">
+            <a href="#" class="thumbnail text-center">
+                {% if entity.photo %}
+                    <img src="{{ asset(entity.photo) }}">
+                {% else %}
+                    <strong>{{ 'N/A'|trans() }}</strong>
+                {% endif %}
+            </a>
+        </div>
+        <div class="media-body">
+            <h3 class="media-heading">{{ entity }}</h4>
+                {{ entity.pitch|raw }}
+        </div>
+    </div>
+
+    <div class="page-header">
+        <h3>{{ 'Related infos'|trans() }}</h3>
+    </div>
+    <p>{{ 'Related brand'|trans() }} : <a
+                href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}"><strong>{{ entity.brand }}</strong></a>
+    </p>
+    <p>{{ 'Related category'|trans() }} : <a
+                href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}"><strong>{{ entity.category }}</strong></a>
+    </p>
+    <p>{{ 'Creator'|trans() }} : <a
+                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
+    </p>
+    <p>{{ 'Status'|trans() }} :
+        {% if entity.status %}
+            <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+        {% else %}
+            <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+        {% endif %}
+        {% if entity.statusUpdatedAt %}{{ '(updated at'|trans() }} : {{ entity.statusUpdatedAt|date('d/m/Y H:i:s') }} {{ ')'|trans() }}{% endif %}
+    </p>
+    <p>{{ 'Ending at'|trans() }} : <strong>{{ entity.endingAt|date('d/m/Y H:i:s') }}</strong></p>
+
+    {% if entity.endingAt < current_date %}
+        <div class="alert alert-info">
+            <p>{{ 'This project has ended on :'|trans() }} <strong>{{ entity.endingAt|date('d/m/Y H:i:s') }}</strong>
+            </p>
+        </div>
+    {% endif %}
+
+    {% if entity.deletedAt %}
+        <div class="alert alert-danger">
+            <p>{{ 'This project was deleted on :'|trans() }} <strong>{{ entity.deletedAt|date('d/m/Y H:i:s') }}</strong>
+            </p>
+        </div>
+    {% endif %}
+
+    <div class="page-header">
+        <h3>{{ 'Regional infos'|trans() }}</h3>
+    </div>
+    <p>{{ 'Location'|trans() }} : <strong>{{ entity.location }}</strong></p>
+    <p>{{ 'Language'|trans() }} : <strong>{{ entity.language }}</strong></p>
+
+    <div class="page-header">
+        <h3>{{ 'Description'|trans() }}</h3>
+    </div>
+    {{ entity.description|raw() }}
+
+    <div class="page-header">
+        <h3>{{ 'Project infos'|trans() }}</h3>
+    </div>
+    <p>
+        {{ 'Amount to raise'|trans() }} : <strong>{{ entity.amountCount }}
+            / {{ entity.amountRequired }} {{ '(required amount to raise)'|trans() }}</strong><br/>
+    <div class="progress progress-striped active">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.amountCount }}" aria-valuemin="0"
+             aria-valuemax="{{ entity.amountRequired }}"
+             style="width:{% if entity.amountCount == 0 %}0{% else %}{{ (entity.amountCount/entity.amountRequired) * 100 }}{% endif %}%">
+            <span class="sr-only">{% if entity.amountCount == 0 %}0{% else %}{{ (entity.amountCount/entity.amountRequired) * 100 }}{% endif %} {{ '% completed'|trans() }}</span>
+        </div>
+    </div>
+    </p>
+    <p>
+        {{ 'Likes'|trans() }} : <strong>{{ entity.likesCount }}
+            / {{ entity.likesRequired }} {{ '(required likes)'|trans() }}</strong><br/>
+    <div class="progress progress-striped active">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.likesCount }}" aria-valuemin="0"
+             aria-valuemax="{{ entity.likesRequired }}"
+             style="width:{% if entity.likesCount == 0 %}0{% else %}{{ (entity.likesCount/entity.likesRequired) * 100 }}{% endif %}%">
+            <span class="sr-only">{% if entity.likesCount == 0 %}0{% else %}{{ (entity.likesCount/entity.likesRequired) * 100 }}{% endif %} {{ '% completed'|trans() }}</span>
+        </div>
+    </div>
+    </p>
+
+    <div class="page-header">
+        <h3>{{ 'MangoPay infos'|trans() }}</h3>
+    </div>
+    <p>{{ 'MangoPay wallet id'|trans() }} : <strong>{{ entity.mangopayWalletId }}</strong></p>
+    <p>{{ 'MangoPay user created at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
+    </p>
+    <p>{{ 'MangoPay user updated at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
+    </p>
+{% endblock %}
