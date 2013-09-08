@@ -26,4 +26,22 @@ class UserRepository extends EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * Return users for specific keyword (used for search)
+     *
+     * @param string $search : search keyword
+     * @return array users
+     */
+    public function findBySearch($search)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.firstname LIKE :search')
+            ->orWhere('u.lastname LIKE :search')
+            ->setParameter('search', '%' . $search . '%');
+
+        return $qb->orderBy('u.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -16,13 +16,14 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-        		new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-        		new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
-        		new FOS\UserBundle\FOSUserBundle(),
-        		new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-        		new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-        		new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
-        		new JMS\TranslationBundle\JMSTranslationBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(), // Used to translate and upload on Entities
+            new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(), // Used to create multilingual forms/fields
+            new FOS\UserBundle\FOSUserBundle(), // Used to handle user management
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(), // Used to paginate results
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(), // Used to generate menus dynamically
+            new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(), // Used to translate routes
+            new JMS\TranslationBundle\JMSTranslationBundle(), // Used to handle some translations
+            new Craue\FormFlowBundle\CraueFormFlowBundle(), // Used for multi steps form
             new LittleBigJoe\Bundle\BackendBundle\LittleBigJoeBackendBundle(),
             new LittleBigJoe\Bundle\FrontendBundle\LittleBigJoeFrontendBundle(),
         );

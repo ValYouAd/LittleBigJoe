@@ -306,7 +306,7 @@ class ProjectRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->where('p.deletedAt IS NULL')
-            ->where('p.endingAt > :now')
+            ->andWhere('p.endingAt > :now')
             ->setParameter('now', new \Datetime());
 
         if (!empty($brandId)) {
@@ -333,7 +333,7 @@ class ProjectRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->where('p.deletedAt IS NULL')
-            ->where('p.endingAt <= :now')
+            ->andWhere('p.endingAt <= :now')
             ->setParameter('now', new \Datetime());
 
         if (!empty($brandId)) {
@@ -343,6 +343,24 @@ class ProjectRepository extends EntityRepository
 
         if (!empty($limit))
             $qb = $qb->setMaxResults($limit);
+
+        return $qb->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Return projects for specific keyword (used for search)
+     *
+     * @param string $search : search keyword
+     * @return array projects
+     */
+    public function findBySearch($search)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.deletedAt IS NULL')
+            ->andWhere('p.name LIKE :search')
+            ->setParameter('search', '%' . $search . '%');
 
         return $qb->orderBy('p.id', 'DESC')
             ->getQuery()

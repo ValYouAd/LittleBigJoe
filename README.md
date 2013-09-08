@@ -1,171 +1,121 @@
-Symfony Standard Edition
-========================
+LittleBigJoe
+============
+This project contains all necessary files used by the LittleBigJoe project.
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+## Prerequisites
+This version uses Symfony 2.3+, PHP 5.4.
 
-This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
+## Installation
+Installation is a quick (I promise!) 7 step process:
 
-1) Installing the Standard Edition
-----------------------------------
+1) Get the sources
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+2) Run composer update
 
-### Use Composer (*recommended*)
+3) Create database
 
-As Symfony uses [Composer][2] to manage its dependencies, the recommended way
-to create a new project is to use it.
+4) Create database triggers 
 
-If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+5) Empty Symfony2 caches
 
-    curl -s http://getcomposer.org/installer | php
+6) Create admin account
 
-Then, use the `create-project` command to generate a new Symfony application:
+7) Start using the app !
 
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
+### Step 1: Get the sources
+Get the sources from this GITHUB project, to retrieve all the files necessary to run the project.
 
-Composer will install Symfony and all its dependencies under the
-`path/to/install` directory.
+### Step 2 : Run composer update
+This project uses multiple vendors packages, so you need to get them via Composer. Run the command : 
 
-### Download an Archive File
+``` bash
+$ php composer.phar update
+```
 
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
+### Step 3 : Create database
+This project uses a database to stock projects, users, categories, etc..., so you need to create the database by running this command : 
 
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
+``` bash
+$ php app/console doctrine:schema:update --force
+```
 
-    php composer.phar install
+### Step 4 : Create database triggers
+In a way to accelerate FO rendering, some database are required. Please launch this SQL request in your database manager : 
 
-2) Checking your System Configuration
--------------------------------------
+``` sql
+delimiter $$
+CREATE TRIGGER `after_insert_project_like`
+    AFTER INSERT ON `project_like` FOR EACH ROW
+    BEGIN
+       UPDATE `project`
+       SET likes_count = likes_count + 1 
+       WHERE id = NEW.project_id;
+    END;
+$$
+delimiter $$
+CREATE TRIGGER `after_insert_project_contribution`
+    AFTER INSERT ON `project_contribution` FOR EACH ROW
+    BEGIN
+       UPDATE `project`
+       SET amount_count = amount_count + NEW.mangopay_amount
+       WHERE id = NEW.project_id;
+    END;
+$$
+```
 
-Before starting coding, make sure that your local system is properly
-configured for Symfony.
+### Step 5 : Empty Symfony2 caches
+To make sure everything is alright, run the following commands : 
 
-Execute the `check.php` script from the command line:
+``` bash
+$ php app/console cache:clear
+$ php app/console cache:clear --env=prod
+```
 
-    php app/check.php
+### Step 6 : Create admin account
+If you want to access to the project administration, you'll need an admin account.
+There\'s two ways to get this admin account.
 
-The script returns a status code of `0` if all mandatory requirements are met,
-`1` otherwise.
+#### First way
+1) Go the FO register page (http://your.domain.tld/register/).
 
-Access the `config.php` script from a browser:
+2) Fill the form and create your account
 
-    http://localhost/path/to/symfony/app/web/config.php
+3) Promote your user account with the following command : 
 
-If you get any warnings or recommendations, fix them before moving on.
+``` bash
+$ php app/console fos:user:promote youremail@yourdomain.tld ROLE_ADMIN
+```
 
-3) Browsing the Demo Application
---------------------------------
+4) Access administration via : http://your.domain.tld/admin/
 
-Congratulations! You're now ready to use Symfony.
+Email : **youremail@yourdomain.tld**
 
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
+Password : **yourpassword**
 
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
+#### Second way (lazy one)
+1) Go to your database manager and execute the following SQL query : 
 
-To see a real-live Symfony page in action, access the following page:
+``` sql
+INSERT INTO `user` (`firstname`, `lastname`, `birthday`, `facebook_url`, `twitter_url`, `google_url`, `website_url`, `city`, `country`, `nationality`, `default_language`, `photo`, `bio`, `ip_address`, `person_type`, `mangopay_user_id`, `mangopay_created_at`, `mangopay_updated_at`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`)
+VALUES ('Admin', 'Account', '2013-09-01 00:00:00', NULL, NULL, NULL, NULL, 'Paris', 'FR', 'French', 'fr', NULL, NULL, '127.0.0.1', 'NATURAL_PERSON', 0, '2013-09-01 00:00:00', '2013-09-01 00:00:00', 'admin@littlebigjoe.com', 'admin@littlebigjoe.com', 'admin@littlebigjoe.com', 'admin@littlebigjoe.com', 1, 'p99iito6r40w4csok480skko80kwwgc', 'vrCDHIUTHHOccqX4FAYneGjwn+UYonW2Wlhr3DPR8wTipwxonnM9bclkAUcjX8gdL2LtUKBW8dox7R7bS5q9/Q==', '2013-09-01 00:00:00', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:10:"ROLE_ADMIN";}', 0, NULL);
+```
 
-    web/app_dev.php/demo/hello/Fabien
+2) Access administration via : http://your.domain.tld/admin/
 
-4) Getting started with Symfony
--------------------------------
+Email : **admin@littlebigjoe.com**
 
-This distribution is meant to be the starting point for your Symfony
-applications, but it also contains some sample code that you can learn from
-and play with.
+Password : **admin**
 
-A great way to start learning Symfony is via the [Quick Tour][4], which will
-take you through all the basic features of Symfony2.
+### Step 7 : Start using the app !
+Enjoy !
 
-Once you're feeling good, you can move onto reading the official
-[Symfony2 book][5].
+## Configuration
 
-A default bundle, `AcmeDemoBundle`, shows you Symfony2 in action. After
-playing with it, you can remove it by following these steps:
+### Translations
+To generate .yml translations files for the application (routes, validators, strings), please use the following command : 
 
-  * delete the `src/Acme` directory;
+``` bash
+$ php app/console translation:extract fr --enable-extractor=jms_i18n_routing --bundle=LittleBigJoeFrontendBundle
+```
 
-  * remove the routing entry referencing AcmeDemoBundle in `app/config/routing_dev.yml`;
-
-  * remove the AcmeDemoBundle from the registered bundles in `app/AppKernel.php`;
-
-  * remove the `web/bundles/acmedemo` directory;
-
-  * remove the `security.providers`, `security.firewalls.login` and
-    `security.firewalls.secured_area` entries in the `security.yml` file or
-    tweak the security configuration to fit your needs.
-
-What's inside?
----------------
-
-The Symfony Standard Edition is configured with the following defaults:
-
-  * Twig is the only configured template engine;
-
-  * Doctrine ORM/DBAL is configured;
-
-  * Swiftmailer is configured;
-
-  * Annotations for everything are enabled.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **AcmeDemoBundle** (in dev/test env) - A demo bundle with some example
-    code
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.3/book/installation.html
-[2]:  http://getcomposer.org/
-[3]:  http://symfony.com/download
-[4]:  http://symfony.com/doc/2.3/quick_tour/the_big_picture.html
-[5]:  http://symfony.com/doc/2.3/index.html
-[6]:  http://symfony.com/doc/2.3/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.3/book/doctrine.html
-[8]:  http://symfony.com/doc/2.3/book/templating.html
-[9]:  http://symfony.com/doc/2.3/book/security.html
-[10]: http://symfony.com/doc/2.3/cookbook/email.html
-[11]: http://symfony.com/doc/2.3/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.3/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.3/bundles/SensioGeneratorBundle/index.html
+It will generate and save these files in /src/LittleBigJoe/FrontendBundle/Resources/translations folder.

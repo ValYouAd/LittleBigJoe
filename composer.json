@@ -25,7 +25,8 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "knplabs/knp-menu": "2.0.*@dev",
         "knplabs/knp-menu-bundle": "dev-master",
-        "jms/i18n-routing-bundle": "dev-master"
+        "jms/i18n-routing-bundle": "dev-master",
+        "craue/formflow-bundle": "~2.0"
     },
     "scripts": {
         "post-install-cmd": [
