@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ title|trans() }} - {{ parent() }}{% endblock %}
+
+{% block sidebar %}{% endblock %}
+
+{% block body %}
+    <h2>{{ title|trans() }}</h2>
+
+    {% if brands %}
+        {% for brand in brands %}
+            {% if brand.logo %}
+                <img src="{{ asset(brand.logo) }}" width="200" height="200">
+            {% else %}
+                <strong>{{ 'No image'|trans() }}</strong>
+            {% endif %}
+
+            <h3>
+                <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': brand.slug}) }}">{{ brand.name }}</a>
+            </h3>
+            <p>{{ brand.projects|length }} {{ 'associated project(s)'|trans() }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(brands) }}
+    </div>
+{% endblock %}

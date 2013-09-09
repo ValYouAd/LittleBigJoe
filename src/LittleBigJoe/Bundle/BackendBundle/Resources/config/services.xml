@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="littlebigjoebackend.twig.littlebigjoe_extension"
+                 class="LittleBigJoe\Bundle\BackendBundle\Twig\LittleBigJoeExtension">
+            <tag name="twig.extension"/>
+            <argument type="service" id="service_container"/>
+        </service>
+        <service id="littlebigjoebackend.user.type" class="LittleBigJoe\Bundle\BackendBundle\Form\UserType">
+            <tag name="form.type" alias="littlebigjoe_bundle_backendbundle_user"/>
+            <argument>%fos_user.model.user.class%</argument>
+        </service>
+    </services>
+</container>

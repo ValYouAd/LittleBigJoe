@@ -43,6 +43,8 @@ $ php app/console doctrine:schema:update --force
 In a way to accelerate FO rendering, some database are required. Please launch this SQL request in your database manager : 
 
 ``` sql
+DROP TRIGGER IF EXISTS `after_insert_project_like`;
+DROP TRIGGER IF EXISTS `after_insert_project_contribution`;
 delimiter $$
 CREATE TRIGGER `after_insert_project_like`
     AFTER INSERT ON `project_like` FOR EACH ROW

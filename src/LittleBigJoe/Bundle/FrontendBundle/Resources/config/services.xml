@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="littlebigjoefrontend.twig.littlebigjoe_extension"
+                 class="LittleBigJoe\Bundle\FrontendBundle\Twig\LittleBigJoeExtension">
+            <tag name="twig.extension"/>
+            <argument type="service" id="service_container"/>
+        </service>
+        <service id="littlebigjoefrontend.user.registration"
+                 class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormType">
+            <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_registration"/>
+            <argument>%fos_user.model.user.class%</argument>
+        </service>
+        <service id="littlebigjoefrontend.user.profile" class="LittleBigJoe\Bundle\FrontendBundle\Form\ProfileFormType">
+            <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_profile"/>
+            <argument>%fos_user.model.user.class%</argument>
+        </service>
+        <service id="littlebigjoefrontend.listener.user.registration"
+                 class="LittleBigJoe\Bundle\FrontendBundle\EventListener\RegistrationListener">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="service_container"/>
+        </service>
+        <service id="littlebigjoefrontend.listener.user.profile"
+                 class="LittleBigJoe\Bundle\FrontendBundle\EventListener\ProfileListener">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="service_container"/>
+        </service>
+    </services>
+</container>

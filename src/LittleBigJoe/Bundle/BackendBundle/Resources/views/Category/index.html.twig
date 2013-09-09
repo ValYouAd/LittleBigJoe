@@ -1,0 +1,64 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Categories list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'Categories list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find categories that have been created :'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'ID'|trans(), 'c.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Name'|trans(), 'c.name') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Slug'|trans(), 'c.slug') }}</th>
+            <th>{{ 'Related projects'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Is visible ?'|trans(), 'c.isVisible') }}</th>
+            <th>{{ 'Actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.slug }}</td>
+                <td>{{ entity.projects|length }}</td>
+                <td>
+                    {% if entity.isVisible %}
+                        <span class="label label-success">{{ 'Visible'|trans() }}</span>
+                    {% else %}
+                        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.id }) }}">{{ 'Show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_categories_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_categories_new') }}">
+            {{ 'Create a new category'|trans() }}
+        </a>
+    </p>
+{% endblock %}

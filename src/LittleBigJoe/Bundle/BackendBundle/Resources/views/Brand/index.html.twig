@@ -1,0 +1,60 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Brands list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'Brands list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find brands that have been created :'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'ID'|trans(), 'b.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Name'|trans(), 'b.name') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Slug'|trans(), 'b.slug') }}</th>
+            <th>{{ 'Related projects'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Contact name'|trans(), 'b.contactName') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Contact email'|trans(), 'b.contactEmail') }}</th>
+            <th>{{ 'Actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.slug }}</td>
+                <td>{{ entity.projects|length }}</td>
+                <td>{{ entity.contactName }}</td>
+                <td><a href="mailto:{{ entity.contactEmail }}">{{ entity.contactEmail }}</a></td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.id }) }}">{{ 'Show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_brands_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_brands_new') }}">
+            {{ 'Create a new brand'|trans() }}
+        </a>
+    </p>
+{% endblock %}
