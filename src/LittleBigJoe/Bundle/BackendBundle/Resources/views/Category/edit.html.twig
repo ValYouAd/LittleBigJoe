@@ -1,0 +1,88 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Edit category'|trans() }} {{ entity.name }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'Edit category'|trans() }} <span
+                    class="text-primary">{{ entity.name }}</span></h1>
+    </div>
+    <p class="lead">{{ 'Please fill these fields, to edit the category :'|trans() }}</p>
+
+    {{ form(edit_form, {attr:{role:'form' }}) }}
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_categories') }}">
+            {{ 'Back to the list'|trans() }}
+        </a>
+    </p>
+
+    <div class="clearfix">&nbsp;</div>
+    <fieldset>
+        <legend>{{ 'Delete this category'|trans() }}</legend>
+        <p>{{ 'By clicking on the button below, you\'ll delete the category'|trans() }}</p>
+
+        {{ form(delete_form, {attr:{role:'form' }}) }}
+    </fieldset>
+    <div class="clearfix">&nbsp;</div>
+{% endblock %}
+
+{% block footer_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#littlebigjoe_bundle_frontendbundle_category_translations_defaultLocale_en_name').on('keyup', null, function () {
+                var rExps = [
+                    {re: /[\xC0-\xC6]/g, ch: 'A'},
+                    {re: /[\xE0-\xE6]/g, ch: 'a'},
+                    {re: /[\xC8-\xCB]/g, ch: 'E'},
+                    {re: /[\xE8-\xEB]/g, ch: 'e'},
+                    {re: /[\xCC-\xCF]/g, ch: 'I'},
+                    {re: /[\xEC-\xEF]/g, ch: 'i'},
+                    {re: /[\xD2-\xD6]/g, ch: 'O'},
+                    {re: /[\xF2-\xF6]/g, ch: 'o'},
+                    {re: /[\xD9-\xDC]/g, ch: 'U'},
+                    {re: /[\xF9-\xFC]/g, ch: 'u'},
+                    {re: /[\xC7-\xE7]/g, ch: 'c'},
+                    {re: /[\xD1]/g, ch: 'N'},
+                    {re: /[\xF1]/g, ch: 'n'}
+                ];
+                var title_value = $(this).val();
+
+                for (var i = 0, len = rExps.length; i < len; i++)
+                    title_value = title_value.replace(rExps[i].re, rExps[i].ch);
+
+                title_value = title_value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/\-{2,}/g, '-');
+                $('#littlebigjoe_bundle_frontendbundle_category_translations_defaultLocale_en_slug').val(title_value);
+            });
+
+            $('#littlebigjoe_bundle_frontendbundle_category_translations_translations_fr_name').on('keyup', null, function () {
+                var rExps = [
+                    {re: /[\xC0-\xC6]/g, ch: 'A'},
+                    {re: /[\xE0-\xE6]/g, ch: 'a'},
+                    {re: /[\xC8-\xCB]/g, ch: 'E'},
+                    {re: /[\xE8-\xEB]/g, ch: 'e'},
+                    {re: /[\xCC-\xCF]/g, ch: 'I'},
+                    {re: /[\xEC-\xEF]/g, ch: 'i'},
+                    {re: /[\xD2-\xD6]/g, ch: 'O'},
+                    {re: /[\xF2-\xF6]/g, ch: 'o'},
+                    {re: /[\xD9-\xDC]/g, ch: 'U'},
+                    {re: /[\xF9-\xFC]/g, ch: 'u'},
+                    {re: /[\xC7-\xE7]/g, ch: 'c'},
+                    {re: /[\xD1]/g, ch: 'N'},
+                    {re: /[\xF1]/g, ch: 'n'}
+                ];
+                var title_value = $(this).val();
+
+                for (var i = 0, len = rExps.length; i < len; i++)
+                    title_value = title_value.replace(rExps[i].re, rExps[i].ch);
+
+                title_value = title_value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/\-{2,}/g, '-');
+                $('#littlebigjoe_bundle_frontendbundle_category_translations_translations_fr_slug').val(title_value);
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% if form is defined %}{% form_theme form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+{% if edit_form is defined %}{% form_theme edit_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+{% if delete_form is defined %}{% form_theme delete_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="{{ asset('bundles/littlebigjoebackend/assets/ico/favicon.png') }}">
+
+    <title>{% block title %}{{ 'Administration - Little Big Joe'|trans() }}{% endblock %}</title>
+
+    {% block css %}
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/theme.css') }}" rel="stylesheet">
+        <style type="text/css">
+            .main-content {
+                margin-top: 60px
+            }
+        </style>
+    {% endblock %}
+
+    {% block header_javascripts %}
+        <!--[if lt IE 9]>
+        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/html5shiv.js') }}"></script>
+        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/respond.min.js') }}"></script>
+        <![endif]-->
+    {% endblock %}
+</head>
+
+<body>
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand"
+               href="{{ path('littlebigjoe_backendbundle_home') }}">{{ 'Little Big Joe'|trans() }}</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="{{ 'littlebigjoe_backendbundle_home'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_home') }}">{{ 'Home'|trans() }}</a></li>
+                <li class="{{ 'littlebigjoe_backendbundle_pages'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_pages') }}">{{ 'Pages'|trans() }}</a></li>
+                <li class="{{ 'littlebigjoe_backendbundle_users'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_users') }}">{{ 'Users'|trans() }}</a></li>
+                <li class="{{ 'littlebigjoe_backendbundle_projects'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_projects') }}">{{ 'Projects'|trans() }}</a></li>
+                <li class="{{ 'littlebigjoe_backendbundle_categories'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_categories') }}">{{ 'Categories'|trans() }}</a>
+                </li>
+                <li class="{{ 'littlebigjoe_backendbundle_brands'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_brands') }}">{{ 'Brands'|trans() }}</a></li>
+                <li class="{{ 'littlebigjoe_backendbundle_contributions'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_contributions') }}">{{ 'Contributions'|trans() }}</a>
+                </li>
+                <li class="{{ 'littlebigjoe_backendbundle_faqs'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_faqs') }}">{{ 'FAQ'|trans() }}</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container main-content">
+    {% block body %}
+    {% endblock %}
+</div>
+<!-- /container -->
+
+{% block footer_javascripts %}
+    <script src="{{ asset('bundles/littlebigjoebackend/assets/js/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/littlebigjoebackend/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/littlebigjoebackend/assets/js/holder.js') }}"></script>
+{% endblock %}
+</body>
+</html>

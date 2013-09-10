@@ -1,0 +1,180 @@
+{% extends '::base.html.twig' %}
+
+{% block sidebar %}
+    {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:brandMenu') }}
+    {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:typeMenu') }}
+    {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:categoryMenu') }}
+{% endblock %}
+
+{% block body %}
+    <h3>{{ 'Favorite projects'|trans() }}</h3>
+    <p><a href="{{ path('littlebigjoe_frontendbundle_project_favorite_projects') }}"
+          class="btn btn-primary">{{ 'See all favorite projects'|trans() }}</a></p>
+
+    {% if favoriteProjects %}
+        {% for favoriteProject in favoriteProjects %}
+            {% if favoriteProject.photo %}
+                <img src="{{ asset(favoriteProject.photo) }}" width="200" height="200">
+            {% else %}
+                <strong>{{ 'No image'|trans() }}</strong>
+            {% endif %}
+
+            {% if favoriteProject.brand.logo %}
+                <img src="{{ asset(favoriteProject.brand.logo) }}" width="50" height="50">
+            {% endif %}
+
+            <h3>
+                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': favoriteProject.slug}) }}">{{ favoriteProject.name }}</a>
+            </h3>
+            {% if favoriteProject.status == '1' %}
+                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+            {% else %}
+                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+            {% endif %}
+
+            <p>{{ favoriteProject.pitch }}</p>
+            <p>{{ 'By'|trans() }} <a
+                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': favoriteProject.user.id}) }}">{{ favoriteProject.user }}</a>
+            </p>
+
+            {% if favoriteProject.status == '1' %}
+                <p>
+                    <strong>{{ favoriteProject.likesCount }}</strong> {{ 'likes'|trans() }} |
+                    {% if favoriteProject.likesCount == 0 %}
+                        0
+                    {% elseif ((favoriteProject.likesCount/favoriteProject.likesRequired) * 100) > 100 %}
+                        100
+                    {% else %}
+                        {{ ((favoriteProject.likesCount/favoriteProject.likesRequired) * 100)|number_format(1, '.', ',') }}
+                    {% endif %} %
+                </p>
+            {% else %}
+                <p>
+                    {% if favoriteProject.amountCount == 0 %}
+                        0
+                    {% elseif ((favoriteProject.amountCount/favoriteProject.amountRequired) * 100) > 100 %}
+                        100
+                    {% else %}
+                        {{ ((favoriteProject.amountCount/favoriteProject.amountRequired) * 100)|number_format(1, '.', ',') }}
+                    {% endif %} % |
+                    <strong>{{ favoriteProject.amountCount }}</strong>{{ '€'|trans() }} |
+                    {{ favoriteProject.endingAt|time_remaining }}
+                </p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <h2>{{ 'Popular this week'|trans() }}</h2>
+    <p><a href="{{ path('littlebigjoe_frontendbundle_project_popular_week_projects') }}"
+          class="btn btn-primary">{{ 'See all popular projects'|trans() }}</a></p>
+
+    {% if popularProjects %}
+        {% for popularProject in popularProjects %}
+            {% if popularProject.photo %}
+                <img src="{{ asset(popularProject.photo) }}" width="200" height="200">
+            {% else %}
+                <strong>{{ 'No image'|trans() }}</strong>
+            {% endif %}
+
+            {% if popularProject.brand.logo %}
+                <img src="{{ asset(popularProject.brand.logo) }}" width="50" height="50">
+            {% endif %}
+
+            <h3>
+                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': popularProject.slug}) }}">{{ popularProject.name }}</a>
+            </h3>
+            {% if popularProject.status == '1' %}
+                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+            {% else %}
+                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+            {% endif %}
+
+            <p>{{ popularProject.pitch }}</p>
+            <p>{{ 'By'|trans() }} <a
+                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': popularProject.user.id}) }}">{{ popularProject.user }}</a>
+            </p>
+
+            {% if popularProject.status == '1' %}
+                <p>
+                    <strong>{{ popularProject.likesCount }}</strong> {{ 'likes'|trans() }} |
+                    {% if popularProject.likesCount == 0 %}
+                        0
+                    {% elseif ((popularProject.likesCount/popularProject.likesRequired) * 100) > 100 %}
+                        100
+                    {% else %}
+                        {{ ((popularProject.likesCount/popularProject.likesRequired) * 100)|number_format(1, '.', ',') }}
+                    {% endif %} %
+                </p>
+            {% else %}
+                <p>
+                    {% if popularProject.amountCount == 0 %}
+                        0
+                    {% elseif ((popularProject.amountCount/popularProject.amountRequired) * 100) > 100 %}
+                        100
+                    {% else %}
+                        {{ ((popularProject.amountCount/popularProject.amountRequired) * 100)|number_format(1, '.', ',') }}
+                    {% endif %} % |
+                    <strong>{{ popularProject.amountCount }}</strong>{{ '€'|trans() }} |
+                    {{ popularProject.endingAt|time_remaining }}
+                </p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <h2>{{ 'Recently updated projects'|trans() }}</h2>
+    <p><a href="{{ path('littlebigjoe_frontendbundle_project_recently_updated_projects') }}"
+          class="btn btn-primary">{{ 'See all updated projects'|trans() }}</a></p>
+
+    {% if recentlyUpdatedProjects %}
+        {% for recentlyUpdatedProject in recentlyUpdatedProjects %}
+            {% if recentlyUpdatedProject.photo %}
+                <img src="{{ asset(recentlyUpdatedProject.photo) }}" width="200" height="200">
+            {% else %}
+                <strong>{{ 'No image'|trans() }}</strong>
+            {% endif %}
+
+            {% if recentlyUpdatedProject.brand.logo %}
+                <img src="{{ asset(recentlyUpdatedProject.brand.logo) }}" width="50" height="50">
+            {% endif %}
+
+            <h3>
+                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': recentlyUpdatedProject.slug}) }}">{{ recentlyUpdatedProject.name }}</a>
+            </h3>
+            {% if recentlyUpdatedProject.status == '1' %}
+                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+            {% else %}
+                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+            {% endif %}
+
+            <p>{{ recentlyUpdatedProject.pitch }}</p>
+            <p>{{ 'By'|trans() }} <a
+                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': recentlyUpdatedProject.user.id}) }}">{{ recentlyUpdatedProject.user }}</a>
+            </p>
+
+            {% if recentlyUpdatedProject.status == '1' %}
+                <p>
+                    <strong>{{ recentlyUpdatedProject.likesCount }}</strong> {{ 'likes'|trans() }} |
+                    {% if recentlyUpdatedProject.likesCount == 0 %}
+                        0
+                    {% elseif ((recentlyUpdatedProject.likesCount/recentlyUpdatedProject.likesRequired) * 100) > 100 %}
+                        100
+                    {% else %}
+                        {{ ((recentlyUpdatedProject.likesCount/recentlyUpdatedProject.likesRequired) * 100)|number_format(1, '.', ',') }}
+                    {% endif %} %
+                </p>
+            {% else %}
+                <p>
+                    {% if recentlyUpdatedProject.amountCount == 0 %}
+                        0
+                    {% elseif ((recentlyUpdatedProject.amountCount/recentlyUpdatedProject.amountRequired) * 100) > 100 %}
+                        100
+                    {% else %}
+                        {{ ((recentlyUpdatedProject.amountCount/recentlyUpdatedProject.amountRequired) * 100)|number_format(1, '.', ',') }}
+                    {% endif %} % |
+                    <strong>{{ recentlyUpdatedProject.amountCount }}</strong>{{ '€'|trans() }} |
+                    {{ recentlyUpdatedProject.endingAt|time_remaining }}
+                </p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

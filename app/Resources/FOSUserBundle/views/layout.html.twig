@@ -1,0 +1,49 @@
+{% if form is defined %}{% form_theme form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+{% if edit_form is defined %}{% form_theme edit_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+{% if delete_form is defined %}{% form_theme delete_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="{{ asset('bundles/littlebigjoebackend/assets/ico/favicon.png') }}">
+
+    <title>{% block title %}{{ 'Little Big Joe'|trans() }}{% endblock %}</title>
+
+    {% block css %}
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/signin.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    {% block header_javascripts %}
+        <!--[if lt IE 9]>
+        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/html5shiv.js') }}"></script>
+        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/respond.min.js') }}"></script>
+        <![endif]-->
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+            <div class="flash-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block fos_user_content %}{% endblock %}
+</div>
+<!-- /container -->
+
+{% block footer_javascripts %}
+    <script src="{{ asset('bundles/littlebigjoebackend/assets/js/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/littlebigjoebackend/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/littlebigjoebackend/assets/js/holder.js') }}"></script>
+{% endblock %}
+</body>
+</html>

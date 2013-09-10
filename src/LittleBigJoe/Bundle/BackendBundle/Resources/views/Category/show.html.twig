@@ -1,0 +1,44 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Category'|trans() }} {{ entity.name }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="page-header">
+    <h1><span class="glyphicon glyphicon-search"></span> {{ 'Category'|trans() }} <span
+                class="text-primary">{{ entity.name }}</span></h1>
+</div>
+<p class="lead">{{ 'Below you\'ll find some informations regarding the category :'|trans() }}</p>
+
+<h3 class="media-heading">{{ entity.name }}</h4>
+    {% if entity.isVisible %}
+        <span class="label label-success">{{ 'Visible'|trans() }}</span>
+    {% else %}
+        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
+    {% endif %}
+
+    <div class="clearfix">&nbsp;</div>
+    <h4>{{ 'Activity infos'|trans() }}</h4>
+
+    <p>{{ 'Number of related projects'|trans() }} : <strong>{{ entity.projects|length }}</strong></p>
+
+    <div class="clearfix">&nbsp;</div>
+    <h4>{{ 'META infos'|trans() }}</h4>
+    <ul class="list-group">
+        <li class="list-group-item">{{ 'META Title'|trans() }}
+            : {% if entity.metaTitle %}{{ entity.metaTitle }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
+        <li class="list-group-item">{{ 'META Description'|trans() }}
+            : {% if entity.metaDescription %}{{ entity.metaDescription }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
+    </ul>
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_categories') }}">
+            {{ 'Back to the list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_categories_edit', { 'id': entity.id }) }}">
+            {{ 'Edit this category'|trans() }}
+        </a>
+    </p>
+    {% endblock %}

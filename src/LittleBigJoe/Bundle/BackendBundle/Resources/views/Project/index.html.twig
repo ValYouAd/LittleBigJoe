@@ -1,0 +1,88 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Projects list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'Projects list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find projects that have been created :'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'ID'|trans(), 'p.id') }}</th>
+            <th>{{ 'Brand'|trans() }}</th>
+            <th>{{ 'Category'|trans() }}</th>
+            <th>{{ 'Creator'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Name'|trans(), 'p.name') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Slug'|trans(), 'p.slug') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Likes'|trans(), 'p.likesRequired') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Amount'|trans(), 'p.amountRequired') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Status'|trans(), 'p.status') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Ending date'|trans(), 'p.endingAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Is deleted ?'|trans(), 'p.deletedAt') }}</th>
+            <th>{{ 'Actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}">{{ entity.brand }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}">{{ entity.category }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}">{{ entity.user }}</a>
+                </td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.slug }}</td>
+                <td>{{ entity.likesCount }} / {{ entity.likesRequired }}</td>
+                <td>{{ entity.amountCount }} / {{ entity.amountRequired }}</td>
+                <td>
+                    {% if entity.status == '1' %}
+                        <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+                    {% else %}
+                        <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ entity.endingAt|date('d/m/y H:i:s') }}</td>
+                <td>
+                    {% if entity.deletedAt %}
+                        <span class="label label-default">{{ 'Deleted'|trans() }}</span>
+                    {% else %}
+                        <span class="label label-success">{{ 'Not deleted'|trans() }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">{{ 'Show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_projects_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_projects_new') }}">
+            {{ 'Create a new project'|trans() }}
+        </a>
+    </p>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'Users list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'Users list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'Below you\'ll find users that have been created :'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'ID'|trans(), 'u.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Name'|trans(), 'u.lastname') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'City'|trans(), 'u.city') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Country'|trans(), 'u.country') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Nationality'|trans(), 'u.nationality') }}</th>
+            <th>{{ 'Related projects'|trans() }}</th>
+            <th>{{ 'Likes'|trans() }}</th>
+            <th>{{ 'Contributions'|trans() }}</th>
+            <th>{{ 'Actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>{{ entity }}</td>
+                <td>{{ entity.city }}</td>
+                <td>{{ entity.country }}</td>
+                <td>{{ entity.nationality }}</td>
+                <td>{{ entity.projects|length }}</td>
+                <td>{{ entity.likes|length }}</td>
+                <td>{{ entity.contributions|length }}</td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.id }) }}">{{ 'Show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_users_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_users_new') }}">
+            {{ 'Create a new user'|trans() }}
+        </a>
+    </p>
+{% endblock %}
