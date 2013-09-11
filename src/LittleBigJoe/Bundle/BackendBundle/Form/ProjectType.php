@@ -30,7 +30,12 @@ class ProjectType extends AbstractType
             ->add('category', 'entity', array(
                 'label' => 'Associated category',
                 'class' => 'LittleBigJoeFrontendBundle:Category',
-                'property' => 'name'
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                    		->where('c.isVisible = :isVisible')
+                    		->setParameter('isVisible', true)
+                        ->orderBy('c.name', 'ASC');
+                }
             ))
             ->add('user', 'entity', array(
                 'label' => 'Creator',

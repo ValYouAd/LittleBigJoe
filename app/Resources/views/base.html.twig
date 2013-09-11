@@ -3,7 +3,7 @@
 {% if delete_form is defined %}{% form_theme delete_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +40,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="{{ path('littlebigjoe_frontendbundle_home') }}" class="navbar-brand">Project name</a>
+            <a href="{{ path('littlebigjoe_frontendbundle_home') }}" class="navbar-brand">{{ 'Little Big Joe'|trans() }}</a>
         </div>
         <div class="navbar-collapse collapse">
             <div class="nav navbar-nav">
@@ -48,9 +48,9 @@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <form method="post" action="{{ path('littlebigjoe_frontendbundle_search') }}">
-                        <input type="text" id="search" name="search"/>
-                        <input type="submit" class="btn btn-primary" value="{{ 'Go'|trans() }}"/>
+                    <form method="get" action="{{ path('littlebigjoe_frontendbundle_search') }}">
+                        <input type="text" id="term" name="term" />
+                        <input type="submit" class="btn btn-primary" value="{{ 'Go'|trans() }}" />
                     </form>
                 </li>
                 <li><a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans() }}</a></li>
@@ -78,8 +78,26 @@
         </div>
         <hr>
     </div>
-
-    {% block footer_javascripts %}
+	
+    {% block footer_javascripts %}   
+    		{{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();'}) }}
+				<script type="text/javascript" >
+				function goLogIn(){
+				    window.location = "{{ path('_security_check') }}";
+				}
+				
+				function onFbInit() {
+				    if (typeof(FB) != 'undefined' && FB != null ) {
+				        FB.Event.subscribe('auth.statusChange', function(response) {
+				            if (response.session || response.authResponse) {
+				                setTimeout(goLogIn, 50);
+				            } else {
+				                window.location = "{{ path('_security_logout') }}";
+				            }
+				        });
+				    }
+				}
+				</script> 		
         <script src="{{ asset('bundles/littlebigjoebackend/assets/js/jquery.js') }}"></script>
         <script src="{{ asset('bundles/littlebigjoebackend/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('bundles/littlebigjoebackend/assets/js/holder.js') }}"></script>

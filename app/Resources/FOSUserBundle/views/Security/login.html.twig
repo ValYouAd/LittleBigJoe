@@ -3,6 +3,10 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
+		{% for notice in app.session.flashbag.get('notice') %}
+		    <div class="alert alert-warning">{{ notice }}</div>
+		{% endfor %}		
+
     <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
         <h2 class="form-signin-heading">{{ 'Login'|trans() }}</h2>
 
@@ -26,5 +30,9 @@
 
         <input type="submit" id="_submit" name="_submit" class="btn btn-lg btn-primary btn-block"
                value="{{ 'security.login.submit'|trans }}"/>
+               
+        <h2 class="form-signin-heading">{{ 'You can also log yourself with :'|trans() }}</h2>        
+        {{ facebook_login_button({'autologoutlink': false, 'label': 'Login via Facebook'|trans() }) }}
+        <a href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}">{{ 'Login via Twitter'|trans() }}</a>        
     </form>
 {% endblock fos_user_content %}

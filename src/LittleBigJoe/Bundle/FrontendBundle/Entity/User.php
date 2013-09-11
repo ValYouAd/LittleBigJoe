@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Locale\Locale;
 
 /**
  * User
@@ -80,12 +81,33 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
+     */
+    private $facebookId;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="facebook_url", type="string", length=255, nullable=true)
      *
      * @Assert\Url(message = "Your Facebook URL is invalid")
      */
     private $facebookUrl;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="twitter_id", type="string", length=255, nullable=true)
+     */
+    private $twitterId;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="twitter_access_token", type="string", length=255, nullable=true)
+     */
+    private $twitterAccessToken;
+    
     /**
      * @var string
      *
@@ -375,6 +397,91 @@ class User extends BaseUser
     }
 
     /**
+     * Set facebookId
+     *
+     * @param string $facebookId
+     * @return User
+     */
+    public function setFacebookId($facebookId)
+    {
+	    	$this->facebookId = $facebookId;
+	    
+	    	return $this;
+    }
+    
+    /**
+     * Get facebookId
+     *
+     * @return string
+     */
+    public function getFacebookId()
+    {
+    		return $this->facebookId;
+    }
+    
+    /**
+     * Fetch infos from Facebook and associate them to current user
+     * 
+     * @param Array
+     */
+    public function setFBData($fbdata)
+    {
+    		if (isset($fbdata['id'])) 
+	    	{
+		    		$this->setFacebookId($fbdata['id']);
+		    		$this->addRole('ROLE_FACEBOOK');
+	    	}
+	    	if (isset($fbdata['first_name'])) 
+	    	{
+	    			$this->setFirstname($fbdata['first_name']);
+	    	}
+	    	if (isset($fbdata['last_name'])) 
+	    	{
+	    			$this->setLastname($fbdata['last_name']);
+	    	}
+	    	if (isset($fbdata['email'])) 
+	    	{
+	    			$this->setEmail($fbdata['email']);
+	    			$this->setEmailCanonical($fbdata['email']);
+	    	}
+	    	if (isset($fbdata['locale']))
+	    	{
+	    			$locale = substr($fbdata['locale'], 0, 2);
+	    			$country = substr($fbdata['locale'], 3, 2);
+	    			
+	    			// Avoid to select non configured language	    			
+	    			if (!in_array($locale, array('en', 'fr')))
+	    			{
+	    					$locale = 'en';
+	    			}
+	    			
+	    			$this->setDefaultLanguage($locale);
+	    			$this->setCountry($country);
+	    			$this->setNationality(Locale::getDisplayCountries($locale)[$country]);
+	    	}
+	    	if (isset($fbdata['link']))
+	    	{
+	    			$this->setFacebookUrl($fbdata['link']);
+	    	}
+	    	if (isset($fbdata['bio']))
+	    	{
+	    			$this->setBio($fbdata['bio']);
+	    	}
+	    	if (isset($fbdata['birthday']))
+	    	{
+	    			$this->setBirthday(\DateTime::createFromFormat('m/d/Y', $fbdata['birthday']));
+	    	}
+	    	if (isset($fbdata['location']))
+	    	{
+	    			$this->setCity($fbdata['location']['name']);
+	    	}
+	    	if (isset($fbdata['website']))
+	    	{
+	    			$this->setWebsiteUrl($fbdata['website']);
+	    	}	    	
+    }
+    
+    /**
      * Set facebookUrl
      *
      * @param string $facebookUrl
@@ -397,6 +504,52 @@ class User extends BaseUser
         return $this->facebookUrl;
     }
 
+    /**
+     * Set twitterId
+     *
+     * @param string $twitterId
+     * @return User
+     */
+    public function setTwitterId($twitterId)
+    {
+	    	$this->twitterId = $twitterId;
+	    
+	    	return $this;
+    }
+    
+    /**
+     * Get twitterId
+     *
+     * @return string
+     */
+    public function getTwitterId()
+    {
+    		return $this->twitterId;
+    }
+    
+    /**
+     * Set twitterAccessToken
+     *
+     * @param string $twitterAccessToken
+     * @return User
+     */
+    public function setTwitterAccessToken($twitterAccessToken)
+    {
+	    	$this->twitterAccessToken = $twitterAccessToken;
+	    
+	    	return $this;
+    }
+    
+    /**
+     * Get twitterAccessToken
+     *
+     * @return string
+     */
+    public function getTwitterAccessToken()
+    {
+    		return $this->twitterAccessToken;
+    }
+    
     /**
      * Set twitterUrl
      *

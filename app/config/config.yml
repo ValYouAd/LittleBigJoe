@@ -121,7 +121,30 @@ fos_user:
     profile:
         form:
             type: littlebigjoe_bundle_frontendbundle_user_profile
-                
+
+# FOSFacebookBundle Configuration
+fos_facebook:
+    alias:  facebook
+    app_id: %api_facebook_id%
+    secret: %api_facebook_secret%
+    cookie: true
+    permissions: [email, user_about_me, user_birthday, user_location, user_website]
+
+# HWIOAuthBundle Configuration
+hwi_oauth:
+    connect:
+        account_connector: littlebigjoefrontend.fos_ub_user_provider
+    firewall_name: main
+    fosub:
+        username_iterations: 30
+        properties:
+            twitter: twitterId
+    resource_owners: 
+        twitter:
+            type: twitter
+            client_id: "%api_twitter_key%"
+            client_secret: "%api_twitter_secret%"
+              
 # KNPPaginatorBundle Configuration
 knp_paginator:
     page_range: 5                      # default page range used in pagination control

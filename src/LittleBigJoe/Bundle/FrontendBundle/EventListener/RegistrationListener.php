@@ -43,8 +43,25 @@ class RegistrationListener implements EventSubscriberInterface
             $uploadableManager->markEntityToUpload($user, $user->getPhoto());
         }
 
+        // Stock temporarly user plain password, to send it by email
+        $plainPassword = $user->getPlainPassword();
+        
         $userManager->updateUser($user);
+        
+        // Send welcome email
+        $email = \Swift_Message::newInstance()
+        ->setSubject($this->container->get('translator')->trans('Welcome to Little Big Joe'))
+        ->setFrom($this->container->getParameter('default_email_address'))
+        ->setTo(array($user->getEmail() => $user))
+        ->setBody(
+        		$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:welcome.html.twig', array(
+        				'user' => $user,
+        				'plainPassword' => $plainPassword
+        		), 'text/html')
+        );
+        $this->container->get('mailer')->send($email);
 
+				// Redirect user to confirmation page
         if (null === $response = $event->getResponse()) {
             $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
             return new RedirectResponse($url);
