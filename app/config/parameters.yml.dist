@@ -14,5 +14,16 @@ parameters:
 
     # LittleBigJoe Specific Configuration
     locales: [en, fr]
+    default_email_address: contact@littlebigjoe.com
     nb_elements_by_page: 20
     howdoesitwork_page_id: ~ # Must be the ID of the "How does this website work" (use in Top menu)
+    
+    # FOSFacebookBundle Configuration
+    api_facebook_id: '327514850725218'
+    api_facebook_secret: 'a71c47bf7320c5190118f075e1efd116'
+    api_facebook_name: 'http://apps.facebook.com/littlebigjoe/'
+    api_facebook_server: 'http://dev.littlebigjoe.com/'
+    
+    # HWIOAuthBundle Configuration
+    api_twitter_key: 'm8z0OJ6k1LxTIjnp6ud8KQ'
+    api_twitter_secret: 'OHyVibMQoTJGlg80DkckiNeMLVTljnu7CH4Pu1MDpHE'

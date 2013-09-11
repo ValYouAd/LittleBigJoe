@@ -19,7 +19,9 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(), // Used to translate and upload on Entities
             new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(), // Used to create multilingual forms/fields
             new FOS\UserBundle\FOSUserBundle(), // Used to handle user management
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(), // Used to paginate results
+            new FOS\FacebookBundle\FOSFacebookBundle(), // Used to handle Facebook connect
+        		new HWI\Bundle\OAuthBundle\HWIOAuthBundle(), // Used to handle OAuth connect (Twitter)
+        		new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(), // Used to paginate results
             new Knp\Bundle\MenuBundle\KnpMenuBundle(), // Used to generate menus dynamically
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(), // Used to translate routes
             new JMS\TranslationBundle\JMSTranslationBundle(), // Used to handle some translations

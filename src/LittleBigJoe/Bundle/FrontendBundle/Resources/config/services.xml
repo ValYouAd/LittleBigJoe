@@ -3,31 +3,54 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+				
+		<parameters>
+        <parameter key="fosubuserprovider.properties" type="collection">
+            <parameter key="twitter">twitterId</parameter>
+        </parameter>
+    </parameters>		
+		
     <services>
-        <service id="littlebigjoefrontend.twig.littlebigjoe_extension"
-                 class="LittleBigJoe\Bundle\FrontendBundle\Twig\LittleBigJoeExtension">
+        <service id="littlebigjoefrontend.twig.littlebigjoe_extension" class="LittleBigJoe\Bundle\FrontendBundle\Twig\LittleBigJoeExtension">
             <tag name="twig.extension"/>
             <argument type="service" id="service_container"/>
         </service>
-        <service id="littlebigjoefrontend.user.registration"
-                 class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormType">
+        <service id="littlebigjoefrontend.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormType">
             <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_registration"/>
+            <argument type="service" id="session" />
             <argument>%fos_user.model.user.class%</argument>
         </service>
         <service id="littlebigjoefrontend.user.profile" class="LittleBigJoe\Bundle\FrontendBundle\Form\ProfileFormType">
             <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_profile"/>
             <argument>%fos_user.model.user.class%</argument>
         </service>
-        <service id="littlebigjoefrontend.listener.user.registration"
-                 class="LittleBigJoe\Bundle\FrontendBundle\EventListener\RegistrationListener">
+        <service id="littlebigjoefrontend.user.facebook_provider" class="LittleBigJoe\Bundle\FrontendBundle\Security\Provider\FacebookProvider">
+            <argument type="service" id="fos_facebook.api" />
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="validator" />
+            <argument type="service" id="service_container" />
+            <argument>%fos_user.model.user.class%</argument>
+        </service>
+        <service id="littlebigjoefrontend.fos_ub_user_provider" class="LittleBigJoe\Bundle\FrontendBundle\Security\Provider\FOSUBUserProvider" public="false">
+            <argument type="service" id="fos_user.user_manager" />
+            <argument>%fosubuserprovider.properties%</argument>
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="littlebigjoefrontend.listener.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\EventListener\RegistrationListener">
             <tag name="kernel.event_subscriber"/>
             <argument type="service" id="service_container"/>
         </service>
-        <service id="littlebigjoefrontend.listener.user.profile"
-                 class="LittleBigJoe\Bundle\FrontendBundle\EventListener\ProfileListener">
+        <service id="littlebigjoefrontend.listener.user.profile" class="LittleBigJoe\Bundle\FrontendBundle\EventListener\ProfileListener">
             <tag name="kernel.event_subscriber"/>
             <argument type="service" id="service_container"/>
-        </service>
+        </service>        
+        <service id="littlebigjoefrontend.project.createProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProjectFormType">
+        		<tag name="form.type" alias="createProject" />
+    		</service>
+   			<service id="littlebigjoefrontend.flow.project.createProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProjectFlow" parent="craue.form.flow" scope="request">
+        		<call method="setFormType">
+            		<argument type="service" id="littlebigjoefrontend.project.createProject" />
+        		</call>
+    		</service>
     </services>
 </container>

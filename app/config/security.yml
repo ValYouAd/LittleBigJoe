@@ -9,13 +9,34 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username_email
-
+        littlebigjoe_facebook_provider:
+            id: littlebigjoefrontend.user.facebook_provider
+        chain_provider:
+            chain:
+                providers: [fos_userbundle, littlebigjoe_facebook_provider]    
+                
     firewalls:
-        main:
+        main:        
             pattern: ^/
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
+            
+            fos_facebook:
+                app_url: "%api_facebook_name%"
+                server_url: "%api_facebook_server%"
+                check_path: /login_facebook_check   # Avoid problem with base form
+                provider: littlebigjoe_facebook_provider
+            
+            oauth:
+                resource_owners:
+                    twitter: "/login/check-twitter"
+                login_path: /register
+                failure_path: /register
+ 
+                oauth_user_provider:
+                    service: littlebigjoefrontend.fos_ub_user_provider
+            
             logout:
                 path:   /logout
                 target: /

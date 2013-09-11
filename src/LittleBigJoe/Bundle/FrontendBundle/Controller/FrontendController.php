@@ -23,7 +23,7 @@ class FrontendController extends Controller
         $fundingProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findFunding();
         $latestBrands = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->findLatestByProject();
         $latestProjectContributions = $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->findLatest(3);
-
+        
         return array(
             'latestProjects' => $latestProjects,
             'popularProjects' => $popularProjects,
