@@ -93,7 +93,7 @@ class ProjectReward
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
     protected $project;
-
+        
     /**
      * @ORM\OneToMany(targetEntity="ProjectContribution", mappedBy="reward", cascade={"persist", "remove"})
      */

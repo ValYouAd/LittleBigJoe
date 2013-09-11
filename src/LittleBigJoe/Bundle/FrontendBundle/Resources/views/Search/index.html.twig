@@ -3,8 +3,13 @@
 {% block body %}
     <h1>{{ 'Search for '|trans() }} <strong>{{ search }}</strong></h1>
 
-    {% if projects_search %}
-        {% for project in projects_search %}
+		<div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+		{% if projects is not empty %}
+				<h2>{{ 'Projects'|trans() }}</h2>
+        {% for project in projects %}
             {% if project.photo %}
                 <img src="{{ asset(project.photo) }}" width="200" height="200">
             {% else %}
@@ -29,12 +34,11 @@
                         href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': project.user.id}) }}">{{ project.user }}</a>
             </p>
         {% endfor %}
-    {% else %}
-        <p>{{ 'There\'s no project that match your query'|trans() }}</p>
     {% endif %}
 
-    {% if users_search %}
-        {% for user in users_search %}
+    {% if users is not empty %}    		
+				<h2>{{ 'Users'|trans() }}</h2>
+        {% for user in users %}
             <h3>
                 <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': user.id}) }}">{{ user }}</a>
             </h3>
@@ -53,10 +57,12 @@
                 <strong>{{ 'N/A'|trans() }}</strong>
             {% endif %}
 
-            <h2>{{ 'Biography'|trans() }}</h2>
+            <h4>{{ 'Biography'|trans() }}</h4>
             <p>{{ user.bio }}</p>
         {% endfor %}
-    {% else %}
-        <p>{{ 'There\'s no user that match your query'|trans() }}</p>
     {% endif %}
+    
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}

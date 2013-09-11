@@ -28,7 +28,7 @@ class Builder extends ContainerAware
         $menu->addChild($this->container->get('translator')->trans('Discovering projects'), array('route' => 'littlebigjoe_frontendbundle_project'));
 
         // Add "Launch my project" link
-        $menu->addChild($this->container->get('translator')->trans('Launch my project'), array('route' => 'littlebigjoe_frontendbundle_project_new'));
+        $menu->addChild($this->container->get('translator')->trans('Launch my project'), array('route' => 'littlebigjoe_frontendbundle_project_create_project'));
 
         return $menu;
     }

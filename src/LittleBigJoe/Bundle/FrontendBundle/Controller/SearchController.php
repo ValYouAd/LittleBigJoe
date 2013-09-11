@@ -19,7 +19,8 @@ class SearchController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $search = $request->request->get('search');
+        $search = $request->query->get('term', '');
+				
         $projectsSearch = array();
         $usersSearch = array();
 
@@ -28,11 +29,31 @@ class SearchController extends Controller
             $projectsSearch = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findBySearch($search);
             $usersSearch = $em->getRepository('LittleBigJoeFrontendBundle:User')->findBySearch($search);
         }
-
+        
+        $paginator = $this->get('knp_paginator');
+        // Take the max number of results to generate the global pagination
+        $pagination = $paginator->paginate(
+        		((sizeof($projectsSearch) > sizeof($usersSearch)) ? $projectsSearch : $usersSearch),
+        		$this->get('request')->query->get('page', 1),
+        		2
+        );
+        // Generate pagination for entities
+        $projects = $paginator->paginate(
+        		$projectsSearch,
+        		$this->get('request')->query->get('page', 1),
+        		2
+        );
+        $users = $paginator->paginate(
+        		$usersSearch,
+        		$this->get('request')->query->get('page', 1),
+        		2
+        );
+        
         return array(
-            'search' => $search,
-            'projects_search' => $projectsSearch,
-            'users_search' => $usersSearch,
+        		'search' => $search,
+        		'projects' => $projects,
+        		'users' => $users,
+        		'pagination' => $pagination
         );
     }
 }

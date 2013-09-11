@@ -92,7 +92,7 @@ class BrandController extends Controller
             'action' => $this->generateUrl('littlebigjoe_backendbundle_brands_create'),
             'method' => 'POST',
         ));
-
+        
         $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;

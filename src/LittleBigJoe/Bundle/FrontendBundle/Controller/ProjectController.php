@@ -5,6 +5,9 @@ namespace LittleBigJoe\Bundle\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use LittleBigJoe\Bundle\FrontendBundle\Entity\Project;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
 class ProjectController extends Controller
 {
@@ -232,12 +235,108 @@ class ProjectController extends Controller
     /**
      * Create new project
      *
-     * @Route("/launch-my-project", name="littlebigjoe_frontendbundle_project_new")
-     * @Template()
+     * @Route("/launch-my-project", name="littlebigjoe_frontendbundle_project_create_project")
+     * @Template("LittleBigJoeFrontendBundle:Project:create_project.html.twig")
      */
-    public function newAction()
+    public function createProjectAction()
     {
-        return array();
+				$em = $this->getDoctrine()->getManager();
+				
+				$currentUser = $this->get('security.context')->getToken()->getUser();
+				// If the current user is not logged, redirect him to login page
+				if (!is_object($currentUser))
+				{
+						$this->get('session')->getFlashBag()->add(
+								'notice',
+								'You must be logged in to create a project'
+						);
+						
+						return $this->redirect($this->generateUrl('fos_user_security_login'));
+				}
+								
+        $project = new Project(); 
+        
+        // Set default data like creator and default language for project
+        $project->setUser($currentUser);
+        $project->setLanguage($currentUser->getDefaultLanguage());
+
+        // Create form flow
+		    $flow = $this->get('littlebigjoefrontend.flow.project.createProject');
+		    $flow->bind($project);
+		
+		    $form = $flow->createForm();
+		    
+		    if ($flow->isValid($form)) 
+		    {
+				    // Handle file upload in first step
+				    $photo = $this->_fixUploadFile($project->getPhoto());
+		        $flow->saveCurrentStepData($form);
+		        
+		        // If we're not on the final step
+		        if ($flow->nextStep()) 
+		        {
+		            // Create form for next step
+		            $form = $flow->createForm();
+		        } 
+		        else 
+		        {		        			        	
+		        		// Persist form data and redirect user
+		            $em->persist($project);		 
+
+		            // Retrieve the uploaded photo, and associate it with project
+		            if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null) 
+		            {
+			            	$fileInfo = new UploadedFile(
+						            $this->getRequest()->getSession()->get('tmpUploadedFilePath'),
+						            $this->getRequest()->getSession()->get('tmpUploadedFile'),
+						            MimeTypeGuesser::getInstance()->guess($this->getRequest()->getSession()->get('tmpUploadedFilePath')),
+						            filesize($this->getRequest()->getSession()->get('tmpUploadedFilePath'))
+						        );
+			            	$project->setPhoto($fileInfo);
+			            	
+			            	$evm = $em->getEventManager();
+			            	$uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+			            	$evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
+			            	$uploadableManager->markEntityToUpload($project, $project->getPhoto());
+		            }
+		            
+		            $this->getRequest()->getSession()->remove('tmpUploadedFile');
+		            $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
+		            $em->flush();
+		            
+		            // Reset flow data
+		            $flow->reset();
+		            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+		        }
+		    }
+		    
+		    return $this->render('LittleBigJoeFrontendBundle:Project:create_project.html.twig', array(
+		        'form' => $form->createView(),
+		        'flow' => $flow,
+		    ));
+    }
+    
+    /**
+     * Allows to save project logo in project creation during step 1
+     * 
+     * @param UploadedFile $file
+     * @return string
+     */
+    public function _fixUploadFile($file) 
+    {    
+	    	if (!empty($file) && $file instanceof UploadedFile) 
+	    	{
+	    			// Move uploaded file to tmp directory, and save path in session
+		    		$tmpFile = $file->move(__DIR__.'/../../../../../web/uploads/tmp/', sha1($file->getClientOriginalName().uniqid(mt_rand(), true)));
+		    		if (!empty($tmpFile))
+		    		{
+			    			$tmpFilePath = $tmpFile->getPath().$tmpFile->getFilename();
+			    			$this->getRequest()->getSession()->set('tmpUploadedFile', $tmpFile->getFilename());
+			    			$this->getRequest()->getSession()->set('tmpUploadedFilePath', $tmpFilePath);
+		    		}
+	    	}
+	    	
+	    	return $this->getRequest()->getSession()->get('tmpUploadedFilePath');    
     }
 
     /**

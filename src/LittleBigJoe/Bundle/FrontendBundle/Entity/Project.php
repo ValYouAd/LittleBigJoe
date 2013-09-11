@@ -7,7 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * Project
@@ -16,6 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("name")
  * @UniqueEntity("slug")
+ * @Assert\Callback(methods = {"isDateInFuture"}, groups = {"Default", "flow_createProject_step2"})
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\FrontendBundle\Repository\ProjectRepository")
  * @Gedmo\Uploadable(path="uploads/projects", filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true, allowedTypes="image/png,image/jpg,image/jpeg,image/gif")
  */
@@ -35,16 +38,18 @@ class Project
      *
      * @ORM\Column(name="name", type="string", length=255)
      *
-     * @Assert\NotBlank(message = "You must enter your project name")
+     * @Assert\NotBlank(message = "You must enter your project name", groups = {"Default", "flow_createProject_step1"})
      * @Assert\Length(
      *    min = "2",
      *    max = "250",
      *    minMessage = "Your project name must contains at least {{ limit }} characters",
-     *    maxMessage = "Your project name can't exceed {{ limit }} characters"
+     *    maxMessage = "Your project name can't exceed {{ limit }} characters", 
+     *    groups = {"Default", "flow_createProject_step1"}
      * )
      * @Assert\Regex(
      *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -]*$/",
-     *    message = "Your project name must only contains letters, spaces, or dashes"
+     *    message = "Your project name must only contains letters, spaces, or dashes",
+     *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
     private $name;
@@ -54,10 +59,11 @@ class Project
      *
      * @ORM\Column(name="slug", type="string", length=255)
      *
-     * @Assert\NotBlank(message = "You must enter your project slug")
+     * @Assert\NotBlank(message = "You must enter your project slug", groups = {"Default", "flow_createProject_step1"})
      * @Assert\Regex(
      *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z\-]*$/",
-     *    message = "Your project slug must only contains letters, or dashes"
+     *    message = "Your project slug must only contains letters, or dashes",
+     *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
     private $slug;
@@ -75,16 +81,18 @@ class Project
      *
      * @ORM\Column(name="location", type="string", length=255)
      *
-     * @Assert\NotBlank(message = "You must enter your location")
+     * @Assert\NotBlank(message = "You must enter your location", groups = {"Default", "flow_createProject_step1"})
      * @Assert\Length(
      *    min = "2",
      *    max = "250",
      *    minMessage = "Your location must contains at least {{ limit }} characters",
-     *    maxMessage = "Your location can't exceed {{ limit }} characters"
+     *    maxMessage = "Your location can't exceed {{ limit }} characters",
+     *    groups = {"Default", "flow_createProject_step1"}
      * )
      * @Assert\Regex(
      *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\,]*$/",
-     *    message = "Your bio must only contains numbers, letters, spaces, commas or dashes"
+     *    message = "Your bio must only contains numbers, letters, spaces, commas or dashes",
+     *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
     private $location;
@@ -94,10 +102,11 @@ class Project
      *
      * @ORM\Column(name="pitch", type="string", length=255)
      *
-     * @Assert\NotBlank(message = "You must enter the pitch")
+     * @Assert\NotBlank(message = "You must enter the pitch", groups = {"Default", "flow_createProject_step1"})
      * @Assert\Regex(
      *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!]*$/",
-     *    message = "Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes"
+     *    message = "Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes",
+     *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
     private $pitch;
@@ -114,10 +123,11 @@ class Project
      *
      * @ORM\Column(name="description", type="text")
      *
-     * @Assert\NotBlank(message = "You must enter the description")
+     * @Assert\NotBlank(message = "You must enter the description", groups = {"Default", "flow_createProject_step3"})
      * @Assert\Regex(
      *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!]*$/",
-     *    message = "Your description must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes"
+     *    message = "Your description must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes",
+     *    groups = {"Default", "flow_createProject_step3"}
      * )
      */
     private $description;
@@ -127,10 +137,11 @@ class Project
      *
      * @ORM\Column(name="amount_required", type="decimal")
      *
-     * @Assert\NotBlank(message = "You must enter the required amount")
+     * @Assert\NotBlank(message = "You must enter the required amount", groups = {"Default", "flow_createProject_step2"})
      * @Assert\Regex(
      *    pattern = "/^[0-9\.\,]*$/",
-     *    message = "Your required amount must only contains numbers, dots, or commas"
+     *    message = "Your required amount must only contains numbers, dots, or commas",
+     *    groups = {"Default", "flow_createProject_step2"}
      * )
      */
     private $amountRequired;
@@ -147,10 +158,11 @@ class Project
      *
      * @ORM\Column(name="likes_required", type="integer")
      *
-     * @Assert\NotBlank(message = "You must enter the required likes count")
+     * @Assert\NotBlank(message = "You must enter the required likes count", groups = {"Default", "flow_createProject_step2"})
      * @Assert\Regex(
      *    pattern = "/^[0-9]*$/",
-     *    message = "Your required likes count must only contains numbers"
+     *    message = "Your required likes count must only contains numbers",
+     *    groups = {"Default", "flow_createProject_step2"}
      * )
      */
     private $likesRequired;
@@ -216,8 +228,8 @@ class Project
      *
      * @ORM\Column(name="ending_at", type="datetime")
      *
-     * @Assert\NotBlank(message = "You must enter the project ending date")
-     * @Assert\DateTime(message = "Your project ending date format is incorrect")
+     * @Assert\NotBlank(message = "You must enter the project ending date", groups = {"Default", "flow_createProject_step2"})
+     * @Assert\DateTime(message = "Your project ending date format is incorrect", groups = {"Default", "flow_createProject_step2"})
      */
     private $endingAt;
 
@@ -464,7 +476,7 @@ class Project
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = strip_tags($description);
 
         return $this;
     }
@@ -1007,4 +1019,19 @@ class Project
     {
         return $this->updatedAt;
     }
+    
+    /**
+     * Used to check if endingAt is in the future (during project creation)
+     *
+     * @return boolean
+     */
+    public function isDateInFuture(ExecutionContext $context)
+		{
+		    $propertyPath = $context->getPropertyPath();
+		
+		    if ($this->endingAt < new \DateTime()) 
+		    {
+		        $context->addViolationAt('endingAt', 'The ending date cannot be in the past', array(), null);
+		    }
+		}
 }
