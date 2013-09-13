@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\Project;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+use LittleBigJoe\Bundle\FrontendBundle\Entity\Project;
+use LittleBigJoe\Bundle\FrontendBundle\Entity\ProjectReward;
 
 class ProjectController extends Controller
 {
@@ -36,7 +37,7 @@ class ProjectController extends Controller
      * Latest projects
      *
      * @Route("/latest-projects", name="littlebigjoe_frontendbundle_project_latest_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function latestProjectsAction()
     {
@@ -61,7 +62,7 @@ class ProjectController extends Controller
      * Popular projects
      *
      * @Route("/popular-projects", name="littlebigjoe_frontendbundle_project_popular_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function popularProjectsAction()
     {
@@ -86,7 +87,7 @@ class ProjectController extends Controller
      * Popular week projects
      *
      * @Route("/popular-projects-this-week", name="littlebigjoe_frontendbundle_project_popular_week_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function popularWeekProjectsAction()
     {
@@ -111,7 +112,7 @@ class ProjectController extends Controller
      * Funding projects
      *
      * @Route("/funding-projects", name="littlebigjoe_frontendbundle_project_funding_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function fundingProjectsAction()
     {
@@ -136,7 +137,7 @@ class ProjectController extends Controller
      * Top funded projects
      *
      * @Route("/top-funded-projects", name="littlebigjoe_frontendbundle_project_top_funded_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function topFundedProjectsAction()
     {
@@ -161,7 +162,7 @@ class ProjectController extends Controller
      * Almost ending projects
      *
      * @Route("/almost-ending-projects", name="littlebigjoe_frontendbundle_project_almost_ending_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function almostEndingProjectsAction()
     {
@@ -186,7 +187,7 @@ class ProjectController extends Controller
      * Favorite projects
      *
      * @Route("/favorite-projects", name="littlebigjoe_frontendbundle_project_favorite_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function favoriteProjectsAction()
     {
@@ -211,7 +212,7 @@ class ProjectController extends Controller
      * Recently updated projects
      *
      * @Route("/recently-updated-projects", name="littlebigjoe_frontendbundle_project_recently_updated_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function recentlyUpdatedProjectsAction()
     {
@@ -236,7 +237,7 @@ class ProjectController extends Controller
      * Create new project
      *
      * @Route("/launch-my-project", name="littlebigjoe_frontendbundle_project_create_project")
-     * @Template("LittleBigJoeFrontendBundle:Project:create_project.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:create.html.twig")
      */
     public function createProjectAction()
     {
@@ -255,11 +256,18 @@ class ProjectController extends Controller
 				}
 								
         $project = new Project(); 
-        
         // Set default data like creator and default language for project
         $project->setUser($currentUser);
         $project->setLanguage($currentUser->getDefaultLanguage());
-
+        $project->setAmountCount(0);
+        $project->setLikesCount(0);
+        $project->setCreatedAt(new \DateTime());
+        $project->setStatus('1');
+        
+        $projectReward = new ProjectReward();       
+        $projectReward->setProject($project);
+        $project->getRewards()->add($projectReward);
+        
         // Create form flow
 		    $flow = $this->get('littlebigjoefrontend.flow.project.createProject');
 		    $flow->bind($project);
@@ -268,7 +276,7 @@ class ProjectController extends Controller
 		    
 		    if ($flow->isValid($form)) 
 		    {
-				    // Handle file upload in first step
+		    		// Handle file upload in first step
 				    $photo = $this->_fixUploadFile($project->getPhoto());
 		        $flow->saveCurrentStepData($form);
 		        
@@ -279,7 +287,13 @@ class ProjectController extends Controller
 		            $form = $flow->createForm();
 		        } 
 		        else 
-		        {		        			        	
+		        {		    
+		        		// Set default project for associated rewards
+		        		foreach ($project->getRewards() as $projectReward)
+		        		{	
+		        				$projectReward->setProject($project);
+		        		}
+		        			
 		        		// Persist form data and redirect user
 		            $em->persist($project);		 
 
@@ -310,7 +324,7 @@ class ProjectController extends Controller
 		        }
 		    }
 		    
-		    return $this->render('LittleBigJoeFrontendBundle:Project:create_project.html.twig', array(
+		    return $this->render('LittleBigJoeFrontendBundle:Project:new.html.twig', array(
 		        'form' => $form->createView(),
 		        'flow' => $flow,
 		    ));
@@ -324,14 +338,17 @@ class ProjectController extends Controller
      */
     public function _fixUploadFile($file) 
     {    
+    		$currentUser = $this->get('security.context')->getToken()->getUser();
+    	
 	    	if (!empty($file) && $file instanceof UploadedFile) 
 	    	{
 	    			// Move uploaded file to tmp directory, and save path in session
-		    		$tmpFile = $file->move(__DIR__.'/../../../../../web/uploads/tmp/', sha1($file->getClientOriginalName().uniqid(mt_rand(), true)));
+		    		$tmpFile = $file->move(__DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail()).'/', sha1($file->getClientOriginalName().uniqid(mt_rand(), true)));
 		    		if (!empty($tmpFile))
 		    		{
 			    			$tmpFilePath = $tmpFile->getPath().$tmpFile->getFilename();
 			    			$this->getRequest()->getSession()->set('tmpUploadedFile', $tmpFile->getFilename());
+			    			$this->getRequest()->getSession()->set('tmpUploadedFileRelativePath', '/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail()).'/');
 			    			$this->getRequest()->getSession()->set('tmpUploadedFilePath', $tmpFilePath);
 		    		}
 	    	}
@@ -354,10 +371,34 @@ class ProjectController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
-
+        
         return array(
             'entity' => $entity,
             'current_date' => new \Datetime()
         );
+    }
+    
+    /**
+     * Project preview
+     *
+     * @Route("/project/preview", name="littlebigjoe_frontendbundle_project_preview")
+     * @Template("LittleBigJoeFrontendBundle:Project:preview.html.twig")
+     */
+    public function previewAction($entity)
+    {    	
+	    	$photo = '';
+	    	
+	    	// Retrieve the uploaded photo, and associate it with project
+	    	if ($this->getRequest()->getSession()->get('tmpUploadedFile') != null && $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath') != null)
+	    	{
+	    			$photo = $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath').
+	    							 $this->getRequest()->getSession()->get('tmpUploadedFile');
+	    	}
+	    	
+	    	return array(
+	    			'entity' => $entity,
+	    			'photo' => $photo,
+	    			'current_date' => new \Datetime()
+	    	);
     }
 }

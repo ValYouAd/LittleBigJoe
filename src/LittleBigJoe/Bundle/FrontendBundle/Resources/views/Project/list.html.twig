@@ -29,8 +29,8 @@
             {% endif %}
 
             <p>{{ project.pitch }}</p>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': project.user.id}) }}">{{ project.user }}</a>
+            <p>
+           			{{ 'By'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': project.user.id}) }}">{{ project.user }}</a>
             </p>
 
             {% if project.status == '1' %}

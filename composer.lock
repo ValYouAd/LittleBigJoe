@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "77b5e41f7ae4d30cc6fa3ecfcb6cc6d4",
+    "hash": "c37f92c35e9ac959437c17383ce540df",
     "packages": [
         {
             "name": "a2lix/translation-form-bundle",
@@ -830,12 +830,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "a19e42c454b76ac4816208eae4d94ed47cb3ebab"
+                "reference": "a6c12cc2b60176d2afad924f23031accfad9a384"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/a19e42c454b76ac4816208eae4d94ed47cb3ebab",
-                "reference": "a19e42c454b76ac4816208eae4d94ed47cb3ebab",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/a6c12cc2b60176d2afad924f23031accfad9a384",
+                "reference": "a6c12cc2b60176d2afad924f23031accfad9a384",
                 "shasum": ""
             },
             "require": {
@@ -890,7 +890,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-09-11 00:20:12"
+            "time": "2013-09-13 03:06:49"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -973,18 +973,121 @@
             "time": "2013-08-18 07:18:44"
         },
         {
+            "name": "helios-ag/fm-elfinder-bundle",
+            "version": "1.3",
+            "target-dir": "FM/ElfinderBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/helios-ag/FMElfinderBundle.git",
+                "reference": "884620dffd2b04fa61fce06ed27d8c0d3d04163b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/helios-ag/FMElfinderBundle/zipball/884620dffd2b04fa61fce06ed27d8c0d3d04163b",
+                "reference": "884620dffd2b04fa61fce06ed27d8c0d3d04163b",
+                "shasum": ""
+            },
+            "require": {
+                "helios-ag/fm-elfinder-php-connector": "1.1.1",
+                "php": ">=5.3.3",
+                "sensio/framework-extra-bundle": "*@dev",
+                "symfony/symfony": "*@stable",
+                "symfony/twig-bundle": "~2.0"
+            },
+            "suggest": {
+                "Trsteel/ckeditor-bundle": "CKEditor WYSIWYG Editor Bundlefor Symfony2 Project by Trsteel",
+                "stfalcon/tinymce-bundle": "TinyMCE WYSIWYG Editor Bundle by Stfalcon"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "FM\\ElfinderBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Al Ganiev",
+                    "email": "helios.ag@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/helios-ag/FMElfinderBundle/contributors"
+                }
+            ],
+            "description": "ElFinder bundle, add ElFinder file manager to your Symfony2 project",
+            "homepage": "https://github.com/helios-ag/FMElfinderBundle",
+            "keywords": [
+                "elfinder",
+                "file manager"
+            ],
+            "time": "2013-08-27 03:41:17"
+        },
+        {
+            "name": "helios-ag/fm-elfinder-php-connector",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/helios-ag/ElFinderPHP.git",
+                "reference": "fa24c5ce710ec2c9eab899786c93dfac1a232386"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/helios-ag/ElFinderPHP/zipball/fa24c5ce710ec2c9eab899786c93dfac1a232386",
+                "reference": "fa24c5ce710ec2c9eab899786c93dfac1a232386",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "FM\\ElFinderPHP": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3 Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Al Ganiev",
+                    "email": "helios.ag@gmail.com"
+                },
+                {
+                    "name": "ElFinder authors",
+                    "homepage": "https://github.com/Studio-42/elFinder"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/helios-ag/ElFinderPHP/contributors"
+                }
+            ],
+            "description": "ElFinder PHP backend, 5.3 compliant",
+            "homepage": "http://github.com/helios-ag/ElFinderPHP",
+            "keywords": [
+                "elfinder",
+                "filemanager"
+            ],
+            "time": "2013-08-06 17:02:04"
+        },
+        {
             "name": "hwi/oauth-bundle",
             "version": "dev-master",
             "target-dir": "HWI/Bundle/OAuthBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "156372aa3451d51bacdd0e9b1f380577b8075ad8"
+                "reference": "77f12062c747935598b7ff8635f345c7a8d3e917"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/156372aa3451d51bacdd0e9b1f380577b8075ad8",
-                "reference": "156372aa3451d51bacdd0e9b1f380577b8075ad8",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/77f12062c747935598b7ff8635f345c7a8d3e917",
+                "reference": "77f12062c747935598b7ff8635f345c7a8d3e917",
                 "shasum": ""
             },
             "require": {
@@ -1029,7 +1132,7 @@
                     "homepage": "https://github.com/hwi/HWIOAuthBundle/contributors"
                 },
                 {
-                    "name": "Alexander Mols",
+                    "name": "Alexander",
                     "email": "iam.asm89@gmail.com"
                 },
                 {
@@ -1059,6 +1162,7 @@
                 "instagram",
                 "jira",
                 "linkedin",
+                "mail.ru",
                 "oauth",
                 "oauth1",
                 "oauth2",
@@ -1076,7 +1180,7 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-08-10 07:38:51"
+            "time": "2013-09-12 10:34:05"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2401,6 +2505,56 @@
             "time": "2013-08-27 08:58:24"
         },
         {
+            "name": "trsteel/ckeditor-bundle",
+            "version": "dev-master",
+            "target-dir": "Trsteel/CkeditorBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/trsteel88/TrsteelCkeditorBundle.git",
+                "reference": "7df6502fe8ced1dbc29783c18975d535ea80853d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/trsteel88/TrsteelCkeditorBundle/zipball/7df6502fe8ced1dbc29783c18975d535ea80853d",
+                "reference": "7df6502fe8ced1dbc29783c18975d535ea80853d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/form": ">=2.1,<2.4-dev",
+                "symfony/framework-bundle": "2.*,<2.4",
+                "twig/twig": ">=1.1,<2.0-dev"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Trsteel\\CkeditorBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Trent Steel",
+                    "email": "trsteel88@gmail.com"
+                }
+            ],
+            "description": "Symfony2 bundle for easy integration of the CKEditor WYSIWYG",
+            "keywords": [
+                "CKEditor",
+                "editor",
+                "wysiwyg"
+            ],
+            "time": "2013-07-29 02:33:50"
+        },
+        {
             "name": "twig/extensions",
             "version": "v1.0.0",
             "source": {
@@ -2512,7 +2666,8 @@
         "knplabs/knp-paginator-bundle": 20,
         "knplabs/knp-menu": 20,
         "knplabs/knp-menu-bundle": 20,
-        "jms/i18n-routing-bundle": 20
+        "jms/i18n-routing-bundle": 20,
+        "trsteel/ckeditor-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"

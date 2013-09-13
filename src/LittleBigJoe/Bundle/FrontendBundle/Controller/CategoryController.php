@@ -12,7 +12,7 @@ class CategoryController extends Controller
      * Specific category
      *
      * @Route("/category/{slug}", name="littlebigjoe_frontendbundle_category_show")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function showAction($slug)
     {

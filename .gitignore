@@ -9,7 +9,10 @@ app/bootstrap*
 vendor/*
 */logs/*
 */cache/*
-web/uploads/*
+web/uploads/brands/*
+web/uploads/projects/*
+web/uploads/users/*
+web/uploads/tmp/*
 web/bundles/*
 
 # Configuration files

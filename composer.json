@@ -28,7 +28,9 @@
         "knplabs/knp-menu": "2.0.*@dev",
         "knplabs/knp-menu-bundle": "dev-master",
         "jms/i18n-routing-bundle": "dev-master",
-        "craue/formflow-bundle": "~2.0"
+        "craue/formflow-bundle": "~2.0",
+        "Trsteel/ckeditor-bundle": "dev-master",
+        "helios-ag/fm-elfinder-bundle": "1.x"
     },
     "scripts": {
         "post-install-cmd": [

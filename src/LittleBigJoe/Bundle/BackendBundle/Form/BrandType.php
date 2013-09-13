@@ -30,7 +30,7 @@ class BrandType extends AbstractType
                 'mapped' => true,
                 'required' => false
             ))
-            ->add('description', 'textarea', array(
+            ->add('description', 'ckeditor', array(
                 'label' => 'Description'
             ))
             ->add('facebookUrl', 'url', array(

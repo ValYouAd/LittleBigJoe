@@ -29,24 +29,24 @@ class SearchController extends Controller
             $projectsSearch = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findBySearch($search);
             $usersSearch = $em->getRepository('LittleBigJoeFrontendBundle:User')->findBySearch($search);
         }
-        
+                
         $paginator = $this->get('knp_paginator');
         // Take the max number of results to generate the global pagination
         $pagination = $paginator->paginate(
         		((sizeof($projectsSearch) > sizeof($usersSearch)) ? $projectsSearch : $usersSearch),
         		$this->get('request')->query->get('page', 1),
-        		2
+        		$this->container->getParameter('nb_elements_by_page')
         );
         // Generate pagination for entities
         $projects = $paginator->paginate(
         		$projectsSearch,
         		$this->get('request')->query->get('page', 1),
-        		2
+        		$this->container->getParameter('nb_elements_by_page')
         );
         $users = $paginator->paginate(
         		$usersSearch,
         		$this->get('request')->query->get('page', 1),
-        		2
+        		$this->container->getParameter('nb_elements_by_page')
         );
         
         return array(

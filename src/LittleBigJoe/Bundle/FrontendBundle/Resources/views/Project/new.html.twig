@@ -1,5 +1,105 @@
 {% extends '::base.html.twig' %}
 
+{% block sidebar %}{% endblock %}
+
 {% block body %}
     <h3>{{ 'Launch my project'|trans() }}</h3>
+    
+    <div>
+		    {{ 'Steps'|trans() }}
+		    {% include 'CraueFormFlowBundle:FormFlow:stepList.html.twig' %}
+		</div>
+		<form method="POST" {{ form_enctype(form) }}>
+		    {{ form_errors(form) }}
+				
+				{% if flow.getCurrentStepNumber() == 4 %}
+		        <ul class="rewards" data-prototype="{{ form_widget(form.rewards.vars.prototype)|e }}">
+				        {% for reward in form.rewards %}
+				            <li>
+				            	{{ form_row(reward.title) }}
+											{{ form_row(reward.description) }}
+											{{ form_row(reward.amount) }}
+											{{ form_row(reward.stock) }}
+											{{ form_row(reward.maxQuantityByUser) }}
+										</li>
+				        {% endfor %}
+				    </ul>
+				{% elseif flow.getCurrentStepNumber() == 5 %}
+						<p>{{ 'Verification'|trans() }}</p>
+						
+						<div style="border:1px dotted gray; padding: 20px;margin-bottom: 20px;float:left;;">
+							{% render(controller('LittleBigJoeFrontendBundle:Project:preview', { 'entity':form.vars.value })) %}
+						</div>
+		    {% endif %}				
+		    		    
+				{{ form_rest(form) }}
+		
+		    {% include 'CraueFormFlowBundle:FormFlow:buttons.html.twig' %}
+		</form>
+{% endblock %}
+
+{% block footer_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+    		$(document).ready(function () {    				
+            $('#createProject_name').on('keyup', null, function () {
+                var rExps = [
+                    {re: /[\xC0-\xC6]/g, ch: 'A'},
+                    {re: /[\xE0-\xE6]/g, ch: 'a'},
+                    {re: /[\xC8-\xCB]/g, ch: 'E'},
+                    {re: /[\xE8-\xEB]/g, ch: 'e'},
+                    {re: /[\xCC-\xCF]/g, ch: 'I'},
+                    {re: /[\xEC-\xEF]/g, ch: 'i'},
+                    {re: /[\xD2-\xD6]/g, ch: 'O'},
+                    {re: /[\xF2-\xF6]/g, ch: 'o'},
+                    {re: /[\xD9-\xDC]/g, ch: 'U'},
+                    {re: /[\xF9-\xFC]/g, ch: 'u'},
+                    {re: /[\xC7-\xE7]/g, ch: 'c'},
+                    {re: /[\xD1]/g, ch: 'N'},
+                    {re: /[\xF1]/g, ch: 'n'}
+                ];
+                var title_value = $(this).val();
+
+                for (var i = 0, len = rExps.length; i < len; i++)
+                    title_value = title_value.replace(rExps[i].re, rExps[i].ch);
+
+                title_value = title_value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/\-{2,}/g, '-');
+                $('#createProject_slug').val(title_value);
+            });   
+            
+            // Handle rewards
+						var collectionHolder = $('ul.rewards');
+						var $addRewardLink = $('<a href="#" class="btn btn-success">Ajouter un reward</a>');
+						var $newLinkLi = $('<li></li>').append($addRewardLink);
+						
+						collectionHolder.append($newLinkLi);
+						collectionHolder.find('li.added').each(function() {
+				        addRewardFormDeleteLink($(this));
+				    });
+						
+				    $addRewardLink.on('click', function(e) {
+				        e.preventDefault();
+								addRewardForm(collectionHolder, $newLinkLi);
+				    });
+				    
+				    function addRewardForm(collectionHolder, $newLinkLi) {
+				        var prototype = collectionHolder.attr('data-prototype');
+								var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+								var $newFormLi = $('<li class="added"></li>').append(newForm);
+								
+				        $newLinkLi.before($newFormLi);
+				        addRewardFormDeleteLink($newFormLi);
+				    }
+				    
+				    function addRewardFormDeleteLink($rewardFormLi) {
+				        var $removeFormA = $('<a href="#" class="btn btn-danger">Supprimer ce reward</a>');
+				        $rewardFormLi.append($removeFormA);
+
+				        $removeFormA.on('click', function(e) {
+				            e.preventDefault();
+										$rewardFormLi.remove();
+				        });
+				    }
+        });
+    </script>
 {% endblock %}

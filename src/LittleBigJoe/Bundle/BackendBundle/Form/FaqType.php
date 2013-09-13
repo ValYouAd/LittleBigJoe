@@ -19,11 +19,11 @@ class FaqType extends AbstractType
                 'translatable_class' => "LittleBigJoe\Bundle\FrontendBundle\Entity\Faq",
                 'fields' => array(
                     'question' => array(
-                        'type' => 'textarea',
+                        'type' => 'ckeditor',
                         'label' => 'Question'
                     ),
                     'answer' => array(
-                        'type' => 'textarea',
+                        'type' => 'ckeditor',
                         'label' => 'Answer'
                     )
                 )

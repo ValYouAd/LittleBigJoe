@@ -12,7 +12,7 @@ class BrandController extends Controller
      * Most desired brands
      *
      * @Route("/most-desired-brands", name="littlebigjoe_frontendbundle_brand_most_desired_projects")
-     * @Template("LittleBigJoeFrontendBundle:Brand:brands_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Brand:list.html.twig")
      */
     public function mostDesiredProjectsAction()
     {
@@ -73,7 +73,7 @@ class BrandController extends Controller
      * Current projects for specific brand
      *
      * @Route("/brand/{slug}/current-projects", name="littlebigjoe_frontendbundle_brand_current_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function currentProjectsAction($slug)
     {
@@ -105,7 +105,7 @@ class BrandController extends Controller
      * Ended projects for specific brand
      *
      * @Route("/brand/{slug}/ended-projects", name="littlebigjoe_frontendbundle_brand_ended_projects")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function endedProjectsAction($slug)
     {

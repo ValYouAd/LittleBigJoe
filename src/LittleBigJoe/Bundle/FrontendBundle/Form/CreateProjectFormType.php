@@ -15,6 +15,8 @@ class CreateProjectFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+    		//var_dump($options['data']);
+    	
     		switch ($options['flow_step']) 
     		{
     				// Step 1 : Create my project
@@ -72,14 +74,21 @@ class CreateProjectFormType extends AbstractType
 
 						// Step 3 : Present my project
             case 3: $builder
-						            ->add('description', 'textarea', array(
+						            ->add('description', 'ckeditor', array(
 						            		'label' => 'Description',
-						            		'required' => true
+						            		'data' => $options['data']->getDescription()
 						            ));
 										break;
 									
 						// Step 4 : Choose awards
-            case 4: break;
+            case 4: $builder
+						            ->add('rewards', 'collection', array(
+						            		'type' => new ProjectRewardType(),
+						            		'allow_add' => true,
+										        'allow_delete' => true,
+										        'by_reference' => false
+						            ));
+						        break;
 
             // Step 5 : Getting online
             case 5: break;

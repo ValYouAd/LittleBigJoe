@@ -32,4 +32,15 @@ class FrontendController extends Controller
             'latestProjectContributions' => $latestProjectContributions
         );
     }
+    
+    /**
+     * upload
+     *
+     * @Route("/upload", name="littlebigjoe_frontendbundle_upload")
+     * @Template()
+     */
+    public function uploadAction()
+    {
+    		var_dump($this->getRequest());
+    }
 }

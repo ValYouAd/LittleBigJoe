@@ -35,7 +35,7 @@ class PageType extends AbstractType
                         'label' => 'META Description'
                     ),
                     'content' => array(
-                        'type' => 'textarea',
+                        'type' => 'ckeditor',
                         'label' => 'Content'
                     )
                 )

@@ -124,11 +124,6 @@ class Project
      * @ORM\Column(name="description", type="text")
      *
      * @Assert\NotBlank(message = "You must enter the description", groups = {"Default", "flow_createProject_step3"})
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!]*$/",
-     *    message = "Your description must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes",
-     *    groups = {"Default", "flow_createProject_step3"}
-     * )
      */
     private $description;
 
@@ -488,7 +483,7 @@ class Project
      */
     public function getDescription()
     {
-        return $this->description;
+        return html_entity_decode($this->description);
     }
 
     /**

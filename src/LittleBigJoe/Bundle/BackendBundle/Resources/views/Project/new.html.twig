@@ -22,27 +22,9 @@
 
 {% block footer_javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/littlebigjoebackend/ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             // CKEditor
-            var ckeditor_conf = [
-                { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'NewPage', '-', 'Templates' ] },
-                { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-                { name: 'editing', groups: [ 'spellchecker' ], items: [ 'Scayt' ] },
-                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-                { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-                { name: 'tools', items: [ 'Maximize' ] },
-                '/',
-                { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
-                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ] },
-            ];
-
-            CKEDITOR.replace('littlebigjoe_bundle_frontendbundle_project_description', {
-                toolbar: ckeditor_conf
-            });
-
             $('#littlebigjoe_bundle_frontendbundle_project_name').on('keyup', null, function () {
                 var rExps = [
                     {re: /[\xC0-\xC6]/g, ch: 'A'},

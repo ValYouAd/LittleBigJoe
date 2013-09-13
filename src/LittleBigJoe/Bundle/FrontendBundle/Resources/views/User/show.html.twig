@@ -27,7 +27,7 @@
     <p>{{ entity.bio }}</p>
 
     <div class="clearfix">&nbsp;</div>
-    <h3>{{ 'His projects'|trans() }}</h3>
+    <h3 id="projects">{{ 'His projects'|trans() }}</h3>
 
     {% if entity.projects %}
         {% for project in entity.projects %}

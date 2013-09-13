@@ -48,7 +48,12 @@ hwi_oauth_redirect:
 twitter_login:
     pattern: /login/check-twitter
     options: { i18n: false }
-    
+ 
+# FMElfinderBundle routing
+elfinder:
+    resource: "@FMElfinderBundle/Resources/config/routing.yml"
+    options: { i18n: false }
+ 
 # LittleBigJoe routing
 little_big_joe_frontend:
     resource: "@LittleBigJoeFrontendBundle/Controller/"

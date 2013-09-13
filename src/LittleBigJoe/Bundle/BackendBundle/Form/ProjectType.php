@@ -63,7 +63,7 @@ class ProjectType extends AbstractType
             ->add('language', 'locale', array(
                 'label' => 'Language'
             ))
-            ->add('description', 'textarea', array(
+            ->add('description', 'ckeditor', array(
                 'label' => 'Description'
             ))
             ->add('amountRequired', 'number', array(
