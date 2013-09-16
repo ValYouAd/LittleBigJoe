@@ -1,223 +1,223 @@
-'% completed': '% completed'
-'(required amount to raise)': '(required amount to raise)'
-'(required likes)': '(required likes)'
-'(updated at': '(updated at'
+'% completed': '% complété(s)'
+'(required amount to raise)': '(montant requis)'
+'(required likes)': '(nombre de likes requis)'
+'(updated at': '(mis à jour le'
 ): )
 Actions: Actions
-'Activity infos': 'Activity infos'
+'Activity infos': 'Infos sur l''activité'
 Admin: Admin
-Amount: Amount
-'Amount to raise': 'Amount to raise'
-Answer: Answer
-'Associated brand': 'Associated brand'
-'Associated category': 'Associated category'
-'Associated project': 'Associated project'
-'Associated reward': 'Associated reward'
-'Back to the list': 'Back to the list'
-'Below you''ll find brands that have been created :': 'Below you''ll find brands that have been created :'
-'Below you''ll find categories that have been created :': 'Below you''ll find categories that have been created :'
-'Below you''ll find contributions made on the website :': 'Below you''ll find contributions made on the website :'
-'Below you''ll find faqs that have been created :': 'Below you''ll find faqs that have been created :'
-'Below you''ll find pages that have been created :': 'Below you''ll find pages that have been created :'
-'Below you''ll find projects that have been created :': 'Below you''ll find projects that have been created :'
-'Below you''ll find some informations regarding the FAQ :': 'Below you''ll find some informations regarding the FAQ :'
-'Below you''ll find some informations regarding the brand :': 'Below you''ll find some informations regarding the brand :'
-'Below you''ll find some informations regarding the category :': 'Below you''ll find some informations regarding the category :'
-'Below you''ll find some informations regarding the page :': 'Below you''ll find some informations regarding the page :'
-'Below you''ll find some informations regarding the project :': 'Below you''ll find some informations regarding the project :'
-'Below you''ll find some informations regarding the project contribution :': 'Below you''ll find some informations regarding the project contribution :'
-'Below you''ll find some informations regarding the user :': 'Below you''ll find some informations regarding the user :'
-'Below you''ll find some stats regarding Little Big Joe activity :': 'Below you''ll find some stats regarding Little Big Joe activity :'
-'Below you''ll find users that have been created :': 'Below you''ll find users that have been created :'
+Amount: Montant
+'Amount to raise': 'Montant à lever'
+Answer: Réponse
+'Associated brand': 'Marque associée'
+'Associated category': 'Catégorie associée'
+'Associated project': 'Projet associé'
+'Associated reward': 'Récompense associée'
+'Back to the list': 'Retourner à la liste'
+'Below you''ll find brands that have been created :': 'Ci-dessous, vous trouverez les marques qui ont été créés :'
+'Below you''ll find categories that have been created :': 'Ci-dessous, vous trouverez les catégories qui ont été créés :'
+'Below you''ll find contributions made on the website :': 'Ci-dessous, vous trouverez les contributions aux projets, sur le site :'
+'Below you''ll find faqs that have been created :': 'Ci-dessous, vous trouverez les faqs qui ont été créés :'
+'Below you''ll find pages that have been created :': 'Ci-dessous, vous trouverez les pages qui ont été créés :'
+'Below you''ll find projects that have been created :': 'Ci-dessous, vous trouverez les projets qui ont été créés :'
+'Below you''ll find some informations regarding the FAQ :': 'Ci-dessous, vous trouverez des informations concernant la FAQ :'
+'Below you''ll find some informations regarding the brand :': 'Ci-dessous, vous trouverez des informations concernant la marque :'
+'Below you''ll find some informations regarding the category :': 'Ci-dessous, vous trouverez des informations concernant la catégorie :'
+'Below you''ll find some informations regarding the page :': 'Ci-dessous, vous trouverez des informations concernant la page :'
+'Below you''ll find some informations regarding the project :': 'Ci-dessous, vous trouverez des informations concernant le projet :'
+'Below you''ll find some informations regarding the project contribution :': 'Ci-dessous, vous trouverez des informations concernant la contribution :'
+'Below you''ll find some informations regarding the user :': 'Ci-dessous, vous trouverez des informations concernant l''utilisateur :'
+'Below you''ll find some stats regarding Little Big Joe activity :': 'Ci-dessous, vous trouverez des informations concernant l''activité du site Little Big Joe :'
+'Below you''ll find users that have been created :': 'Ci-dessous, vous trouverez les utilisateurs qui ont été créés :'
 Bio: Bio
-'Birthday date': 'Birthday date'
-Brand: Brand
-'Brand name': 'Brand name'
-Brands: Brands
-'Brands list': 'Brands list'
-'By clicking on the button below, you''ll delete the brand': 'By clicking on the button below, you''ll delete the brand'
-'By clicking on the button below, you''ll delete the category': 'By clicking on the button below, you''ll delete the category'
-'By clicking on the button below, you''ll delete the faq': 'By clicking on the button below, you''ll delete the faq'
-'By clicking on the button below, you''ll delete the page': 'By clicking on the button below, you''ll delete the page'
-'By clicking on the button below, you''ll delete the project': 'By clicking on the button below, you''ll delete the project'
-'By clicking on the button below, you''ll delete the project contribution': 'By clicking on the button below, you''ll delete the project contribution'
-'By clicking on the button below, you''ll delete the user': 'By clicking on the button below, you''ll delete the user'
-Categories: Categories
-'Categories list': 'Categories list'
-Category: Category
-'Category name': 'Category name'
-City: City
-Completed: Completed
-'Completed payment ?': 'Completed payment ?'
-'Contact email': 'Contact email'
-'Contact infos': 'Contact infos'
-'Contact name': 'Contact name'
-'Contact phone number': 'Contact phone number'
-'Contact status': 'Contact status'
-Content: Content
+'Birthday date': 'Date de naissance'
+Brand: Marque
+'Brand name': 'Nom de la marque'
+Brands: Marques
+'Brands list': 'Liste des marques'
+'By clicking on the button below, you''ll delete the brand': 'En cliquant sur ce bouton, vous supprimerez la marque'
+'By clicking on the button below, you''ll delete the category': 'En cliquant sur ce bouton, vous supprimerez la catégorie'
+'By clicking on the button below, you''ll delete the faq': 'En cliquant sur ce bouton, vous supprimerez la FAQ'
+'By clicking on the button below, you''ll delete the page': 'En cliquant sur ce bouton, vous supprimerez la page'
+'By clicking on the button below, you''ll delete the project': 'En cliquant sur ce bouton, vous supprimerez le projet'
+'By clicking on the button below, you''ll delete the project contribution': 'En cliquant sur ce bouton, vous supprimerez la contribution'
+'By clicking on the button below, you''ll delete the user': 'En cliquant sur ce bouton, vous supprimerez l''utilisateur'
+Categories: Catégories
+'Categories list': 'Liste des catégories'
+Category: Catégorie
+'Category name': 'Nom de la catégorie'
+City: Ville
+Completed: Complété(s)
+'Completed payment ?': 'Paiement complété ?'
+'Contact email': 'Email du contact'
+'Contact infos': 'Infos du contact'
+'Contact name': 'Nom du contact'
+'Contact phone number': 'Numéro de téléphone du contact'
+'Contact status': 'Status du contact'
+Content: Contenu
 Contributions: Contributions
-'Contributions list': 'Contributions list'
-Country: Country
-Create: Create
-'Create a new brand': 'Create a new brand'
-'Create a new category': 'Create a new category'
-'Create a new contribution': 'Create a new contribution'
-'Create a new faq': 'Create a new faq'
-'Create a new page': 'Create a new page'
-'Create a new project': 'Create a new project'
-'Create a new user': 'Create a new user'
-Creator: Creator
-'Default language': 'Default language'
-Delete: Delete
-'Delete this brand': 'Delete this brand'
-'Delete this category': 'Delete this category'
-'Delete this faq': 'Delete this faq'
-'Delete this page': 'Delete this page'
-'Delete this project': 'Delete this project'
-'Delete this project contribution': 'Delete this project contribution'
-'Delete this user': 'Delete this user'
-Deleted: Deleted
+'Contributions list': 'Liste des contributions'
+Country: Pays
+Create: Créer
+'Create a new brand': 'Créer une nouvelle marque'
+'Create a new category': 'Créer une nouvelle catégorie'
+'Create a new contribution': 'Créer une nouvelle contribution'
+'Create a new faq': 'Créer une nouvelle FAQ'
+'Create a new page': 'Créer une nouvelle page'
+'Create a new project': 'Créer une nouveau projet'
+'Create a new user': 'Créer un nouvel utilisateur'
+Creator: Créateur
+'Default language': 'Langage par défaut'
+Delete: Supprimer
+'Delete this brand': 'Supprimer cette marque'
+'Delete this category': 'Supprimer cette catégorie'
+'Delete this faq': 'Supprimer cette FAQ'
+'Delete this page': 'Supprimer cette page'
+'Delete this project': 'Supprimer ce projet'
+'Delete this project contribution': 'Supprimer cette contribution'
+'Delete this user': 'Supprimer cet utilisateur'
+Deleted: Supprimé(e)
 Description: Description
-Edit: Edit
-'Edit FAQ': 'Edit FAQ'
-'Edit brand': 'Edit brand'
-'Edit category': 'Edit category'
-'Edit page': 'Edit page'
-'Edit project': 'Edit project'
-'Edit project contribution': 'Edit project contribution'
-'Edit this brand': 'Edit this brand'
-'Edit this category': 'Edit this category'
-'Edit this faq': 'Edit this faq'
-'Edit this page': 'Edit this page'
-'Edit this project': 'Edit this project'
-'Edit this project contribution': 'Edit this project contribution'
-'Edit this user': 'Edit this user'
-'Edit user': 'Edit user'
-'Ending at': 'Ending at'
-'Ending date': 'Ending date'
-'Engagement phase': 'Engagement phase'
+Edit: Editer
+'Edit FAQ': 'Editer la FAQ'
+'Edit brand': 'Editer la marque'
+'Edit category': 'Editer la catégorie'
+'Edit page': 'Editer la page'
+'Edit project': 'Editer le projet'
+'Edit project contribution': 'Editer la contribution'
+'Edit this brand': 'Editer la marque'
+'Edit this category': 'Editer la catégorie'
+'Edit this faq': 'Editer la FAQ'
+'Edit this page': 'Editer la page'
+'Edit this project': 'Editer le projet'
+'Edit this project contribution': 'Editer la contribution'
+'Edit this user': 'Editer cet utilisateur'
+'Edit user': 'Editer l''utilisateur'
+'Ending at': 'Se termine le'
+'Ending date': 'Date de fin'
+'Engagement phase': 'Phase d''engagement'
 FAQ: FAQ
-'FAQ''s list': 'FAQ''s list'
-'Facebook URL': 'Facebook URL'
-Firstname: Firstname
-'Funding phase': 'Funding phase'
-'Google+ URL': 'Google+ URL'
-Home: Home
+'FAQ''s list': 'Liste des FAQ''s'
+'Facebook URL': 'URL Facebook'
+Firstname: Prénom
+'Funding phase': 'Phase de financement'
+'Google+ URL': 'URL Google+'
+Home: Accueil
 ID: ID
-'IP Address': 'IP Address'
-'Is deleted ?': 'Is deleted ?'
-'Is visible ?': 'Is visible ?'
-Language: Language
-Lastname: Lastname
+'IP Address': 'Addresse IP'
+'Is deleted ?': 'Supprimé ?'
+'Is visible ?': 'Visible ?'
+Language: Langage
+Lastname: Nom
 Likes: Likes
-'Likes to get': 'Likes to get'
-Location: Location
+'Likes to get': 'Nombre de likes requis'
+Location: Emplacement
 Logo: Logo
 'META Description': 'META Description'
 'META Title': 'META Title'
 'META infos': 'META infos'
-'MangoPay amount': 'MangoPay amount'
-'MangoPay answer code': 'MangoPay answer code'
-'MangoPay contribution id': 'MangoPay contribution id'
-'MangoPay error': 'MangoPay error'
-'MangoPay infos': 'MangoPay infos'
-'MangoPay is completed ?': 'MangoPay is completed ?'
-'MangoPay is succeeded ?': 'MangoPay is succeeded ?'
-'MangoPay user created at': 'MangoPay user created at'
-'MangoPay user id': 'MangoPay user id'
-'MangoPay user updated at': 'MangoPay user updated at'
-'MangoPay wallet id': 'MangoPay wallet id'
-'Mangopay amount': 'Mangopay amount'
-'Mangopay answer code': 'Mangopay answer code'
-'Mangopay completion ?': 'Mangopay completion ?'
-'Mangopay contribution ID': 'Mangopay contribution ID'
-'Mangopay error': 'Mangopay error'
-'Mangopay payment created at': 'Mangopay payment created at'
-'Mangopay payment updated at': 'Mangopay payment updated at'
-'Mangopay success ?': 'Mangopay success ?'
+'MangoPay amount': 'Montant MangoPay'
+'MangoPay answer code': 'Code réponse MangoPay'
+'MangoPay contribution id': 'ID contribution MangoPay'
+'MangoPay error': 'Erreur MangoPay'
+'MangoPay infos': 'Infos MangoPay'
+'MangoPay is completed ?': 'Paiement MangoPay complété ?'
+'MangoPay is succeeded ?': 'Paiement MangoPay réussi ?'
+'MangoPay user created at': 'Utilisateur MangoPay créé le'
+'MangoPay user id': 'ID utilisateur MangoPay'
+'MangoPay user updated at': 'Utilisateur MangoPay mis à jour le'
+'MangoPay wallet id': 'ID wallet MangoPay'
+'Mangopay amount': 'Montant Mangopay'
+'Mangopay answer code': 'Code réponse Mangopay'
+'Mangopay completion ?': 'Complétion Mangopay ?'
+'Mangopay contribution ID': 'ID contribution Mangopay'
+'Mangopay error': 'Erreur Mangopay'
+'Mangopay payment created at': 'Paiement Mangopay créé le'
+'Mangopay payment updated at': 'Paiement Mangopay mis à jour le'
+'Mangopay success ?': 'MangoPay complété ?'
 N/A: N/A
-Name: Name
-Nationality: Nationality
-'New FAQ': 'New FAQ'
-'New brand': 'New brand'
-'New category': 'New category'
-'New page': 'New page'
-'New project': 'New project'
-'New project contribution': 'New project contribution'
-'New user': 'New user'
-No: No
-'Not completed': 'Not completed'
-'Not deleted': 'Not deleted'
-'Not succeeded': 'Not succeeded'
-'Not visible': 'Not visible'
-'Number of contributions': 'Number of contributions'
-'Number of posted likes': 'Number of posted likes'
-'Number of related projects': 'Number of related projects'
+Name: Nom
+Nationality: Nationalité
+'New FAQ': 'Nouvelle FAQ'
+'New brand': 'Nouvelle marque'
+'New category': 'Nouvelle catégorie'
+'New page': 'Nouvelle page'
+'New project': 'Nouveau projet'
+'New project contribution': 'Nouvelle contribution'
+'New user': 'Nouvel utilisateur'
+No: Non
+'Not completed': 'Non complété'
+'Not deleted': 'Non supprimé'
+'Not succeeded': 'Echoué'
+'Not visible': 'Invisible'
+'Number of contributions': 'Nombre de contributions'
+'Number of posted likes': 'Nombre de likes postés'
+'Number of related projects': 'Nombre de projets associés'
 Page: Page
 Pages: Pages
-'Pages list': 'Pages list'
+'Pages list': 'Liste des pages'
 Photo: Photo
 Pitch: Pitch
-'Please fill these fields, to create a new FAQ :': 'Please fill these fields, to create a new FAQ :'
-'Please fill these fields, to create a new brand :': 'Please fill these fields, to create a new brand :'
-'Please fill these fields, to create a new category :': 'Please fill these fields, to create a new category :'
-'Please fill these fields, to create a new page :': 'Please fill these fields, to create a new page :'
-'Please fill these fields, to create a new project :': 'Please fill these fields, to create a new project :'
-'Please fill these fields, to create a new project contribution :': 'Please fill these fields, to create a new project contribution :'
-'Please fill these fields, to create a new user :': 'Please fill these fields, to create a new user :'
-'Please fill these fields, to edit the FAQ :': 'Please fill these fields, to edit the FAQ :'
-'Please fill these fields, to edit the brand :': 'Please fill these fields, to edit the brand :'
-'Please fill these fields, to edit the category :': 'Please fill these fields, to edit the category :'
-'Please fill these fields, to edit the page :': 'Please fill these fields, to edit the page :'
-'Please fill these fields, to edit the project :': 'Please fill these fields, to edit the project :'
-'Please fill these fields, to edit the project contribution :': 'Please fill these fields, to edit the project contribution :'
-'Please fill these fields, to edit the user :': 'Please fill these fields, to edit the user :'
-Project: Project
-'Project contribution': 'Project contribution'
-'Project deleted at': 'Project deleted at'
-'Project ending at': 'Project ending at'
-'Project infos': 'Project infos'
-Projects: Projects
-'Projects list': 'Projects list'
+'Please fill these fields, to create a new FAQ :': 'Veuillez compléter ces champs, pour créer une nouvelle FAQ :'
+'Please fill these fields, to create a new brand :': 'Veuillez compléter ces champs, pour créer une nouvelle marque :'
+'Please fill these fields, to create a new category :': 'Veuillez compléter ces champs, pour créer une nouvelle catégorie :'
+'Please fill these fields, to create a new page :': 'Veuillez compléter ces champs, pour créer une nouvelle page :'
+'Please fill these fields, to create a new project :': 'Veuillez compléter ces champs, pour créer un nouveau projet :'
+'Please fill these fields, to create a new project contribution :': 'Veuillez compléter ces champs, pour créer une nouvelle contribution :'
+'Please fill these fields, to create a new user :': 'Veuillez compléter ces champs, pour créer un nouvel utilisateur :'
+'Please fill these fields, to edit the FAQ :': 'Veuillez compléter ces champs, pour éditer la FAQ :'
+'Please fill these fields, to edit the brand :': 'Veuillez compléter ces champs, pour éditer la marque :'
+'Please fill these fields, to edit the category :': 'Veuillez compléter ces champs, pour éditer la catégorie :'
+'Please fill these fields, to edit the page :': 'Veuillez compléter ces champs, pour éditer la page :'
+'Please fill these fields, to edit the project :': 'Veuillez compléter ces champs, pour éditer le projet :'
+'Please fill these fields, to edit the project contribution :': 'Veuillez compléter ces champs, pour éditer la contribution :'
+'Please fill these fields, to edit the user :': 'Veuillez compléter ces champs, pour éditer l''utilisateur :'
+Project: Projet
+'Project contribution': 'Contribution au projet'
+'Project deleted at': 'Projet supprimé le'
+'Project ending at': 'Projet se termine le'
+'Project infos': 'Infos du projet'
+Projects: Projets
+'Projects list': 'Liste des projets'
 Question: Question
-'Regional infos': 'Regional infos'
-'Related brand': 'Related brand'
-'Related category': 'Related category'
-'Related infos': 'Related infos'
-'Related project': 'Related project'
-'Related projects': 'Related projects'
-'Related reward': 'Related reward'
-'Related user': 'Related user'
-Reward: Reward
-Roles: Roles
-Show: Show
+'Regional infos': 'Infos régionales'
+'Related brand': 'Marque associée'
+'Related category': 'Catégorie associée'
+'Related infos': 'Infos'
+'Related project': 'Projet associé'
+'Related projects': 'Projets associés'
+'Related reward': 'Récompense associée'
+'Related user': 'Utilisateur associé'
+Reward: Récompense
+Roles: Rôles
+Show: Afficher
 Slug: Slug
-'Social infos': 'Social infos'
+'Social infos': 'Infos sociales'
 Status: Status
-'Status updated at': 'Status updated at'
-Succeeded: Succeeded
-'Suceeded payment ?': 'Suceeded payment ?'
-'This project has ended on :': 'This project has ended on :'
-'This project was deleted on :': 'This project was deleted on :'
-Title: Title
-'Twitter URL': 'Twitter URL'
-Update: Update
-User: User
-Users: Users
-'Users list': 'Users list'
-Visibility: Visibility
+'Status updated at': 'Status mis à jour le'
+Succeeded: Réussi
+'Suceeded payment ?': 'Paiement réussi ?'
+'This project has ended on :': 'Ce projet s''est terminé le :'
+'This project was deleted on :': 'Ce projet a été supprimé le :'
+Title: Titre
+'Twitter URL': 'URL Twitter'
+Update: Mettre à jour
+User: Utilisateur
+Users: Utilisateurs
+'Users list': 'Liste des utilisateurs'
+Visibility: Visibilité
 Visible: Visible
-'Website URL': 'Website URL'
-Yes: Yes
-'active project(s)': 'active project(s)'
-'contribution(s) that have been completed': 'contribution(s) that have been completed'
-'contribution(s) that have been successful': 'contribution(s) that have been successful'
-'created brand(s) on the website': 'created brand(s) on the website'
-'created user(s) on the website': 'created user(s) on the website'
-'deleted project(s)': 'deleted project(s)'
-'invisible categories': 'invisible categories'
-'invisible page(s)': 'invisible page(s)'
-'project(s) that are in "engagement phase"': 'project(s) that are in "engagement phase"'
-'project(s) that are in "funding phase"': 'project(s) that are in "funding phase"'
-'visible categories': 'visible categories'
-'visible page(s)': 'visible page(s)'
+'Website URL': 'URL du site web'
+Yes: Oui
+'active project(s)': 'projet(s) actif(s)'
+'contribution(s) that have been completed': 'contribution(s) complétées'
+'contribution(s) that have been successful': 'contribution(s) réussies'
+'created brand(s) on the website': 'marque(s) créées sur le site web'
+'created user(s) on the website': 'utilisateur(s) créés sur le site web'
+'deleted project(s)': 'projet(s) supprimé(s)'
+'invisible categories': 'catégorie(s) invisible(s)'
+'invisible page(s)': 'page(s) invisible(s)'
+'project(s) that are in "engagement phase"': 'projet(s) en "phase d''engagement"'
+'project(s) that are in "funding phase"': 'projet(s) en "phase de financement"'
+'visible categories': 'catégorie(s) visible(s)'
+'visible page(s)': 'page(s) visible(s)'

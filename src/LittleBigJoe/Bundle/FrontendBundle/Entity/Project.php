@@ -20,7 +20,7 @@ use Symfony\Component\Validator\ExecutionContext;
  * @UniqueEntity("slug")
  * @Assert\Callback(methods = {"isDateInFuture"}, groups = {"Default", "flow_createProject_step2"})
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\FrontendBundle\Repository\ProjectRepository")
- * @Gedmo\Uploadable(path="uploads/projects", filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true, allowedTypes="image/png,image/jpg,image/jpeg,image/gif")
+ * @Gedmo\Uploadable(filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true, allowedTypes="image/png,image/jpg,image/jpeg,image/gif")
  */
 class Project
 {
@@ -471,7 +471,7 @@ class Project
      */
     public function setDescription($description)
     {
-        $this->description = strip_tags($description);
+        $this->description = $description;
 
         return $this;
     }

@@ -55,7 +55,7 @@ class ProjectRepository extends EntityRepository
                 ->setParameter('now', new \Datetime());
         }
 
-        if (!empty($status)) {
+        if (!empty($brandId)) {
             $qb = $qb->andWhere('p.brand = :brand')
                 ->setParameter('brand', $brandId);
         }

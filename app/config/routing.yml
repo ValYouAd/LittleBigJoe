@@ -64,4 +64,5 @@ little_big_joe_backend:
     resource: "@LittleBigJoeBackendBundle/Controller/"
     type:     annotation
     prefix:   /admin/
+    defaults:  { _locale: fr } # Force the locale, to show admin in French
     options: { i18n: false }

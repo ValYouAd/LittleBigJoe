@@ -29,8 +29,8 @@ class BackendController extends Controller
             'nbProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(),
             'nbNotDeletedProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(false),
             'nbDeletedProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(true),
-            'nbEngagementProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(null, 1),
-            'nbFundingProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(null, 2),
+            'nbEngagementProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(null, '1'),
+            'nbFundingProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(null, '2'),
             // Cateogories stats
             'nbCategories' => $em->getRepository('LittleBigJoeFrontendBundle:Category')->count(),
             'nbCategoriesVisible' => $em->getRepository('LittleBigJoeFrontendBundle:Category')->count(true),

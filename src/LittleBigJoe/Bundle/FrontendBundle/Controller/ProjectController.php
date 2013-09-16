@@ -293,30 +293,60 @@ class ProjectController extends Controller
 		        		{	
 		        				$projectReward->setProject($project);
 		        		}
-		        			
-		        		// Persist form data and redirect user
-		            $em->persist($project);		 
-
+		        		
+		        		// Persist form data
+		            $em->persist($project);		
+		            $em->flush();
+		            
+		            // Move tmp file from server, to project directory
+		            $matches = array();
+		            preg_match_all('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $project->getDescription(), $matches, PREG_PATTERN_ORDER);
+		            foreach ($matches[0] as $key => $match)
+		            {
+			            	if (@fopen($match, 'r'))
+			            	{
+				            		// Create project directory if it doesn't exist
+				            		if (!is_dir(__DIR__.'/../../../../../web/uploads/projects/'.$project->getId()))
+				            		{
+				            			mkdir(__DIR__.'/../../../../../web/uploads/projects/'.$project->getId(), 0755);
+				            		}
+				            
+				            		// Move file
+				            		$filePath = preg_replace('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')/i', '', $match);
+				            		copy(__DIR__.'/../../../../../web'.$filePath, __DIR__.'/../../../../../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
+				            
+				            		// Update description field
+				            		$description = preg_replace('#'.$filePath.'#', '/uploads/projects/'.$project->getId().'/'.basename($filePath), $project->getDescription());
+				            		$project->setDescription($description);
+			            	}
+		            }
+		            
 		            // Retrieve the uploaded photo, and associate it with project
-		            if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null) 
+		            if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null)
 		            {
 			            	$fileInfo = new UploadedFile(
-						            $this->getRequest()->getSession()->get('tmpUploadedFilePath'),
-						            $this->getRequest()->getSession()->get('tmpUploadedFile'),
-						            MimeTypeGuesser::getInstance()->guess($this->getRequest()->getSession()->get('tmpUploadedFilePath')),
-						            filesize($this->getRequest()->getSession()->get('tmpUploadedFilePath'))
-						        );
+			            			$this->getRequest()->getSession()->get('tmpUploadedFilePath'),
+			            			$this->getRequest()->getSession()->get('tmpUploadedFile'),
+			            			MimeTypeGuesser::getInstance()->guess($this->getRequest()->getSession()->get('tmpUploadedFilePath')),
+			            			filesize($this->getRequest()->getSession()->get('tmpUploadedFilePath'))
+			            	);
 			            	$project->setPhoto($fileInfo);
-			            	
+			            
 			            	$evm = $em->getEventManager();
 			            	$uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-			            	$evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
+			            	$uploadableListener = $uploadableManager->getUploadableListener();
+			            	$uploadableListener->setDefaultPath('uploads/projects/'.$project->getId());
+			            	$evm->removeEventListener(array('postFlush'), $uploadableListener);
 			            	$uploadableManager->markEntityToUpload($project, $project->getPhoto());
 		            }
 		            
+		            // Persist form data and redirect user
+		            $em->persist($project);
+		            $em->flush();
+		            
+								// Delete session data
 		            $this->getRequest()->getSession()->remove('tmpUploadedFile');
 		            $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
-		            $em->flush();
 		            
 		            // Reset flow data
 		            $flow->reset();

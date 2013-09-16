@@ -1,78 +1,137 @@
 '% completed': '% completed'
-'(required amount to raise)': '(required amount to raise)'
-'(required likes)': '(required likes)'
-'(updated at': '(updated at'
-): )
 +: +
+'Activity infos': 'Activity infos'   # FIXME
 'Amount to raise': 'Amount to raise'
+
+'An error has occured during project liking':
+    ' Please try again': 'An error has occured during project liking. Please try again'   # FIXME
+
+'Associated brand': 'Associated brand'   # FIXME
+'Associated category': 'Associated category'   # FIXME
 'Back to the list': 'Back to the list'
-'Below you''ll find some informations regarding the project :': 'Below you''ll find some informations regarding the project :'
+'Below you''ll find some informations regarding the FAQ :': 'Below you''ll find some informations regarding the FAQ :'   # FIXME
+'Below you''ll find some informations regarding the category :': 'Below you''ll find some informations regarding the category :'   # FIXME
+Bio: Bio   # FIXME
 Biography: Biography
+'Birthday date': 'Birthday date'   # FIXME
 Brand: Brand
 By: By
-Creator: Creator
+Category: Category   # FIXME
+'Check his profile': 'Check his profile'   # FIXME
+'Choose awards': 'Choose awards'   # FIXME
+City: City   # FIXME
+Comments: Comments   # FIXME
+Contact: Contact   # FIXME
+Country: Country   # FIXME
+'Create my project': 'Create my project'   # FIXME
 'Current projects': 'Current projects'
+'Default language': 'Default language'   # FIXME
+'Define my goals': 'Define my goals'   # FIXME
 Description: Description
 'Discovering projects': 'Découvrir les projets'
-'Edit this project': 'Edit this project'
+'Edit this category': 'Edit this category'   # FIXME
+'Edit this faq': 'Edit this faq'   # FIXME
+'Email address': 'Email address'   # FIXME
 'Ended projects': 'Ended projects'
-'Ending at': 'Ending at'
+'Engagement evolution': 'Engagement evolution'   # FIXME
 'Engagement phase': 'Engagement phase'
+English: English   # FIXME
+FAQ: FAQ   # FIXME
 'Facebook URL': 'Facebook URL'
 'Favorite projects': 'Favorite projects'
 Favorites: Favorites
+Firstname: Firstname   # FIXME
+French: French   # FIXME
+'Fund this project': 'Fund this project'   # FIXME
 'Funding phase': 'Funding phase'
+'Getting online': 'Getting online'   # FIXME
 'Google URL': 'Google URL'
+'Google+ URL': 'Google+ URL'   # FIXME
+Hello: Hello   # FIXME
+'Here''s the important data regarding your account': 'Here''s the important data regarding your account'   # FIXME
+'Here''s the list of comments related to': 'Here''s the list of comments related to'   # FIXME
+'Here''s the list of news related to': 'Here''s the list of news related to'   # FIXME
+'Here''s the list of persons that have funded': 'Here''s the list of persons that have funded'   # FIXME
 'His projects': 'His projects'
 Home: Accueil
-Language: Language
+'I like this project': 'I like this project'   # FIXME
+Lastname: Lastname   # FIXME
 'Latest brands': 'Latest brands'
 'Latest contributions': 'Latest contributions'
 'Latest projects': 'Latest projects'
 'Launch my project': 'Lancer mon projet'
-Likes: Likes
+'Likes to get': 'Likes to get'   # FIXME
 Location: Location
+Logo: Logo   # FIXME
 'META Description': 'META Description'
 'META Title': 'META Title'
 'META infos': 'META infos'
-'MangoPay infos': 'MangoPay infos'
-'MangoPay user created at': 'MangoPay user created at'
-'MangoPay user updated at': 'MangoPay user updated at'
-'MangoPay wallet id': 'MangoPay wallet id'
+'Maximum quantity by user': 'Maximum quantity by user'   # FIXME
+'More projects from': 'More projects from'   # FIXME
 'Most desired': 'Most desired'
 N/A: N/A
+Name: Name   # FIXME
+Nationality: Nationality   # FIXME
+News: News   # FIXME
 'No image': 'No image'
 'Not visible': 'Not visible'
+'Number of related projects': 'Number of related projects'   # FIXME
+On: On   # FIXME
 Page: Page
+Participants: Participants   # FIXME
+Password: Password   # FIXME
+Photo: Photo   # FIXME
+Pitch: Pitch   # FIXME
 Popular: Popular
 'Popular projects': 'Popular projects'
 'Popular this week': 'Popular this week'
+'Present my project': 'Present my project'   # FIXME
 Project: Project
-'Project infos': 'Project infos'
+'Project default language :': 'Project default language :'   # FIXME
+'Project ending at': 'Project ending at'   # FIXME
+'Project realized by': 'Project realized by'   # FIXME
+Projects: Projects   # FIXME
 'Projects nearing completion': 'Projects nearing completion'
 'Projects to fund': 'Projects to fund'
 'Recently updated projects': 'Recently updated projects'
-'Regional infos': 'Regional infos'
-'Related brand': 'Related brand'
-'Related category': 'Related category'
-'Related infos': 'Related infos'
+'Required amount': 'Required amount'   # FIXME
+'Reward description': 'Reward description'   # FIXME
+'Reward title': 'Reward title'   # FIXME
+'Search for ': 'Search for '   # FIXME
 'See all current projects': 'See all current projects'
 'See all ended projects': 'See all ended projects'
 'See all favorite projects': 'See all favorite projects'
 'See all popular projects': 'See all popular projects'
 'See all projects': 'See all projects'
 'See all updated projects': 'See all updated projects'
-Status: Status
-'This project has ended on :': 'This project has ended on :'
-'This project was deleted on :': 'This project was deleted on :'
+Slug: Slug   # FIXME
+Steps: Steps   # FIXME
+Stock: Stock   # FIXME
+'Thanks for liking the project !': 'Thanks for liking the project !'   # FIXME
+'There''s no comments for the moment': 'There''s no comments for the moment'   # FIXME
+'There''s no news for the moment': 'There''s no news for the moment'   # FIXME
+'There''s no participants for the moment': 'There''s no participants for the moment'   # FIXME
 'Top funded projects': 'Top funded projects'
 'Twitter URL': 'Twitter URL'
 User: User
+Users: Users   # FIXME
+Verification: Verification   # FIXME
 Visible: Visible
+'We are pleased to welcome you in this wonderful world !': 'We are pleased to welcome you in this wonderful world !'   # FIXME
+'We hope to see you soon in': 'We hope to see you soon in'   # FIXME
+'Website URL': 'Website URL'   # FIXME
+'Welcome to Little Big Joe': 'Welcome to Little Big Joe'   # FIXME
+'Welcome to Little Big Joe website': 'Welcome to Little Big Joe website'   # FIXME
 'associated project(s)': 'associated project(s)'
 'current projects': 'current projects'
 'ended projects': 'ended projects'
+'for registering in Little Big Joe website': 'for registering in Little Big Joe website'   # FIXME
 likes: likes
 'likes in total': 'likes in total'
+participants: participants   # FIXME
+project: project   # FIXME
+'realized projects': 'realized projects'   # FIXME
 €: €
+'€ of': '€ of'   # FIXME
 '€ raised in total': '€ raised in total'
+'€ required amount to raise': '€ required amount to raise'   # FIXME
