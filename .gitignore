@@ -2,6 +2,9 @@
 .buildpath
 .project
 
+# PHPStorm
+.idea/*
+
 # Bootstrap
 app/bootstrap*
 
