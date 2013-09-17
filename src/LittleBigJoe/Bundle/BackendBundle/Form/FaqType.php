@@ -16,21 +16,23 @@ class FaqType extends AbstractType
     {
         $builder
             ->add('translations', 'a2lix_translations_gedmo', array(
-                'translatable_class' => "LittleBigJoe\Bundle\FrontendBundle\Entity\Faq",
+                'translatable_class' => "LittleBigJoe\Bundle\CoreBundle\Entity\Faq",
                 'fields' => array(
                     'question' => array(
                         'type' => 'ckeditor',
-                        'label' => 'Question'
+                        'label' => 'backend.question',
+                    		'required' => false
                     ),
                     'answer' => array(
                         'type' => 'ckeditor',
-                        'label' => 'Answer'
+                        'label' => 'backend.answer',
+                    		'required' => false
                     )
                 )
             ))
             ->add('isVisible', 'choice', array(
-                'label' => 'Visibility',
-                'choices' => array(0 => 'Not visible', 1 => 'Visible')
+                'label' => 'backend.visibility',
+                'choices' => array(0 => 'backend.invisible', 1 => 'backend.visible')
             ));
     }
 
@@ -40,7 +42,7 @@ class FaqType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\Faq'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Faq'
         ));
     }
 
@@ -49,6 +51,6 @@ class FaqType extends AbstractType
      */
     public function getName()
     {
-        return 'littlebigjoe_bundle_frontendbundle_faq';
+        return 'littlebigjoe_bundle_backendbundle_faq';
     }
 }

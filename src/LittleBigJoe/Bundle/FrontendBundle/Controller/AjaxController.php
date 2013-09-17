@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\ProjectLike;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectLike;
 
 /**
  * Ajax controller.
@@ -46,13 +46,24 @@ class AjaxController extends Controller
 						return new JsonResponse(array('status' => 'KO ID'));
     		}
     		
-    		$project = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($projectId);
+    		$project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($projectId);
     		
     		// If the project doesn't exist
     		if (empty($project))
     		{
     				return new JsonResponse(array('status' => 'KO PROJECT'));
     		}    		
+    		
+    		$projectLikeExists = $em->getRepository('LittleBigJoeCoreBundle:ProjectLike')->findOneBy(array(
+    				'project' => $project->getId(), 
+    				'user' => $currentUser->getId()
+    		));
+    		
+    		// If user has already liked the project
+    		if (!empty($projectLikeExists) && $projectLikeExists instanceof ProjectLike)
+    		{
+    				return new JsonResponse(array('status' => 'KO VOTE'));
+    		}
     		
     		$projectLike = new ProjectLike();
     		$projectLike->setProject($project);

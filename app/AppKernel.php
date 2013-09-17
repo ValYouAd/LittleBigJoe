@@ -30,6 +30,7 @@ class AppKernel extends Kernel
         		new FM\ElfinderBundle\FMElfinderBundle(), // Used to handle file upload via CKeditor
             new LittleBigJoe\Bundle\BackendBundle\LittleBigJoeBackendBundle(),
             new LittleBigJoe\Bundle\FrontendBundle\LittleBigJoeFrontendBundle(),
+            new LittleBigJoe\Bundle\CoreBundle\LittleBigJoeCoreBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

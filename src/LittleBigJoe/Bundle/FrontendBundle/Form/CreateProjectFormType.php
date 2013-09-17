@@ -38,7 +38,7 @@ class CreateProjectFormType extends AbstractType
 						            ))
 						            ->add('brand', 'entity', array(
 						                'label' => 'Associated brand',
-						                'class' => 'LittleBigJoeFrontendBundle:Brand',
+						                'class' => 'LittleBigJoeCoreBundle:Brand',
 						                'property' => 'name'
 						            ))
 						            ->add('location', 'text', array(
@@ -46,7 +46,7 @@ class CreateProjectFormType extends AbstractType
 						            ))
 						            ->add('category', 'entity', array(
 						                'label' => 'Associated category',
-						                'class' => 'LittleBigJoeFrontendBundle:Category',
+						                'class' => 'LittleBigJoeCoreBundle:Category',
 						                'query_builder' => function (EntityRepository $er) {
 						                    return $er->createQueryBuilder('c')
 						                    		->where('c.isVisible = :isVisible')
@@ -103,7 +103,7 @@ class CreateProjectFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\Project',
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Project',
         		'flow_step' => null,
         ));
     }

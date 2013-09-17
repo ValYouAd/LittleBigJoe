@@ -182,10 +182,12 @@
             {% endif %}
 
             <h3>{{ latestBrand.name }}</h3>
+            {% if latestBrand.projects.0 is defined %}
             <h4>{{ latestBrand.projects.0.name }}</h4>
             <p>{{ 'By'|trans() }} <a
                         href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': latestBrand.projects.0.user.id}) }}">{{ latestBrand.projects.0.user }}</a>
             </p>
+            {% endif %}
         {% endfor %}
     {% endif %}
 

@@ -44,7 +44,7 @@ class ProjectRewardType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\ProjectReward'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward'
         ));
     }
 

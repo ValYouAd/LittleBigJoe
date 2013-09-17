@@ -26,8 +26,8 @@ class SearchController extends Controller
 
         if (!empty($search))
         {
-            $projectsSearch = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findBySearch($search);
-            $usersSearch = $em->getRepository('LittleBigJoeFrontendBundle:User')->findBySearch($search);
+            $projectsSearch = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySearch($search);
+            $usersSearch = $em->getRepository('LittleBigJoeCoreBundle:User')->findBySearch($search);
         }
                 
         $paginator = $this->get('knp_paginator');

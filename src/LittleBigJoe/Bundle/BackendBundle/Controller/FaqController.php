@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\Faq;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Faq;
 use LittleBigJoe\Bundle\BackendBundle\Form\FaqType;
 
 /**
@@ -29,7 +29,7 @@ class FaqController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT f FROM LittleBigJoeFrontendBundle:Faq f";
+        $dql = "SELECT f FROM LittleBigJoeCoreBundle:Faq f";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -49,7 +49,7 @@ class FaqController extends Controller
      *
      * @Route("/", name="littlebigjoe_backendbundle_faqs_create")
      * @Method("POST")
-     * @Template("LittleBigJoeFrontendBundle:Faq:new.html.twig")
+     * @Template("LittleBigJoeCoreBundle:Faq:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -119,7 +119,7 @@ class FaqController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Faq')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Faq')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Faq entity.');
@@ -144,7 +144,7 @@ class FaqController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Faq')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Faq')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Faq entity.');
@@ -184,13 +184,13 @@ class FaqController extends Controller
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_faqs_update")
      * @Method("PUT")
-     * @Template("LittleBigJoeFrontendBundle:Faq:edit.html.twig")
+     * @Template("LittleBigJoeCoreBundle:Faq:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Faq')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Faq')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Faq entity.');
@@ -226,7 +226,7 @@ class FaqController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:Faq')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:Faq')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Faq entity.');

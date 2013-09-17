@@ -122,7 +122,7 @@ class RegistrationFormType extends BaseType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\User'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\User'
         ));
     }
 

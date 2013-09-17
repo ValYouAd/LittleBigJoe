@@ -35,9 +35,7 @@
     				<strong>{{ entity.contributions|length }} {{ 'participants'|trans() }}</strong><br />
     				<strong>{{ entity.endingAt|time_remaining }}</strong>
     		</p>		
-    		<p>
-		    		<a href="#" class="btn btn btn-success" id="fundProject">{{ 'Fund this project'|trans() }}</a>
-		    </p>
+    		{{ form(form, {attr:{role:'form' }}) }}
 		{% endif %}
 		
 		<hr class="clearfix" />
@@ -215,6 +213,10 @@
 		        				else if (data.status == 'KO USER')
 		        				{
 		        						window.location = "{{ path('fos_user_security_login') }}";
+		        				}
+		        				else if (data.status == 'KO VOTE')
+		        				{
+		        						alert("{{ 'You already have liked this project !'|trans() }}"); 	
 		        				}
 		        				else
 		        				{

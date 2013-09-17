@@ -18,11 +18,11 @@ class FrontendController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $latestProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findLatest();
-        $popularProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findPopular();
-        $fundingProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findFunding();
-        $latestBrands = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->findLatestByProject();
-        $latestProjectContributions = $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->findLatest(3);
+        $latestProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findLatest();
+        $popularProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findPopular();
+        $fundingProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findFunding();
+        $latestBrands = $em->getRepository('LittleBigJoeCoreBundle:Brand')->findLatestByProject();
+        $latestProjectContributions = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->findLatest(3);
         
         return array(
             'latestProjects' => $latestProjects,
@@ -31,16 +31,5 @@ class FrontendController extends Controller
             'latestBrands' => $latestBrands,
             'latestProjectContributions' => $latestProjectContributions
         );
-    }
-    
-    /**
-     * upload
-     *
-     * @Route("/upload", name="littlebigjoe_frontendbundle_upload")
-     * @Template()
-     */
-    public function uploadAction()
-    {
-    		var_dump($this->getRequest());
     }
 }

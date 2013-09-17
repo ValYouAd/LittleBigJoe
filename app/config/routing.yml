@@ -1,3 +1,8 @@
+#little_big_joe_core:
+#    resource: "@LittleBigJoeCoreBundle/Controller/"
+#    type:     annotation
+#    prefix:   /
+
 # FOSUserBundle routing
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -64,5 +69,5 @@ little_big_joe_backend:
     resource: "@LittleBigJoeBackendBundle/Controller/"
     type:     annotation
     prefix:   /admin/
-    defaults:  { _locale: fr } # Force the locale, to show admin in French
+    defaults:  { _locale: en } # Force the locale, to show admin in French
     options: { i18n: false }

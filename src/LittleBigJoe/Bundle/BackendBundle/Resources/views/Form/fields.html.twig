@@ -5,8 +5,8 @@
         {% if label is empty %}
             {% set label = name|humanize %}
         {% endif %}
-        <button class="btn btn-primary"
-                type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+        {% set attr = attr|merge({'class': (attr.class|default('btn btn-primary'))|trim}) %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
     {% endspaceless %}
 {% endblock button_widget %}
 

@@ -18,7 +18,7 @@ class BrandController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->findMostDesired(null);
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Brand')->findMostDesired(null);
 
         $paginator = $this->get('knp_paginator');
         $brands = $paginator->paginate(
@@ -43,19 +43,19 @@ class BrandController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->findBySlugI18n($slug);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Brand')->findBySlugI18n($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Brand entity.');
         }
 
-        $currentProjectsCount = $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(null, null, true, null, $entity->getId());
-        $likesCount = $em->getRepository('LittleBigJoeFrontendBundle:Project')->countLikes($entity->getId());
-        $endedProjectsCount = $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(null, null, false, $entity->getId());
-        $amountCount = $em->getRepository('LittleBigJoeFrontendBundle:Project')->countAmount($entity->getId());
-        $currentProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findCurrent(8, $entity->getId());
-        $endedProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findEnded(4, $entity->getId());
-        $favoriteProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findFavorite(2, $entity->getId());
+        $currentProjectsCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, null, true, null, $entity->getId());
+        $likesCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->countLikes($entity->getId());
+        $endedProjectsCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, null, false, $entity->getId());
+        $amountCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->countAmount($entity->getId());
+        $currentProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findCurrent(8, $entity->getId());
+        $endedProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findEnded(4, $entity->getId());
+        $favoriteProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findFavorite(2, $entity->getId());
 
         return array(
             'entity' => $entity,
@@ -79,13 +79,13 @@ class BrandController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->findBySlugI18n($slug);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Brand')->findBySlugI18n($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Brand entity.');
         }
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findCurrent(null, $entity->getId());
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findCurrent(null, $entity->getId());
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -111,13 +111,13 @@ class BrandController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->findBySlugI18n($slug);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Brand')->findBySlugI18n($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Brand entity.');
         }
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findEnded(null, $entity->getId());
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findEnded(null, $entity->getId());
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(

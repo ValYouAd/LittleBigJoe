@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\Page;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Page;
 use LittleBigJoe\Bundle\BackendBundle\Form\PageType;
 
 /**
@@ -29,7 +29,7 @@ class PageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT p FROM LittleBigJoeFrontendBundle:Page p";
+        $dql = "SELECT p FROM LittleBigJoeCoreBundle:Page p";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -49,7 +49,7 @@ class PageController extends Controller
      *
      * @Route("/", name="littlebigjoe_backendbundle_pages_create")
      * @Method("POST")
-     * @Template("LittleBigJoeFrontendBundle:Page:new.html.twig")
+     * @Template("LittleBigJoeBackendBundle:Page:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -119,7 +119,7 @@ class PageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Page')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
@@ -144,7 +144,7 @@ class PageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Page')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
@@ -184,13 +184,13 @@ class PageController extends Controller
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_pages_update")
      * @Method("PUT")
-     * @Template("LittleBigJoeFrontendBundle:Page:edit.html.twig")
+     * @Template("LittleBigJoeBackendBundle:Page:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Page')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');
@@ -226,7 +226,7 @@ class PageController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:Page')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Page entity.');

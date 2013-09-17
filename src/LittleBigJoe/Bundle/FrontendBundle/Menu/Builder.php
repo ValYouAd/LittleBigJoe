@@ -17,7 +17,7 @@ class Builder extends ContainerAware
 
         // Add "How does this website work ?" link
         $pageId = $this->container->getParameter('howdoesitwork_page_id');
-        if (!empty($pageId) && $page = $em->getRepository('LittleBigJoeFrontendBundle:Page')->find($pageId)) {
+        if (!empty($pageId) && $page = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($pageId)) {
             $menu->addChild($page->getTitle(), array(
                 'route' => 'littlebigjoe_frontendbundle_page_show',
                 'routeParameters' => array('slug' => $page->getSlug())
@@ -74,7 +74,7 @@ class Builder extends ContainerAware
     {
         $menu = $factory->createItem('root');
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $categories = $em->getRepository('LittleBigJoeFrontendBundle:Category')->findBy(array('isVisible' => true));
+        $categories = $em->getRepository('LittleBigJoeCoreBundle:Category')->findBy(array('isVisible' => true));
 
         // Add categories
         if (!empty($categories)) {

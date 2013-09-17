@@ -11,10 +11,6 @@
     </parameters>		
 		
     <services>
-        <service id="littlebigjoefrontend.twig.littlebigjoe_extension" class="LittleBigJoe\Bundle\FrontendBundle\Twig\LittleBigJoeExtension">
-            <tag name="twig.extension"/>
-            <argument type="service" id="service_container"/>
-        </service>
         <service id="littlebigjoefrontend.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormType">
             <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_registration"/>
             <argument type="service" id="session" />
@@ -43,7 +39,7 @@
         <service id="littlebigjoefrontend.listener.user.profile" class="LittleBigJoe\Bundle\FrontendBundle\EventListener\ProfileListener">
             <tag name="kernel.event_subscriber"/>
             <argument type="service" id="service_container"/>
-        </service>        
+        </service>
         <service id="littlebigjoefrontend.project.createProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProjectFormType">
         		<tag name="form.type" alias="createProject" />
     		</service>

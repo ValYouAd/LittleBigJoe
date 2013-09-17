@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\User;
+use LittleBigJoe\Bundle\CoreBundle\Entity\User;
 use LittleBigJoe\Bundle\BackendBundle\Form\UserType;
 
 /**
@@ -29,7 +29,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT u FROM LittleBigJoeFrontendBundle:User u";
+        $dql = "SELECT u FROM LittleBigJoeCoreBundle:User u";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -49,7 +49,7 @@ class UserController extends Controller
      *
      * @Route("/", name="littlebigjoe_backendbundle_users_create")
      * @Method("POST")
-     * @Template("LittleBigJoeFrontendBundle:User:new.html.twig")
+     * @Template("LittleBigJoeCoreBundle:User:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -127,7 +127,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:User')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -152,7 +152,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:User')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -192,13 +192,13 @@ class UserController extends Controller
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_users_update")
      * @Method("PUT")
-     * @Template("LittleBigJoeFrontendBundle:User:edit.html.twig")
+     * @Template("LittleBigJoeCoreBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:User')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -241,7 +241,7 @@ class UserController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:User')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');

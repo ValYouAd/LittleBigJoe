@@ -7,8 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\Project;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\ProjectReward;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
 
 class ProjectController extends Controller
 {
@@ -22,9 +22,9 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $favoriteProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findFavorite();
-        $popularProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findPopular(4, '-7 days');
-        $recentlyUpdatedProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findRecentlyUpdated();
+        $favoriteProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findFavorite();
+        $popularProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findPopular(4, '-7 days');
+        $recentlyUpdatedProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findRecentlyUpdated();
 
         return array(
             'favoriteProjects' => $favoriteProjects,
@@ -43,7 +43,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findLatest(null);
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findLatest(null);
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -68,7 +68,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findPopular(null);
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findPopular(null);
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -93,7 +93,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findPopular(null, '-7 days');
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findPopular(null, '-7 days');
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -118,7 +118,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findFunding(null);
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findFunding(null);
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -143,7 +143,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findTopFunded(null);
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findTopFunded(null);
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -168,7 +168,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findAlmostEnding(null);
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findAlmostEnding(null);
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -193,7 +193,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findFavorite(null);
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findFavorite(null);
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -218,7 +218,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findRecentlyUpdated(null);
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findRecentlyUpdated(null);
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
@@ -385,7 +385,7 @@ class ProjectController extends Controller
 	    	
 	    	return $this->getRequest()->getSession()->get('tmpUploadedFilePath');    
     }
-
+    
     /**
      * Specific project
      *
@@ -396,14 +396,29 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findBySlugI18n($slug);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
         
+        $form = $this->createFormBuilder()
+						        ->setAction($this->generateUrl('littlebigjoe_frontendbundle_payment_project'))
+						        ->setMethod('POST')
+						        ->add('projectId', 'hidden', array(
+        								'data' => $entity->getId()
+        						))
+        						->add('submit', 'submit', array(
+        								'label' => 'Fund this project',
+						        		'attr' => array(
+        										'class' => 'btn btn-success'
+        								)
+						        ))
+						        ->getForm();
+        
         return array(
             'entity' => $entity,
+        		'form' => $form->createView(),
             'current_date' => new \Datetime()
         );
     }

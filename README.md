@@ -14,7 +14,7 @@ Installation is a quick (I promise!) 7 step process:
 
 3) Create database
 
-4) Create database triggers 
+4) Set CRON tasks
 
 5) Empty Symfony2 caches
 
@@ -39,30 +39,11 @@ This project uses a database to stock projects, users, categories, etc..., so yo
 $ php app/console doctrine:schema:update --force
 ```
 
-### Step 4 : Create database triggers
-In a way to accelerate FO rendering, some database are required. Please launch this SQL request in your database manager : 
+### Step 4 :  Set CRON tasks
+In order to make sure that projects are setted as ended, when their ending date is reached, an CRON task will check projects ending dates. Please configure it as follow : 
 
-``` sql
-DROP TRIGGER IF EXISTS `after_insert_project_like`;
-DROP TRIGGER IF EXISTS `after_insert_project_contribution`;
-delimiter $$
-CREATE TRIGGER `after_insert_project_like`
-    AFTER INSERT ON `project_like` FOR EACH ROW
-    BEGIN
-       UPDATE `project`
-       SET likes_count = likes_count + 1 
-       WHERE id = NEW.project_id;
-    END;
-$$
-delimiter $$
-CREATE TRIGGER `after_insert_project_contribution`
-    AFTER INSERT ON `project_contribution` FOR EACH ROW
-    BEGIN
-       UPDATE `project`
-       SET amount_count = amount_count + NEW.mangopay_amount
-       WHERE id = NEW.project_id;
-    END;
-$$
+``` bash
+30 * * * * php app/console lbj:update-project
 ```
 
 ### Step 5 : Empty Symfony2 caches

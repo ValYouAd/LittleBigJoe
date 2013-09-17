@@ -17,50 +17,50 @@ class ProjectContributionType extends AbstractType
     {
         $builder
             ->add('mangopayContributionId', 'integer', array(
-                'label' => 'Mangopay contribution ID'
+                'label' => 'backend.mangopay_contribution_id'
             ))
             ->add('mangopayAmount', 'number', array(
-                'label' => 'Mangopay amount'
+                'label' => 'backend.mangopay_amount'
             ))
             ->add('project', 'entity', array(
-                'label' => 'Associated project',
-                'class' => 'LittleBigJoeFrontendBundle:Project',
+                'label' => 'backend.associated_project',
+                'class' => 'LittleBigJoeCoreBundle:Project',
                 'property' => 'name'
             ))
             ->add('user', 'entity', array(
-                'label' => 'Creator',
-                'class' => 'LittleBigJoeFrontendBundle:User',
+                'label' => 'backend.creator',
+                'class' => 'LittleBigJoeCoreBundle:User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.lastname', 'ASC');
                 }
             ))
             ->add('reward', 'entity', array(
-                'label' => 'Associated reward',
-                'class' => 'LittleBigJoeFrontendBundle:ProjectReward',
+                'label' => 'backend.associated_reward',
+                'class' => 'LittleBigJoeCoreBundle:ProjectReward',
                 'property' => 'title'
             ))
             ->add('mangopayIsSucceeded', 'choice', array(
-                'label' => 'Suceeded payment ?',
-                'choices' => array(0 => 'No', 1 => 'Yes')
+                'label' => 'backend.succeeded_payment',
+                'choices' => array(0 => 'backend.no', 1 => 'backend.yes')
             ))
             ->add('mangopayIsCompleted', 'choice', array(
-                'label' => 'Completed payment ?',
-                'choices' => array(0 => 'No', 1 => 'Yes')
+                'label' => 'backend.completed_payment',
+                'choices' => array(0 => 'backend.no', 1 => 'backend.yes')
             ))
             ->add('mangopayError', 'text', array(
-                'label' => 'Mangopay error',
+                'label' => 'backend.mangopay_error',
                 'required' => false
             ))
             ->add('mangopayAnswerCode', 'text', array(
-                'label' => 'Mangopay answer code',
+                'label' => 'backend.mangopay_answer_code',
                 'required' => false
             ))
             ->add('mangopayCreatedAt', 'datetime', array(
-                'label' => 'Mangopay payment created at'
+                'label' => 'backend.mangopay_payment_created_at'
             ))
             ->add('mangopayUpdatedAt', 'datetime', array(
-                'label' => 'Mangopay payment updated at'
+                'label' => 'backend.mangopay_payment_updated_at'
             ));
     }
 
@@ -70,7 +70,7 @@ class ProjectContributionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\ProjectContribution'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectContribution'
         ));
     }
 
@@ -79,6 +79,6 @@ class ProjectContributionType extends AbstractType
      */
     public function getName()
     {
-        return 'littlebigjoe_bundle_frontendbundle_projectcontribution';
+        return 'littlebigjoe_bundle_backendbundle_projectcontribution';
     }
 }

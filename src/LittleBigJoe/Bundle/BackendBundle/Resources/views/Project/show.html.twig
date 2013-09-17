@@ -1,15 +1,15 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Project'|trans() }} {{ entity }} | {{ parent() }}
+    {{ 'backend.project'|trans() }} {{ entity }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-search"></span> {{ 'Project'|trans() }} <span
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.project'|trans() }} <span
                     class="text-primary">{{ entity }}</span></h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find some informations regarding the project :'|trans() }}</p>
+    <p class="lead">{{ 'backend.project_infos'|trans() }}</p>
 
     <div class="row">
         <div class="col-sm-6 col-md-3 pull-left">
@@ -17,7 +17,7 @@
                 {% if entity.photo %}
                     <img src="{{ asset(entity.photo) }}">
                 {% else %}
-                    <strong>{{ 'N/A'|trans() }}</strong>
+                    <strong>{{ 'backend.na'|trans() }}</strong>
                 {% endif %}
             </a>
         </div>
@@ -27,95 +27,119 @@
         </div>
     </div>
 
-    <div class="page-header">
-        <h3>{{ 'Related infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'Related brand'|trans() }} : <a
-                href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}"><strong>{{ entity.brand }}</strong></a>
-    </p>
-    <p>{{ 'Related category'|trans() }} : <a
-                href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}"><strong>{{ entity.category }}</strong></a>
-    </p>
-    <p>{{ 'Creator'|trans() }} : <a
-                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
-    </p>
-    <p>{{ 'Status'|trans() }} :
-        {% if entity.status == '1' %}
-            <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-        {% else %}
-            <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-        {% endif %}
-        {% if entity.statusUpdatedAt %}{{ '(updated at'|trans() }} : {{ entity.statusUpdatedAt|date('d/m/Y H:i:s') }} {{ ')'|trans() }}{% endif %}
-    </p>
-    <p>{{ 'Ending at'|trans() }} : <strong>{{ entity.endingAt|date('d/m/Y H:i:s') }}</strong></p>
+		<div class="clearfix">&nbsp;</div>
 
-    {% if entity.endingAt < current_date %}
-        <div class="alert alert-info">
-            <p>{{ 'This project has ended on :'|trans() }} <strong>{{ entity.endingAt|date('d/m/Y H:i:s') }}</strong>
-            </p>
-        </div>
-    {% endif %}
-
-    {% if entity.deletedAt %}
-        <div class="alert alert-danger">
-            <p>{{ 'This project was deleted on :'|trans() }} <strong>{{ entity.deletedAt|date('d/m/Y H:i:s') }}</strong>
-            </p>
-        </div>
-    {% endif %}
-
-    <div class="page-header">
-        <h3>{{ 'Regional infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'Location'|trans() }} : <strong>{{ entity.location }}</strong></p>
-    <p>{{ 'Language'|trans() }} : <strong>{{ entity.language }}</strong></p>
-
-    <div class="page-header">
-        <h3>{{ 'Description'|trans() }}</h3>
-    </div>
-    {{ entity.description|raw() }}
-
-    <div class="page-header">
-        <h3>{{ 'Project infos'|trans() }}</h3>
-    </div>
-    <p>
-        {{ 'Amount to raise'|trans() }} : <strong>{{ entity.amountCount }}
-            / {{ entity.amountRequired }} {{ '(required amount to raise)'|trans() }}</strong><br/>
-    <div class="progress progress-striped active">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.amountCount }}" aria-valuemin="0"
-             aria-valuemax="{{ entity.amountRequired }}"
-             style="width:{% if entity.amountCount == 0 %}0{% else %}{{ (entity.amountCount/entity.amountRequired) * 100 }}{% endif %}%">
-            <span class="sr-only">{% if entity.amountCount == 0 %}0{% else %}{{ ((entity.amountCount/entity.amountRequired) * 100)|number_format(1, '.', ',') }}{% endif %} {{ '% completed'|trans() }}</span>
-        </div>
-    </div>
-    </p>
-    <p>
-        {{ 'Likes'|trans() }} : <strong>{{ entity.likesCount }}
-            / {{ entity.likesRequired }} {{ '(required likes)'|trans() }}</strong><br/>
-    <div class="progress progress-striped active">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.likesCount }}" aria-valuemin="0"
-             aria-valuemax="{{ entity.likesRequired }}"
-             style="width:{% if entity.likesCount == 0 %}0{% elseif (entity.likesCount/entity.likesRequired) * 100 > 100 %}100{% else %}{{ ((entity.likesCount/entity.likesRequired) * 100)|number_format(1, '.', ',') }}{% endif %}%">
-            <span class="sr-only">{% if entity.likesCount == 0 %}0{% elseif (entity.likesCount/entity.likesRequired) * 100 > 100 %}100{% else %}{{ ((entity.likesCount/entity.likesRequired) * 100)|number_format(1, '.', ',') }}{% endif %} {{ '% completed'|trans() }}</span>
-        </div>
-    </div>
-    </p>
-
-    <div class="page-header">
-        <h3>{{ 'MangoPay infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'MangoPay wallet id'|trans() }} : <strong>{{ entity.mangopayWalletId }}</strong></p>
-    <p>{{ 'MangoPay user created at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
-    </p>
-    <p>{{ 'MangoPay user updated at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
-    </p>
+		<ul class="nav nav-tabs" id="tabs">
+		  <li class="active"><a href="#related">{{ 'backend.related_infos'|trans() }}</a></li>
+		  <li><a href="#region">{{ 'backend.regional_infos'|trans() }}</a></li>
+		  <li><a href="#description">{{ 'backend.description'|trans() }}</a></li>
+		  <li><a href="#project">{{ 'backend.project_infos'|trans() }}</a></li>
+		  <li><a href="#mangopay">{{ 'backend.mangopay_infos'|trans() }}</a></li>
+		</ul>
+				
+   	<div class="tab-content">
+  		<div class="tab-pane active" id="related">
+  				<div class="clearfix">&nbsp;</div>
+			    <p>{{ 'backend.associated_brand'|trans() }} : <a
+			                href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}"><strong>{{ entity.brand }}</strong></a>
+			    </p>
+			    <p>{{ 'backend.associated_category'|trans() }} : <a
+			                href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}"><strong>{{ entity.category }}</strong></a>
+			    </p>
+			    <p>{{ 'backend.creator'|trans() }} : <a
+			                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
+			    </p>
+			    <p>{{ 'backend.status'|trans() }} :
+			        {% if entity.status == '1' %}
+			            <span class="label label-primary">{{ 'backend.engagement_phase'|trans() }}</span>
+			        {% else %}
+			            <span class="label label-success">{{ 'backend.funding_phase'|trans() }}</span>
+			        {% endif %}
+			        {% if entity.statusUpdatedAt %} {{ 'backend.updated_at'|trans() }} : {{ entity.statusUpdatedAt|date('d/m/Y H:i:s') }}{% endif %}
+			    </p>
+			    <p>{{ 'backend.ending_at'|trans() }} : <strong>{{ entity.endingAt|date('d/m/Y H:i:s') }}</strong></p>
+			
+			    {% if entity.endedAt %}
+			        <div class="alert alert-info">
+			            <p>{{ 'backend.project_ended_on'|trans() }} <strong>{{ entity.endedAt|date('d/m/Y H:i:s') }}</strong>
+			            </p>
+			        </div>
+			    {% endif %}
+			
+			    {% if entity.deletedAt %}
+			        <div class="alert alert-danger">
+			            <p>{{ 'backend.project_deleted_on'|trans() }} <strong>{{ entity.deletedAt|date('d/m/Y H:i:s') }}</strong>
+			            </p>
+			        </div>
+			    {% endif %}
+			</div>
+			
+			<div class="tab-pane" id="region">
+  				<div class="clearfix">&nbsp;</div>
+					<p>{{ 'backend.location'|trans() }} : <strong>{{ entity.location }}</strong></p>
+    			<p>{{ 'backend.language'|trans() }} : <strong>{{ entity.language }}</strong></p>
+			</div>
+			
+			<div class="tab-pane" id="description">
+  				<div class="clearfix">&nbsp;</div>
+  				{{ entity.description|raw() }}
+  		</div>
+  		
+  		<div class="tab-pane" id="project">
+  				<div class="clearfix">&nbsp;</div>
+  				<p>
+			        {{ 'backend.amount_to_raise'|trans() }} : <strong>{{ entity.amountCount }}
+			            / {{ entity.amountRequired }}</strong><br/>
+			    <div class="progress progress-striped active">
+			        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.amountCount }}" aria-valuemin="0"
+			             aria-valuemax="{{ entity.amountRequired }}"
+			             style="width:{% if entity.amountCount == 0 %}0{% else %}{{ (entity.amountCount/entity.amountRequired) * 100 }}{% endif %}%">
+			            <span class="sr-only">{% if entity.amountCount == 0 %}0{% else %}{{ ((entity.amountCount/entity.amountRequired) * 100)|number_format(1, '.', ',') }}{% endif %} {{ 'backend.percent_completed'|trans() }}</span>
+			        </div>
+			    </div>
+			    </p>
+			    <p>
+			        {{ 'backend.likes_to_get'|trans() }} : <strong>{{ entity.likesCount }}
+			            / {{ entity.likesRequired }}</strong><br/>
+			    <div class="progress progress-striped active">
+			        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.likesCount }}" aria-valuemin="0"
+			             aria-valuemax="{{ entity.likesRequired }}"
+			             style="width:{% if entity.likesCount == 0 %}0{% elseif (entity.likesCount/entity.likesRequired) * 100 > 100 %}100{% else %}{{ ((entity.likesCount/entity.likesRequired) * 100)|number_format(1, '.', ',') }}{% endif %}%">
+			            <span class="sr-only">{% if entity.likesCount == 0 %}0{% elseif (entity.likesCount/entity.likesRequired) * 100 > 100 %}100{% else %}{{ ((entity.likesCount/entity.likesRequired) * 100)|number_format(1, '.', ',') }}{% endif %} {{ 'backend.percent_completed'|trans() }}</span>
+			        </div>
+			    </div>
+			    </p>
+			</div>
+  		
+  		<div class="tab-pane" id="mangopay">
+  				<div class="clearfix">&nbsp;</div>
+  				<p>{{ 'backend.mangopay_walled_id'|trans() }} : <strong>{{ entity.mangopayWalletId }}</strong></p>
+			    <p>{{ 'backend.mangopay_user_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
+			    </p>
+			    <p>{{ 'backend.mangopay_user_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
+			    </p>
+			</div>
+		</div>
 
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_projects') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_projects_edit', { 'id': entity.id }) }}">
-            {{ 'Edit this project'|trans() }}
+            {{ 'backend.edit'|trans() }}
         </a>
     </p>
+{% endblock %}
+
+{% block footer_javascripts %}
+		{{ parent() }}
+		<script type="text/javascript">
+				$(document).ready(function(){
+						$('#tabs a').click(function (e) {
+						  e.preventDefault()
+						  $(this).tab('show')
+						});
+				});
+		</script>
 {% endblock %}

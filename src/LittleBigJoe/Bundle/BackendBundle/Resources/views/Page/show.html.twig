@@ -1,44 +1,62 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Page'|trans() }} {{ entity.title }} | {{ parent() }}
+    {{ 'backend.page'|trans() }} {{ entity.title }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-search"></span> {{ 'Page'|trans() }} <span
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.page'|trans() }} <span
                     class="text-primary">{{ entity.title }}</span></h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find some informations regarding the page :'|trans() }}</p>
+    <p class="lead">{{ 'backend.page_infos'|trans() }}</p>
 
     <div class="page-header">
         <h3>{{ entity.title }}</h3>
     </div>
     {% if entity.isVisible %}
-        <span class="label label-success">{{ 'Visible'|trans() }}</span>
+        <span class="label label-success">{{ 'backend.visible'|trans() }}</span>
     {% else %}
-        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
+        <span class="label label-default">{{ 'backend.invisible'|trans() }}</span>
     {% endif %}
     <div class="clearfix">&nbsp;</div>
     {{ entity.content|raw }}
 
-    <div class="page-header">
-        <h3>{{ 'META infos'|trans() }}</h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">{{ 'META Title'|trans() }}
-            : {% if entity.metaTitle %}{{ entity.metaTitle }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
-        <li class="list-group-item">{{ 'META Description'|trans() }}
-            : {% if entity.metaDescription %}{{ entity.metaDescription }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
-    </ul>
+		<div class="clearfix">&nbsp;</div>
 
+		<ul class="nav nav-tabs" id="tabs">
+		  <li class="active"><a href="#meta">{{ 'backend.meta_infos'|trans() }}</a></li>
+		</ul>
+				
+   	<div class="tab-content">
+  		<div class="tab-pane active" id="meta">
+		    <div class="clearfix">&nbsp;</div>
+		    <p>{{ 'backend.meta_title'|trans() }} : {% if entity.metaTitle %}{{ entity.metaTitle }}{% else %}{{ 'backend.na'|trans() }}{% endif %}</p>
+		    <p>
+					{{ 'backend.meta_description'|trans() }} : {% if entity.metaDescription %}{{ entity.metaDescription }}{% else %}{{ 'backend.na'|trans() }}{% endif %}</li>
+		    </p>		
+			</div>
+		</div>
+		
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_pages') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_pages_edit', { 'id': entity.id }) }}">
-            {{ 'Edit this page'|trans() }}
+            {{ 'backend.edit'|trans() }}
         </a>
     </p>
+{% endblock %}
+
+{% block footer_javascripts %}
+		{{ parent() }}
+		<script type="text/javascript">
+				$(document).ready(function(){
+						$('#tabs a').click(function (e) {
+						  e.preventDefault()
+						  $(this).tab('show')
+						});
+				});
+		</script>
 {% endblock %}

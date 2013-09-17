@@ -1,14 +1,14 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Brands list'|trans() }} | {{ parent() }}
+    {{ 'backend.brands_list'|trans() }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-list"></span> {{ 'Brands list'|trans() }}</h1>
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.brands_list'|trans() }}</h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find brands that have been created :'|trans() }}</p>
+    <p class="lead">{{ 'backend.brands_list_resume'|trans() }}</p>
 
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
@@ -17,13 +17,13 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>{{ knp_pagination_sortable(pagination, 'ID'|trans(), 'b.id') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Name'|trans(), 'b.name') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Slug'|trans(), 'b.slug') }}</th>
-            <th>{{ 'Related projects'|trans() }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Contact name'|trans(), 'b.contactName') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Contact email'|trans(), 'b.contactEmail') }}</th>
-            <th>{{ 'Actions'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.ID'|trans(), 'b.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'b.name') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.slug'|trans(), 'b.slug') }}</th>
+            <th>{{ 'backend.related_projects'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.contact_name'|trans(), 'b.contactName') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.contact_email'|trans(), 'b.contactEmail') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -39,9 +39,9 @@
                 <td><a href="mailto:{{ entity.contactEmail }}">{{ entity.contactEmail }}</a></td>
                 <td>
                     <a class="btn btn-primary btn-xs"
-                       href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.id }) }}">{{ 'Show'|trans() }}</a>
+                       href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
                     <a class="btn btn-default btn-xs"
-                       href="{{ path('littlebigjoe_backendbundle_brands_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans() }}</a>
+                       href="{{ path('littlebigjoe_backendbundle_brands_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
                 </td>
             </tr>
         {% endfor %}
@@ -54,7 +54,7 @@
 
     <p>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_brands_new') }}">
-            {{ 'Create a new brand'|trans() }}
+            {{ 'backend.create_brand'|trans() }}
         </a>
     </p>
 {% endblock %}

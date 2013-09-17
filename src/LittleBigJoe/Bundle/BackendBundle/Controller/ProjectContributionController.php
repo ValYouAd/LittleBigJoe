@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\ProjectContribution;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectContribution;
 use LittleBigJoe\Bundle\BackendBundle\Form\ProjectContributionType;
 
 /**
@@ -29,7 +29,7 @@ class ProjectContributionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT pc FROM LittleBigJoeFrontendBundle:ProjectContribution pc";
+        $dql = "SELECT pc FROM LittleBigJoeCoreBundle:ProjectContribution pc";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -49,7 +49,7 @@ class ProjectContributionController extends Controller
      *
      * @Route("/", name="littlebigjoe_backendbundle_contributions_create")
      * @Method("POST")
-     * @Template("LittleBigJoeFrontendBundle:ProjectContribution:new.html.twig")
+     * @Template("LittleBigJoeCoreBundle:ProjectContribution:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -119,7 +119,7 @@ class ProjectContributionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ProjectContribution entity.');
@@ -144,7 +144,7 @@ class ProjectContributionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ProjectContribution entity.');
@@ -184,13 +184,13 @@ class ProjectContributionController extends Controller
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_contributions_update")
      * @Method("PUT")
-     * @Template("LittleBigJoeFrontendBundle:ProjectContribution:edit.html.twig")
+     * @Template("LittleBigJoeCoreBundle:ProjectContribution:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ProjectContribution entity.');
@@ -226,7 +226,7 @@ class ProjectContributionController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find ProjectContribution entity.');

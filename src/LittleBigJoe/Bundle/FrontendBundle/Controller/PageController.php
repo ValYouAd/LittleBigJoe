@@ -18,7 +18,7 @@ class PageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Page')->findBySlugI18n($slug);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Page')->findBySlugI18n($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Page entity.');

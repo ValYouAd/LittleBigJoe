@@ -1,21 +1,21 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'New FAQ'|trans() }} | {{ parent() }}
+    {{ 'backend.new_faq'|trans() }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="faq-header">
-        <h1><span class="glyphicon glyphicon-plus"></span> {{ 'New FAQ'|trans() }}</h1>
+        <h1><span class="glyphicon glyphicon-plus"></span> {{ 'backend.new_faq'|trans() }}</h1>
     </div>
-    <p class="lead">{{ 'Please fill these fields, to create a new FAQ :'|trans() }}</p>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
 
     {{ form(form, {attr:{role:'form' }}) }}
 
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_faqs') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
     </p>
 {% endblock %}

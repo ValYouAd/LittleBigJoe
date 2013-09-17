@@ -2,28 +2,28 @@
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-home"></span> {{ 'Home'|trans() }}</h1>
+        <h1><span class="glyphicon glyphicon-home"></span> {{ 'backend.home'|trans() }}</h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find some stats regarding Little Big Joe activity :'|trans() }}</p>
+    <p class="lead">{{ 'backend.lbj_activity'|trans() }}</p>
 
     <div class="row">
         <div class="col-sm-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ 'Pages'|trans() }} ({{ nbPages }})</h3>
+                    <h3 class="panel-title">{{ 'backend.pages'|trans() }} ({{ nbPages }})</h3>
                 </div>
                 <div class="panel-body">
-                    <p><strong>{{ nbPagesVisible }}</strong> {{ 'visible page(s)'|trans() }}</p>
+                    <p><strong>{{ nbPagesVisible }}</strong> {{ 'backend.visible_pages'|trans() }}</p>
 
-                    <p><strong>{{ nbPagesNotVisible }}</strong> {{ 'invisible page(s)'|trans() }}</p>
+                    <p><strong>{{ nbPagesNotVisible }}</strong> {{ 'backend.invisible_pages'|trans() }}</p>
                 </div>
             </div>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ 'Users'|trans() }} ({{ nbUsers }})</h3>
+                    <h3 class="panel-title">{{ 'backend.users'|trans() }} ({{ nbUsers }})</h3>
                 </div>
                 <div class="panel-body">
-                    <p><strong>{{ nbUsers }}</strong> {{ 'created user(s) on the website'|trans() }}</p>
+                    <p><strong>{{ nbUsers }}</strong> {{ 'backend.created_users'|trans() }}</p>
                 </div>
             </div>
         </div>
@@ -31,29 +31,29 @@
         <div class="col-sm-4">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ 'Projects'|trans() }} ({{ nbProjects }})</h3>
+                    <h3 class="panel-title">{{ 'backend.projects'|trans() }} ({{ nbProjects }})</h3>
                 </div>
                 <div class="panel-body">
-                    <p><strong>{{ nbNotDeletedProjects }}</strong> {{ 'active project(s)'|trans() }}</p>
+                    <p><strong>{{ nbNotDeletedProjects }}</strong> {{ 'backend.active_projects'|trans() }}</p>
 
-                    <p><strong>{{ nbDeletedProjects }}</strong> {{ 'deleted project(s)'|trans() }}</p>
+                    <p><strong>{{ nbDeletedProjects }}</strong> {{ 'backend.deleted_projects'|trans() }}</p>
 
                     <p>
-                        <strong>{{ nbEngagementProjects }}</strong> {{ 'project(s) that are in "engagement phase"'|trans() }}
+                        <strong>{{ nbEngagementProjects }}</strong> {{ 'backend.engagement_phase_projects'|trans() }}
                     </p>
 
-                    <p><strong>{{ nbFundingProjects }}</strong> {{ 'project(s) that are in "funding phase"'|trans() }}
+                    <p><strong>{{ nbFundingProjects }}</strong> {{ 'backend.funding_phase_projects'|trans() }}
                     </p>
                 </div>
             </div>
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ 'Categories'|trans() }} ({{ nbCategories }})</h3>
+                    <h3 class="panel-title">{{ 'backend.categories'|trans() }} ({{ nbCategories }})</h3>
                 </div>
                 <div class="panel-body">
-                    <p><strong>{{ nbCategoriesVisible }}</strong> {{ 'visible categories'|trans() }}</p>
+                    <p><strong>{{ nbCategoriesVisible }}</strong> {{ 'backend.visible_categories'|trans() }}</p>
 
-                    <p><strong>{{ nbCategoriesNotVisible }}</strong> {{ 'invisible categories'|trans() }}</p>
+                    <p><strong>{{ nbCategoriesNotVisible }}</strong> {{ 'backend.invisible_categories'|trans() }}</p>
                 </div>
             </div>
         </div>
@@ -61,23 +61,23 @@
         <div class="col-sm-4">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ 'Brands'|trans() }} ({{ nbBrands }})</h3>
+                    <h3 class="panel-title">{{ 'backend.brands'|trans() }} ({{ nbBrands }})</h3>
                 </div>
                 <div class="panel-body">
-                    <p><strong>{{ nbBrands }}</strong> {{ 'created brand(s) on the website'|trans() }}</p>
+                    <p><strong>{{ nbBrands }}</strong> {{ 'backend.created_brands'|trans() }}</p>
                 </div>
             </div>
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ 'Contributions'|trans() }} ({{ nbContributions }})</h3>
+                    <h3 class="panel-title">{{ 'backend.contributions'|trans() }} ({{ nbContributions }})</h3>
                 </div>
                 <div class="panel-body">
                     <p>
-                        <strong>{{ nbSucceededContributions }}</strong> {{ 'contribution(s) that have been successful'|trans() }}
+                        <strong>{{ nbSucceededContributions }}</strong> {{ 'backend.successful_contributions'|trans() }}
                     </p>
 
                     <p>
-                        <strong>{{ nbCompletedContributions }}</strong> {{ 'contribution(s) that have been completed'|trans() }}
+                        <strong>{{ nbCompletedContributions }}</strong> {{ 'backend.completed_contributions'|trans() }}
                     </p>
                 </div>
             </div>

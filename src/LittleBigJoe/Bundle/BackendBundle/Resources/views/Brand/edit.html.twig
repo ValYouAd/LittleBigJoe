@@ -1,28 +1,28 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Edit brand'|trans() }} {{ entity.name }} | {{ parent() }}
+    {{ 'backend.edit_brand'|trans() }} {{ entity.name }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'Edit brand'|trans() }} {{ entity.name }}</h1>
+        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'backend.edit_brand'|trans() }} {{ entity.name }}</h1>
     </div>
-    <p class="lead">{{ 'Please fill these fields, to edit the brand :'|trans() }}</p>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
 
     {{ form(edit_form, {attr:{role:'form' }}) }}
 
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_brands') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
     </p>
 
     <div class="clearfix">&nbsp;</div>
     <fieldset>
-        <legend>{{ 'Delete this brand'|trans() }}</legend>
-        <p>{{ 'By clicking on the button below, you\'ll delete the brand'|trans() }}</p>
+        <legend>{{ 'backend.delete_brand'|trans() }}</legend>
+        <p>{{ 'backend.delete_confirmation_brand'|trans() }}</p>
 
         {{ form(delete_form, {attr:{role:'form' }}) }}
     </fieldset>

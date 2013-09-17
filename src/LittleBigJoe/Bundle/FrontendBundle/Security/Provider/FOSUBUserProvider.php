@@ -4,7 +4,7 @@ namespace LittleBigJoe\Bundle\FrontendBundle\Security\Provider;
 
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseClass;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\User;
+use LittleBigJoe\Bundle\CoreBundle\Entity\User;
 
 class FOSUBUserProvider extends BaseClass
 {

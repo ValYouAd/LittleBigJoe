@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\Project;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
 use LittleBigJoe\Bundle\BackendBundle\Form\ProjectType;
 
 /**
@@ -29,7 +29,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT p FROM LittleBigJoeFrontendBundle:Project p";
+        $dql = "SELECT p FROM LittleBigJoeCoreBundle:Project p";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -49,7 +49,7 @@ class ProjectController extends Controller
      *
      * @Route("/", name="littlebigjoe_backendbundle_projects_create")
      * @Method("POST")
-     * @Template("LittleBigJoeFrontendBundle:Project:new.html.twig")
+     * @Template("LittleBigJoeBackendBundle:Project:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -127,7 +127,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -137,7 +137,6 @@ class ProjectController extends Controller
 
         return array(
             'entity' => $entity,
-            'current_date' => new \Datetime(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -153,7 +152,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -193,13 +192,13 @@ class ProjectController extends Controller
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_projects_update")
      * @Method("PUT")
-     * @Template("LittleBigJoeFrontendBundle:Project:edit.html.twig")
+     * @Template("LittleBigJoeBackendBundle:Project:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -242,7 +241,7 @@ class ProjectController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Project entity.');

@@ -18,13 +18,13 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Category')->findBySlugI18n($slug);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Category')->findBySlugI18n($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findBy(array('category' => $entity->getId(), 'deletedAt' => null), array('id' => 'DESC'));
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBy(array('category' => $entity->getId(), 'deletedAt' => null), array('id' => 'DESC'));
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
