@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<!-- If you delete this meta tag, Half Life 3 will never be released. -->
+	<meta name="viewport" content="width=device-width" />
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>{{ 'Welcome to Little Big Joe website'|trans() }}</title>
+</head> 
+<body bgcolor="#FFFFFF">
+	<p>{{ 'Hello'|trans() }} <strong>{{ user }}</strong> !</p>	
+	<p>{{ 'We are pleased to announce you that your project has reached the "funding phase"'|trans() }}</p>	
+	<p>{{ 'What a great news !'|trans() }}</p>
+	
+	<p>{{ 'You can access to your project at :'|trans() }}<a href="{{ path('littlebigjoe_frontendbundle_project_show', {slug: project.slug}) }}">{{ project.name }}</a>
+	
+	<p>{{ 'We hope to see you soon in'|trans() }} <a href="http://www.littlebigjoe.com">www.littlebigjoe.com</a></p>
+</body>
+</html>

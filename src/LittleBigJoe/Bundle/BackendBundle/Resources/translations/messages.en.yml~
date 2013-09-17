@@ -1,0 +1,160 @@
+backend.edit_category: 'Edition de la catégorie'
+backend.fill_fields: 'Veuillez remplir les champs suivants :'
+backend.back_to_list: 'Retourner à la liste'
+backend.delete_category: 'Suppression de la catégorie'
+backend.delete_confirmation_category: 'En supprimant cette catégorie, vous supprimerez tous les projets associés, et vous ne pourrez plus la récupérer'
+backend.category: Catégorie
+backend.category_infos: 'Infos de la catégorie'
+backend.visible: Visible
+backend.invisible: Invisible
+backend.activity_infos: 'Infos sur l''activité'
+backend.related_projects: 'Projets liés'
+backend.meta_infos: 'Infos META'
+backend.meta_title: 'META Title'
+backend.na: N/A
+backend.meta_description: 'META Description'
+backend.edit: Editer
+backend.new_category: 'Nouvelle catégorie'
+backend.categories_list: 'Liste des catégories'
+backend.categories_list_resume: 'Ci-dessous, une liste de toutes les catégories créées sur le site :'
+backend.ID: ID
+backend.name: Nom
+backend.slug: 'URL raccourcie'
+backend.is_visible: 'Est visible ?'
+backend.actions: Actions
+backend.show: Afficher
+backend.create_category: 'Création d''une catégorie'
+backend.edit_user: 'Edition de l''utilisateur'
+backend.delete_user: 'Suppression de l''utilisateur'
+backend.delete_confirmation_user: 'En supprimant cet utilisateur, vous supprimerez toute son activité, et vous ne pourrez plus le récupérer'
+backend.user: Utilisateur
+backend.user_resume: 'Ci-dessous, les informations détaillées de l''utilisateur'
+backend.social_infos: 'Infos sociales'
+backend.facebook_url: 'URL Facebook'
+backend.twitter_url: 'URL Twitter'
+backend.googleplus_url: 'URL Google +'
+backend.website_url: 'URL du site web'
+backend.regional_infos: 'Infos régionales'
+backend.nationality: Nationalité
+backend.default_language: 'Langue par défaut'
+backend.likes: Likes
+backend.contributions: Contributions
+backend.mangopay_infos: 'Infos Mangopay'
+backend.mangopay_user_id: 'ID Utilisateur Mangopay'
+backend.mangopay_user_created_at: 'Utilisateur Mangopay créé le'
+backend.mangopay_user_updated_at: 'Utilisateur Mangopay mis à jour le'
+backend.new_user: 'Nouvel utilisateur'
+backend.users_list: 'Liste des utilisateurs'
+backend.users_list_resume: 'Ci-dessous, une liste de toutes les utilisateurs créés sur le site :'
+backend.id: ID
+backend.city: Ville
+backend.country: Pays
+backend.create_user: 'Création d''un utilisateur'
+backend.edit_page: 'Edition de la page'
+backend.delete_page: 'Suppression de la page'
+backend.delete_confirmation_page: 'En supprimant cette page, vous ne pourrez plus la récupérer'
+backend.page: Page
+backend.page_infos: 'Infos de la page'
+backend.new_page: 'Nouvelle page'
+backend.pages_list: 'Liste des pages'
+backend.pages_list_resume: 'Ci-dessous, une liste de toutes les pags créées sur le site :'
+backend.title: Titre
+backend.create_page: 'Création d''une page'
+backend.edit_brand: 'Edition de la marque'
+backend.delete_brand: 'Suppression de la marque'
+backend.delete_confirmation_brand: 'En supprimant cette marque, vous supprimerez tous les projets associés, et vous ne pourrez plus la récupérer'
+backend.brand: Marque
+backend.brand_infos: 'Infos de la marque'
+backend.contact_infos: 'Infos du contact'
+backend.new_brand: 'Nouvelle marque'
+backend.brands_list: 'Liste des marques'
+backend.brands_list_resume: 'Ci-dessous, une liste de toutes les marques créées sur le site :'
+backend.contact_name: 'Nom du contact'
+backend.contact_email: 'Email du contact'
+backend.create_brand: 'Création d''une marque'
+backend.edit_faq: 'Edition de la FAQ'
+backend.delete_faq: 'Suppression de la FAQ'
+backend.delete_confirmation_faq: 'En supprimant cette FAQ, vous ne pourrez plus la récupérer'
+backend.faq: FAQ
+backend.faq_infos: 'Ci-dessous, les informations détaillées de la FAQ'
+backend.new_faq: 'Nouvelle FAQ'
+backend.faqs_list: 'Liste des FAQs'
+backend.faqs_list_resume: 'Ci-dessous, une liste de toutes les FAQs sur le site :'
+backend.question: Question
+backend.answer: Réponse
+backend.create_faq: 'Création d''une FAQ'
+backend.home: Accueil
+backend.lbj_activity: 'Activité du site'
+backend.pages: Pages
+backend.visible_pages: 'pages visibles'
+backend.invisible_pages: 'pages invisibles'
+backend.users: Utilisateurs
+backend.created_users: 'utilisateurs créés'
+backend.projects: Projets
+backend.active_projects: 'projets actifs'
+backend.deleted_projects: 'projets supprimés'
+backend.engagement_phase_projects: 'projets en "phase d''engagement"'
+backend.funding_phase_projects: 'projets en "phase de financement"'
+backend.categories: Catégories
+backend.visible_categories: 'catégories visibles'
+backend.invisible_categories: 'catégories invisibles'
+backend.brands: Marques
+backend.created_brands: 'marques créées'
+backend.successful_contributions: 'contributions réussies'
+backend.completed_contributions: 'contributions complétées'
+backend.edit_project_contribution: 'Edition de la contribution'
+backend.delete_project: 'Suppression du projet'
+backend.delete_confirmation_project: 'En supprimant ce projet, vous supprimerez tous les éléments en relation avec celui ci'
+backend.contribution: Contribution
+backend.contribution_resume: 'Ci-dessous, les informations détaillées de la contribution'
+backend.related_infos: 'Infos en relation'
+backend.associated_project: 'Projet associé'
+backend.associated_user: 'Utilisateur associé'
+backend.associated_reward: 'Récompense associée'
+backend.mangopay_contribution_id: 'ID Contribution Mangopay'
+backend.mangopay_amount: 'Montant Mangopay'
+backend.succeeded_payment: 'Paiement réussi'
+backend.yes: Oui
+backend.no: Non
+backend.completed_payment: 'Paiement complété'
+backend.mangopay_error: 'Erreur Mangopay'
+backend.mangopay_answer_code: 'Code réponse Mangopay'
+backend.new_contribution: 'Nouvelle contribution'
+backend.contributions_list: 'Liste des contributions'
+backend.contributions_list_resume: 'Ci-dessous, une liste de toutes les contributions sur le site :'
+backend.project: Projet
+backend.creator: Créateur
+backend.reward: Récompense
+backend.success: Succès
+backend.failure: Echec
+backend.completed: Complété(e)
+backend.not_completed: 'Non complété(e)'
+backend.create_contribution: 'Création d''une contribution'
+backend.edit_project: 'Edition du projet'
+backend.project_infos: 'Infos du projet'
+backend.associated_brand: 'Marque associée'
+backend.associated_category: 'Catégorie associée'
+backend.status: Status
+backend.engagement_phase: 'Phase d''engagement'
+backend.funding_phase: 'Phase de financement'
+backend.updated_at: 'Mis à jour le'
+backend.ending_at: 'Termine le'
+backend.project_ended_on: 'Projet terminé le :'
+backend.project_deleted_on: 'Projet supprimé le :'
+backend.location: Localisation
+backend.language: Langue
+backend.description: Description
+backend.amount_to_raise: 'Montant à lever'
+backend.percent_completed: '% complétés'
+backend.likes_to_get: 'Likes à obtenir'
+backend.mangopay_walled_id: 'ID Wallet Mangopay'
+backend.new_project: 'Nouveau projet'
+backend.projects_list: 'Liste des projets'
+backend.projects_list_resume: 'Ci-dessous, une liste de tous les projets créés sur le site :'
+backend.amount: Montant
+backend.is_deleted: 'Est supprimé(e) ?'
+backend.deleted: Supprimé(e)
+backend.not_deleted: 'Non supprimé(e)'
+backend.create_project: 'Création d''un projet'
+backend.content: 'Contenu'
+backend.visibility: 'Visibilité'
