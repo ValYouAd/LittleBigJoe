@@ -35,7 +35,7 @@
     				<strong>{{ entity.contributions|length }} {{ 'participants'|trans() }}</strong><br />
     				<strong>{{ entity.endingAt|time_remaining }}</strong>
     		</p>		
-    		{{ form(form, {attr:{role:'form' }}) }}
+    		{{ form(funding_form, {attr:{role:'form' }}) }}
 		{% endif %}
 		
 		<hr class="clearfix" />
@@ -138,14 +138,33 @@
         <div id="news" class="tab-pane">
         		<div class="clearfix">&nbsp;</div>
           	<p class="lead">{{ 'Here\'s the list of news related to'|trans() }} {{ entity }} {{ 'project'|trans() }}</p>
+          	
+          	{% if is_granted('ROLE_USER') and app.user.id == entity.user.id %}
+          	<div style="padding:20px;border:1px dotted black">
+          		<h4>{{ 'Add new entry'|trans() }}</h4>
+          		{{ form(entry_form, {attr:{role:'form' }}) }}
+          	</div>
+          	{% endif %}
+          	
           	{% if entity.entries %}
+          			{% set users_ids = [] %}
+          			{% if entity.contributions %}
+          					{% for contribution in entity.contributions %}
+          							{% if contribution.user.id not in users_ids %}
+          									{% set users_ids = users_ids|merge([contribution.user.id]) %}
+          							{% endif %}
+          					{% endfor %}
+          			{% endif %}
+          			
           			<ul>
-          			{% for entry in entity.entries %}
+          			{% for entry in entity.entries|reverse %}
+          					{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in users_ids) %}
           					<li>
-          							<strong>{{ entry }}</strong><br />
+          							<strong>{{ entry }} {% if entry.isPublic %}{{ '(Public)'|trans() }}{% else %}{{ '(Private)'|trans() }}{% endif %}</strong><br />
           							<small>{{ 'On'|trans() }} {{ entry.createdAt|date('d/m/Y h:i') }}</small><br />
-          							<p>{{ entry.content }}</p>
+          							<p>{{ entry.content|raw }}</p>
           					</li>
+          					{% endif %}
           			{% endfor %}
           			</ul>
           	{% else %}
@@ -156,9 +175,13 @@
         		<div class="clearfix">&nbsp;</div>
           	<p class="lead">{{ 'Here\'s the list of persons that have funded'|trans() }} {{ entity }} {{ 'project'|trans() }}</p>
           	{% if entity.contributions %}
+          			{% set users_ids = [] %}
           			<ul>
           			{% for contribution in entity.contributions %}
-          					<li><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a></li>
+          					{% if contribution.user.id not in users_ids %}
+          							{% set users_ids = users_ids|merge([contribution.user.id]) %}
+          							<li><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a></li>
+          					{% endif %}
           			{% endfor %}
           			</ul>
           	{% else %}

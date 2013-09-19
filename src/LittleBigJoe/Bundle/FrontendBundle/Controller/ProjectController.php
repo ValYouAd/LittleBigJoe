@@ -6,9 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
+use LittleBigJoe\Bundle\FrontendBundle\Form\EntryType;
 
 class ProjectController extends Controller
 {
@@ -392,7 +395,7 @@ class ProjectController extends Controller
      * @Route("/project/{slug}", name="littlebigjoe_frontendbundle_project_show")
      * @Template()
      */
-    public function showAction($slug)
+    public function showAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -402,7 +405,20 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
         
-        $form = $this->createFormBuilder()
+        // Create the entry form
+        $entry = new Entry();
+        $entry->setProject($entity);        
+        $entryForm = $this->createForm(new EntryType(), $entry);
+        $entryForm->handleRequest($request);
+        
+        if ($entryForm->isValid()) 
+        {
+	        	$em->persist($entry);	        
+	        	$em->flush();
+	      }
+                        
+        // Create the funding form
+        $fundingForm = $this->createFormBuilder()
 						        ->setAction($this->generateUrl('littlebigjoe_frontendbundle_payment_project'))
 						        ->setMethod('POST')
 						        ->add('projectId', 'hidden', array(
@@ -418,7 +434,8 @@ class ProjectController extends Controller
         
         return array(
             'entity' => $entity,
-        		'form' => $form->createView(),
+        		'entry_form' => $entryForm->createView(),
+        		'funding_form' => $fundingForm->createView(),
             'current_date' => new \Datetime()
         );
     }

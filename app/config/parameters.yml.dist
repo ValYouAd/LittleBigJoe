@@ -17,6 +17,10 @@ parameters:
     default_email_address: contact@littlebigjoe.com
     nb_elements_by_page: 20
     howdoesitwork_page_id: ~ # Must be the ID of the "How does this website work" (use in Top menu)
+    allowed_mime_types: ['application/pdf', 'application/xml', 'application/zip', 'text/csv', 'text/plain', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.oasis.opendocument.text'] # MIME types that will be authorized (for file upload in "Launch my project" section")
+    max_file_size: 20971520 # Size in bytes : 20Mo
+    allowed_audio_mime_types: ['audio/mpeg', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav'] # MIME types that will be authorized (for audio file upload in "Launch my project" section")
+    max_audio_file_size: 20971520 # Size in bytes : 20Mo
     
     # FOSFacebookBundle Configuration
     api_facebook_id: '327514850725218'

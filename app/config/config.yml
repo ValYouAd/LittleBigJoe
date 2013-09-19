@@ -181,7 +181,7 @@ services:
 trsteel_ckeditor:
     class: Trsteel\CkeditorBundle\Form\Type\CkeditorType
     transformers: ['strip_js', 'strip_css', 'strip_comments']
-    toolbar: ['document', 'clipboard', 'editing', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools']
+    toolbar: ['clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools']
     toolbar_groups:
         document: []
         clipboard: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo']
@@ -201,8 +201,6 @@ trsteel_ckeditor:
     external_plugins:
         oembed:
             path: js/ckeditor/plugins/oembed
-    #filebrowser_upload_url:
-    #    route: littlebigjoe_frontendbundle_project_upload_file
     filebrowser_image_browse_url:
         route: elfinder
 

@@ -37,7 +37,7 @@ class ProjectReward
      *    groups = {"Default", "flow_createProject_step4"}
      * )
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 -]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 -\$\€]*$/",
      *    message = "Your reward title must only contains letters, spaces, or dashes", 
      *    groups = {"Default", "flow_createProject_step4"}
      * )

@@ -49,10 +49,6 @@ class Entry
      * @ORM\Column(name="content", type="text")
      *
      * @Assert\NotBlank(message = "You must enter your entry content")
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!]*$/",
-     *    message = "Your entry content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes"
-     * )
      */
     private $content;
 
@@ -159,7 +155,7 @@ class Entry
      */
     public function getContent()
     {
-        return $this->content;
+        return html_entity_decode($this->content);
     }
 
     /**

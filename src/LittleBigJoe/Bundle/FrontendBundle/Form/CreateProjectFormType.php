@@ -15,8 +15,6 @@ class CreateProjectFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    		//var_dump($options['data']);
-    	
     		switch ($options['flow_step']) 
     		{
     				// Step 1 : Create my project
