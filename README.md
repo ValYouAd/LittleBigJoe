@@ -4,6 +4,7 @@ This project contains all necessary files used by the LittleBigJoe project.
 
 ## Prerequisites
 This version uses Symfony 2.3+, PHP 5.4.
+You need to install open_ssl for PHP on your server.
 
 ## Installation
 Installation is a quick (I promise!) 7 step process:
