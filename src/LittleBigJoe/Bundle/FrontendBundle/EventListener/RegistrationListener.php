@@ -36,7 +36,8 @@ class RegistrationListener implements EventSubscriberInterface
         $userManager = $this->container->get('fos_user.user_manager');
 
         // Upload user photo
-        if ($user->getPhoto() != null) {
+        if ($user->getPhoto() != null) 
+        {
             $evm = $em->getEventManager();
             $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
             $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
@@ -47,6 +48,28 @@ class RegistrationListener implements EventSubscriberInterface
         $plainPassword = $user->getPlainPassword();
         
         $userManager->updateUser($user);
+        
+        // Create user in MangoPay
+        $api = $this->container->get('little_big_joe_mango_pay.api');
+        $mangopayUser = $api->createUser($user->getEmail(), $user->getFirstname(), $user->getLastname(), $user->getIpAddress(), $user->getBirthday()->getTimestamp(), $user->getNationality(), $user->getPersonType(), $user->getId());
+       	if (!empty($mangopayUser))
+       	{
+       			if (!empty($mangopayUser->ID))
+       			{
+       					$user->setMangopayUserId($mangopayUser->ID);
+       			}
+       			if (!empty($mangopayUser->CreationDate))
+       			{
+       					$user->setMangopayCreatedAt(new \DateTime('@'.$mangopayUser->CreationDate));
+       					$user->setMangopayUpdatedAt(new \DateTime('@'.$mangopayUser->CreationDate));
+       			}
+       			if (!empty($mangopayUser->UpdateDate))
+       			{
+       					$user->setMangopayUpdatedAt(new \DateTime('@'.$mangopayUser->UpdateDate));
+       			}
+						$em->persist($user);
+						$em->flush();  			
+       	}
         
         // Send welcome email
         $email = \Swift_Message::newInstance()
@@ -60,9 +83,10 @@ class RegistrationListener implements EventSubscriberInterface
         		), 'text/html')
         );
         $this->container->get('mailer')->send($email);
-
+        
 				// Redirect user to confirmation page
-        if (null === $response = $event->getResponse()) {
+        if (null === $response = $event->getResponse()) 
+        {
             $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
             return new RedirectResponse($url);
         }

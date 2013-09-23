@@ -37,7 +37,19 @@ class PageType extends AbstractType
                     'content' => array(
                         'type' => 'ckeditor',
                         'label' => 'backend.content',
-                    		'required' => false
+                    		'required' => false,
+                    		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),
+                    		'toolbar_groups' => array(
+                    				'document' => array('Source'),
+                    				'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
+                    				'editing' => array(),
+                    				'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
+                    				'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
+                    				'links' => array('Link','oembed', 'Unlink','Anchor'),
+                    				'insert' => array('Image','Table'),
+                    				'styles' => array('Styles','Format'),
+                    				'tools' => array('Maximize')
+                    		)
                     )
                 )
             ))

@@ -11,10 +11,10 @@
         <strong>{{ 'N/A'|trans() }}</strong>
     {% endif %}
 
-    <p><strong>{{ currentProjectsCount }} {{ 'current projects'|trans() }}</strong></p>
-    <p><strong>{{ likesCount }} {{ 'likes in total'|trans() }}</strong></p>
-    <p><strong>{{ endedProjectsCount }} {{ 'ended projects'|trans() }}</strong></p>
-    <p><strong>{{ amountCount }} {{ '€ raised in total'|trans() }}</strong></p>
+    <p><strong>{{ currentProjectsCount|default('0') }} {{ 'current projects'|trans() }}</strong></p>
+    <p><strong>{{ likesCount|default('0')  }} {{ 'likes in total'|trans() }}</strong></p>
+    <p><strong>{{ endedProjectsCount|default('0')  }} {{ 'ended projects'|trans() }}</strong></p>
+    <p><strong>{{ amountCount|default('0')  }} {{ '€ raised in total'|trans() }}</strong></p>
 
     {% if favoriteProjects %}
         <h3>{{ 'Favorites'|trans() }}</h3>
@@ -84,11 +84,11 @@
     <div class="clearfix">&nbsp;</div>
     {% if entity.websiteUrl %}<a href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% endif %}
 
-    <h2>{{ 'Current projects'|trans() }}</h2>
-    <p><a href="{{ path('littlebigjoe_frontendbundle_brand_current_projects', {'slug': entity.slug }) }}"
-          class="btn btn-primary">{{ 'See all current projects'|trans() }}</a></p>
-
     {% if currentProjects %}
+    		<h2>{{ 'Current projects'|trans() }}</h2>
+		    <p><a href="{{ path('littlebigjoe_frontendbundle_brand_current_projects', {'slug': entity.slug }) }}"
+		          class="btn btn-primary">{{ 'See all current projects'|trans() }}</a></p>
+
         {% for currentProject in currentProjects %}
             {% if currentProject.photo %}
                 <img src="{{ asset(currentProject.photo) }}" width="200" height="200">
@@ -141,11 +141,11 @@
         {% endfor %}
     {% endif %}
 
-    <h2>{{ 'Ended projects'|trans() }}</h2>
-    <p><a href="{{ path('littlebigjoe_frontendbundle_brand_ended_projects', {'slug': entity.slug }) }}"
-          class="btn btn-primary">{{ 'See all ended projects'|trans() }}</a></p>
-
     {% if endedProjects %}
+		    <h2>{{ 'Ended projects'|trans() }}</h2>
+		    <p><a href="{{ path('littlebigjoe_frontendbundle_brand_ended_projects', {'slug': entity.slug }) }}"
+		          class="btn btn-primary">{{ 'See all ended projects'|trans() }}</a></p>
+
         {% for endedProject in endedProjects %}
             {% if endedProject.photo %}
                 <img src="{{ asset(endedProject.photo) }}" width="200" height="200">

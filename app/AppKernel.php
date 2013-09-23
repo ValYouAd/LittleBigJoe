@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new LittleBigJoe\Bundle\BackendBundle\LittleBigJoeBackendBundle(),
             new LittleBigJoe\Bundle\FrontendBundle\LittleBigJoeFrontendBundle(),
             new LittleBigJoe\Bundle\CoreBundle\LittleBigJoeCoreBundle(),
+            new LittleBigJoe\Bundle\MangoPayBundle\LittleBigJoeMangoPayBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

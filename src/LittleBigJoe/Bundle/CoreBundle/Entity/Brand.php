@@ -152,10 +152,10 @@ class Brand
     /**
      * @var string
      *
-     * @ORM\Column(name="contact_phone", type="string", length=15, nullable=true)
+     * @ORM\Column(name="contact_phone", type="string", length=30, nullable=true)
      *
      * @Assert\Regex(
-     *    pattern = "/^[0-9\.\,]*$/",
+     *    pattern = "/^[0-9\.\-\,]*$/",
      *    message = "Your contact phone must only contains numbers, dots, or commas"
      * )
      */

@@ -29,3 +29,7 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+# LittleBigJoeBundle Configuration
+little_big_joe_mango_pay: 
+    leetchi_base_url: '%leetchi_base_url_preprod%'

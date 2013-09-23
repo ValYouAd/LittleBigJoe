@@ -38,7 +38,7 @@ class LittleBigJoeExtension extends \Twig_Extension
         else if ($interval->m >= 1)
         	return $interval->format('%m month(s) remaining');
         else if ($interval->days >= 1)
-            return $interval->format('%days day(s) remaining');
+            return $interval->format('%d day(s) remaining');
         else if ($interval->days == 0 && $interval->h >= 1)
             return $interval->format('%h hour(s) remaining');
         else

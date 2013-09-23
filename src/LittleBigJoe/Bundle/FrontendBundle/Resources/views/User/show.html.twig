@@ -27,9 +27,10 @@
     <p>{{ entity.bio }}</p>
 
     <div class="clearfix">&nbsp;</div>
-    <h3 id="projects">{{ 'His projects'|trans() }}</h3>
 
-    {% if entity.projects %}
+    {% if entity.projects|length > 0 %}    		
+    		<h3 id="projects">{{ 'His projects'|trans() }}</h3>
+    
         {% for project in entity.projects %}
             {% if project.photo %}
                 <img src="{{ asset(project.photo) }}" width="200" height="200">

@@ -310,14 +310,6 @@ class User extends BaseUser
     }
 
     /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate()
-    {
-        $this->mangopayUpdatedAt = new \DateTime();
-    }
-
-    /**
      * Get id
      *
      * @return integer

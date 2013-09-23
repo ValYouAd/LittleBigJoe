@@ -59,6 +59,7 @@ class BrandRepository extends EntityRepository
             ->where('p.deletedAt IS NULL')
             ->groupBy('p.brand')
             ->orderBy('p.id', 'DESC')
+            ->having('COUNT(p) > 0')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

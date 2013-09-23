@@ -41,8 +41,11 @@ class PageRepository extends EntityRepository
     public function findBySlugI18n($slug)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT p FROM LittleBigJoeCoreBundle:Page p WHERE p.slug LIKE :slug')
-            ->setParameter('slug', '%' . $slug . '%')
+            ->createQuery('SELECT p FROM LittleBigJoeCoreBundle:Page p WHERE p.slug LIKE :slug AND p.isVisible = :isVisible')
+            ->setParameters(array(
+            		'slug' => '%' . $slug . '%',
+            		'isVisible' => true
+           	))
             ->setHint(
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
                 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'

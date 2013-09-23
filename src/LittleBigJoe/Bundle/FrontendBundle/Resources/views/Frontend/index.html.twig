@@ -1,11 +1,11 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <h2>{{ 'Latest projects'|trans() }}</h2>
-    <p><a href="{{ path('littlebigjoe_frontendbundle_project_latest_projects') }}"
-          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
-
     {% if latestProjects %}
+    		<h2>{{ 'Latest projects'|trans() }}</h2>
+		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_latest_projects') }}"
+		          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
+    
         {% for latestProject in latestProjects %}
             {% if latestProject.photo %}
                 <img src="{{ asset(latestProject.photo) }}" width="200" height="200">
@@ -58,11 +58,11 @@
         {% endfor %}
     {% endif %}
 
-    <h2>{{ 'Popular'|trans() }}</h2>
-    <p><a href="{{ path('littlebigjoe_frontendbundle_project_popular_projects') }}"
-          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
-
     {% if popularProjects %}
+    		<h2>{{ 'Popular'|trans() }}</h2>
+		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_popular_projects') }}"
+		          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
+
         {% for popularProject in popularProjects %}
             {% if popularProject.photo %}
                 <img src="{{ asset(popularProject.photo) }}" width="200" height="200">
@@ -115,11 +115,11 @@
         {% endfor %}
     {% endif %}
 
-    <h2>{{ 'Projects to fund'|trans() }}</h2>
-    <p><a href="{{ path('littlebigjoe_frontendbundle_project_funding_projects') }}"
-          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
+    {% if fundingProjects %}    
+		    <h2>{{ 'Projects to fund'|trans() }}</h2>
+		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_funding_projects') }}"
+		          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
 
-    {% if fundingProjects %}
         {% for fundingProject in fundingProjects %}
             {% if fundingProject.photo %}
                 <img src="{{ asset(fundingProject.photo) }}" width="200" height="200">
@@ -172,8 +172,9 @@
         {% endfor %}
     {% endif %}
 
-    <h2>{{ 'Latest brands'|trans() }}</h2>
     {% if latestBrands %}
+    		<h2>{{ 'Latest brands'|trans() }}</h2>
+
         {% for latestBrand in latestBrands %}
             {% if latestBrand.logo %}
                 <img src="{{ asset(latestBrand.logo) }}" width="100" height="100">
@@ -191,8 +192,9 @@
         {% endfor %}
     {% endif %}
 
-    <h2>{{ 'Latest contributions'|trans() }}</h2>
     {% if latestProjectContributions %}
+    		<h2>{{ 'Latest contributions'|trans() }}</h2>
+
         {% for latestProjectContribution in latestProjectContributions %}
             <h3>{{ '+'|trans() }}{{ latestProjectContribution.reward.amount }}{{ '€'|trans() }}</h3>
             <p>{{ latestProjectContribution.reward.description }}</p>

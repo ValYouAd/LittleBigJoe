@@ -61,7 +61,7 @@ class BrandController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
 
-            if ($entity->getLogo() != null) {
+        		if ($entity->getLogo() != null) {
                 $evm = $em->getEventManager();
                 $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
                 $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());

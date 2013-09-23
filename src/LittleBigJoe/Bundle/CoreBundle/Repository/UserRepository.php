@@ -38,7 +38,13 @@ class UserRepository extends EntityRepository
         $qb = $this->createQueryBuilder('u')
             ->where('u.firstname LIKE :search')
             ->orWhere('u.lastname LIKE :search')
-            ->setParameter('search', '%' . $search . '%');
+            ->setParameter('search', '%' . $search . '%')
+        		->andWhere('u.enabled = :enabled')
+        		->setParameter('enabled', true)
+        		->andWhere('u.locked = :locked')
+        		->setParameter('locked', false)
+        		->andWhere('u.expired = :expired')
+        		->setParameter('expired', false);
 
         return $qb->orderBy('u.id', 'DESC')
             ->getQuery()

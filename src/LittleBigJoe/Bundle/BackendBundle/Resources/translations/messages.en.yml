@@ -70,6 +70,7 @@ backend.new_brand: 'Nouvelle marque'
 backend.brands_list: 'Liste des marques'
 backend.brands_list_resume: 'Ci-dessous, une liste de toutes les marques créées sur le site :'
 backend.contact_name: 'Nom du contact'
+backend.contact_phone_number: 'Numéro de téléphone du contact'
 backend.contact_email: 'Email du contact'
 backend.create_brand: 'Création d''une marque'
 backend.edit_faq: 'Edition de la FAQ'
@@ -163,6 +164,7 @@ backend.lastname: Nom
 backend.birthday_date: 'Date de naissance'
 backend.photo: Photo
 backend.roles: Rôles
+backend.admin: Administrateur
 backend.ip_address: 'Adresse IP'
 backend.bio: 'Bio'
 backend.logo: Logo
@@ -173,6 +175,11 @@ backend.project_ended_at: 'Le projet s''est terminé le'
 backend.project_deleted_at: 'Le projet a été supprimé le'
 backend.is_favorite: 'Favori ?'
 backend.contact_status: 'Statut du contact'
-backend.contact_status: 'Numéro de téléphone du contact'
 backend.mangopay_payment_created_at: 'Paiement Mangopay créé le'
 backend.mangopay_payment_updated_at: 'Paiement Mangopay mis à jour le'
+backend.pitch: Pitch
+Create: Créer
+Edit: Editer
+Update: 'Mettre à jour'
+Delete: Supprimer
+Translations: 'Traductions'

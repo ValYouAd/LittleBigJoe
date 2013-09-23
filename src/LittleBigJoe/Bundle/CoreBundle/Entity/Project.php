@@ -47,7 +47,7 @@ class Project
      *    groups = {"Default", "flow_createProject_step1"}
      * )
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ0-9a-zA-Z \'-]*$/i",
      *    message = "Your project name must only contains letters, spaces, or dashes",
      *    groups = {"Default", "flow_createProject_step1"}
      * )
@@ -61,7 +61,7 @@ class Project
      *
      * @Assert\NotBlank(message = "You must enter your project slug", groups = {"Default", "flow_createProject_step1"})
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z\-]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ0-9a-zA-Z\-]*$/i",
      *    message = "Your project slug must only contains letters, or dashes",
      *    groups = {"Default", "flow_createProject_step1"}
      * )
@@ -90,7 +90,7 @@ class Project
      *    groups = {"Default", "flow_createProject_step1"}
      * )
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\,]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \'\-\,]*$/i",
      *    message = "Your bio must only contains numbers, letters, spaces, commas or dashes",
      *    groups = {"Default", "flow_createProject_step1"}
      * )
@@ -104,7 +104,7 @@ class Project
      *
      * @Assert\NotBlank(message = "You must enter the pitch", groups = {"Default", "flow_createProject_step1"})
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!\']*$/i",
      *    message = "Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes",
      *    groups = {"Default", "flow_createProject_step1"}
      * )
@@ -307,10 +307,12 @@ class Project
     {
         $this->amountCount = 0;
         $this->likesCount = 0;
-        $this->createdAt = new \DateTime();
-        $this->mangopayCreatedAt = new \DateTime();
         $this->status = '1';
         $this->isFavorite = false;
+        $this->createdAt = new \DateTime();
+        $this->mangopayWalletId = 0;
+        $this->mangopayCreatedAt = new \DateTime();
+        $this->mangopayUpdatedAt = new \DateTime();
     }
 
     /**
@@ -319,7 +321,6 @@ class Project
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime();
-        $this->mangopayUpdatedAt = new \DateTime();
     }
 
     /**
@@ -586,20 +587,14 @@ class Project
     }
 
     /**
-     * @ORM\PrePersist
-     *
      * Set mangopayWalletId
      *
      * @param integer $mangopayWalletId
      * @return Project
      */
-    public function setMangopayWalletId($mangopayWalletId = null)
-    {
-        if (empty($mangopayWalletId)) {
-            $this->mangopayWalletId = 0;
-        } else {
-            $this->mangopayWalletId = $mangopayWalletId;
-        }
+    public function setMangopayWalletId($mangopayWalletId)
+		{
+        $this->mangopayWalletId = $mangopayWalletId;
 
         return $this;
     }
@@ -618,7 +613,7 @@ class Project
      * Set mangopayCreatedAt
      *
      * @param \DateTime $mangopayCreatedAt
-     * @return User
+     * @return Project
      */
     public function setMangopayCreatedAt($mangopayCreatedAt)
     {
@@ -641,7 +636,7 @@ class Project
      * Set mangopayUpdatedAt
      *
      * @param \DateTime $mangopayUpdatedAt
-     * @return User
+     * @return Project
      */
     public function setMangopayUpdatedAt($mangopayUpdatedAt)
     {

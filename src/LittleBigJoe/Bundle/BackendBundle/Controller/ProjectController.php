@@ -62,10 +62,12 @@ class ProjectController extends Controller
             $em->persist($entity);
 
             if ($entity->getPhoto() != null) {
-                $evm = $em->getEventManager();
-                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
-                $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
-                $uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
+	            	$evm = $em->getEventManager();
+	            	$uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+	            	$uploadableListener = $uploadableManager->getUploadableListener();
+	            	$uploadableListener->setDefaultPath('uploads/projects/'.$entity->getId());
+	            	$evm->removeEventListener(array('postFlush'), $uploadableListener);
+	            	$uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
             }
 
             $em->flush();
@@ -209,11 +211,13 @@ class ProjectController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($entity->getPhoto() != null) {
-                $evm = $em->getEventManager();
-                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
-                $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
-                $uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
+        		if ($entity->getPhoto() != null) {
+	            	$evm = $em->getEventManager();
+	            	$uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+	            	$uploadableListener = $uploadableManager->getUploadableListener();
+	            	$uploadableListener->setDefaultPath('uploads/projects/'.$entity->getId());
+	            	$evm->removeEventListener(array('postFlush'), $uploadableListener);
+	            	$uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
             }
 
             $em->flush();

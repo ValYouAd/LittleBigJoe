@@ -21,12 +21,37 @@ class FaqType extends AbstractType
                     'question' => array(
                         'type' => 'ckeditor',
                         'label' => 'backend.question',
-                    		'required' => false
-                    ),
+                    		'required' => false,
+				                'label' => 'backend.description',
+				            		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),
+				                'toolbar_groups' => array(
+				                    'document' => array('Source'),
+						            		'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
+						            		'editing' => array(),
+						            		'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
+						            		'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
+						            		'links' => array('Link','oembed', 'Unlink','Anchor'),
+						            		'insert' => array('Image','Table'),
+						            		'styles' => array('Styles','Format'),
+						            		'tools' => array('Maximize')
+				                )
+				            ),
                     'answer' => array(
                         'type' => 'ckeditor',
                         'label' => 'backend.answer',
-                    		'required' => false
+                    		'required' => false,
+                    		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),
+                    		'toolbar_groups' => array(
+                    				'document' => array('Source'),
+                    				'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
+                    				'editing' => array(),
+                    				'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
+                    				'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
+                    				'links' => array('Link','oembed', 'Unlink','Anchor'),
+                    				'insert' => array('Image','Table'),
+                    				'styles' => array('Styles','Format'),
+                    				'tools' => array('Maximize')
+                    		)
                     )
                 )
             ))

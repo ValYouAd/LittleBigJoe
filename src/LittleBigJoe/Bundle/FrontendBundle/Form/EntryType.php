@@ -36,7 +36,7 @@ class EntryType extends AbstractType
         		))
             ->add('isPublic', 'choice', array(
         				'label' => 'Visible to non participants ?',
-            		'choices' => array('0' => 'No', '1' => 'Yes')
+            		'choices' => array('1' => 'Yes', '0' => 'No')
         		))
         		->add('addEntry', 'submit', array(
             		'label' => 'Add entry'

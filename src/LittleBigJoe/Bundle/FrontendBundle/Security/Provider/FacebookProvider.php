@@ -41,7 +41,8 @@ class FacebookProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         $user = $this->findUserByFbId($username);
- 
+        $em = $this->container->get('doctrine')->getManager();
+        
         try {
             $fbdata = $this->facebook->api('/me');
         } catch (FacebookApiException $e) {
@@ -66,6 +67,28 @@ class FacebookProvider implements UserProviderInterface
             $plainPassword = $user->getPlainPassword();
             
             $this->userManager->updateUser($user);
+            
+            // Create user in MangoPay
+            $api = $this->container->get('little_big_joe_mango_pay.api');
+            $mangopayUser = $api->createUser($user->getEmail(), $user->getFirstname(), $user->getLastname(), $user->getIpAddress(), $user->getBirthday()->getTimestamp(), $user->getNationality(), $user->getPersonType(), $user->getId());
+            if (!empty($mangopayUser))
+            {
+	            	if (!empty($mangopayUser->ID))
+	            	{
+	            			$user->setMangopayUserId($mangopayUser->ID);
+	            	}
+	            	if (!empty($mangopayUser->CreationDate))
+	            	{
+		            		$user->setMangopayCreatedAt(new \DateTime('@'.$mangopayUser->CreationDate));
+		            		$user->setMangopayUpdatedAt(new \DateTime('@'.$mangopayUser->CreationDate));
+	            	}
+	            	if (!empty($mangopayUser->UpdateDate))
+	            	{
+	            			$user->setMangopayUpdatedAt(new \DateTime('@'.$mangopayUser->UpdateDate));
+	            	}
+	            	$em->persist($user);
+	            	$em->flush();
+            }
                         
             // Send welcome email
             $email = \Swift_Message::newInstance()

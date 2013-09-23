@@ -1,8 +1,3 @@
-#little_big_joe_core:
-#    resource: "@LittleBigJoeCoreBundle/Controller/"
-#    type:     annotation
-#    prefix:   /
-
 # FOSUserBundle routing
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

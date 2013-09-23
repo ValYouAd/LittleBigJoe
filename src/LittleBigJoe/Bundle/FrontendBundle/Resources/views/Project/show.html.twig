@@ -17,9 +17,11 @@
 				   	<strong><span class="likes_count">{{ entity.likesCount }}</span> {{ 'likes'|trans() }}</strong><br/>
 		    		<strong>{{ entity.endingAt|time_remaining }}</strong>
 		    </p>
+		    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) %}
 		    <p>
 		    		<a href="#" class="btn btn btn-success" id="likeProject">{{ 'I like this project'|trans() }}</a>
 		    </p>
+		    {% endif %}
 		    <p class="lead">{{ 'Engagement evolution'|trans() }}</p>		 
 		    <p>A FAIRE</p>   
 		{% else %}
@@ -35,7 +37,9 @@
     				<strong>{{ entity.contributions|length }} {{ 'participants'|trans() }}</strong><br />
     				<strong>{{ entity.endingAt|time_remaining }}</strong>
     		</p>		
-    		{{ form(funding_form, {attr:{role:'form' }}) }}
+    		{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) %}
+    				{{ form(funding_form, {attr:{role:'form' }}) }}
+    		{% endif %}
 		{% endif %}
 		
 		<hr class="clearfix" />

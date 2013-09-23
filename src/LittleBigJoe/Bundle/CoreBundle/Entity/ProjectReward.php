@@ -37,7 +37,7 @@ class ProjectReward
      *    groups = {"Default", "flow_createProject_step4"}
      * )
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 -\$\€]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 -\'\$\€\,]*$/i",
      *    message = "Your reward title must only contains letters, spaces, or dashes", 
      *    groups = {"Default", "flow_createProject_step4"}
      * )
@@ -51,7 +51,7 @@ class ProjectReward
      *
      * @Assert\NotBlank(message = "You must enter the reward description", groups = {"Default", "flow_createProject_step4"})
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!\'\$\€]*$/i",
      *    message = "Your description must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes", 
      *    groups = {"Default", "flow_createProject_step4"}
      * )

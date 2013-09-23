@@ -7,7 +7,7 @@
 {% block body %}
     <h2>{{ title|trans() }}</h2>
 
-    {% if projects %}
+    {% if projects and projects.items|length > 0 %}
         {% for project in projects %}
             {% if project.photo %}
                 <img src="{{ asset(project.photo) }}" width="200" height="200">
@@ -58,9 +58,11 @@
                 </p>
             {% endif %}
         {% endfor %}
+                
+		    <div class="navigation">
+		        {{ knp_pagination_render(projects) }}
+		    </div>
+    {% else %}
+    		<p>{{ 'There\'s no projects for the moment'|trans() }}</p>
     {% endif %}
-
-    <div class="navigation">
-        {{ knp_pagination_render(projects) }}
-    </div>
 {% endblock %}

@@ -43,8 +43,11 @@ class CategoryRepository extends EntityRepository
     public function findBySlugI18n($slug)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT c FROM LittleBigJoeCoreBundle:Category c WHERE c.slug LIKE :slug')
-            ->setParameter('slug', '%' . $slug . '%')
+            ->createQuery('SELECT c FROM LittleBigJoeCoreBundle:Category c WHERE c.slug LIKE :slug AND c.isVisible = :isVisible')
+            ->setParameters(array(
+            		'slug' => '%' . $slug . '%',
+            		'isVisible' => true
+           	))
             ->setHint(
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
                 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
