@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new Craue\FormFlowBundle\CraueFormFlowBundle(), // Used for multi steps form
         		new Trsteel\CkeditorBundle\TrsteelCkeditorBundle(), // Used to handle CKeditor
         		new FM\ElfinderBundle\FMElfinderBundle(), // Used to handle file upload via CKeditor
+        		new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(), // Used to generate PDF file
             new LittleBigJoe\Bundle\BackendBundle\LittleBigJoeBackendBundle(),
             new LittleBigJoe\Bundle\FrontendBundle\LittleBigJoeFrontendBundle(),
             new LittleBigJoe\Bundle\CoreBundle\LittleBigJoeCoreBundle(),

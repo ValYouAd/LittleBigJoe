@@ -108,15 +108,12 @@ class ProjectContribution
      */
     public function prePersist()
     {
+    		$this->mangopayContributionId = 0;
+    		$this->mangopayAmount = 0;
+    		$this->mangopayIsSucceeded = false;
+    		$this->mangopayIsCompleted = false;
         $this->createdAt = new \DateTime();
         $this->mangopayCreatedAt = new \DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate()
-    {
         $this->mangopayUpdatedAt = new \DateTime();
     }
 

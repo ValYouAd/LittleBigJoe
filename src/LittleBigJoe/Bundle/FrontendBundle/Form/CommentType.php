@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class EntryType extends AbstractType
+class CommentType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,11 +15,8 @@ class EntryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text', array(
-        				'label' => 'Entry title'
-        		))
             ->add('content', 'ckeditor', array(
-            		'label' => 'Entry content',
+            		'label' => 'Comment content',
             		'toolbar' => array('clipboard', 'basicstyles', 'links', 'insert', 'tools'),
             		'toolbar_groups' => array(
             				'document' => array(),
@@ -33,12 +30,8 @@ class EntryType extends AbstractType
 		            		'tools' => array('Maximize')
             		)
         		))
-            ->add('isPublic', 'choice', array(
-        				'label' => 'Visible to non participants ?',
-            		'choices' => array('1' => 'Yes', '0' => 'No')
-        		))
-        		->add('addEntry', 'submit', array(
-            		'label' => 'Add entry'
+        		->add('addComment', 'submit', array(
+            		'label' => 'Add comment'
             ))
         ;
     }
@@ -49,7 +42,7 @@ class EntryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Entry'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Comment'
         ));
     }
 
@@ -58,6 +51,6 @@ class EntryType extends AbstractType
      */
     public function getName()
     {
-        return 'entry';
+        return 'comment';
     }
 }

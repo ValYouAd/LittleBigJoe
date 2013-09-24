@@ -494,7 +494,7 @@ class ApiService
 				
 				// Create project
 				$project = $this->request("wallets", "POST", $body);
-
+				
 				if (!isset($project) || !isset($project->ID))
 				{
 						return null;
@@ -529,6 +529,7 @@ class ApiService
 				
 				// Update project
 				$project = $this->request("wallets/".$mangopayWalletId, "PUT", $body);
+				
 				if (!isset($project) || !isset($project->ID))
 				{
 						return null;
@@ -536,6 +537,77 @@ class ApiService
 				else
 				{
 						return $project;
+				}
+		}
+		
+		/**
+		 * Create contribution
+		 *
+		 * @param int $mangopayWalletId
+		 * @param int $mangopayUserId
+		 * @param float $amount
+		 * @param string $returnUrl
+		 * @param string $tag
+		 * @param float $clientFeeAmount
+		 * @param string $templateURL
+		 * @param boolean $registerMeanOfPayment
+		 * @param int $paymentCardID
+		 * @param string $culture
+		 * @param string $paymentMethodType
+		 * @param string $type
+		 * @return NULL|mixed
+		 */
+		public function createContribution($mangopayWalletId, $mangopayUserId, $amount, $returnUrl, $tag = null, $clientFeeAmount = null, $templateURL = null, $registerMeanOfPayment = null, $paymentCardID = null, $culture = null, $paymentMethodType = null, $type = null)
+		{
+				// Get vars and convert format
+				$data = get_defined_vars();
+				$data['userID'] = $mangopayUserId;
+				$data['walletID'] = $mangopayWalletId;
+				$body = json_encode($data);
+					
+				$user = $this->request("users/".$mangopayUserId, "GET");
+				if (!isset($user) || !isset($user->ID))
+				{
+						return null;
+				}
+			
+				$project = $this->request("wallets/".$mangopayWalletId, "GET");
+				if (!isset($project) || !isset($project->ID))
+				{
+						return null;
+				}
+				
+				// Create contribution
+				$contribution = $this->request("contributions", "POST", $body);
+
+				if (!isset($contribution) || !isset($contribution->ID))
+				{
+						return null;
+				}
+				else
+				{
+						return $contribution;
+				}
+		}
+		
+		/**
+		 * Fetch contribution
+		 *
+		 * @param int $mangopayContributionId
+		 * @return NULL|mixed
+		 */
+		public function fetchContribution($mangopayContributionId)
+		{
+				// Fetch contribution
+				$contribution = $this->request("contributions/".$mangopayContributionId, "GET");
+					
+				if (!isset($contribution) || !isset($contribution->ID))
+				{
+						return null;
+				}
+				else
+				{
+						return $contribution;
 				}
 		}
 }

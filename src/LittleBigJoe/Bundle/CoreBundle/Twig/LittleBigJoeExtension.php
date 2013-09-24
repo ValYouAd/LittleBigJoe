@@ -48,7 +48,7 @@ class LittleBigJoeExtension extends \Twig_Extension
     /** 
      * Get country full name
      */
-    public function countryFilter($countryCode,$locale = "en")
+    public function countryFilter($countryCode, $locale = "en")
     {
 	    	$c = \Symfony\Component\Locale\Locale::getDisplayCountries($locale);
 	    

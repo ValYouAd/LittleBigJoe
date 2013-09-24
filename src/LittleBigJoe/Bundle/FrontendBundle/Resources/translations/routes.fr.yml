@@ -40,6 +40,12 @@ littlebigjoe_frontendbundle_home: /
 # Desc: /page/{slug}
 littlebigjoe_frontendbundle_page_show: '/page/{slug}'
 
+# Desc: /payment/process
+littlebigjoe_frontendbundle_payment_process: /paiement/traitement
+
+# Desc: /payment/
+littlebigjoe_frontendbundle_payment_project: /paiement/ 
+
 # Desc: /projects
 littlebigjoe_frontendbundle_project: /projets
 
@@ -78,9 +84,6 @@ littlebigjoe_frontendbundle_project_top_funded_projects: /projets-les-mieux-fina
 
 # Desc: /search
 littlebigjoe_frontendbundle_search: /recherche
-
-# Desc: /upload
-littlebigjoe_frontendbundle_upload: /telecharger
 
 # Desc: /user/{id}
 littlebigjoe_frontendbundle_user_show: '/utilisateur/{id}'

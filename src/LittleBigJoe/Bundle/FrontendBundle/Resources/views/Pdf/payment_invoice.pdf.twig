@@ -1,0 +1,61 @@
+<style>
+		table {	border-collapse:collapse; }
+		table, td, th { border:1px solid black; }
+		td, th { padding:10px; }
+</style>
+
+<img src="{{ url ~ asset('img/logo.png') }}" />
+
+<div style="clear:both;height:30px;width:100%">&nbsp;</div>
+
+<div style="float:left;width:300px;">
+		<strong>{{ 'Little Big Joe'|trans() }}</strong><br />
+		{{ '3 Villa du Clos de Malevart'|trans() }}<br />
+		{{ '75011 Paris, France' }}
+</div>
+<div style="float:right;text-align:right;">
+		<strong>{{ 'Invoice for contribution'|trans() }} #{{ contribution.id }}</strong><br />
+		{{ 'Date'|trans() }} : {{ "now"|date("d/m/Y") }}
+</div>
+
+<div style="clear:both;height:15px;width:100%">&nbsp;</div>
+
+<div style="float:left;width:300px;border:1px solid black; padding: 20px;">
+		<strong>{{ 'Billing infos' }}</strong>
+		<p>{{ user }}<br />
+		{{ user.city }}, {{ user.country|country }}</p>
+</div>
+
+<div style="clear:both;height:10px">&nbsp;</div>
+
+<h3>{{ 'Details'|trans() }}</h3>
+
+<div style="clear:both;height:10px">&nbsp;</div>
+
+<table width="1000">
+		<thead>
+				<tr>
+						<th>{{ 'Quantity'|trans() }}</th>
+						<th>{{ 'Description'|trans() }}</th>
+						<th>{{ 'Unit Price'|trans() }}</th>
+						<th>{{ 'Total'|trans() }}</th>
+				</tr>
+		</thead>
+		<tbody align="center" valign="middle">
+				<tr>
+						<td width="45">1</td>
+						<td width="400">{{ 'Contribution for'|trans() }} <strong>{{ project }}</strong> {{ 'project'|trans() }}</td>
+						<td width="50">{{ contribution.mangopayAmount }} {{ '€'|trans() }}</td>
+						<td width="50">{{ contribution.mangopayAmount }} {{ '€'|trans() }}</td>
+				</tr>		
+				<tr>
+						<td colspan="2" style="border-bottom:0px;border-left:0px">&nbsp;</td>
+						<td><strong>{{ 'Total'|trans() }}</strong></td>
+						<td><strong>{{ contribution.mangopayAmount }} {{ '€'|trans() }}</strong></td>
+				</tr>
+		</tbody>
+</table>
+
+<div style="clear:both;height:10px">&nbsp;</div>
+
+<p>{{ 'We hope to see you soon in'|trans() }} <a href="http://www.littlebigjoe.com">www.littlebigjoe.com</a></p>

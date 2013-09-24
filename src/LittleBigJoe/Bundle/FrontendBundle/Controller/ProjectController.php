@@ -12,6 +12,8 @@ use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
 use LittleBigJoe\Bundle\FrontendBundle\Form\EntryType;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
+use LittleBigJoe\Bundle\FrontendBundle\Form\CommentType;
 
 class ProjectController extends Controller
 {
@@ -398,7 +400,7 @@ class ProjectController extends Controller
     public function showAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $currentUser = $this->get('security.context')->getToken()->getUser();
         $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
 
         if (!$entity) {
@@ -415,6 +417,19 @@ class ProjectController extends Controller
         {
 	        	$em->persist($entry);	        
 	        	$em->flush();
+	      }
+	      
+	      // Create the comment form
+	      $comment = new Comment();
+	      $comment->setProject($entity);
+	      $comment->setUser($currentUser);
+	      $commentForm = $this->createForm(new CommentType(), $comment);
+	      $commentForm->handleRequest($request);
+	      
+	      if ($commentForm->isValid())
+	      {
+		      	$em->persist($comment);
+		      	$em->flush();
 	      }
                         
         // Create the funding form
@@ -435,6 +450,7 @@ class ProjectController extends Controller
         return array(
             'entity' => $entity,
         		'entry_form' => $entryForm->createView(),
+        		'comment_form' => $commentForm->createView(),
         		'funding_form' => $fundingForm->createView(),
             'current_date' => new \Datetime()
         );

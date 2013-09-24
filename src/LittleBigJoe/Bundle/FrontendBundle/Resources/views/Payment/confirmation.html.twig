@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {% if status == 'OK' %}
+    		{{ 'Payment confirmation'|trans() }} | {{ parent() }}
+    {% else %}
+    		{{ 'Error during payment'|trans() }} | {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-euro"></span> 
+        {% if status == 'OK' %}
+		    		{{ 'Payment confirmation'|trans() }}
+		    {% else %}
+		    		{{ 'Error during payment'|trans() }}
+		    {% endif %}
+		    </h1>
+    </div>
+
+		{% if status == 'OK' %}
+    		<div class="alert alert-success">
+    				<p>{{ 'Thanks for your payment'|trans() }}</p>
+    				<p>{{ 'You\'ll receive an confirmation email with your payment invoice'|trans() }}</p>
+    		</div>
+    {% else %}
+   			<div class="alert alert-danger">
+   					<p>{{ 'A problem has occured during your payment.'|trans() }}</p>
+   					<p>{{ 'Please try again.'|trans() }}</p>
+   			</div>
+   	{% endif %}
+   	
+   	<div class="clearfix">&nbsp;</div>
+   	<p><a href="{{ path('littlebigjoe_frontendbundle_home') }}">{{ 'Go back to homepage'|trans() }}</a></p>
+{% endblock %}

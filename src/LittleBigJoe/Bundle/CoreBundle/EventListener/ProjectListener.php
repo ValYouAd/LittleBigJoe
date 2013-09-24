@@ -80,15 +80,17 @@ class ProjectListener extends ContainerAware
 											
 										// Send welcome email
 										$email = \Swift_Message::newInstance()
-										->setSubject($this->container->get('translator')->trans('Your project has been updated'))
-										->setFrom($this->container->getParameter('default_email_address'))
-										->setTo(array($project->getUser()->getEmail() => $project->getUser()))
-										->setBody(
-												$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:update_funding_phase_project.html.twig', array(
-														'user' => $project->getUser(),
-														'project' => $project
-												), 'text/html')
-										);
+															->setContentType('text/html')
+															->setSubject($this->container->get('translator')->trans('Your project has been updated1'))
+															->setFrom($this->container->getParameter('default_email_address'))
+															->setTo(array($project->getUser()->getEmail() => $project->getUser()))
+															->setBody(
+																	$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:update_funding_phase_project.html.twig', array(
+																			'user' => $project->getUser(),
+																			'project' => $project,
+											        				'url' => $this->container->get('request')->getSchemeAndHttpHost()
+																	), 'text/html')
+															);
 										$this->container->get('mailer')->send($email);
 								}
 								
@@ -99,15 +101,17 @@ class ProjectListener extends ContainerAware
 											
 										// Send welcome email
 										$email = \Swift_Message::newInstance()
-										->setSubject($this->container->get('translator')->trans('Your project is fully funded'))
-										->setFrom($this->container->getParameter('default_email_address'))
-										->setTo(array($project->getUser()->getEmail() => $project->getUser()))
-										->setBody(
-												$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:update_finished_phase_project.html.twig', array(
-														'user' => $project->getUser(),
-														'project' => $project
-												), 'text/html')
-										);
+															->setContentType('text/html')
+															->setSubject($this->container->get('translator')->trans('Your project is fully funded'))
+															->setFrom($this->container->getParameter('default_email_address'))
+															->setTo(array($project->getUser()->getEmail() => $project->getUser()))
+															->setBody(
+																	$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:update_finished_phase_project.html.twig', array(
+																			'user' => $project->getUser(),
+																			'project' => $project,
+											        				'url' => $this->container->get('request')->getSchemeAndHttpHost()
+																	), 'text/html')
+															);
 										$this->container->get('mailer')->send($email);
 								}
 						}

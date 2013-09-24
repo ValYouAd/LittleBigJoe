@@ -11,5 +11,67 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class ProjectRewardRepository extends EntityRepository
-{
+{	
+		/**
+		 * Return the available rewards for specific project
+		 *
+		 * @param integer $projectId : specific project id
+		 * @param integer $currentUserId : current logged in user
+		 * @return array rewards
+		 */
+		public function findAvailable($projectId)
+		{
+				return $this->createQueryBuilder('pr')
+										->select('pr')
+				            ->where('pr.project = :project')
+				            ->setParameter('project', $projectId)
+				            ->orderBy('pr.amount', 'ASC')
+										->getQuery()
+				            ->getResult(); 
+		}
+		
+		/**
+		 * Return the unavailable rewards for specific project
+		 *
+		 * @param integer $projectId : specific project id
+		 * @param integer $currentUserId : current logged in user
+		 * @return array rewards
+		 */
+		public function findUnavailable($projectId, $currentUserId)
+		{
+				$unavailableRewardsIds = array();
+				$rewards = $this->getEntityManager()
+		            				->createQuery('
+		                        SELECT pr.id, pr.stock, pr.maxQuantityByUser, COUNT(pc.id) as quantity_bought
+		                        FROM LittleBigJoeCoreBundle:ProjectReward pr
+		            						LEFT JOIN LittleBigJoeCoreBundle:ProjectContribution pc WITH pc.reward = pr.id
+														WHERE pr.project = :projectId
+														AND pc.user = :userId
+		            						AND pc.mangopayIsSucceeded = :mangopayIsSucceeded
+														AND pc.mangopayIsCompleted = :mangopayIsCompleted
+		            						GROUP BY pr.id
+														HAVING (pr.maxQuantityByUser <= quantity_bought	OR pr.stock <= 0)
+		                    ')
+		                    ->setParameters(array(
+		                    		'projectId' => $projectId,
+		                    		'userId' => $currentUserId,
+		                    		'mangopayIsSucceeded' => true,
+		                    		'mangopayIsCompleted' => true
+		                    ))
+												->getResult();
+
+				// If there's no unavailable rewards
+				if (empty($rewards))
+				{
+						return array();
+				}	   
+
+				// Stock unavailable rewards ids
+				foreach ($rewards as $key => $reward)
+				{
+						$unavailableRewardsIds[] = $reward['id'];
+				}
+				
+				return $unavailableRewardsIds;
+		}
 }

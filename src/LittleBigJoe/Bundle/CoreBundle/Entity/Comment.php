@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * EntryComment
- *
+ * Comment
+ * 
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="entry_comment")
- * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Repository\EntryCommentRepository")
+ * @ORM\Table(name="comment")
+ * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Repository\CommentRepository")
  */
-class EntryComment
+class Comment
 {
     /**
      * @var integer
@@ -54,35 +54,34 @@ class EntryComment
     private $deletedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Entry", inversedBy="comments")
-     * @ORM\JoinColumn(name="entry_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="comments")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
-    protected $entry;
-
+    protected $project;
+    
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="entry_comments")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
-
+    
     public function __toString()
     {
-        return $this->content;
+    		return $this->content;
     }
-
+    
     /**
      * @ORM\PrePersist
      */
     public function prePersist()
     {
         $this->createdAt = new \DateTime();
-        $this->isVisible = true;
     }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -93,19 +92,19 @@ class EntryComment
      * Set content
      *
      * @param string $content
-     * @return EntryComment
+     * @return Comment
      */
     public function setContent($content)
     {
         $this->content = $content;
-
+    
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return string
+     * @return string 
      */
     public function getContent()
     {
@@ -116,19 +115,19 @@ class EntryComment
      * Set isVisible
      *
      * @param boolean $isVisible
-     * @return EntryComment
+     * @return Comment
      */
     public function setIsVisible($isVisible)
     {
         $this->isVisible = $isVisible;
-
+    
         return $this;
     }
 
     /**
      * Get isVisible
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getIsVisible()
     {
@@ -139,19 +138,19 @@ class EntryComment
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return EntryComment
+     * @return Comment
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-
+    
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getCreatedAt()
     {
@@ -162,19 +161,19 @@ class EntryComment
      * Set deletedAt
      *
      * @param \DateTime $deletedAt
-     * @return EntryComment
+     * @return Comment
      */
     public function setDeletedAt($deletedAt)
     {
         $this->deletedAt = $deletedAt;
-
+    
         return $this;
     }
 
     /**
      * Get deletedAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getDeletedAt()
     {
@@ -182,45 +181,45 @@ class EntryComment
     }
 
     /**
-     * Set entry
+     * Set project
      *
-     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Entry $entry
-     * @return EntryComment
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Project $project
+     * @return Comment
      */
-    public function setEntry(\LittleBigJoe\Bundle\CoreBundle\Entity\Entry $entry = null)
+    public function setProject(\LittleBigJoe\Bundle\CoreBundle\Entity\Project $project = null)
     {
-        $this->entry = $entry;
-
+        $this->project = $project;
+    
         return $this;
     }
 
     /**
-     * Get entry
+     * Get project
      *
-     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\Entry
+     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\Project 
      */
-    public function getEntry()
+    public function getProject()
     {
-        return $this->entry;
+        return $this->project;
     }
 
     /**
      * Set user
      *
      * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $user
-     * @return EntryComment
+     * @return Comment
      */
     public function setUser(\LittleBigJoe\Bundle\CoreBundle\Entity\User $user = null)
     {
         $this->user = $user;
-
+    
         return $this;
     }
 
     /**
      * Get user
      *
-     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\User
+     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\User 
      */
     public function getUser()
     {

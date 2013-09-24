@@ -1,0 +1,68 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ 'Payment for'|trans() }} {{ project.name }} | {{ parent() }}
+{% endblock %}
+
+{% block sidebar %}
+		<h3>{{ 'CGV'|trans() }}</h3>
+		<p>{% block trans %}Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+		Donec ornare id augue in tempor. Mauris vulputate nisi at quam aliquam, in ullamcorper libero posuere. 
+		Suspendisse tempus, nisl vel consequat lacinia, libero turpis venenatis nunc, vitae dapibus purus mauris non nibh.{% endblock %}</p>
+
+		{% if faqs %}
+				<h3>{{ 'FAQ'|trans() }}</h3>
+				<div class="panel-group" id="accordion">
+						{% for faq in faqs %}
+							  <div class="panel panel-default">
+								    <div class="panel-heading">
+								      <h4 class="panel-title">
+								        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ faq.id }}">
+								          {{ faq.question|raw }}
+								        </a>
+								      </h4>
+								    </div>
+								    <div id="collapse_{{ faq.id }}" class="panel-collapse collapse">
+								      <div class="panel-body">
+								      		{{ faq.answer|raw }}
+								      </div>
+								    </div>
+							  </div>
+					  {% endfor%}
+				</div>
+		{% endif %}
+  
+		<h3>{{ 'Payment methods'|trans() }}</h3>
+		<p>{{ 'Any method you want'|trans() }}</p>
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-euro"></span> {{ 'Payment for'|trans() }} <span
+                    class="text-primary">{{ project.name }}</span></h1>
+    </div>
+
+    <p>{{ 'Please enter the amount you would like to pay, or select a defined amount :'|trans() }}</p>
+    
+    {% if rewards %}
+    		<form method="POST" action="{{ path('littlebigjoe_frontendbundle_payment_process') }}">
+    				<h3>{{ 'Amount'|trans() }}</h3>
+    				<p>
+    						<div class="input-group">
+									  <input type="text" id="amount" name="amount" class="form-control" placeholder="Amount">
+									  <span class="input-group-addon">{{ '€'|trans() }}</span>								  
+								</div>
+    				</p>
+    				<h3>{{ 'Rewards'|trans() }}</h3>
+    				{% for reward in rewards %}
+		    				<p>
+		    						<input type="radio" name="rewards[]" id="reward_{{ reward.id }}" value="{{ reward.id }}" {% if reward.id in unavailableRewards %}disabled="disabled"{% elseif loop.index == '1' %}checked="checked"{% endif %} />
+		    						<label for="reward_{{ reward.id }}">{{ reward.title }}</label>
+		    						<small>{{ reward.description }}</small>
+		    				</p>
+		    		{% endfor %}
+		    		
+		    		<input type="submit" class="btn btn-primary" value="{{ 'Continue'|trans() }}" />
+				</form>
+    {% endif %}
+{% endblock %}

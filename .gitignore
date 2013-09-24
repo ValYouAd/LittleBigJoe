@@ -16,6 +16,7 @@ web/uploads/brands/*
 web/uploads/projects/*
 web/uploads/users/*
 web/uploads/tmp/*
+web/uploads/pdfs/*
 web/bundles/*
 
 # Configuration files

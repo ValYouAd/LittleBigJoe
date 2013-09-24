@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<!-- If you delete this meta tag, Half Life 3 will never be released. -->
+	<meta name="viewport" content="width=device-width" />
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>{{ 'Thanks for your contribution'|trans() }}</title>
+</head> 
+<body bgcolor="#FFFFFF">
+	<p>{{ 'Hello'|trans() }} <strong>{{ user }}</strong>, {{ 'for contributing to the'|trans() }} <strong>{{ project }}</strong> {{ 'project, in Little Big Joe website'|trans() }}</p>	
+	<p>{{ 'Don\'t hesitate to contribute to others projects to help creators !'|trans() }}</p>	
+	<p>{{ 'Here\'s some infos regarding your contribution :'|trans() }}</p>
+	
+	<ul>
+			<li>{{ 'Contribution ID'|trans() }} : <strong>#{{ contribution.id }}</strong></li>
+			<li>{{ 'Amount'|trans() }} : <strong>{{ contribution.mangopayAmount }} {{ '€'|trans() }}</strong></li>
+	</ul>
+	
+	<p>{{ 'We hope to see you soon in'|trans() }} <a href="http://www.littlebigjoe.com">www.littlebigjoe.com</a></p>
+</body>
+</html>

@@ -30,7 +30,9 @@
         "jms/i18n-routing-bundle": "dev-master",
         "craue/formflow-bundle": "~2.0",
         "Trsteel/ckeditor-bundle": "dev-master",
-        "helios-ag/fm-elfinder-bundle": "1.x"
+        "helios-ag/fm-elfinder-bundle": "1.x",
+        "ensepar/html2pdf" : "dev-master",
+        "ensepar/html2pdf-bundle" : "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

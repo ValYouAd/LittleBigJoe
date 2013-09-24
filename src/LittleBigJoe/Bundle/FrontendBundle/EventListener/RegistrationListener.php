@@ -73,15 +73,16 @@ class RegistrationListener implements EventSubscriberInterface
         
         // Send welcome email
         $email = \Swift_Message::newInstance()
-        ->setSubject($this->container->get('translator')->trans('Welcome to Little Big Joe'))
-        ->setFrom($this->container->getParameter('default_email_address'))
-        ->setTo(array($user->getEmail() => $user))
-        ->setBody(
-        		$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:welcome.html.twig', array(
-        				'user' => $user,
-        				'plainPassword' => $plainPassword
-        		), 'text/html')
-        );
+					        ->setContentType('text/html')
+					        ->setSubject($this->container->get('translator')->trans('Welcome to Little Big Joe'))
+					        ->setFrom($this->container->getParameter('default_email_address'))
+					        ->setTo(array($user->getEmail() => $user))
+					        ->setBody(
+					        		$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:welcome.html.twig', array(
+					        				'user' => $user,
+					        				'plainPassword' => $plainPassword
+					        		), 'text/html')
+					        );
         $this->container->get('mailer')->send($email);
         
 				// Redirect user to confirmation page

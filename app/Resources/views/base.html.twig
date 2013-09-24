@@ -56,8 +56,16 @@
                         <input type="submit" class="btn btn-primary" value="{{ 'Go'|trans() }}" />
                     </form>
                 </li>
-                <li><a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans() }}</a></li>
-                <li><a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans() }}</a></li>
+                {% if is_granted('ROLE_USER') %}
+                		<li>
+                			<p>{{ 'Welcome'|trans() }}, {{ app.user }}<br />
+                			<a href="{{ path('fos_user_profile_show') }}">{{ 'Profile'|trans() }}</a> &nbsp;
+											<a href="{{ path('fos_user_security_logout') }}">{{ 'Logout'|trans() }}</a></p>
+										</li>
+		            {% else %}
+		                <li><a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans() }}</a></li>
+		                <li><a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans() }}</a></li>
+                {% endif %}
             </ul>
         </div>
         <!--/.nav-collapse -->

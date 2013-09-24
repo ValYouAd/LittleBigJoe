@@ -219,7 +219,7 @@ fm_elfinder:
                 upload_allow: ['image/png', 'image/jpg', 'image/jpeg']
                 upload_deny: ['all']
                 upload_max_size: 10M
-              
+        
 # LittleBigJoeBundle Configuration
 little_big_joe_mango_pay: 
     leetchi_base_url: '%leetchi_base_url_prod%'

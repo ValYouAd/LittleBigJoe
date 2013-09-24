@@ -274,6 +274,7 @@ class Project
 
     /**
      * @ORM\OneToMany(targetEntity="ProjectReward", mappedBy="project", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"amount" = "ASC"})
      */
     protected $rewards;
 
@@ -286,6 +287,11 @@ class Project
      * @ORM\OneToMany(targetEntity="ProjectLike", mappedBy="project", cascade={"persist", "remove"})
      */
     protected $likes;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="project", cascade={"persist", "remove"})
+     */
+    protected $comments;
 
     public function __construct()
     {
@@ -293,6 +299,7 @@ class Project
         $this->rewards = new ArrayCollection();
         $this->contributions = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function __toString()
@@ -1054,4 +1061,37 @@ class Project
 		        $context->addViolationAt('endingAt', 'The ending date cannot be in the past', array(), null);
 		    }
 		}
+
+    /**
+     * Add comments
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Comment $comments
+     * @return Project
+     */
+    public function addComment(\LittleBigJoe\Bundle\CoreBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+    
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Comment $comments
+     */
+    public function removeComment(\LittleBigJoe\Bundle\CoreBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }

@@ -1,5 +1,22 @@
 {% extends '::base.html.twig' %}
 
+{% set users_ids = [] %}
+{% if entity.contributions %}
+		{% for contribution in entity.contributions %}
+				{% if contribution.user.id not in users_ids %}
+						{% set users_ids = users_ids|merge([contribution.user.id]) %}
+				{% endif %}
+		{% endfor %}
+{% endif %}
+{% set entries_ids = [] %}
+{% if entity.entries %}
+  		{% for entry in entity.entries|reverse %}
+      		{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in users_ids) %}
+        			{% set entries_ids = entries_ids|merge([entry.id]) %}
+        	{% endif %}
+      {% endfor %}
+  {% endif %}			
+
 {% block title %}
     {{ 'Project'|trans() }} {{ entity }} | {{ parent() }}
 {% endblock %}
@@ -17,7 +34,7 @@
 				   	<strong><span class="likes_count">{{ entity.likesCount }}</span> {{ 'likes'|trans() }}</strong><br/>
 		    		<strong>{{ entity.endingAt|time_remaining }}</strong>
 		    </p>
-		    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) %}
+		    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY')) %}
 		    <p>
 		    		<a href="#" class="btn btn btn-success" id="likeProject">{{ 'I like this project'|trans() }}</a>
 		    </p>
@@ -34,10 +51,10 @@
 				        </div>
 				    </div>
 				    <strong><span class="amount_count">{{ entity.amountCount }}</span> {{ '€ of'|trans() }} {{ entity.amountRequired }} {{ '€ required amount to raise'|trans() }}</strong><br/>
-    				<strong>{{ entity.contributions|length }} {{ 'participants'|trans() }}</strong><br />
+    				<strong>{{ users_ids|length }} {{ 'participant(s)'|trans() }}</strong><br />
     				<strong>{{ entity.endingAt|time_remaining }}</strong>
     		</p>		
-    		{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) %}
+    		{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY')) %}
     				{{ form(funding_form, {attr:{role:'form' }}) }}
     		{% endif %}
 		{% endif %}
@@ -102,7 +119,7 @@
     {% endif %}    
 {% endblock %}
 
-{% block body %}
+{% block body %}		
     <h1>{{ 'Project'|trans() }} {{ entity }}</h1>
     {% if entity.status == '1' %}
         <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
@@ -119,9 +136,9 @@
 
 		<ul class="nav nav-tabs" id="projectTab">
 	      <li class="active"><a data-toggle="tab" href="#project">{{ 'Project'|trans() }}</a></li>
-	      <li><a data-toggle="tab" href="#news">{{ 'News'|trans() }}</a></li>
-	      <li><a data-toggle="tab" href="#participants">{{ 'Participants'|trans() }}</a></li>
-      	<li><a data-toggle="tab" href="#comments">{{ 'Comments'|trans() }}</a></li>
+	      <li><a data-toggle="tab" href="#news">{{ 'News'|trans() }} ({{ entries_ids|length|default('0') }})</a></li>
+	      <li><a data-toggle="tab" href="#participants">{{ 'Participants'|trans() }} ({{ users_ids|length|default('0') }})</a></li>
+      	<li><a data-toggle="tab" href="#comments">{{ 'Comments'|trans() }} ({{ entity.comments|length|default('0') }})</a></li>
     </ul>
 
 		<div id="projectTabContent" class="tab-content">
@@ -151,15 +168,6 @@
           	{% endif %}
           	
           	{% if entity.entries %}
-          			{% set users_ids = [] %}
-          			{% if entity.contributions %}
-          					{% for contribution in entity.contributions %}
-          							{% if contribution.user.id not in users_ids %}
-          									{% set users_ids = users_ids|merge([contribution.user.id]) %}
-          							{% endif %}
-          					{% endfor %}
-          			{% endif %}
-          			
           			<ul>
           			{% for entry in entity.entries|reverse %}
           					{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in users_ids) %}
@@ -179,11 +187,11 @@
         		<div class="clearfix">&nbsp;</div>
           	<p class="lead">{{ 'Here\'s the list of persons that have funded'|trans() }} {{ entity }} {{ 'project'|trans() }}</p>
           	{% if entity.contributions %}
-          			{% set users_ids = [] %}
+          			{% set already_shown_users_ids = [] %}
           			<ul>
           			{% for contribution in entity.contributions %}
-          					{% if contribution.user.id not in users_ids %}
-          							{% set users_ids = users_ids|merge([contribution.user.id]) %}
+          					{% if contribution.user.id not in already_shown_users_ids %}
+          							{% set already_shown_users_ids = already_shown_users_ids|merge([contribution.user.id]) %}
           							<li><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a></li>
           					{% endif %}
           			{% endfor %}
@@ -195,20 +203,24 @@
         <div id="comments" class="tab-pane">
         		<div class="clearfix">&nbsp;</div>
           	<p class="lead">{{ 'Here\'s the list of comments related to'|trans() }} {{ entity }} {{ 'project'|trans() }}</p> 
-          	{% if entity.entries %}
-          			{% for entry in entity.entries %}
-          					{% if entry.comments %}
-		          					<ul>          			
-		          					{% for comment in entry.comments %}
-				          					<li>
-				          							<strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
-				          							<small>{{ 'On'|trans() }} {{ comment.createdAt|date('d/m/Y h:i') }}</small><br />
-				          							<p>{{ comment.content }}</p>
-				          					</li>
-				          			{% endfor %}
-				          			</ul>
-		          			{% endif %}
+          	
+          	{% if is_granted('ROLE_USER') and app.user.id != entity.user.id %}
+          	<div style="padding:20px;border:1px dotted black">
+          		<h4>{{ 'Add new comment'|trans() }}</h4>
+          		{{ form(comment_form, {attr:{role:'form' }}) }}
+          	</div>
+          	{% endif %}
+          	
+          	{% if entity.comments %}
+          			<ul>  
+          			{% for comment in entity.comments %}
+          					<li>
+          							<strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
+          							<small>{{ 'On'|trans() }} {{ comment.createdAt|date('d/m/Y h:i') }}</small><br />
+          							<p>{{ comment.content|raw }}</p>
+          					</li>
 		          	{% endfor %}
+		          	</ul>
 		        {% else %}
           			<p><strong>{{ 'There\'s no comments for the moment'|trans() }}</strong><p>
           	{% endif %}         	

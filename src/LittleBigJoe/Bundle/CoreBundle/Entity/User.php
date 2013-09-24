@@ -254,9 +254,14 @@ class User extends BaseUser
     protected $projects;
 
     /**
-     * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $comments;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="EntryComment", mappedBy="user", cascade={"persist", "remove"})
+     */
+    protected $entry_comments;
 
     /**
      * @ORM\OneToMany(targetEntity="ProjectLike", mappedBy="user", cascade={"persist", "remove"})
@@ -275,6 +280,7 @@ class User extends BaseUser
         $this->enabled = true;
         $this->roles = array('ROLE_USER');
         $this->comments = new ArrayCollection();
+        $this->entry_comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->contributions = new ArrayCollection();
     }
@@ -1006,5 +1012,38 @@ class User extends BaseUser
     {
         $this->emailCanonical = $emailCanonical;
         $this->usernameCanonical = $emailCanonical;
+    }
+
+    /**
+     * Add entry_comments
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment $entryComments
+     * @return User
+     */
+    public function addEntryComment(\LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment $entryComments)
+    {
+        $this->entry_comments[] = $entryComments;
+    
+        return $this;
+    }
+
+    /**
+     * Remove entry_comments
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment $entryComments
+     */
+    public function removeEntryComment(\LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment $entryComments)
+    {
+        $this->entry_comments->removeElement($entryComments);
+    }
+
+    /**
+     * Get entry_comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEntryComments()
+    {
+        return $this->entry_comments;
     }
 }

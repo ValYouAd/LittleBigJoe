@@ -5,6 +5,7 @@ namespace LittleBigJoe\Bundle\CoreBundle\EventListener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectContribution;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ProjectContributionListener
@@ -16,7 +17,7 @@ class ProjectContributionListener
 				$this->container = $container;
 		}
 	
-		public function postPersist(LifecycleEventArgs $args)
+		public function postUpdate(LifecycleEventArgs $args)
 		{
 				$projectContribution = $args->getEntity();
 				$em = $args->getEntityManager();
@@ -24,33 +25,23 @@ class ProjectContributionListener
 				if ($projectContribution instanceof ProjectContribution) 
 				{	
 						$project = $projectContribution->getProject();
+						$reward = $projectContribution->getReward();
 						
-						if ($project instanceof Project) 
+						if ($project instanceof Project && $reward instanceof ProjectReward) 
 						{
-								$project->setAmountCount($project->getAmountCount() + $projectContribution->getMangopayAmount());
-								$em->persist($project);
-								$em->flush();
-								
-								// Update status if amount required has been reached, and send email
-								if ($project->getAmountRequired() <= $project->getAmountCount() && $project->getEndedAt() == null)
+								// Only update amount count, if transaction is OK
+								if ($projectContribution->getMangopayIsSucceeded() == true && 
+										$projectContribution->getMangopayIsCompleted() == true)
 								{
-										$project->setEndedAt(new \DateTime());
+										// Update funding amount
+										$project->setAmountCount($project->getAmountCount() + $projectContribution->getMangopayAmount());
 										$em->persist($project);
-										$em->flush();
-											
-										// Send project finished email
-										$email = \Swift_Message::newInstance()
-										->setSubject($this->container->get('translator')->trans('Your project is fully funded'))
-										->setFrom($this->container->getParameter('default_email_address'))
-										->setTo(array($project->getUser()->getEmail() => $project->getUser()))
-										->setBody(
-												$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:update_finished_phase_project.html.twig', array(
-														'user' => $project->getUser(),
-														'project' => $project
-												), 'text/html')
-										);
-										$this->container->get('mailer')->send($email);
-								}
+										
+										// Decrement stock available for associated reward
+										$reward->setStock($reward->getStock() - 1);
+										$em->persist($reward);
+										$em->flush();		
+								}						
 						}
 				}
 		}
