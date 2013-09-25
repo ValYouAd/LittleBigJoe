@@ -107,10 +107,19 @@
     {% if entity.status != '1' %}
     	{% if entity.rewards %}
     		<ul>
-     			{% for reward in entity.rewards %}
+     			{% for reward in entity.rewards %}     				
+     				{% set participants_reward_ids = [] %}
+						{% if entity.contributions %}
+								{% for contribution in entity.contributions %}
+										{% if contribution.user.id not in participants_reward_ids and contribution.reward and contribution.reward.id == reward.id %}
+												{% set participants_reward_ids = participants_reward_ids|merge([contribution.user.id]) %}
+										{% endif %}
+								{% endfor %}
+						{% endif %}
+						     			
      				<li>
      					<p><strong>{{ reward.title }}</strong></p>
-     					<p>{{ reward.stock }} {{ 'participants'|trans() }}</p>
+     					<p>{{ participants_reward_ids|length }} {{ 'participant(s)'|trans() }}</p>
      					<p>{{ reward.description }}</p>
      				</li>
      			{% endfor %}
@@ -136,9 +145,9 @@
 
 		<ul class="nav nav-tabs" id="projectTab">
 	      <li class="active"><a data-toggle="tab" href="#project">{{ 'Project'|trans() }}</a></li>
-	      <li><a data-toggle="tab" href="#news">{{ 'News'|trans() }} ({{ entries_ids|length|default('0') }})</a></li>
-	      <li><a data-toggle="tab" href="#participants">{{ 'Participants'|trans() }} ({{ users_ids|length|default('0') }})</a></li>
-      	<li><a data-toggle="tab" href="#comments">{{ 'Comments'|trans() }} ({{ entity.comments|length|default('0') }})</a></li>
+	      <li><a data-toggle="tab" href="#news">{{ 'News'|trans() }} (<span class="entries_count">{{ entries_ids|length|default('0') }}</span>)</a></li>
+	      <li><a data-toggle="tab" href="#participants">{{ 'Participants'|trans() }} (<span class="participants_count">{{ users_ids|length|default('0') }}</span>)</a></li>
+      	<li><a data-toggle="tab" href="#comments">{{ 'Comments'|trans() }} (<span class="comments_count">{{ entity.comments|length|default('0') }}</span>)</a></li>
     </ul>
 
 		<div id="projectTabContent" class="tab-content">
@@ -163,12 +172,12 @@
           	{% if is_granted('ROLE_USER') and app.user.id == entity.user.id %}
           	<div style="padding:20px;border:1px dotted black">
           		<h4>{{ 'Add new entry'|trans() }}</h4>
-          		{{ form(entry_form, {attr:{role:'form' }}) }}
+          		{{ form(entry_form, {attr:{id:'entryForm', role:'form'}}) }}
           	</div>
           	{% endif %}
           	
           	{% if entity.entries %}
-          			<ul>
+          			<ul id="entries_list">
           			{% for entry in entity.entries|reverse %}
           					{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in users_ids) %}
           					<li>
@@ -204,16 +213,16 @@
         		<div class="clearfix">&nbsp;</div>
           	<p class="lead">{{ 'Here\'s the list of comments related to'|trans() }} {{ entity }} {{ 'project'|trans() }}</p> 
           	
-          	{% if is_granted('ROLE_USER') and app.user.id != entity.user.id %}
+          	{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY')) %}
           	<div style="padding:20px;border:1px dotted black">
           		<h4>{{ 'Add new comment'|trans() }}</h4>
-          		{{ form(comment_form, {attr:{role:'form' }}) }}
+          		{{ form(comment_form, {attr:{id:'commentForm', role:'form'}}) }}
           	</div>
           	{% endif %}
           	
           	{% if entity.comments %}
-          			<ul>  
-          			{% for comment in entity.comments %}
+          			<ul id="comments_list">  
+          			{% for comment in entity.comments|reverse %}
           					<li>
           							<strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
           							<small>{{ 'On'|trans() }} {{ comment.createdAt|date('d/m/Y h:i') }}</small><br />
@@ -232,12 +241,19 @@
 		{{ parent() }}
 		<script type="text/javascript">
 				var currentProjectId = {{ entity.id }};
+				var onLabel = "{{ 'On'|trans() }}";
+				var publicLabel = "{{ '(Public)'|trans() }}";
+				var privateLabel = "{{ '(Private)'|trans() }}";
+				
 				$(document).ready(function () {
 	        	// Project tabs
 	        	$('#projectTab a').click(function (e) {
 								e.preventDefault();
 								$(this).tab('show');
 						});
+	        	
+	        	for ( instance in CKEDITOR.instances )
+    		    	CKEDITOR.instances[instance].setData("");
 	        	
 	        	// Like request
 	        	$('#likeProject').click(function (e) {
@@ -260,6 +276,74 @@
 		        				else
 		        				{
 		        						alert("{{ 'An error has occured during project liking. Please try again'|trans() }}"); 
+		        				} 
+		        		});
+	        	});
+	        	
+	        	// Create entry 
+	        	$('#entry_addEntry').click(function (e) {
+	        			for ( instance in CKEDITOR.instances )
+	        		    	CKEDITOR.instances[instance].updateElement();
+	        		
+	        			$.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_project') }}", $('#entryForm').serialize())
+			        	.done(function(data) { 
+		        				if (data.status == 'OK')
+		        				{
+		        						alert("{{ 'Thanks for posting your entry !'|trans() }}");
+		        						
+		        						$('#entries_list li:eq(0)').before('<li><strong>' + data.entry.title + ' ' + ((data.entry.is_public == '1') ? publicLabel : privateLabel) + '</strong><br /><small>' + onLabel + ' ' + data.entry.created_at + '</small><br /><p>' + data.entry.content + '</p></li>');
+		        						
+		        						$("#entry_title").val("");
+		        						CKEDITOR.instances['entry_content'].setData("");
+		        						
+		        						var entries = parseInt($('.entries_count').text()) + 1;
+		        						$('.entries_count').text(entries);
+		        				}
+		        				else if (data.status == 'KO USER')
+		        				{
+		        						window.location = "{{ path('fos_user_security_login') }}";
+		        				}
+		        				else if (data.status == 'KO FIELD')
+		        				{
+		        						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+		        				}
+		        				else
+		        				{
+		        						alert("{{ 'An error has occured during entry saving. Please try again'|trans() }}"); 
+		        				} 
+		        		});
+	        	});
+	        	
+	        	// Create comment 
+	        	$('#comment_addComment').click(function (e) {
+	        			for ( instance in CKEDITOR.instances )
+	        		    	CKEDITOR.instances[instance].updateElement();
+	        		
+	        			$.post("{{ path('littlebigjoe_frontendbundle_ajax_comment_project') }}", $('#commentForm').serialize())
+			        	.done(function(data) { 
+		        				if (data.status == 'OK')
+		        				{
+		        						alert("{{ 'Thanks for posting your comment !'|trans() }}");
+		        						
+		        						var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
+		        						$('#comments_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
+		        						
+		        						CKEDITOR.instances['comment_content'].setData("");
+		        						
+		        						var comments = parseInt($('.comments_count').text()) + 1;
+		        						$('.comments_count').text(comments);
+		        				}
+		        				else if (data.status == 'KO USER')
+		        				{
+		        						window.location = "{{ path('fos_user_security_login') }}";
+		        				}
+		        				else if (data.status == 'KO FIELD')
+		        				{
+		        						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+		        				}
+		        				else
+		        				{
+		        						alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}"); 
 		        				} 
 		        		});
 	        	});

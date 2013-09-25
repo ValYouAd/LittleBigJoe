@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectLike;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
-use LittleBigJoe\Bundle\FrontendBundle\Form\EntryType;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
 
 /**
  * Ajax controller.
@@ -78,6 +78,138 @@ class AjaxController extends Controller
     		// Make sure no code is executed after it
     		return new JsonResponse(array('status' => 'OK'));
     		exit;
+    }
+    
+    /**
+     * Create an entry for a project
+     *
+     * @Route("/entry-project", name="littlebigjoe_frontendbundle_ajax_entry_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function entryProjectAction()
+    {
+	    	$em = $this->getDoctrine()->getManager();
+	    	$formData = $this->get('request')->request->get('entry');
+
+	    	// If there's no title/content/public
+	    	if (empty($formData) || empty($formData['title']) || empty($formData['content']) || $formData['isPublic'] == null)
+	    	{
+	    			return new JsonResponse(array('status' => 'KO FIELD'));
+	    	}
+
+	    	$currentUser = $this->get('security.context')->getToken()->getUser();
+	    	// If the current user is not logged, redirect him to login page
+	    	if (!is_object($currentUser))
+	    	{
+		    		$this->get('session')->getFlashBag()->add(
+		    				'notice',
+		    				'You must be logged in to post an entry for this project'
+		    		);
+		    		 
+		    		return new JsonResponse(array('status' => 'KO USER'));
+	    	}
+	    	
+	    	// If it's not a correct project id
+	    	if (empty($formData) || empty($formData['project']))
+	    	{
+	    			return new JsonResponse(array('status' => 'KO ID'));
+	    	}
+	    	 
+	    	$project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($formData['project']);
+
+	    	// If the project doesn't exist or if current user is not the project owner
+	    	if (empty($project) || ($currentUser->getId() != $project->getUser()->getId()))
+	    	{
+	    			return new JsonResponse(array('status' => 'KO PROJECT'));
+	    	}
+	    		
+	    	$entry = new Entry();
+	    	$entry->setProject($project);
+	    	$entry->setTitle($formData['title']);
+	    	$entry->setContent($formData['content']);
+	    	$entry->setIsPublic(($formData['isPublic'] == '1'));
+	    		    		    	
+	    	// Save entry in DB
+	    	$em->persist($entry);
+	    	$em->flush();
+	    
+	    	$entryJson = array(
+	    			'title' => $entry->getTitle(),
+	    			'is_public' => $entry->getIsPublic(),
+	    			'created_at' => $entry->getCreatedAt()->format('d/m/Y h:i'),
+	    			'content' => $entry->getContent()
+	    	);
+	    
+	    	// Make sure no code is executed after it
+	    	return new JsonResponse(array('status' => 'OK', 'entry' => $entryJson));
+	    	exit;
+    }
+    
+    /**
+     * Comment a project
+     *
+     * @Route("/comment-project", name="littlebigjoe_frontendbundle_ajax_comment_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function commentProjectAction()
+    {
+    		$em = $this->getDoctrine()->getManager();
+	    	$formData = $this->get('request')->request->get('comment');
+	    
+    		// If there's no content
+	    	if (empty($formData) || empty($formData['content']))
+	    	{
+	    			return new JsonResponse(array('status' => 'KO FIELD'));
+	    	}
+	    		    	
+	    	$currentUser = $this->get('security.context')->getToken()->getUser();
+	    	// If the current user is not logged, redirect him to login page
+	    	if (!is_object($currentUser))
+	    	{
+	    		$this->get('session')->getFlashBag()->add(
+	    				'notice',
+	    				'You must be logged in to comment this project'
+	    		);
+	    
+	    		return new JsonResponse(array('status' => 'KO USER'));
+	    	}
+	    
+	    	// If it's not a correct project id
+	    	if (empty($formData) || empty($formData['project']))
+	    	{
+	    			return new JsonResponse(array('status' => 'KO ID'));
+	    	}
+	    
+	    	$project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($formData['project']);
+	    
+	    	// If the project doesn't exist or if current user is the project owner
+	    	if (empty($project) || ($currentUser->getId() == $project->getUser()->getId()))
+	    	{
+	    			return new JsonResponse(array('status' => 'KO PROJECT'));
+	    	}	    	
+	    		    
+	    	$comment = new Comment();
+	    	$comment->setProject($project);
+	    	$comment->setUser($currentUser);
+	    	$comment->setIsVisible(true);
+	    	$comment->setContent($formData['content']);
+	    	
+	    	// Save comment in DB
+	    	$em->persist($comment);
+	    	$em->flush();
+	    	
+	    	$commentJson = array(
+	    			'user_name' => (string)$currentUser,
+	    			'user_id' => $currentUser->getId(),
+	    			'created_at' => $comment->getCreatedAt()->format('d/m/Y h:i'),
+	    			'content' => $comment->getContent()
+	   		);
+	    	
+	    	// Make sure no code is executed after it
+	    	return new JsonResponse(array('status' => 'OK', 'comment' => $commentJson));
+	    	exit;
     }
     
     /**

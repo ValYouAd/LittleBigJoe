@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class ProjectRewardRepository extends EntityRepository
-{	
+{	    
 		/**
 		 * Return the available rewards for specific project
 		 *

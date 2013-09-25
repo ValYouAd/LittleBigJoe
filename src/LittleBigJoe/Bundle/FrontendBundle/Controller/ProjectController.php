@@ -411,41 +411,27 @@ class ProjectController extends Controller
         $entry = new Entry();
         $entry->setProject($entity);        
         $entryForm = $this->createForm(new EntryType(), $entry);
-        $entryForm->handleRequest($request);
-        
-        if ($entryForm->isValid()) 
-        {
-	        	$em->persist($entry);	        
-	        	$em->flush();
-	      }
 	      
 	      // Create the comment form
 	      $comment = new Comment();
 	      $comment->setProject($entity);
-	      $comment->setUser($currentUser);
+	      $comment->setIsVisible(true);
 	      $commentForm = $this->createForm(new CommentType(), $comment);
-	      $commentForm->handleRequest($request);
-	      
-	      if ($commentForm->isValid())
-	      {
-		      	$em->persist($comment);
-		      	$em->flush();
-	      }
-                        
+											        
         // Create the funding form
         $fundingForm = $this->createFormBuilder()
-						        ->setAction($this->generateUrl('littlebigjoe_frontendbundle_payment_project'))
-						        ->setMethod('POST')
-						        ->add('projectId', 'hidden', array(
-        								'data' => $entity->getId()
-        						))
-        						->add('submit', 'submit', array(
-        								'label' => 'Fund this project',
-						        		'attr' => array(
-        										'class' => 'btn btn-success'
-        								)
-						        ))
-						        ->getForm();
+										        ->setAction($this->generateUrl('littlebigjoe_frontendbundle_payment_project'))
+										        ->setMethod('POST')
+										        ->add('projectId', 'hidden', array(
+				        								'data' => $entity->getId()
+				        						))
+				        						->add('submit', 'submit', array(
+				        								'label' => 'Fund this project',
+										        		'attr' => array(
+				        										'class' => 'btn btn-success'
+				        								)
+										        ))
+										        ->getForm();
         
         return array(
             'entity' => $entity,
