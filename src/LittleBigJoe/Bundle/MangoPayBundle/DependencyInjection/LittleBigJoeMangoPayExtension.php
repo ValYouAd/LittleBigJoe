@@ -22,8 +22,6 @@ class LittleBigJoeMangoPayExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         
-        //var_dump($config);die;
-        
         $container->setParameter(
         		'leetchi_base_url', $config['leetchi_base_url']
         );

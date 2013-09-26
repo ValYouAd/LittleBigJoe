@@ -172,6 +172,10 @@ jms_i18n_routing:
 
 # JMSTranslationBundle Configuration   
 services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
     twig.text_extension:
         class: Twig_Extensions_Extension_Text
         tags:

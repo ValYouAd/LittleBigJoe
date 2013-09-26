@@ -57,7 +57,7 @@
                         <span class="label label-success">{{ 'backend.funding_phase'|trans() }}</span>
                     {% endif %}
                 </td>
-                <td>{{ entity.endingAt|date('d/m/y H:i:s') }}</td>
+                <td>{{ entity.endingAt|date('d/m/Y h:i') }}</td>
                 <td>
                     {% if entity.deletedAt %}
                         <span class="label label-default">{{ 'backend.deleted'|trans() }}</span>

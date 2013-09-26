@@ -196,8 +196,14 @@
     		<h2>{{ 'Latest contributions'|trans() }}</h2>
 
         {% for latestProjectContribution in latestProjectContributions %}
-            <h3>{{ '+'|trans() }}{{ latestProjectContribution.reward.amount }}{{ '€'|trans() }}</h3>
-            <p>{{ latestProjectContribution.reward.description }}</p>
+            <h3>{{ '+'|trans() }}{{ latestProjectContribution.mangopayAmount }}{{ '€'|trans() }}</h3>
+            <p>
+            	{% if latestProjectContribution.reward %}
+            			{{ latestProjectContribution.reward.description }}
+            	{% else %}
+            			{{ 'N/A'|trans() }}
+            	{% endif %}
+            </p>
         {% endfor %}
     {% endif %}
 {% endblock %}

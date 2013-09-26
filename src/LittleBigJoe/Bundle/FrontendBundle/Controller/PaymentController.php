@@ -97,7 +97,7 @@ class PaymentController extends Controller
     		$rewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findAvailable($data['project']->getId());
     		$unavailableRewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findUnavailable($data['project']->getId(), $data['user']->getId());
     		$faqs = $em->getRepository('LittleBigJoeCoreBundle:Faq')->findBy(array('isVisible' => true));
-    		
+    		    		
     		// If there's no project rewards
     		if (empty($rewards))
     		{
@@ -128,7 +128,7 @@ class PaymentController extends Controller
 	    	// Redirect eventually
 	    	if (is_object($data) && $data instanceof RedirectResponse)
 	    	{
-	    		return $data;
+	    			return $data;
 	    	}
 	    			
 	    	// If user has enterd a specific amount
@@ -136,16 +136,19 @@ class PaymentController extends Controller
 	    	{
 	    			$rewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findAvailable($data['project']->getId());
 	    			$unavailableRewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findUnavailable($data['project']->getId(), $data['user']->getId());
+    				
     				// Retrieve the reward that is associated to the amount
     				foreach ($rewards as $reward)
 	    			{
 	    					if ($reward->getAmount() <= $data['form']['amount'] && !in_array($reward->getId(), $unavailableRewards))    		
 	    					{
+	    							// Get the associated reward id
 	    							$rewardId = $reward->getId();
-	    							// Override default reward amount
-	    							$amountToPay = (float)$data['form']['amount'];
 	    					}		
 	    			}
+
+	    			// Override default reward amount
+	    			$amountToPay = (float)$data['form']['amount'];
 	    	}
 	    	else if (!empty($data['form']['rewards'][0]))
 	    	{
@@ -159,9 +162,9 @@ class PaymentController extends Controller
 	    	
 	    	// Make sure the reward id we get is correct
 	    	$reward = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findOneBy(array('project' => $data['project'], 'id' => $rewardId));
-	    	
-	    	// If the reward doesn't exist
-	    	if (empty($reward))
+	    		    	
+	    	// If the reward doesn't exist and amount not specified
+	    	if (empty($reward) && $amountToPay == 0)
 	    	{
 	    			return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
 	    	}
@@ -170,10 +173,14 @@ class PaymentController extends Controller
 	    	$contribution = new ProjectContribution();
 	    	$contribution->setProject($data['project']);
 	    	$contribution->setUser($data['user']);
-	    	$contribution->setReward($reward);
+	    	// Only set reward, if there's one selected previously
+	    	if (!empty($reward))
+	    	{
+	    			$contribution->setReward($reward);
+	    	}   		
 	    	$em->persist($contribution);
 	    	$em->flush();
-	    	
+	    		    	
 	    	// Create contribution in MangoPay
 	    	$returnUrl = $this->getRequest()->getSchemeAndHttpHost().$this->generateUrl('littlebigjoe_frontendbundle_payment_confirmation');
 	    	$api = $this->container->get('little_big_joe_mango_pay.api');	    
@@ -187,7 +194,6 @@ class PaymentController extends Controller
 	    	$mangopayContribution = $api->createContribution($data['project']->getMangopayWalletId(), $data['user']->getMangopayUserId(),	$amountToPay*100, $returnUrl, $contribution->getId(), null, null, null, null, $data['user']->getDefaultLanguage(), null, null);
 	    	if (!empty($mangopayContribution))
 	    	{
-		    		var_dump($contribution->getMangopayAmount());
 		    		if (!empty($mangopayContribution->ID))
 		    		{
 		    				$contribution->setMangopayContributionId($mangopayContribution->ID);

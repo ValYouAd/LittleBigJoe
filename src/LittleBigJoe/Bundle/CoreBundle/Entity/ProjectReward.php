@@ -75,27 +75,14 @@ class ProjectReward
     /**
      * @var integer
      *
-     * @ORM\Column(name="stock", type="integer")
-     *
-     * @Assert\NotBlank(message = "You must enter the stock", groups = {"Default", "flow_createProject_step4"})
-     * @Assert\Regex(
-     *    pattern = "/^[0-9]*$/",
-     *    message = "Your stock must only contains numbers", 
-     *    groups = {"Default", "flow_createProject_step4"}
-     * )
+     * @ORM\Column(name="stock", type="integer", nullable=true)
      */
     private $stock;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="max_quantity_by_user", type="integer")
-     * @Assert\NotBlank(message = "You must enter the max quantity by user", groups = {"Default", "flow_createProject_step4"})
-     * @Assert\Regex(
-     *    pattern = "/^[0-9]*$/",
-     *    message = "Your max quantity by user must only contains numbers", 
-     *    groups = {"Default", "flow_createProject_step4"}
-     * )
+     * @ORM\Column(name="max_quantity_by_user", type="integer", nullable=true)
      */
     private $maxQuantityByUser;
 
@@ -112,6 +99,8 @@ class ProjectReward
 
     public function __construct()
     {
+    		$this->stock = null;
+    		$this->maxQuantityByUser = null;
         $this->contributions = new ArrayCollection();
     }
 

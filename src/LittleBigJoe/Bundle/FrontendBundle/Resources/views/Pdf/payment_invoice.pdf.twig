@@ -15,7 +15,7 @@
 </div>
 <div style="float:right;text-align:right;">
 		<strong>{{ 'Invoice for contribution'|trans() }} #{{ contribution.id }}</strong><br />
-		{{ 'Date'|trans() }} : {{ "now"|date("d/m/Y") }}
+		{{ 'Date'|trans() }} : {{ "now"|localizeddate('short', 'none') }}
 </div>
 
 <div style="clear:both;height:15px;width:100%">&nbsp;</div>

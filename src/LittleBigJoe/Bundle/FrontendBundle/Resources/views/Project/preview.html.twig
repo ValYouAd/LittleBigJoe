@@ -43,7 +43,7 @@
           			{% for entry in entity.entries %}
           					<li>
           							<strong>{{ entry }}</strong><br />
-          							<small>{{ 'On'|trans() }} {{ entry.createdAt|date('d/m/Y h:i') }}</small><br />
+          							<small>{{ 'On'|trans() }} {{ entry.createdAt|localizeddate('short', 'short') }}</small><br />
           							<p>{{ entry.content }}</p>
           					</li>
           			{% endfor %}
@@ -75,7 +75,7 @@
 		          					{% for comment in entry.comments %}
 				          					<li>
 				          							<strong><a href="#">{{ comment.user }}</a></strong><br />
-				          							<small>{{ 'On'|trans() }} {{ comment.createdAt|date('d/m/Y h:i') }}</small><br />
+				          							<small>{{ 'On'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</small><br />
 				          							<p>{{ comment.content }}</p>
 				          					</li>
 				          			{% endfor %}

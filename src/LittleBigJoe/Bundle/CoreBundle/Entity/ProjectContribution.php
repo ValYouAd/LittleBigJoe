@@ -99,7 +99,7 @@ class ProjectContribution
 
     /**
      * @ORM\ManyToOne(targetEntity="ProjectReward", inversedBy="contributions")
-     * @ORM\JoinColumn(name="project_reward_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="project_reward_id", referencedColumnName="id", nullable=true)
      */
     protected $reward;
 

@@ -182,7 +182,7 @@
           					{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in users_ids) %}
           					<li>
           							<strong>{{ entry }} {% if entry.isPublic %}{{ '(Public)'|trans() }}{% else %}{{ '(Private)'|trans() }}{% endif %}</strong><br />
-          							<small>{{ 'On'|trans() }} {{ entry.createdAt|date('d/m/Y h:i') }}</small><br />
+          							<small>{{ 'On'|trans() }} {{ entry.createdAt|localizeddate('short', 'short') }}</small><br />
           							<p>{{ entry.content|raw }}</p>
           					</li>
           					{% endif %}
@@ -225,7 +225,7 @@
           			{% for comment in entity.comments|reverse %}
           					<li>
           							<strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
-          							<small>{{ 'On'|trans() }} {{ comment.createdAt|date('d/m/Y h:i') }}</small><br />
+          							<small>{{ 'On'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</small><br />
           							<p>{{ comment.content|raw }}</p>
           					</li>
 		          	{% endfor %}
