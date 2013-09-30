@@ -130,7 +130,7 @@
                 $('#createProject_slug').val(title_value);
             });   
             
-            // STEP 3 
+            // STEP 3             
             // Add buttons to download files 
             $('#createProject_description').after('<div class="clearfix">&nbsp;</div><button id="addFile" class="btn btn-info" data-toggle="modal" data-target="#fileModal">' + addFileLabel + '</button>&nbsp;&nbsp;<button id="addAudioFile" class="btn btn-info" data-toggle="modal" data-target="#audioFileModal">' + addAudioFileLabel + '</button>'); 
             $('#fileName').fileupload({
@@ -192,7 +192,7 @@
 		                		$('#audioFileProgress .progress-bar').css('width', '100%');
 		                    $('#audioFileProgress .progress-bar').attr('aria-valuenow', '100');
 		                    $('#audioFileModal').modal('hide');
-		                    CKEDITOR.instances['createProject_description'].insertHtml(data.result.html);
+		                    CKEDITOR.instances['createProject_description'].insertHtml('<div class="ck_object_container">' + data.result.html + '</div>');
 		                    $('#audioFileName').val('');
 				            		$('#audioFileProgress .progress-bar').css('width', '0%');
 				                $('#audioFileProgress .progress-bar').attr('aria-valuenow', '0');

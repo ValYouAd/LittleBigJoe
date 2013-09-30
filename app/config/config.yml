@@ -185,11 +185,11 @@ services:
 trsteel_ckeditor:
     class: Trsteel\CkeditorBundle\Form\Type\CkeditorType
     transformers: ['strip_js', 'strip_css', 'strip_comments']
-    toolbar: ['clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools']
+    toolbar: ['clipboard', 'paragraph', 'editing', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools']
     toolbar_groups:
         document: []
         clipboard: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo']
-        editing: []
+        editing: ['Source']
         basicstyles: ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat']
         paragraph: ['NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock']
         links: ['Link','oembed', 'Unlink','Anchor']
@@ -201,7 +201,8 @@ trsteel_ckeditor:
     width: 800 #Integer or %
     height: 300 #Integer or %    
     language: 'en-US'
-    custom_config: js/ckeditor/config.js
+    custom_config: 'js/ckeditor/config.js'
+    contents_css: 'js/ckeditor/customstyle.css'
     external_plugins:
         oembed:
             path: js/ckeditor/plugins/oembed
