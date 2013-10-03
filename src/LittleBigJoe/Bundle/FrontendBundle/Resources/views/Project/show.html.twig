@@ -184,6 +184,17 @@
           							<strong>{{ entry }} {% if entry.isPublic %}{{ '(Public)'|trans() }}{% else %}{{ '(Private)'|trans() }}{% endif %}</strong><br />
           							<small>{{ 'On'|trans() }} {{ entry.createdAt|localizeddate('short', 'short') }}</small><br />
           							<p>{{ entry.content|raw }}</p>
+       									{% if entry.comments %}
+	      										<ul id="entry_{{ entry.id }}_comment_list">  
+	        									{% for comment in entry.comments|reverse %}
+       													<li>
+					          							<strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
+					          							<small>{{ 'On'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</small><br />
+					          							<p>{{ comment.content|raw }}</p>
+						          				</li>
+       											{% endfor %}
+       											</ul>
+       									{% endif %}							
           					</li>
           					{% endif %}
           			{% endfor %}
@@ -191,6 +202,11 @@
           	{% else %}
           			<p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>
           	{% endif %}
+          	
+          	<div style="padding:20px;border:1px dotted black">
+          		<h4>{{ 'Add new entry comment'|trans() }}</h4>
+          		{{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
+          	</div>
         </div>
         <div id="participants" class="tab-pane">
         		<div class="clearfix">&nbsp;</div>
@@ -356,6 +372,39 @@
 		        				else
 		        				{
 		        						alert("{{ 'An error has occured during entry saving. Please try again'|trans() }}"); 
+		        				} 
+		        		});
+	        	});
+	        	
+	        	// Create entry comment 
+	        	$('#entrycomment_addEntryComment').click(function (e) {
+	        			for ( instance in CKEDITOR.instances )
+	        		    	CKEDITOR.instances[instance].updateElement();
+	        		
+	        			var entryId = parseInt($('#entrycomment_entry').val());
+	        			
+	        			$.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_comment_project') }}", $('#entryCommentForm').serialize())
+			        	.done(function(data) { 
+		        				if (data.status == 'OK')
+		        				{
+		        						alert("{{ 'Thanks for posting your comment !'|trans() }}");
+		        						
+		        						var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
+		        						$('#entry_' + entryId + '_comment_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
+		        						
+		        						CKEDITOR.instances['entrycomment_content'].setData("");
+		        				}
+		        				else if (data.status == 'KO USER')
+		        				{
+		        						window.location = "{{ path('fos_user_security_login') }}";
+		        				}
+		        				else if (data.status == 'KO FIELD')
+		        				{
+		        						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+		        				}
+		        				else
+		        				{
+		        						alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}"); 
 		        				} 
 		        		});
 	        	});

@@ -12,6 +12,8 @@ use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
 use LittleBigJoe\Bundle\FrontendBundle\Form\EntryType;
+use LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment;
+use LittleBigJoe\Bundle\FrontendBundle\Form\EntryCommentType;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
 use LittleBigJoe\Bundle\FrontendBundle\Form\CommentType;
 
@@ -430,14 +432,17 @@ class ProjectController extends Controller
         		$dateStats[] = $stat['date'];
         		$likesStats[] = $stat['nbLikes'];
         }
-        
-        //var_dump($dateStats);
-        
+                
         // Create the entry form
         $entry = new Entry();
         $entry->setProject($entity);        
         $entryForm = $this->createForm(new EntryType(), $entry);
 	      
+        // Create the entry comment form
+        $entryComment = new EntryComment();
+        $options = array('project' => $entity);
+        $entryCommentForm = $this->createForm(new EntryCommentType($options), $entryComment);
+        
 	      // Create the comment form
 	      $comment = new Comment();
 	      $comment->setProject($entity);
@@ -464,6 +469,7 @@ class ProjectController extends Controller
         		'dateStats' => $dateStats,
         		'likesStats' => json_encode($likesStats),
         		'entry_form' => $entryForm->createView(),
+        		'entry_comment_form' => $entryCommentForm->createView(),
         		'comment_form' => $commentForm->createView(),
         		'funding_form' => $fundingForm->createView(),
             'current_date' => new \Datetime()

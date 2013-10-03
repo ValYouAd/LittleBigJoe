@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectLike;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
+use LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
 
 /**
@@ -138,12 +139,76 @@ class AjaxController extends Controller
 	    	$entryJson = array(
 	    			'title' => $entry->getTitle(),
 	    			'is_public' => $entry->getIsPublic(),
-	    			'created_at' => $entry->getCreatedAt()->format('d/m/Y h:i'),
+	    			'created_at' => $entry->getCreatedAt()->format('m/d/Y h:i'),
 	    			'content' => $entry->getContent()
 	    	);
 	    
 	    	// Make sure no code is executed after it
 	    	return new JsonResponse(array('status' => 'OK', 'entry' => $entryJson));
+	    	exit;
+    }    
+    
+    /**
+     * Comment an entry
+     *
+     * @Route("/comment-project-entry", name="littlebigjoe_frontendbundle_ajax_entry_comment_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function entryCommentProjectAction(Request $request)
+    {
+	    	$em = $this->getDoctrine()->getManager();
+	    	$formData = $this->get('request')->request->get('entrycomment');
+	    	 
+	    	// If there's no content
+	    	if (empty($formData) || empty($formData['content']) || empty($formData['project']) || empty($formData['entry']))
+	    	{
+	    			return new JsonResponse(array('status' => 'KO FIELD'));
+	    	}
+	    
+	    	$project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($formData['project']);
+	    	$entry = $em->getRepository('LittleBigJoeCoreBundle:Entry')->find($formData['entry']);
+	    
+	    	$currentUser = $this->get('security.context')->getToken()->getUser();
+	    	// If the current user is not logged, redirect him to login page
+	    	if (!is_object($currentUser))
+	    	{
+		    		$this->get('session')->getFlashBag()->add(
+		    				'notice',
+		    				'You must be logged in to comment this entry'
+		    		);
+		    		 
+		    		// Force base url to make sure environment is not specified in the URL
+		    		$this->get('router')->getContext()->setBaseUrl('');
+		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+		    		return new JsonResponse(array('status' => 'KO USER'));
+	    	}
+	    	 
+	    	// If the project doesn't exist or entry doesn't exists
+	    	if (empty($project) || empty($entry))
+	    	{
+	    			return new JsonResponse(array('status' => 'KO PROJECT'));
+	    	}
+	    
+	    	$entryComment = new EntryComment();
+	    	$entryComment->setEntry($entry);
+	    	$entryComment->setUser($currentUser);
+	    	$entryComment->setIsVisible($entry->getIsPublic());
+	    	$entryComment->setContent($formData['content']);
+	    
+	    	// Save entry comment in DB
+	    	$em->persist($entryComment);
+	    	$em->flush();
+	    
+	    	$commentJson = array(
+	    			'user_name' => (string)$currentUser,
+	    			'user_id' => $currentUser->getId(),
+	    			'created_at' => $entryComment->getCreatedAt()->format('m/d/Y h:i'),
+	    			'content' => $entryComment->getContent()
+	    	);
+	    
+	    	// Make sure no code is executed after it
+	    	return new JsonResponse(array('status' => 'OK', 'comment' => $commentJson));
 	    	exit;
     }
     
@@ -201,7 +266,7 @@ class AjaxController extends Controller
 	    	$commentJson = array(
 	    			'user_name' => (string)$currentUser,
 	    			'user_id' => $currentUser->getId(),
-	    			'created_at' => $comment->getCreatedAt()->format('d/m/Y h:i'),
+	    			'created_at' => $comment->getCreatedAt()->format('m/d/Y h:i'),
 	    			'content' => $comment->getContent()
 	   		);
 	    	

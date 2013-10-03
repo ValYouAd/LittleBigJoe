@@ -76,7 +76,6 @@ class EntryComment
     public function prePersist()
     {
         $this->createdAt = new \DateTime();
-        $this->isVisible = true;
     }
 
     /**

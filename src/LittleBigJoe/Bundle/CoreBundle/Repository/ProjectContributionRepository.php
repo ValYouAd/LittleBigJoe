@@ -47,6 +47,10 @@ class ProjectContributionRepository extends EntityRepository
     public function findLatest($limit = 4)
     {
         return $this->createQueryBuilder('pc')
+        		->where('pc.mangopayIsSucceeded = :mangopayIsSucceeded')
+        		->setParameter('mangopayIsSucceeded', true)
+        		->andWhere('pc.mangopayIsCompleted = :mangopayIsCompleted')
+        		->setParameter('mangopayIsCompleted', true)
             ->orderBy('pc.id', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
