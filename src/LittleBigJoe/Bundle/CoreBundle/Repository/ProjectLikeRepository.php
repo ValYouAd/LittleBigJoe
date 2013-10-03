@@ -12,4 +12,57 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectLikeRepository extends EntityRepository
 {
+		/**
+		 * Return likes for stats charts
+		 *
+		 * @param datetime $beginDate : begin date used for retrieving data
+		 * @param datetime $endDate : ending date used for retrieving data
+		 * @param null/integer $projectId : only retrieve data for specific project
+		 * @return array likes
+		 */
+		public function findLikesStats($beginDate, $endDate = null, $projectId = null)
+		{
+				if (empty($endDate))
+				{
+						$endDate = new \DateTime();
+				}
+				
+				// Generate array with days
+				$period = new \DatePeriod($beginDate,	new \DateInterval('P1D'), $endDate);				
+				$datesArray = array();
+				foreach ( $period as $day )
+				{
+  					$datesArray[$day->format("Y-m-d")]['date'] = $day;
+  					$datesArray[$day->format("Y-m-d")]['nbLikes'] = 0;
+				}
+				
+				// Get likes by day
+				$qb = $this->createQueryBuilder('pl')
+						->select('COUNT(pl.id) AS nbLikes, pl.createdAt AS date')
+						->where('pl.createdAt BETWEEN :beginDate AND :endDate')
+						->setParameter('beginDate', $beginDate)
+						->setParameter('endDate', $endDate);
+				 
+				if (!empty($projectId))
+				{
+						$qb = $qb->andWhere('pl.project = :project')
+										 ->setParameter('project', $projectId);
+				}
+				 
+				$results = $qb->orderBy('pl.createdAt', 'ASC')
+								->groupBy('pl.createdAt')
+								->getQuery()
+								->getResult();
+			
+				// Increment number of likes for days
+				if (!empty($results))
+				{
+						foreach ($results as $result)
+						{
+								$datesArray[$result['date']->format("Y-m-d")]['nbLikes'] = $datesArray[$result['date']->format("Y-m-d")]['nbLikes'] + $result['nbLikes'];
+						}
+				}
+				
+				return $datesArray;
+		}
 }

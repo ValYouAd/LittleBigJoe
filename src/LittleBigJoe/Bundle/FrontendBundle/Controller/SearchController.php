@@ -31,6 +31,7 @@ class SearchController extends Controller
         }
                 
         $paginator = $this->get('knp_paginator');
+        
         // Take the max number of results to generate the global pagination
         $pagination = $paginator->paginate(
         		((sizeof($projectsSearch) > sizeof($usersSearch)) ? $projectsSearch : $usersSearch),

@@ -39,8 +39,8 @@
 		    		<a href="#" class="btn btn btn-success" id="likeProject">{{ 'I like this project'|trans() }}</a>
 		    </p>
 		    {% endif %}
-		    <p class="lead">{{ 'Engagement evolution'|trans() }}</p>		 
-		    <p>A FAIRE</p>   
+		    <p class="lead">{{ 'Engagement evolution'|trans() }}</p>		
+				<div id="highcharts" style="min-width: 200px; height: 200px; margin: 0 auto"></div>   
 		{% else %}
 				<p>
 				    <div class="progress progress-striped active">
@@ -137,7 +137,7 @@
     {% endif %}
     <h2>
 		    {{ entity.location }} - 
-		    <a href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}">{{ entity.category }}</a>
+		    <a href="{{ path('littlebigjoe_frontendbundle_category_show', { 'slug': entity.category.slug }) }}">{{ entity.category }}</a>
 		</h2>  
     <span class="label label-info">{{ 'Project default language :'|trans() }} {{ entity.language }}</span>
 	
@@ -213,7 +213,7 @@
         		<div class="clearfix">&nbsp;</div>
           	<p class="lead">{{ 'Here\'s the list of comments related to'|trans() }} {{ entity }} {{ 'project'|trans() }}</p> 
           	
-          	{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY')) %}
+          	{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (app.user is null) %}
           	<div style="padding:20px;border:1px dotted black">
           		<h4>{{ 'Add new comment'|trans() }}</h4>
           		{{ form(comment_form, {attr:{id:'commentForm', role:'form'}}) }}
@@ -239,11 +239,20 @@
 
 {% block footer_javascripts %}
 		{{ parent() }}
+		{% if entity.status == '1' %}<script src="http://code.highcharts.com/highcharts.js"></script>{% endif %}
 		<script type="text/javascript">
 				var currentProjectId = {{ entity.id }};
 				var onLabel = "{{ 'On'|trans() }}";
 				var publicLabel = "{{ '(Public)'|trans() }}";
 				var privateLabel = "{{ '(Private)'|trans() }}";
+				{% if entity.status == '1' %}
+						{% set dates = [] %}
+						{% for dateStat in dateStats %}
+								{% set dates = dates|merge([dateStat|localizeddate('short', 'none')]) %}
+						{% endfor %}
+						var projectDates = {{ dates|json_encode()|raw }};
+						var projectLikes = {{ likesStats|raw }};
+				{% endif %}
 				
 				$(document).ready(function () {
 	        	// Project tabs
@@ -254,6 +263,43 @@
 	        	
 	        	for ( instance in CKEDITOR.instances )
     		    	CKEDITOR.instances[instance].setData("");
+	        	
+	        	{% if entity.status == '1' %}
+			        	// Engagement evolution chart 
+			        	$('#highcharts').highcharts({
+				            title: {
+				                text: null
+				            },
+				            xAxis: {
+				                categories: projectDates,
+				                labels: {
+			                			enabled: false
+				                },
+				                title: {
+				                		text: null
+				                }
+				            },
+				            yAxis: {
+				                labels: {
+				                		enabled: false
+				                },
+				                title: {
+				                		text: null
+				                },
+				                min: 0
+				            },
+				            tooltip: {
+				                valueSuffix: " {{ 'likes'|trans() }}"
+				            },
+				            legend: {
+				            		enabled: false
+				            },
+				            series: [{
+				                name: "{{ entity.name }}",
+				                data: projectLikes
+				            }]
+			        	});
+	        	{% endif %}
 	        	
 	        	// Like request
 	        	$('#likeProject').click(function (e) {

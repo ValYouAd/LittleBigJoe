@@ -348,7 +348,7 @@ class ProjectRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    
     /**
      * Return projects for specific keyword (used for search)
      *

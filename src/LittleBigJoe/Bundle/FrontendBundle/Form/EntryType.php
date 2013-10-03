@@ -24,19 +24,8 @@ class EntryType extends AbstractType
             ->add('content', 'ckeditor', array(
 			      		'label' => 'Comment content',
 			      		'data' => '',
-			      		'toolbar' => array('clipboard', 'basicstyles', 'links', 'insert', 'tools'),
-			      		'toolbar_groups' => array(
-			      				'document' => array(),
-			      				'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
-			      				'editing' => array(),
-			      				'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
-			      				'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
-			      				'links' => array('Link','oembed', 'Unlink','Anchor'),
-			      				'insert' => array('Table'),
-			      				'styles' => array(),
-			      				'tools' => array('Maximize')
-			      		)
-			      ))
+			      		'custom_config' => "toolbarGroups: [{ name: 'clipboard', groups: ['clipboard']}, { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] }, { name: 'links' }, { name: 'styles' }]"
+    				))
             ->add('isPublic', 'choice', array(
         				'label' => 'Visible to non participants ?',
             		'choices' => array('1' => 'Yes', '0' => 'No')

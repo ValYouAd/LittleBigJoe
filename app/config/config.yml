@@ -185,24 +185,13 @@ services:
 trsteel_ckeditor:
     class: Trsteel\CkeditorBundle\Form\Type\CkeditorType
     transformers: ['strip_js', 'strip_css', 'strip_comments']
-    toolbar: ['clipboard', 'paragraph', 'editing', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools']
-    toolbar_groups:
-        document: []
-        clipboard: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo']
-        editing: ['Source']
-        basicstyles: ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat']
-        paragraph: ['NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock']
-        links: ['Link','oembed', 'Unlink','Anchor']
-        insert: ['Image','Table']
-        styles: ['Styles','Format']
-        tools: ['Maximize']
     ui_color: '#FFFFFF'
     startup_outline_blocks: false
     width: 800 #Integer or %
     height: 300 #Integer or %    
     language: 'en-US'
-    custom_config: 'js/ckeditor/config.js'
-    contents_css: 'js/ckeditor/customstyle.css'
+    # Used to aovid some problems regarding iframes/embed placeholders (check template override in /app folder)
+    custom_config: "toolbarGroups: [{ name: 'clipboard', groups: ['clipboard']}, { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] }, { name: 'links' }, { name: 'others' }, { name: 'insert', groups: ['image', 'flash', 'table'] },'/', { name: 'styles' }]"
     external_plugins:
         oembed:
             path: js/ckeditor/plugins/oembed
@@ -213,8 +202,6 @@ trsteel_ckeditor:
 fm_elfinder:
     locale: %locale%
     editor: ckeditor # other choices are tinymce or simple
-    showhidden: false # defaults to false
-    fullscreen: true # defaults true, applies to simple and ckeditor editors
     connector:
         debug: false # defaults to false
         roots:       # at least one root must be defined

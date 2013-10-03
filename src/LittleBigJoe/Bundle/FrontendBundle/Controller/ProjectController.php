@@ -244,7 +244,7 @@ class ProjectController extends Controller
      * @Route("/launch-my-project", name="littlebigjoe_frontendbundle_project_create_project")
      * @Template("LittleBigJoeFrontendBundle:Project:create.html.twig")
      */
-    public function createProjectAction()
+    public function createProjectAction(Request $request)
     {
 				$em = $this->getDoctrine()->getManager();
 				
@@ -256,8 +256,16 @@ class ProjectController extends Controller
 								'notice',
 								'You must be logged in to create a project'
 						);
-						
+												
+						$request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project_create_project');
 						return $this->redirect($this->generateUrl('fos_user_security_login'));
+				}
+				
+				// Make sure the private user dir is created
+				$dirName = __DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+				if (!file_exists($dirName))
+				{
+						mkdir($dirName, 0755);
 				}
 								
         $project = new Project(); 
@@ -313,7 +321,7 @@ class ProjectController extends Controller
 				            		// Create project directory if it doesn't exist
 				            		if (!is_dir(__DIR__.'/../../../../../web/uploads/projects/'.$project->getId()))
 				            		{
-				            			mkdir(__DIR__.'/../../../../../web/uploads/projects/'.$project->getId(), 0755);
+				            			mkdir(__DIR__.'/../../../../../web/uploads/projects/'.$project->getId(), 0777);
 				            		}
 				            
 				            		// Move file
@@ -377,8 +385,13 @@ class ProjectController extends Controller
     	
 	    	if (!empty($file) && $file instanceof UploadedFile) 
 	    	{
+	    			$dirName = __DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+	    			if (!file_exists($dirName))
+	    			{
+	    					mkdir($dirName, 0777);	    				
+	    			}
 	    			// Move uploaded file to tmp directory, and save path in session
-		    		$tmpFile = $file->move(__DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail()).'/', sha1($file->getClientOriginalName().uniqid(mt_rand(), true)));
+		    		$tmpFile = $file->move($dirName.'/', sha1($file->getClientOriginalName().uniqid(mt_rand(), true)));
 		    		if (!empty($tmpFile))
 		    		{
 			    			$tmpFilePath = $tmpFile->getPath().$tmpFile->getFilename();
@@ -406,6 +419,19 @@ class ProjectController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
+        
+        // Generate stats for chart
+        $stats = $em->getRepository('LittleBigJoeCoreBundle:ProjectLike')->findLikesStats($entity->getCreatedAt(), new \DateTime(), $entity->getId());
+        $dateStats = array();
+        $likesStats = array();
+        
+        foreach ($stats as $key => $stat)
+        {
+        		$dateStats[] = $stat['date'];
+        		$likesStats[] = $stat['nbLikes'];
+        }
+        
+        //var_dump($dateStats);
         
         // Create the entry form
         $entry = new Entry();
@@ -435,6 +461,8 @@ class ProjectController extends Controller
         
         return array(
             'entity' => $entity,
+        		'dateStats' => $dateStats,
+        		'likesStats' => json_encode($likesStats),
         		'entry_form' => $entryForm->createView(),
         		'comment_form' => $commentForm->createView(),
         		'funding_form' => $fundingForm->createView(),

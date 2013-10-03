@@ -6,8 +6,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use FM\ElFinderPHP\Connector\ElFinderConnector;
 use FM\ElfinderBundle\Bridge\ElFinderBridge;
+use FM\ElfinderBundle\Loader\FMElfinderLoader as BaseLoader;
 
-class FMElfinderLoader
+class FMElfinderLoader extends BaseLoader
 {
     /**
      * @var array $options
@@ -40,7 +41,7 @@ class FMElfinderLoader
         $options = array();
         $options['debug'] = $parameters['connector']['debug'];
         $options['roots'] = array();
-
+        
         foreach ($parameters['connector']['roots'] as $parameter) {
             $path = $parameter['path'];
             
@@ -48,10 +49,9 @@ class FMElfinderLoader
             $path = $path.'/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
             if (!file_exists($path))
             {
-            		if (!mkdir($path, 0755))
-            				exit;
-            }
-            
+            		mkdir($path, 0755);
+            }   
+
             $driver = $this->container->has($parameter['driver']) ? $this->container->get($parameter['driver']) : null;
             $options['roots'][] = array(
                 'driver'        => $parameter['driver'],
@@ -93,5 +93,10 @@ class FMElfinderLoader
         	return strpos(basename($path), '.') === 0       // if file/folder begins with '.' (dot)
 		? !($attr == 'read' || $attr == 'write')    // set read+write to false, other (locked+hidden) set to true
 		:  null;                                    // else elFinder decide it itself
+    }
+    
+    public function getParent()
+    {
+    		return 'FMElfinder';	
     }
 }

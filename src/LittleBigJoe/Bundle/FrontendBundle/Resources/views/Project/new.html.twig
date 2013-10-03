@@ -192,7 +192,7 @@
 		                		$('#audioFileProgress .progress-bar').css('width', '100%');
 		                    $('#audioFileProgress .progress-bar').attr('aria-valuenow', '100');
 		                    $('#audioFileModal').modal('hide');
-		                    CKEDITOR.instances['createProject_description'].insertHtml('<div class="ck_object_container">' + data.result.html + '</div>');
+		                    CKEDITOR.instances['createProject_description'].insertHtml('<div>' + data.result.html + '</div>', 'unfiltered_html');
 		                    $('#audioFileName').val('');
 				            		$('#audioFileProgress .progress-bar').css('width', '0%');
 				                $('#audioFileProgress .progress-bar').attr('aria-valuenow', '0');
