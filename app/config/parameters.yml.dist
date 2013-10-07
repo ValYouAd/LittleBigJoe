@@ -24,7 +24,7 @@ parameters:
     leetchi_base_url_prod: 'https://api.leetchi.com/'
     leetchi_base_url_preprod: 'http://api-preprod.leetchi.com/'
     leetchi_partner_id: 'adentify'
-    leetchi_private_key_file_name: 'mangopay.pem'
+    leetchi_private_key_file_name: 'mangopay'
     leetchi_private_key_password: 'LBT@2013!Little$Big$Joe$'
     
     # FOSFacebookBundle Configuration
