@@ -464,8 +464,32 @@ class ProjectController extends Controller
 										        ))
 										        ->getForm();
         
+				// Set some vars used in the template to filter data
+				$contributions = $entity->getContributions();
+				$usersIds = array();
+				$usersAmounts = array();
+				if (!empty($contributions))
+				{
+						foreach ($contributions as $contribution)
+						{
+								if (!in_array($contribution->getUser()->getId(), $usersIds))
+								{
+										$usersIds[] = $contribution->getUser()->getId();
+										$usersAmounts[$contribution->getUser()->getId()] = 0;
+								}
+								if ($contribution->getAnonymous() == false)
+								{
+										$usersAmounts[$contribution->getUser()->getId()] += $contribution->getMangopayAmount();
+								}
+						}
+				}						
+				        						
         return array(
             'entity' => $entity,
+        		
+        		'usersIds' => $usersIds,
+        		'usersAmounts' => $usersAmounts,
+        		
         		'dateStats' => $dateStats,
         		'likesStats' => json_encode($likesStats),
         		'entry_form' => $entryForm->createView(),

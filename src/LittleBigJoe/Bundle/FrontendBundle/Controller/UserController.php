@@ -23,9 +23,25 @@ class UserController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
         }
+        
+        $projectContributions = $entity->getContributions();
+        $distinctProjectsIds = array();
+        $distinctProjects = array();
+        if (!empty($projectContributions))
+        {
+        		foreach ($projectContributions as $projectContribution)
+        		{
+        				if ($projectContribution->getAnonymous() == false && !in_array($projectContribution->getProject()->getId(), $distinctProjectsIds))
+        				{
+        						$distinctProjectsIds[] = $projectContribution->getProject()->getId();
+        						$distinctProjects[] = $projectContribution->getProject();
+        				}        		
+        		}
+        }
 
         return array(
-            'entity' => $entity
+            'entity' => $entity,
+        		'distinctProjects' => $distinctProjects
         );
     }
 }

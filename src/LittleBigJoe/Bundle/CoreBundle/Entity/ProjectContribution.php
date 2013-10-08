@@ -63,6 +63,20 @@ class ProjectContribution
      * @ORM\Column(name="mangopay_answer_code", type="string", length=255, nullable=true)
      */
     private $mangopayAnswerCode;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="anonymous", type="boolean")
+     */
+    private $anonymous;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="invoice", type="string", length=255, nullable=true)
+     */
+    private $invoice;
 
     /**
      * @var \DateTime
@@ -76,7 +90,7 @@ class ProjectContribution
      *
      * @ORM\Column(name="mangopay_updated_at", type="datetime")
      */
-    private $mangopayUpdatedAt;
+    private $mangopayUpdatedAt;   
 
     /**
      * @var \DateTime
@@ -265,6 +279,52 @@ class ProjectContribution
         return $this->mangopayAnswerCode;
     }
 
+    /**
+     * Set anonymous
+     *
+     * @param boolean $anonymous
+     * @return ProjectContribution
+     */
+    public function setAnonymous($anonymous)
+    {
+	    	$this->anonymous = $anonymous;
+	    
+	    	return $this;
+    }
+    
+    /**
+     * Get anonymous
+     *
+     * @return boolean
+     */
+    public function getAnonymous()
+    {
+    		return $this->anonymous;
+    }
+
+    /**
+     * Set invoice
+     *
+     * @param string $invoice
+     * @return ProjectContribution
+     */
+    public function setInvoice($invoice)
+    {
+	    	$this->invoice = $invoice;
+	    
+	    	return $this;
+    }
+    
+    /**
+     * Get invoice
+     *
+     * @return string
+     */
+    public function getInvoice()
+    {
+    		return $this->invoice;
+    }
+    
     /**
      * Set mangopayCreatedAt
      *

@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectLike;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectContribution;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,7 +22,7 @@ class PaymentController extends Controller
 		/**
 		 * Check if all necessary data are set
 		 */		
-		public function preCheck()
+		public function preCheck(Request $request)
 		{
 				$em = $this->getDoctrine()->getManager();
 				$formData = $this->get('request')->request->all();
@@ -42,18 +43,6 @@ class PaymentController extends Controller
 						$projectId = 0;
 				}
 				
-				$currentUser = $this->get('security.context')->getToken()->getUser();
-				// If the current user is not logged, redirect him to login page
-				if (!is_object($currentUser))
-				{
-						$this->get('session')->getFlashBag()->add(
-								'notice',
-								'You must be logged in to contribute to this project'
-						);
-					
-						return $this->redirect($this->generateUrl('fos_user_security_login')); 
-				}
-				
 				// If it's not a correct project id
 				if (empty($projectId))
 				{
@@ -65,9 +54,24 @@ class PaymentController extends Controller
 				// If the project doesn't exist
 				if (empty($project))
 				{
-						return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home')); 
-				}			
+						return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+				}
 				
+				$currentUser = $this->get('security.context')->getToken()->getUser();
+				// If the current user is not logged, redirect him to login page
+				if (!is_object($currentUser))
+				{
+						$this->get('session')->getFlashBag()->add(
+								'notice',
+								'You must be logged in to contribute to this project'
+						);
+					
+						// Force base url to make sure environment is not specified in the URL
+						$this->get('router')->getContext()->setBaseUrl('');
+						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));												
+						return $this->redirect($this->generateUrl('fos_user_security_login')); 
+				}
+								
 				return array(
 						'project' => $project,
 						'user' => $currentUser,
@@ -83,10 +87,10 @@ class PaymentController extends Controller
      * @Method("POST")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {    		
     		$em = $this->getDoctrine()->getManager();
-    		$data = $this->preCheck();
+    		$data = $this->preCheck($request);
     		
     		// Redirect eventually
     		if (is_object($data) && $data instanceof RedirectResponse)
@@ -118,10 +122,10 @@ class PaymentController extends Controller
      * @Route("/process", name="littlebigjoe_frontendbundle_payment_process")
      * @Method("POST")
      */
-    public function processAction()
+    public function processAction(Request $request)
     {
     		$em = $this->getDoctrine()->getManager();
-	    	$data = $this->preCheck();
+	    	$data = $this->preCheck($request);
 	    	$rewardId = 0;
 	    	$amountToPay = 0;
 	    	
@@ -173,6 +177,7 @@ class PaymentController extends Controller
 	    	$contribution = new ProjectContribution();
 	    	$contribution->setProject($data['project']);
 	    	$contribution->setUser($data['user']);
+	    	$contribution->setAnonymous(($request->request->get('anonymous')) ? true : false);
 	    	// Only set reward, if there's one selected previously
 	    	if (!empty($reward))
 	    	{
@@ -237,10 +242,10 @@ class PaymentController extends Controller
      * @Route("/confirmation", name="littlebigjoe_frontendbundle_payment_confirmation")
      * @Template()
      */
-    public function confirmationAction()
+    public function confirmationAction(Request $request)
     {
 	    	$em = $this->getDoctrine()->getManager();
-	    	$data = $this->preCheck();
+	    	$data = $this->preCheck($request);
 	    	$status = 'KO';
 
 	    	// Redirect eventually
@@ -281,19 +286,23 @@ class PaymentController extends Controller
 				    		{
 				    				$contribution->setMangopayUpdatedAt(new \DateTime('@'.$mangopayContribution->UpdateDate));
 				    		}				    		
-				    		$em->persist($contribution);
-				    		$em->flush();
 				    		
 				    		if ($mangopayContribution->IsSucceeded == true && $mangopayContribution->IsCompleted == true)
 				    		{
 				    				$status = 'OK';
 				    				
-				    				// Generate PDF file
+				    				// Make sure the PDF dir is created
 				    				$pdfPath = $this->container->getParameter('kernel.root_dir').'/../web/uploads/pdfs/';
+				    				if (!file_exists($pdfPath))
+				    				{
+				    						mkdir($pdfPath, 0755);
+				    				}
+				    								    				
 				    				$pdfName = 'invoice_'.sha1($contribution->getMangopayContributionId().uniqid(mt_rand(), true)).'.pdf';
 				    				$handle = fopen($pdfPath.$pdfName, 'a+');
 				    				if ($handle)
 				    				{
+				    						// Generate pdf file
 					    					$html2pdf = $this->get('html2pdf')->get();
 					    					$html2pdf->WriteHTML($this->container->get('templating')->render('LittleBigJoeFrontendBundle:Pdf:payment_invoice.pdf.twig', array(
 					    							'user' => $data['user'],
@@ -304,6 +313,9 @@ class PaymentController extends Controller
 				    						$html2pdf->Output($pdfPath.$pdfName, 'F');
 				    				}
 				    				fclose($handle);
+				    				
+				    				// Stock invoice name in database
+				    				$contribution->setInvoice($pdfName);
 				    				
 				    				// Send payment confirmation email
 				    				$email = \Swift_Message::newInstance()
@@ -339,6 +351,9 @@ class PaymentController extends Controller
 									    				);
 				    				$this->container->get('mailer')->send($email);
 				    		}
+				    		
+				    		$em->persist($contribution);
+				    		$em->flush();
 	    			}
 	    	}
     	

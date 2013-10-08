@@ -1,17 +1,9 @@
 {% extends '::base.html.twig' %}
 
-{% set users_ids = [] %}
-{% if entity.contributions %}
-		{% for contribution in entity.contributions %}
-				{% if contribution.user.id not in users_ids %}
-						{% set users_ids = users_ids|merge([contribution.user.id]) %}
-				{% endif %}
-		{% endfor %}
-{% endif %}
 {% set entries_ids = [] %}
 {% if entity.entries %}
   		{% for entry in entity.entries|reverse %}
-      		{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in users_ids) %}
+      		{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
         			{% set entries_ids = entries_ids|merge([entry.id]) %}
         	{% endif %}
       {% endfor %}
@@ -51,7 +43,7 @@
 				        </div>
 				    </div>
 				    <strong><span class="amount_count">{{ entity.amountCount }}</span> {{ '€ of'|trans() }} {{ entity.amountRequired }} {{ '€ required amount to raise'|trans() }}</strong><br/>
-    				<strong>{{ users_ids|length }} {{ 'participant(s)'|trans() }}</strong><br />
+    				<strong>{{ usersIds|length }} {{ 'participant(s)'|trans() }}</strong><br />
     				<strong>{{ entity.endingAt|time_remaining }}</strong>
     		</p>		
     		{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY')) %}
@@ -128,7 +120,7 @@
     {% endif %}    
 {% endblock %}
 
-{% block body %}		
+{% block body %}				
     <h1>{{ 'Project'|trans() }} {{ entity }}</h1>
     {% if entity.status == '1' %}
         <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
@@ -146,7 +138,7 @@
 		<ul class="nav nav-tabs" id="projectTab">
 	      <li class="active"><a data-toggle="tab" href="#project">{{ 'Project'|trans() }}</a></li>
 	      <li><a data-toggle="tab" href="#news">{{ 'News'|trans() }} (<span class="entries_count">{{ entries_ids|length|default('0') }}</span>)</a></li>
-	      <li><a data-toggle="tab" href="#participants">{{ 'Participants'|trans() }} (<span class="participants_count">{{ users_ids|length|default('0') }}</span>)</a></li>
+	      <li><a data-toggle="tab" href="#participants">{{ 'Participants'|trans() }} (<span class="participants_count">{{ usersIds|length|default('0') }}</span>)</a></li>
       	<li><a data-toggle="tab" href="#comments">{{ 'Comments'|trans() }} (<span class="comments_count">{{ entity.comments|length|default('0') }}</span>)</a></li>
     </ul>
 
@@ -179,7 +171,7 @@
           	{% if entity.entries %}
           			<ul id="entries_list">
           			{% for entry in entity.entries|reverse %}
-          					{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in users_ids) %}
+          					{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
           					<li>
           							<strong>{{ entry }} {% if entry.isPublic %}{{ '(Public)'|trans() }}{% else %}{{ '(Private)'|trans() }}{% endif %}</strong><br />
           							<small>{{ 'On'|trans() }} {{ entry.createdAt|localizeddate('short', 'short') }}</small><br />
@@ -217,7 +209,10 @@
           			{% for contribution in entity.contributions %}
           					{% if contribution.user.id not in already_shown_users_ids %}
           							{% set already_shown_users_ids = already_shown_users_ids|merge([contribution.user.id]) %}
-          							<li><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a></li>
+          							<li>
+          								<a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a>
+													{% if usersAmounts[contribution.user.id] > 0 %}{{ 'gived'|trans() }} <strong>{{ usersAmounts[contribution.user.id] }} {{ '€'|trans() }}</strong>{% endif %}
+												</li>
           					{% endif %}
           			{% endfor %}
           			</ul>

@@ -62,6 +62,11 @@
 		    				</p>
 		    		{% endfor %}
 		    		
+		    		<p>
+				    		<input type="checkbox" id="anonymous" name="anonymous" value="1" />
+				    		<label for="anonymous">{{ 'I would like to keep this contribution anonymous' }}</label>				    		
+		    		</p>
+		    		
 		    		<input type="submit" class="btn btn-primary" value="{{ 'Continue'|trans() }}" />
 				</form>
     {% endif %}
