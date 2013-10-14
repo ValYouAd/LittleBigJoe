@@ -18,9 +18,9 @@ parameters:
     default_url: http://dev.littlebigjoe.com
     nb_elements_by_page: 20
     howdoesitwork_page_id: ~ # Must be the ID of the "How does this website work" (use in Top menu)
-    allowed_mime_types: ['application/pdf', 'application/xml', 'application/zip', 'text/csv', 'text/plain', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.oasis.opendocument.text'] # MIME types that will be authorized (for file upload in "Launch my project" section")
+    allowed_mime_types: ['application/pdf', 'application/xml', 'application/zip', 'text/csv', 'text/plain', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.oasis.opendocument.text', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'] # MIME types that will be authorized (for file upload in "Launch my project" section")
     max_file_size: 20971520 # Size in bytes : 20Mo
-    allowed_audio_mime_types: ['audio/mpeg', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav'] # MIME types that will be authorized (for audio file upload in "Launch my project" section")
+    allowed_audio_mime_types: ['audio/mpeg', 'audio/mp3', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav'] # MIME types that will be authorized (for audio file upload in "Launch my project" section")
     max_audio_file_size: 20971520 # Size in bytes : 20Mo
     leetchi_base_url_prod: 'https://api.leetchi.com/'
     leetchi_base_url_preprod: 'http://api-preprod.leetchi.com/'
