@@ -272,6 +272,16 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="ProjectContribution", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $contributions;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Beneficiary", mappedBy="user", cascade={"persist", "remove"})
+     */
+    protected $beneficiaries;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Withdrawal", mappedBy="user", cascade={"persist", "remove"})
+     */
+    protected $withdrawals;
 
     public function __construct()
     {
@@ -283,6 +293,8 @@ class User extends BaseUser
         $this->entry_comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->contributions = new ArrayCollection();
+        $this->beneficiaries = new ArrayCollection();
+        $this->withdrawals = new ArrayCollection();
     }
 
     public function __toString()
@@ -1045,5 +1057,71 @@ class User extends BaseUser
     public function getEntryComments()
     {
         return $this->entry_comments;
+    }
+
+    /**
+     * Add beneficiaries
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Beneficiary $beneficiaries
+     * @return User
+     */
+    public function addBeneficiarie(\LittleBigJoe\Bundle\CoreBundle\Entity\Beneficiary $beneficiaries)
+    {
+        $this->beneficiaries[] = $beneficiaries;
+    
+        return $this;
+    }
+
+    /**
+     * Remove beneficiaries
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Beneficiary $beneficiaries
+     */
+    public function removeBeneficiarie(\LittleBigJoe\Bundle\CoreBundle\Entity\Beneficiary $beneficiaries)
+    {
+        $this->beneficiaries->removeElement($beneficiaries);
+    }
+
+    /**
+     * Get beneficiaries
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBeneficiaries()
+    {
+        return $this->beneficiaries;
+    }
+
+    /**
+     * Add withdrawals
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal $withdrawals
+     * @return User
+     */
+    public function addWithdrawal(\LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal $withdrawals)
+    {
+        $this->withdrawals[] = $withdrawals;
+    
+        return $this;
+    }
+
+    /**
+     * Remove withdrawals
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal $withdrawals
+     */
+    public function removeWithdrawal(\LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal $withdrawals)
+    {
+        $this->withdrawals->removeElement($withdrawals);
+    }
+
+    /**
+     * Get withdrawals
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWithdrawals()
+    {
+        return $this->withdrawals;
     }
 }

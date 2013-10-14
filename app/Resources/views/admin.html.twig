@@ -1,4 +1,5 @@
 {% if form is defined %}{% form_theme form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
+{% if withdraw_form is defined %}{% form_theme withdraw_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
 {% if edit_form is defined %}{% form_theme edit_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
 {% if delete_form is defined %}{% form_theme delete_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
 
@@ -54,8 +55,15 @@
                             href="{{ path('littlebigjoe_backendbundle_pages') }}">{{ 'backend.pages'|trans() }}</a></li>
                 <li class="{{ 'littlebigjoe_backendbundle_users'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_users') }}">{{ 'backend.users'|trans() }}</a></li>
-                <li class="{{ 'littlebigjoe_backendbundle_projects'|current() }}"><a
-                            href="{{ path('littlebigjoe_backendbundle_projects') }}">{{ 'backend.projects'|trans() }}</a></li>
+                <li class="dropdown {{ 'littlebigjoe_backendbundle_projects'|current() }}">
+               			<a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ 'backend.projects'|trans() }} <b class="caret"></b></a>
+               			<ul class="dropdown-menu">
+				                <li><a href="{{ path('littlebigjoe_backendbundle_projects') }}">{{ 'backend.projects_list'|trans() }}</a></li>
+				                <li><a href="{{ path('littlebigjoe_backendbundle_projects_engagement_phase') }}">{{ 'backend.engagement_phase_projects_list'|trans() }}</a></li>
+			            		  <li><a href="{{ path('littlebigjoe_backendbundle_projects_funding_phase') }}">{{ 'backend.funding_phase_projects_list'|trans() }}</a></li>
+			            		  <li><a href="{{ path('littlebigjoe_backendbundle_projects_ended') }}">{{ 'backend.ended_projects_list'|trans() }}</a></li>
+				            </ul>
+                </li>
                 <li class="{{ 'littlebigjoe_backendbundle_categories'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_categories') }}">{{ 'backend.categories'|trans() }}</a>
                 </li>
@@ -64,6 +72,11 @@
                 <li class="{{ 'littlebigjoe_backendbundle_contributions'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_contributions') }}">{{ 'backend.contributions'|trans() }}</a>
                 </li>
+                <li class="{{ 'littlebigjoe_backendbundle_mangopay'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_mangopay') }}">{{ 'backend.mangopay'|trans() }}</a></li>
+                <li class="{{ 'littlebigjoe_backendbundle_beneficiaries'|current() }}"><a
+                            href="{{ path('littlebigjoe_backendbundle_beneficiaries') }}">{{ 'backend.beneficiaries'|trans() }}</a>
+                </li>            
                 <li class="{{ 'littlebigjoe_backendbundle_faqs'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_faqs') }}">{{ 'backend.faq'|trans() }}</a></li>
             </ul>

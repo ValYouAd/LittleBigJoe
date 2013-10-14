@@ -151,11 +151,13 @@ class ProjectContributionController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
+        $refundForm = $this->createRefundForm($id);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
+        		'refund_form' => $refundForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -196,6 +198,7 @@ class ProjectContributionController extends Controller
             throw $this->createNotFoundException('Unable to find ProjectContribution entity.');
         }
 
+        $refundForm = $this->createRefundForm($id);
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
@@ -209,6 +212,7 @@ class ProjectContributionController extends Controller
         return array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
+        		'refund_form' => $refundForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -253,5 +257,77 @@ class ProjectContributionController extends Controller
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm();
+    }
+    
+
+    /**
+     * Refunds a ProjectContribution entity.
+     *
+     * @Route("/{id}", name="littlebigjoe_backendbundle_contributions_refund")
+     * @Method("POST")
+     */
+    public function refundAction(Request $request, $id)
+    {
+    		$api = $this->container->get('little_big_joe_mango_pay.api');
+	    	$form = $this->createRefundForm($id);
+	    	$form->handleRequest($request);
+	    
+	    	if ($form->isValid()) {
+		    		$em = $this->getDoctrine()->getManager();
+		    		$entity = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->find($id);
+		    
+		    		if (!$entity) {
+		    				throw $this->createNotFoundException('Unable to find ProjectContribution entity.');
+		    		}
+		    
+		    		// Make the refund request
+		    		$mangopayRefund = $api->createRefund($entity->getMangopayContributionId(), $entity->getUser()->getMangopayUserId());
+		    		if (!empty($mangopayRefund) && !empty($entity))
+		    		{
+		    				if (!empty($mangopayRefund->ID))
+		    				{	
+				    				$entity->setIsRefunded(true);
+				    				$entity->setMangopayRefundId($mangopayRefund->ID);
+				    				
+				    				$em->persist($entity);
+				    				$em->flush();
+				    				
+				    				// Send contribution refund email
+				    				$email = \Swift_Message::newInstance()
+									    				->setContentType('text/html')
+									    				->setSubject($this->container->get('translator')->trans('You\'ve been refund for your contribution'))
+									    				->setFrom($this->container->getParameter('default_email_address'))
+									    				->setTo(array($entity->getUser()->getEmail() => $entity->getUser()))
+									    				->setBody(
+									    						$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:contribution_refund.html.twig', array(
+									    								'user' => $entity->getUser(),
+									    								'contribution' => $entity,
+									    								'url' => $this->container->get('request')->getSchemeAndHttpHost()
+									    						), 'text/html')
+									    				);
+				    				$this->container->get('mailer')->send($email);
+				    				
+				    				return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_contributions_show', array('id' => $id)));
+		    				}		    				
+		    		}
+		    }
+	    
+	    	return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_contributions'));
+    }
+    
+    /**
+     * Creates a form to refund a ProjectContribution entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createRefundForm($id)
+    {
+	    	return $this->createFormBuilder()
+			    	->setAction($this->generateUrl('littlebigjoe_backendbundle_contributions_refund', array('id' => $id)))
+			    	->setMethod('POST')
+			    	->add('submit', 'submit', array('label' => 'Refund'))
+			    	->getForm();
     }
 }

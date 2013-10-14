@@ -177,7 +177,7 @@ class PaymentController extends Controller
 	    	$contribution = new ProjectContribution();
 	    	$contribution->setProject($data['project']);
 	    	$contribution->setUser($data['user']);
-	    	$contribution->setAnonymous(($request->request->get('anonymous')) ? true : false);
+	    	$contribution->setIsAnonymous(($request->request->get('anonymous')) ? true : false);
 	    	// Only set reward, if there's one selected previously
 	    	if (!empty($reward))
 	    	{

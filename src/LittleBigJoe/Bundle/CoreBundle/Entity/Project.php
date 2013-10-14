@@ -292,7 +292,12 @@ class Project
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="project", cascade={"persist", "remove"})
      */
     protected $comments;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Withdrawal", mappedBy="project", cascade={"persist", "remove"})
+     */
+    protected $withdrawals;
+    
     public function __construct()
     {
         $this->entries = new ArrayCollection();
@@ -300,6 +305,7 @@ class Project
         $this->contributions = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->withdrawals = new ArrayCollection();
     }
 
     public function __toString()
@@ -1093,5 +1099,38 @@ class Project
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add withdrawals
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal $withdrawals
+     * @return Project
+     */
+    public function addWithdrawal(\LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal $withdrawals)
+    {
+        $this->withdrawals[] = $withdrawals;
+    
+        return $this;
+    }
+
+    /**
+     * Remove withdrawals
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal $withdrawals
+     */
+    public function removeWithdrawal(\LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal $withdrawals)
+    {
+        $this->withdrawals->removeElement($withdrawals);
+    }
+
+    /**
+     * Get withdrawals
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWithdrawals()
+    {
+        return $this->withdrawals;
     }
 }

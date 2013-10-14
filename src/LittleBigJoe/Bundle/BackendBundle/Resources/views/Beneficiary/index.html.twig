@@ -1,0 +1,62 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.beneficiaries_list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.beneficiaries_list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.beneficiaries_list_resume'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.ID'|trans(), 'b.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'b.name') }}</th>
+            <th>{{ 'backend.creator'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.bank_account_owner_name'|trans(), 'b.bankAccountOwnerName') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_beneficiaries_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>{{ entity.name }}</td>
+                <td>
+                		{% if entity.user %}
+                				<a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}">{{ entity.user }}</a>
+                		{% else %}
+                				{{ 'N/A'|trans() }}
+                		{% endif %}
+                </td>
+                <td>{{ entity.bankAccountOwnerName }}</td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_beneficiaries_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_beneficiaries_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_beneficiaries_new') }}">
+            {{ 'backend.create_beneficiary'|trans() }}
+        </a>
+    </p>
+{% endblock %}

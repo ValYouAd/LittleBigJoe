@@ -76,7 +76,7 @@
     		<h3>
             <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': contribution.project.slug}) }}">{{ contribution.project.name }}</a>
         </h3>
-        <h4>{{ contribution.mangopayAmount() }} {{ '€'|trans() }} {% if contribution.anonymous %}({{ 'Anonymous contribution'|trans() }}){% else %}({{ 'Public contribution'|trans() }}){% endif %}</h4>
+        <h4>{{ contribution.mangopayAmount() }} {{ '€'|trans() }} {% if contribution.isAnonymous %}({{ 'Anonymous contribution'|trans() }}){% else %}({{ 'Public contribution'|trans() }}){% endif %}</h4>
    			<p>{{ 'Made on'|trans() }} {{ contribution.createdAt|localizeddate('medium', 'medium') }}</p>
    			{% if contribution.reward %}
    					<p>

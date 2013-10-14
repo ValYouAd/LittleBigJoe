@@ -610,4 +610,130 @@ class ApiService
 						return $contribution;
 				}
 		}
+		
+		/**
+		 * Create refund
+		 *
+		 * @param int $contributionId
+		 * @param int $userId
+		 * @param string $tag
+		 * @return NULL|mixed
+		 */
+		public function createRefund($contributionId, $userId, $tag = null)
+		{
+				// Get vars and convert format
+				$body = json_encode(get_defined_vars());
+				
+				// Create refund
+				$refund = $this->request("refunds", "POST", $body);
+			
+				if (!isset($refund) || !isset($refund->ID))
+				{
+						return null;
+				}
+				else
+				{
+						return $refund;
+				}
+		}
+		
+		/**
+		 * Fetch operations
+		 *
+		 * @param int $walletId
+		 * @return NULL|mixed
+		 */
+		public function fetchOperations($walletId)
+		{
+				// Fetch operations
+				$operations = $this->request("wallets/".$walletId."/operations", "GET");
+					
+				if (empty($operations))
+				{
+						return null;
+				}
+				else
+				{
+						return $operations;
+				}
+		}
+		
+		/**
+		 * Fetch operations
+		 *
+		 * @param int $walletId
+		 * @return NULL|mixed
+		 */
+		public function listUsers($walletId, $include = null)
+		{
+				// List users
+				$users = $this->request("wallets/".$walletId."/users".(($include) ? '?include="'.$include.'"' : ''), "GET");
+					
+				if (empty($users))
+				{
+						return null;
+				}
+				else
+				{
+						return $users;
+				}
+		}
+		
+		/**
+		 * Create beneficiary
+		 *
+		 * @param string $bankAccountOwnerName
+		 * @param string $bankAccountOwnerAddress
+		 * @param string $bankAccountIban
+		 * @param string $bankAccountBic
+		 * @param string $tag
+		 * @param integer $userId
+		 * @return NULL|mixed
+		 */
+		public function createBeneficiary($bankAccountOwnerName, $bankAccountOwnerAddress, $bankAccountIban, $bankAccountBic, $tag = null, $userId = null)
+		{
+				// Get vars and convert format
+				$body = json_encode(get_defined_vars());
+			
+				// Create beneficiary
+				$beneficiary = $this->request("beneficiaries", "POST", $body);
+			
+				if (!isset($beneficiary) || !isset($beneficiary->ID))
+				{
+						return null;
+				}
+				else
+				{
+						return $beneficiary;
+				}
+		}
+		
+		/**
+		 * Create withdrawal
+		 *
+		 * @param integer $userId
+		 * @param integer $walletId
+		 * @param integer $beneficiaryId
+		 * @param float $amount
+		 * @param float $clientFeeAmount
+		 * @param string $tag
+		 * @return NULL|mixed
+		 */
+		public function createWithdrawal($userId, $walletId, $beneficiaryId, $amount, $clientFeeAmount = null, $tag = null)
+		{
+				// Get vars and convert format
+				$body = json_encode(get_defined_vars());
+					
+				// Create withdrawal
+				$withdrawal = $this->request("withdrawals", "POST", $body);
+					
+				if (!isset($withdrawal) || !isset($withdrawal->ID))
+				{
+						return null;
+				}
+				else
+				{
+						return $withdrawal;
+				}
+		}
 }

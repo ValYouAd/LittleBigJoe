@@ -1,0 +1,74 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.ended_projects_list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.ended_projects_list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.ended_projects_list_resume'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.id'|trans(), 'p.id') }}</th>
+            <th>{{ 'backend.brand'|trans() }}</th>
+            <th>{{ 'backend.category'|trans() }}</th>
+            <th>{{ 'backend.creator'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'p.name') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.slug'|trans(), 'p.slug') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.likes'|trans(), 'p.likesRequired') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.amount'|trans(), 'p.amountRequired') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.ending_at'|trans(), 'p.endingAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.is_deleted'|trans(), 'p.deletedAt') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}">{{ entity.brand }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}">{{ entity.category }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}">{{ entity.user }}</a>
+                </td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.slug }}</td>
+                <td>{{ entity.likesCount }} / {{ entity.likesRequired }}</td>
+                <td>{{ entity.amountCount }} / {{ entity.amountRequired }}</td>
+                <td>{{ entity.endingAt|date('d/m/Y h:i') }}</td>
+                <td>
+                    {% if entity.deletedAt %}
+                        <span class="label label-default">{{ 'backend.deleted'|trans() }}</span>
+                    {% else %}
+                        <span class="label label-success">{{ 'backend.not_deleted'|trans() }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_projects_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

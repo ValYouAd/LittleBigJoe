@@ -1,0 +1,127 @@
+{% extends "::admin.html.twig" %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.mangopay_infos'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.mangopay_infos_resume'|trans() }}</p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ 'backend.mangopay_funding_phase_projects'|trans() }}</h2>
+            
+            <table class="table table-striped">
+        				<thead>
+				        <tr>
+				            <th>{{ knp_pagination_sortable(funding_phase_pagination, 'backend.name'|trans(), 'p.name') }}</th>
+				            <th>{{ knp_pagination_sortable(funding_phase_pagination, 'backend.amounts'|trans(), 'p.amountCount') }}</th>
+				            <th>{{ 'backend.contributions'|trans() }}</th>
+				            <th>{{ knp_pagination_sortable(funding_phase_pagination, 'backend.ending_date'|trans(), 'p.endingAt') }}</th>
+				            <th>{{ 'backend.actions'|trans() }}</th>
+				        </tr>
+				        </thead>
+				        <tbody>
+				        {% for entity in funding_phase_pagination %}
+				            <tr>
+				                <td>{{ entity.name }}</td>
+				                <td>{{ entity.amountCount }} {{ '€'|trans() }} / {{ entity.amountRequired }} {{ '€'|trans() }}</td>
+				                <td>{{ entity.contributions|length }}</td>
+				                <td>{{ entity.endingAt|date('d/m/Y h:i') }}</td>
+				                <td>
+				                    <a class="btn btn-primary btn-xs"
+				                       href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">{{ 'backend.details'|trans() }}</a>
+				                    <a class="btn btn-default btn-xs"
+				                       href="{{ path('littlebigjoe_frontendbundle_project_show', { 'slug': entity.slug }) }}" target="_blank">{{ 'backend.show_in_fo'|trans() }}</a>
+				                </td>
+				            </tr>
+				        {% endfor %}
+				        </tbody>
+				    </table>
+
+				    <p>
+				        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_projects_funding_phase') }}">
+				            {{ 'backend.see_funding_projects'|trans() }}
+				        </a>
+				    </p>
+        </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ 'backend.mangopay_last_contributions'|trans() }}</h2>
+            
+            <table class="table table-striped">
+        				<thead>
+				        <tr>
+				            <th>{{ 'backend.name'|trans() }}</th>
+				            <th>{{ knp_pagination_sortable(last_contributions_pagination, 'backend.amount'|trans(), 'pc.mangopayAmount') }}</th>
+				            <th>{{ knp_pagination_sortable(last_contributions_pagination, 'backend.user'|trans(), 'pc.user') }}</th>
+				            <th>{{ knp_pagination_sortable(last_contributions_pagination, 'backend.contribution_date'|trans(), 'pc.createdAt') }}</th>
+				            <th>{{ 'backend.actions'|trans() }}</th>
+				        </tr>
+				        </thead>
+				        <tbody>
+				        {% for entity in last_contributions_pagination %}
+				            <tr>
+				                <td>{{ entity.project.name }}</td>
+				                <td>{{ entity.mangopayAmount }} {{ '€'|trans() }}</td>
+				                <td>{{ entity.user }}</td>
+				                <td>{{ entity.createdAt|date('d/m/Y h:i') }}</td>
+				                <td>
+				                    <a class="btn btn-primary btn-xs"
+				                       href="{{ path('littlebigjoe_backendbundle_contributions_show', { 'id': entity.id }) }}">{{ 'backend.details'|trans() }}</a>
+				               </td>
+				            </tr>
+				        {% endfor %}
+				        </tbody>
+				    </table>
+
+				    <p>
+				        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_contributions') }}">
+				            {{ 'backend.see_all_contributions'|trans() }}
+				        </a>
+				    </p>
+        </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ 'backend.mangopay_ended_projects'|trans() }}</h2>
+            
+            <table class="table table-striped">
+        				<thead>
+				        <tr>
+				            <th>{{ knp_pagination_sortable(ended_pagination, 'backend.name'|trans(), 'p.name') }}</th>
+				            <th>{{ knp_pagination_sortable(ended_pagination, 'backend.amounts'|trans(), 'p.amountCount') }}</th>
+				            <th>{{ 'backend.contributions'|trans() }}</th>
+				            <th>{{ knp_pagination_sortable(ended_pagination, 'backend.ending_date'|trans(), 'p.endingAt') }}</th>
+				            <th>{{ 'backend.actions'|trans() }}</th>
+				        </tr>
+				        </thead>
+				        <tbody>
+				        {% for entity in ended_pagination %}
+				            <tr>
+				                <td>{{ entity.name }}</td>
+				                <td>{{ entity.amountCount }} {{ '€'|trans() }} / {{ entity.amountRequired }} {{ '€'|trans() }}</td>
+				                <td>{{ entity.contributions|length }}</td>
+				                <td>{{ entity.endingAt|date('d/m/Y h:i') }}</td>
+				                <td>
+				                    <a class="btn btn-primary btn-xs"
+				                       href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">{{ 'backend.details'|trans() }}</a>
+				                    <a class="btn btn-default btn-xs"
+				                       href="{{ path('littlebigjoe_frontendbundle_project_show', { 'slug': entity.slug }) }}" target="_blank">{{ 'backend.show_in_fo'|trans() }}</a>
+				                </td>
+				            </tr>
+				        {% endfor %}
+				        </tbody>
+				    </table>
+
+				    <p>
+				        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_projects_ended') }}">
+				            {{ 'backend.see_ended_projects'|trans() }}
+				        </a>
+				    </p>
+        </div>
+        </div>
+    </div>
+{% endblock %}

@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProjectContribution
  *
- * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="project_contribution")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Repository\ProjectContributionRepository")
  */
 class ProjectContribution
@@ -67,9 +67,23 @@ class ProjectContribution
     /**
      * @var boolean
      *
-     * @ORM\Column(name="anonymous", type="boolean")
+     * @ORM\Column(name="is_anonymous", type="boolean")
      */
-    private $anonymous;
+    private $isAnonymous;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="mangopay_refund_id", type="integer")
+     */
+    private $mangopayRefundId;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_refunded", type="boolean")
+     */
+    private $isRefunded;
     
     /**
      * @var string
@@ -126,6 +140,8 @@ class ProjectContribution
     		$this->mangopayAmount = 0;
     		$this->mangopayIsSucceeded = false;
     		$this->mangopayIsCompleted = false;
+    		$this->mangopayRefundId = 0;
+    		$this->isRefunded = false;
         $this->createdAt = new \DateTime();
         $this->mangopayCreatedAt = new \DateTime();
         $this->mangopayUpdatedAt = new \DateTime();
@@ -279,29 +295,76 @@ class ProjectContribution
         return $this->mangopayAnswerCode;
     }
 
+
     /**
-     * Set anonymous
+     * Set isAnonymous
      *
-     * @param boolean $anonymous
+     * @param boolean $isAnonymous
      * @return ProjectContribution
      */
-    public function setAnonymous($anonymous)
+    public function setIsAnonymous($isAnonymous)
     {
-	    	$this->anonymous = $anonymous;
+	    	$this->isAnonymous = $isAnonymous;
 	    
 	    	return $this;
     }
     
     /**
-     * Get anonymous
+     * Get isAnonymous
      *
      * @return boolean
      */
-    public function getAnonymous()
+    public function getIsAnonymous()
     {
-    		return $this->anonymous;
+    		return $this->isAnonymous;
     }
 
+    /**
+     * Set mangopayRefundId
+     *
+     * @param integer $mangopayRefundId
+     * @return ProjectContribution
+     */
+    public function setMangopayRefundId($mangopayRefundId)
+    {
+	    	$this->mangopayRefundId = $mangopayRefundId;
+	    
+	    	return $this;
+    }
+    
+    /**
+     * Get mangopayRefundId
+     *
+     * @return integer
+     */
+    public function getMangopayRefundId()
+    {
+    		return $this->mangopayRefundId;
+    }
+    
+    /**
+     * Set isRefunded
+     *
+     * @param boolean $isRefunded
+     * @return ProjectContribution
+     */
+    public function setIsRefunded($isRefunded)
+    {
+	    	$this->isRefunded = $isRefunded;
+	    
+	    	return $this;
+    }
+    
+    /**
+     * Get isRefunded
+     *
+     * @return boolean
+     */
+    public function getIsRefunded()
+    {
+    		return $this->isRefunded;
+    }
+    
     /**
      * Set invoice
      *

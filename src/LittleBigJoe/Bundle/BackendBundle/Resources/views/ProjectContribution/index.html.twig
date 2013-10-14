@@ -21,6 +21,7 @@
             <th>{{ 'backend.project'|trans() }}</th>
             <th>{{ 'backend.creator'|trans() }}</th>
             <th>{{ 'backend.reward'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.amount'|trans(), 'pc.mangopayAmount') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.succeeded_payment'|trans(), 'pc.mangopayIsSucceeded') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.completed_payment'|trans(), 'pc.mangopayIsCompleted') }}</th>
             <th>{{ 'backend.actions'|trans() }}</th>
@@ -39,6 +40,7 @@
                     <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}">{{ entity.user }}</a>
                 </td>
                 <td>{{ entity.reward }}</td>
+               	<td>{{ entity.mangopayAmount }} {{ '€'|trans() }}</td>
                 <td>
                     {% if entity.mangopayIsSucceeded %}
                         <span class="label label-success">{{ 'backend.success'|trans() }}</span>

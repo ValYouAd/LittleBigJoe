@@ -22,8 +22,17 @@
 
     <div class="clearfix">&nbsp;</div>
     <fieldset>
-        <legend>{{ 'backend.delete_project'|trans() }}</legend>
-        <p>{{ 'backend.delete_confirmation_project'|trans() }}</p>
+        <legend>{{ 'backend.refund_contribution'|trans() }}</legend>
+        <p>{{ 'backend.refund_confirmation_contribution'|trans() }}</p>
+
+        {{ form(refund_form, {attr:{role:'form' }}) }}
+    </fieldset>
+    <div class="clearfix">&nbsp;</div>
+    
+    <div class="clearfix">&nbsp;</div>
+    <fieldset>
+        <legend>{{ 'backend.delete_contribution'|trans() }}</legend>
+        <p>{{ 'backend.delete_confirmation_contribution'|trans() }}</p>
 
         {{ form(delete_form, {attr:{role:'form' }}) }}
     </fieldset>

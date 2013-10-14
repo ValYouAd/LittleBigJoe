@@ -31,7 +31,7 @@ class UserController extends Controller
         {
         		foreach ($projectContributions as $projectContribution)
         		{
-        				if ($projectContribution->getAnonymous() == false && !in_array($projectContribution->getProject()->getId(), $distinctProjectsIds))
+        				if ($projectContribution->getIsAnonymous() == false && !in_array($projectContribution->getProject()->getId(), $distinctProjectsIds))
         				{
         						$distinctProjectsIds[] = $projectContribution->getProject()->getId();
         						$distinctProjects[] = $projectContribution->getProject();

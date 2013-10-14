@@ -477,7 +477,7 @@ class ProjectController extends Controller
 										$usersIds[] = $contribution->getUser()->getId();
 										$usersAmounts[$contribution->getUser()->getId()] = 0;
 								}
-								if ($contribution->getAnonymous() == false)
+								if ($contribution->getIsAnonymous() == false)
 								{
 										$usersAmounts[$contribution->getUser()->getId()] += $contribution->getMangopayAmount();
 								}
@@ -485,11 +485,9 @@ class ProjectController extends Controller
 				}						
 				        						
         return array(
-            'entity' => $entity,
-        		
+            'entity' => $entity,        		
         		'usersIds' => $usersIds,
-        		'usersAmounts' => $usersAmounts,
-        		
+        		'usersAmounts' => $usersAmounts,        		
         		'dateStats' => $dateStats,
         		'likesStats' => json_encode($likesStats),
         		'entry_form' => $entryForm->createView(),

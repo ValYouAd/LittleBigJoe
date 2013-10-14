@@ -54,10 +54,20 @@
 		    <p>{{ 'backend.mangopay_answer_code'|trans() }} :
 		        <strong>{% if entity.mangopayAnswerCode %}{{ entity.mangopayAnswerCode }}{% else %}{{ 'backend.na'|trans() }}{% endif %}</strong>
 		    </p>
-		    <p>{{ 'backend.mangopay_user_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
+		    <p>{{ 'backend.mangopay_contribution_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
 		    </p>
-		    <p>{{ 'backend.mangopay_user_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
+		    <p>{{ 'backend.mangopay_contribution_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
 		    </p>
+		    
+		    <p>{{ 'backend.mangopay_refund_id'|trans() }} : <strong>{{ entity.mangopayRefundId }}</strong></p>
+		    <p>{{ 'backend.refunded'|trans() }} :
+		        {% if entity.isRefunded %}
+		            <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+		        {% else %}
+		            <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+		        {% endif %}
+		    </p>
+		    
     	</div>
     </div>
     	

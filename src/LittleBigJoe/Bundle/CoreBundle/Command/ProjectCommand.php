@@ -57,15 +57,17 @@ class ProjectCommand extends ContainerAwareCommand
 								
 								// Send project finished email
 								$email = \Swift_Message::newInstance()
-								->setSubject($this->getContainer()->get('translator')->trans('Your project has been updated'))
-								->setFrom($this->getContainer()->getParameter('default_email_address'))
-								->setTo(array($project->getUser()->getEmail() => $project->getUser()))
-								->setBody(
-										$this->getContainer()->get('templating')->render('LittleBigJoeFrontendBundle:Email:update_finished_phase_project.html.twig', array(
-												'user' => $project->getUser(),
-												'project' => $project
-										), 'text/html')
-								);
+												->setContentType('text/html')
+												->setSubject($this->getContainer()->get('translator')->trans('Your project has been updated'))
+												->setFrom($this->getContainer()->getParameter('default_email_address'))
+												->setTo(array($project->getUser()->getEmail() => $project->getUser()))
+												->setBody(
+														$this->getContainer()->get('templating')->render('LittleBigJoeFrontendBundle:Email:update_finished_phase_project.html.twig', array(
+																'user' => $project->getUser(),
+																'project' => $project,
+																'url' => $this->getContainer()->getParameter('default_url')
+														), 'text/html')
+												);
 								$this->getContainer()->get('mailer')->send($email);
 						}	
 						

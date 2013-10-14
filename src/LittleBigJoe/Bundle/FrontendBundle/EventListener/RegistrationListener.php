@@ -80,7 +80,8 @@ class RegistrationListener implements EventSubscriberInterface
 					        ->setBody(
 					        		$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:welcome.html.twig', array(
 					        				'user' => $user,
-					        				'plainPassword' => $plainPassword
+					        				'plainPassword' => $plainPassword,
+					        				'url' => $this->container->get('request')->getSchemeAndHttpHost()
 					        		), 'text/html')
 					        );
         $this->container->get('mailer')->send($email);

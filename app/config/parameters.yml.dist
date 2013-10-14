@@ -15,6 +15,7 @@ parameters:
     # LittleBigJoe Specific Configuration
     locales: [en, fr]
     default_email_address: contact@littlebigjoe.com
+    default_url: http://dev.littlebigjoe.com
     nb_elements_by_page: 20
     howdoesitwork_page_id: ~ # Must be the ID of the "How does this website work" (use in Top menu)
     allowed_mime_types: ['application/pdf', 'application/xml', 'application/zip', 'text/csv', 'text/plain', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.oasis.opendocument.text'] # MIME types that will be authorized (for file upload in "Launch my project" section")

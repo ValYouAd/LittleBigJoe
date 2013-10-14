@@ -30,15 +30,195 @@
 		<div class="clearfix">&nbsp;</div>
 
 		<ul class="nav nav-tabs" id="tabs">
-		  <li class="active"><a href="#related">{{ 'backend.related_infos'|trans() }}</a></li>
+		  <li class="active"><a href="#mangopay">{{ 'backend.mangopay_infos'|trans() }}</a></li>
+		  <li><a href="#related">{{ 'backend.related_infos'|trans() }}</a></li>
 		  <li><a href="#region">{{ 'backend.regional_infos'|trans() }}</a></li>
 		  <li><a href="#description">{{ 'backend.description'|trans() }}</a></li>
 		  <li><a href="#project">{{ 'backend.project_infos'|trans() }}</a></li>
-		  <li><a href="#mangopay">{{ 'backend.mangopay_infos'|trans() }}</a></li>
 		</ul>
 				
-   	<div class="tab-content">
-  		<div class="tab-pane active" id="related">
+   	<div class="tab-content">   		
+  		<div class="tab-pane active" id="mangopay">
+  				<div class="clearfix">&nbsp;</div>
+  				<p class="lead pull-right"> 
+  						{{ 'backend.amount_raised'|trans() }} : {{ entity.amountCount }} {{ '€'|trans() }} - 
+  						{{ 'backend.amount_to_raise'|trans() }} : {{ entity.amountRequired }} {{ '€'|trans() }} - 
+  						{{ 'backend.amount_spent'|trans() }} : {{ totalWithdrawalAmount }} {{ '€'|trans() }} 
+  				</p>
+  				<p class="pull-right">
+		  				{{ 'backend.mangopay_walled_id'|trans() }} : <strong>{{ entity.mangopayWalletId }}</strong> - 
+					    {{ 'backend.mangopay_wallet_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong> - 
+							{{ 'backend.mangopay_wallet_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
+			    </p>
+			    
+			    <div class="clearfix">&nbsp;</div>
+			    
+			    {% if operations_pagination %}
+			    		<h2>{{ 'backend.operations_list'|trans() }}</h2>
+			    
+			    		<table class="table table-striped">
+					        <thead>
+					        <tr>
+					            <th>{{ 'backend.user'|trans() }}</th>
+					            <th>{{ 'backend.operation_type'|trans() }}</th>
+					            <th>{{ 'backend.amount'|trans() }}</th>
+					            <th>{{ 'backend.tag'|trans() }}</th>				            
+					            <th>{{ 'backend.creation_date'|trans() }}</th>
+					            <th>{{ 'backend.update_date'|trans() }}</th>
+					            <th>{{ 'backend.actions'|trans() }}</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        {% for operation in operations_pagination %}
+					            <tr>
+					                <td><a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': operation.User.id }) }}">{{ operation.User }}</a></td>
+					                <td>{{ operation.TransactionType|trans() }}</td>
+					                <td>{{ operation.Amount/100 }} {{ '€'|trans() }}</td>
+					                <td>{{ operation.Tag }}</td>
+					                <td>{{ operation.CreationDate|date('d/m/Y h:i') }}</td>
+					                <td>{{ operation.UpdateDate|date('d/m/Y h:i') }}</td>
+													<td>
+					                    <a href="{{ path('littlebigjoe_backendbundle_contributions_show', { 'id': operation.Tag }) }}" class="btn btn-primary btn-xs">{{ 'backend.detail'|trans() }}</a>
+					                		<a href="{{ path('littlebigjoe_backendbundle_contributions_edit', { 'id': operation.Tag }) }}" class="btn btn-danger btn-xs">{{ 'backend.refund'|trans() }}</a>
+					                </td>
+					            </tr>
+					        {% endfor %}
+					        </tbody>
+					    </table>
+					
+					    <div class="navigation">
+					        {{ knp_pagination_render(operations_pagination) }}
+					    </div>
+			    {% endif %}				
+			    
+			    {% if contributors_pagination %} 
+					    <div class="clearfix">&nbsp;</div>
+					    
+					    <h2>{{ 'backend.contributors_list'|trans() }}</h2>
+			    
+			    		<table class="table table-striped">
+					        <thead>
+					        <tr>
+					            <th>{{ 'backend.email'|trans() }}</th>
+					            <th>{{ 'backend.firstname'|trans() }}</th>
+					            <th>{{ 'backend.lastname'|trans() }}</th>
+					            <th>{{ 'backend.can_register_new_payment_method'|trans() }}</th>
+					            <th>{{ 'backend.payment_method'|trans() }}</th>
+					            <th>{{ 'backend.ip'|trans() }}</th>
+					            <th>{{ 'backend.wallet_amount'|trans() }}</th>
+					            <th>{{ 'backend.nationality'|trans() }}</th>
+					            <th>{{ 'backend.id'|trans() }}</th>
+					            <th>{{ 'backend.creation_date'|trans() }}</th>
+					            <th>{{ 'backend.update_date'|trans() }}</th>
+					            <th>{{ 'backend.actions'|trans() }}</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        {% for contributor in contributors_pagination %}
+					            <tr>
+					                <td><a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': contributor.User.id }) }}">{{ contributor.User }}</a></td>
+					                <td>{{ contributor.FirstName }}</td>
+					                <td>{{ contributor.LastName }}</td>
+					                <td>
+															{% if contributor.CanRegisterMeanOfPayment %}
+													        <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+													    {% else %}
+													        <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+													    {% endif %}
+													</td>
+					                <td>{{ 'backend.cb_visa_mastercard'|trans() }}</td>
+					                <td>{{ contributor.IP }}</td>
+					                <td>{{ contributor.PersonalWalletAmount }} {{ '€'|trans() }}</td>
+					                <td>{{ contributor.Nationality|trans() }}</td>
+					                <td>{{ contributor.ID }}</td>
+					                <td>{{ contributor.CreationDate|date('d/m/Y h:i') }}</td>
+					                <td>{{ contributor.UpdateDate|date('d/m/Y h:i') }}</td>
+					                <td>
+					                    <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': contributor.User.id }) }}" class="btn btn-primary btn-xs">{{ 'backend.detail'|trans() }}</a>
+					                </td>
+					            </tr>
+					        {% endfor %}
+					        </tbody>
+					    </table>
+					
+					    <div class="navigation">
+					        {{ knp_pagination_render(contributors_pagination) }}
+					    </div>
+			    {% endif %}	
+			    			    
+					<div class="clearfix">&nbsp;</div>
+					    
+			    <h2>{{ 'backend.transfers'|trans() }}</h2>
+			    
+			    {% if withdrawals_pagination %} 
+					    <div class="clearfix">&nbsp;</div>
+					    
+					    <h3>{{ 'backend.last_withdrawals'|trans() }}</h3>
+			    
+			    		<table class="table table-striped">
+					        <thead>
+					        <tr>
+					            <th>{{ knp_pagination_sortable(withdrawals_pagination, 'backend.creation_date'|trans(), 'w.mangopayCreatedAt') }}</th>
+					            <th>{{ knp_pagination_sortable(withdrawals_pagination, 'backend.update_date'|trans(), 'w.mangopayUpdatedAt') }}</th>
+					            <th>{{ 'backend.user'|trans() }}</th>
+					            <th>{{ 'backend.wallet'|trans() }}</th>
+					            <th>{{ knp_pagination_sortable(withdrawals_pagination, 'backend.amount'|trans(), 'w.mangopayAmount') }}</th>
+					            <th>{{ knp_pagination_sortable(withdrawals_pagination, 'backend.amount_without_fees'|trans(), 'w.mangopayAmountWithoutFees') }}</th>
+					            <th>{{ knp_pagination_sortable(withdrawals_pagination, 'backend.fees'|trans(), 'w.mangopayClientFeeAmount') }}</th>
+					            <th>{{ knp_pagination_sortable(withdrawals_pagination, 'backend.succeeded_payment'|trans(), 'pc.mangopayIsSucceeded') }}</th>
+            					<th>{{ knp_pagination_sortable(withdrawals_pagination, 'backend.completed_payment'|trans(), 'pc.mangopayIsCompleted') }}</th>
+					        </tr>
+					        </thead>
+					        <tbody>
+					        {% for withdrawal in withdrawals_pagination %}
+					            <tr>
+					                <td>{{ withdrawal.mangopayCreatedAt|date('d/m/Y h:i') }}</td>
+					                <td>{{ withdrawal.mangopayUpdatedAt|date('d/m/Y h:i') }}</td>
+					                <td>
+					                    <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': withdrawal.user.id }) }}">{{ withdrawal.user }}</a>
+					                </td>
+					                <td>{{ entity.mangopayWalletId }}</td>
+					                <td>{{ withdrawal.mangopayAmount }} {{ '€'|trans() }}</td>
+					                <td>{{ withdrawal.mangopayAmountWithoutFees }} {{ '€'|trans() }}</td>
+					               	<td>{{ withdrawal.mangopayClientFeeAmount }} {{ '€'|trans() }}</td>
+					                <td>
+					                    {% if withdrawal.mangopayIsSucceeded %}
+					                        <span class="label label-success">{{ 'backend.success'|trans() }}</span>
+					                    {% else %}
+					                        <span class="label label-default">{{ 'backend.failure'|trans() }}</span>
+					                    {% endif %}
+					                </td>
+					                <td>
+					                    {% if withdrawal.mangopayIsCompleted %}
+					                        <span class="label label-success">{{ 'backend.completed'|trans() }}</span>
+					                    {% else %}
+					                        <span class="label label-default">{{ 'backend.not_completed'|trans() }}</span>
+					                    {% endif %}
+					                </td>
+					            </tr>
+					        {% endfor %}
+					        </tbody>
+					    </table>
+					
+					    <div class="navigation">
+					        {{ knp_pagination_render(contributors_pagination) }}
+					    </div>
+			    {% endif %}	
+			    
+			    <div class="clearfix">&nbsp;</div>
+					<h3>
+							{{ 'backend.create_withdrawal'|trans() }} 
+							<a class="pull-right" href="{{ path('littlebigjoe_backendbundle_beneficiaries_new') }}">
+		            	<small>{{ 'backend.add_new_beneficiary'|trans() }}</small>
+		        	</a>
+		      </h3>
+					
+			    {{ form(withdraw_form, {attr:{role:'form' }}) }}
+
+			    <div class="clearfix">&nbsp;</div>
+			</div>
+   	
+  		<div class="tab-pane" id="related">
   				<div class="clearfix">&nbsp;</div>
 			    <p>{{ 'backend.associated_brand'|trans() }} : <a
 			                href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}"><strong>{{ entity.brand }}</strong></a>
@@ -88,8 +268,8 @@
   		<div class="tab-pane" id="project">
   				<div class="clearfix">&nbsp;</div>
   				<p>
-			        {{ 'backend.amount_to_raise'|trans() }} : <strong>{{ entity.amountCount }}
-			            / {{ entity.amountRequired }}</strong><br/>
+			        {{ 'backend.amount_to_raise'|trans() }} : <strong>{{ entity.amountCount }} {{ '€'|trans() }}
+			            / {{ entity.amountRequired }} {{ '€'|trans() }}</strong><br/>
 			    <div class="progress progress-striped active">
 			        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.amountCount }}" aria-valuemin="0"
 			             aria-valuemax="{{ entity.amountRequired }}"
@@ -109,16 +289,7 @@
 			        </div>
 			    </div>
 			    </p>
-			</div>
-  		
-  		<div class="tab-pane" id="mangopay">
-  				<div class="clearfix">&nbsp;</div>
-  				<p>{{ 'backend.mangopay_walled_id'|trans() }} : <strong>{{ entity.mangopayWalletId }}</strong></p>
-			    <p>{{ 'backend.mangopay_user_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
-			    </p>
-			    <p>{{ 'backend.mangopay_user_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
-			    </p>
-			</div>
+			</div>  		
 		</div>
 
     <div class="clearfix">&nbsp;</div>
