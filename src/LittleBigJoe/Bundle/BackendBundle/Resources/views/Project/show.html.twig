@@ -55,7 +55,18 @@
 			    
 			    {% if operations_pagination %}
 			    		<h2>{{ 'backend.operations_list'|trans() }}</h2>
-			    
+			    		<form method="GET" action="{{ path('littlebigjoe_backendbundle_projects_show', {id: entity.getId()}) }}">
+	            		<div class="row">
+		            		<div class="col-lg-3">
+		    								<div class="input-group">
+						            		<input type="text" class="form-control" id="operations_where" name="operations_where" />
+						            		<span class="input-group-btn">
+										    		    <button class="btn btn-default" type="button">{{ 'OK'|trans() }}</button>
+											      </span>
+										    </div>
+										</div>
+									</div>
+	            </form>
 			    		<table class="table table-striped">
 					        <thead>
 					        <tr>
@@ -95,7 +106,18 @@
 					    <div class="clearfix">&nbsp;</div>
 					    
 					    <h2>{{ 'backend.contributors_list'|trans() }}</h2>
-			    
+			    		<form method="GET" action="{{ path('littlebigjoe_backendbundle_projects_show', {id: entity.getId()}) }}">
+	            		<div class="row">
+		            		<div class="col-lg-3">
+		    								<div class="input-group">
+						            		<input type="text" class="form-control" id="contributors_where" name="contributors_where" />
+						            		<span class="input-group-btn">
+										    		    <button class="btn btn-default" type="button">{{ 'OK'|trans() }}</button>
+											      </span>
+										    </div>
+										</div>
+									</div>
+	            </form>
 			    		<table class="table table-striped">
 					        <thead>
 					        <tr>

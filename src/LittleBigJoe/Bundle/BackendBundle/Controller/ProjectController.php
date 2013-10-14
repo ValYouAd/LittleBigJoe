@@ -247,6 +247,7 @@ class ProjectController extends Controller
 				
         // Operations for the project
         $operations = $api->fetchOperations($entity->getMangopayWalletId());
+        $operationsSearch = $request->query->get('operations_where', '');
         $operations_pagination = array();
         if (!empty($operations))
         {
@@ -258,12 +259,18 @@ class ProjectController extends Controller
 	        					$user = 'N/A';
 								}
 								$operations[$key]->User = $user;  
+								
+								// If user name doesn't match the search
+								if (!empty($operationsSearch) && !preg_match('/'.$operationsSearch.'/i', $operations[$key]->User))
+								{
+										unset($operations[$key]);
+								}
 	        	}
 
 		        $operations_pagination = $paginator->paginate(
 		        		$operations,
 		        		$this->get('request')->query->get('page1', 1),
-		        		5,
+		        		$this->container->getParameter('nb_elements_by_page'),
 		        		array(
 		        				'pageParameterName' => 'page1',
 		        				'sortFieldParameterName' => 'sort1',
@@ -274,6 +281,7 @@ class ProjectController extends Controller
         
         // Contributors for the project
         $contributors = $api->listUsers($entity->getMangopayWalletId());
+        $contributorsSearch = $request->query->get('contributors_where', '');
         $contributors_pagination = array();
         if (!empty($contributors))
         {
@@ -285,12 +293,18 @@ class ProjectController extends Controller
 		        				$user = 'N/A';
 		        		}
 		        		$contributors[$key]->User = $user;
+		        		
+		        		// If user name doesn't match the search
+		        		if (!empty($contributorsSearch) && !preg_match('/'.$contributorsSearch.'/i', $contributors[$key]->User))
+		        		{
+		        				unset($contributors[$key]);
+		        		}
 	        	}
 	        	
 	        	$contributors_pagination = $paginator->paginate(
 		        		$contributors,
 		        		$this->get('request')->query->get('page2', 1),
-		        		5,
+		        		$this->container->getParameter('nb_elements_by_page'),
 		        		array(
 		        				'pageParameterName' => 'page2',
 		        				'sortFieldParameterName' => 'sort2',
@@ -349,7 +363,7 @@ class ProjectController extends Controller
         $withdrawals_pagination = $paginator->paginate(
         		$withdrawals_query,
         		$this->get('request')->query->get('page1', 1),
-        		5,
+        		$this->container->getParameter('nb_elements_by_page'),
         		array(
         				'pageParameterName' => 'page3',
         				'sortFieldParameterName' => 'sort3',

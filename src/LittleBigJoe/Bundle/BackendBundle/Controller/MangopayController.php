@@ -23,22 +23,23 @@ class MangopayController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 				$paginator = $this->get('knp_paginator');
 				
         // Funding phase projects
-        $funding_phase_dql = "SELECT p
+        $fundingSearch = $request->query->get('funding_where', '');
+        $funding_phase_dql = 'SELECT p
         											FROM LittleBigJoeCoreBundle:Project p 
-        											WHERE p.status = 2
-        											ORDER BY p.createdAt DESC";
+        											WHERE p.status = 2 '.((!empty($fundingSearch)) ? "AND p.name LIKE '%".$fundingSearch."%'" : '').' 
+        											ORDER BY p.createdAt DESC';        
         $funding_phase_query = $em->createQuery($funding_phase_dql);
         
         $funding_phase_pagination = $paginator->paginate(
             $funding_phase_query,
             $this->get('request')->query->get('page1', 1),
-            5,
+            $this->container->getParameter('nb_elements_by_page'),
         		array(
         				'pageParameterName' => 'page1',
         				'sortFieldParameterName' => 'sort1', 
@@ -47,16 +48,19 @@ class MangopayController extends Controller
         );
         
         // Last contributions
-        $last_contributions_dql = "SELECT pc	
+        $lastSearch = $request->query->get('last_where', '');
+        $last_contributions_dql = 'SELECT pc	
         													FROM LittleBigJoeCoreBundle:ProjectContribution pc
+        													LEFT JOIN pc.project p
         													WHERE pc.mangopayIsSucceeded = 1 AND pc.mangopayIsCompleted = 1
-        													ORDER BY pc.createdAt DESC";
+        													'.((!empty($lastSearch)) ? "AND p.name LIKE '%".$lastSearch."%'" : '').' 
+        													ORDER BY pc.createdAt DESC'; 
         $last_contributions_query = $em->createQuery($last_contributions_dql);
         
         $last_contributions_pagination = $paginator->paginate(
         		$last_contributions_query,
         		$this->get('request')->query->get('page2', 1),
-        		5,
+        		$this->container->getParameter('nb_elements_by_page'),
         		array(
         				'pageParameterName' => 'page2',
         				'sortFieldParameterName' => 'sort2', 
@@ -65,16 +69,17 @@ class MangopayController extends Controller
         );
         
         // Ended projects
-        $ended_dql = "SELECT p
+        $endedSearch = $request->query->get('ended_where', '');
+        $ended_dql = 'SELECT p
         							FROM LittleBigJoeCoreBundle:Project p 
-        							WHERE p.endedAt IS NOT NULL 
-        							ORDER BY p.createdAt DESC";
+        							WHERE p.endedAt IS NOT NULL '.((!empty($endedSearch)) ? "AND p.name LIKE '%".$endedSearch."%'" : '').' 
+        							ORDER BY p.createdAt DESC';
         $ended_query = $em->createQuery($ended_dql);
         
         $ended_pagination = $paginator->paginate(
         		$ended_query,
         		$this->get('request')->query->get('page3', 1),
-        		5,
+        		$this->container->getParameter('nb_elements_by_page'),
         		array(
         				'pageParameterName' => 'page3',
         				'sortFieldParameterName' => 'sort3',

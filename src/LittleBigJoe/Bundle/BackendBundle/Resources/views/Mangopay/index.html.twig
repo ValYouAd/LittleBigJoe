@@ -9,7 +9,18 @@
     <div class="row">
         <div class="col-md-12">
             <h2>{{ 'backend.mangopay_funding_phase_projects'|trans() }}</h2>
-            
+            <form method="GET" action="{{ path('littlebigjoe_backendbundle_mangopay') }}">
+            		<div class="row">
+	            		<div class="col-lg-3">
+	    								<div class="input-group">
+					            		<input type="text" class="form-control" id="funding_where" name="funding_where" />
+					            		<span class="input-group-btn">
+									    		    <button class="btn btn-default" type="button">{{ 'OK'|trans() }}</button>
+										      </span>
+									    </div>
+									</div>
+								</div>
+            </form>
             <table class="table table-striped">
         				<thead>
 				        <tr>
@@ -49,7 +60,18 @@
     <div class="row">
         <div class="col-md-12">
             <h2>{{ 'backend.mangopay_last_contributions'|trans() }}</h2>
-            
+            <form method="GET" action="{{ path('littlebigjoe_backendbundle_mangopay') }}">
+            		<div class="row">
+	            		<div class="col-lg-3">
+	    								<div class="input-group">
+					            		<input type="text" class="form-control" id="last_where" name="last_where" />
+					            		<span class="input-group-btn">
+									    		    <button class="btn btn-default" type="button">{{ 'OK'|trans() }}</button>
+										      </span>
+									    </div>
+									</div>
+								</div>
+            </form>
             <table class="table table-striped">
         				<thead>
 				        <tr>
@@ -87,7 +109,18 @@
     <div class="row">
         <div class="col-md-12">
             <h2>{{ 'backend.mangopay_ended_projects'|trans() }}</h2>
-            
+            <form method="GET" action="{{ path('littlebigjoe_backendbundle_mangopay') }}">
+            		<div class="row">
+	            		<div class="col-lg-3">
+	    								<div class="input-group">
+					            		<input type="text" class="form-control" id="ended_where" name="ended_where" />
+					            		<span class="input-group-btn">
+									    		    <button class="btn btn-default" type="button">{{ 'OK'|trans() }}</button>
+										      </span>
+									    </div>
+									</div>
+								</div>
+            </form>
             <table class="table table-striped">
         				<thead>
 				        <tr>
