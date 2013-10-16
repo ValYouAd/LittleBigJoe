@@ -306,6 +306,8 @@ class Project
         $this->likes = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->withdrawals = new ArrayCollection();
+        $this->amountCount = 0;
+        $this->likesCount = 0;
     }
 
     public function __toString()
@@ -317,9 +319,7 @@ class Project
      * @ORM\PrePersist
      */
     public function prePersist()
-    {
-        $this->amountCount = 0;
-        $this->likesCount = 0;
+    {        
         $this->status = '1';
         $this->isFavorite = false;
         $this->createdAt = new \DateTime();
@@ -815,7 +815,13 @@ class Project
     public function setBrand(\LittleBigJoe\Bundle\CoreBundle\Entity\Brand $brand = null)
     {
         $this->brand = $brand;
-
+        
+        // Define the required likes total, with the one specified for the brand
+        if (!empty($brand))
+        {
+        		$this->setLikesRequired($brand->getMinimumLikesRequired());
+        }
+        
         return $this;
     }
 

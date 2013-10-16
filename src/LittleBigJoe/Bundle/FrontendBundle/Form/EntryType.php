@@ -14,6 +14,30 @@ class EntryType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+    		if ($options['data']->getProject()->getUser() == null)
+	    	{
+	    			$ckeditorLanguage = 'en';
+	    	}
+	    	else
+	    	{
+	    			$ckeditorLanguage = $options['data']->getProject()->getUser()->getDefaultLanguage();
+			    	if (empty($ckeditorLanguage))
+			    	{
+			    			$ckeditorLanguage = 'en';
+			    	}
+	    	}
+	    	
+	    	// Define default language for CKEditor interface
+	    	switch ($ckeditorLanguage)
+	    	{
+		    		case 'en': $ckeditorLanguage = 'en-US';
+		    							 break;
+		    		case 'fr': $ckeditorLanguage = 'fr-FR';
+		    							 break;
+		    		default: 	 $ckeditorLanguage = 'en-US';
+		    							 break;
+	    	}
+    	
         $builder
             ->add('title', 'text', array(
         				'label' => 'Entry title'
@@ -24,6 +48,7 @@ class EntryType extends AbstractType
             ->add('content', 'ckeditor', array(
 			      		'label' => 'Comment content',
 			      		'data' => '',
+            		'language' => $ckeditorLanguage,
 			      		'custom_config' => "toolbarGroups: [{ name: 'clipboard', groups: ['clipboard']}, { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] }, { name: 'links' }, { name: 'styles' }]"
     				))
             ->add('isPublic', 'choice', array(

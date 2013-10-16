@@ -14,7 +14,23 @@ class CreateProjectFormType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    {    		
+    		$ckeditorLanguage = $options['data']->getUser()->getDefaultLanguage();
+    		if (empty($ckeditorLanguage))
+    		{
+    				$ckeditorLanguage = 'en';
+    		}
+    		// Define default language for CKEditor interface
+    		switch ($ckeditorLanguage)
+    		{
+	    			case 'en': $ckeditorLanguage = 'en-US'; 
+	    								 break;
+	    			case 'fr': $ckeditorLanguage = 'fr-FR';
+	    								 break;
+	    			default: 	 $ckeditorLanguage = 'en-US';
+	    								 break;
+    		}
+    		
     		switch ($options['flow_step']) 
     		{
     				// Step 1 : Create my project
@@ -62,9 +78,6 @@ class CreateProjectFormType extends AbstractType
 						            ->add('amountRequired', 'text', array(
 						            		'label' => 'Amount to raise'
 						            ))
-						            ->add('likesRequired', 'integer', array(
-						            		'label' => 'Likes to get'
-						            ))
 						            ->add('endingAt', 'datetime', array(
 						            		'label' => 'Project ending at'
 						            ));
@@ -74,7 +87,8 @@ class CreateProjectFormType extends AbstractType
             case 3: $builder
 						            ->add('description', 'ckeditor', array(
 						            		'label' => 'Description',
-						            		'data' => $options['data']->getDescription()
+						            		'data' => $options['data']->getDescription(),
+						            		'language' => $ckeditorLanguage
 						            ));
 										break;
 									

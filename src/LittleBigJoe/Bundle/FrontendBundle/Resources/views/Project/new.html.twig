@@ -93,6 +93,7 @@
 		<script src="{{ asset('bundles/littlebigjoefrontend/js/jquery.iframe-transport.js') }}"></script>
 		<script src="{{ asset('bundles/littlebigjoefrontend/js/jquery.fileupload.js') }}"></script>
     <script type="text/javascript">
+    		var default_language_ckeditor = 'en';
     		var addRewardLabel = "{{ 'Add new reward'|trans() }}";
     		var deleteRewardLabel = "{{ 'Delete reward'|trans() }}";
     		var addFileLabel = "{{ 'Add new file'|trans() }}";
@@ -129,7 +130,7 @@
                 title_value = title_value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/\-{2,}/g, '-');
                 $('#createProject_slug').val(title_value);
             });   
-            
+    				
             // STEP 3             
             // Add buttons to download files 
             $('#createProject_description').after('<div class="clearfix">&nbsp;</div><button id="addFile" class="btn btn-info" data-toggle="modal" data-target="#fileModal">' + addFileLabel + '</button>&nbsp;&nbsp;<button id="addAudioFile" class="btn btn-info" data-toggle="modal" data-target="#audioFileModal">' + addAudioFileLabel + '</button>'); 

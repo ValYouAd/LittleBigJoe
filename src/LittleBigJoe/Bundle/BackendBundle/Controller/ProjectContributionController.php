@@ -269,6 +269,7 @@ class ProjectContributionController extends Controller
     public function refundAction(Request $request, $id)
     {
     		$api = $this->container->get('little_big_joe_mango_pay.api');
+    		$currentUser = $this->get('security.context')->getToken()->getUser();
 	    	$form = $this->createRefundForm($id);
 	    	$form->handleRequest($request);
 	    
@@ -281,10 +282,11 @@ class ProjectContributionController extends Controller
 		    		}
 		    
 		    		// Make the refund request
-		    		$mangopayRefund = $api->createRefund($entity->getMangopayContributionId(), $entity->getUser()->getMangopayUserId());
+		    		$mangopayRefund = $api->createRefund($entity->getMangopayContributionId(), $currentUser->getMangopayUserId());
+		    		var_dump($mangopayRefund);
 		    		if (!empty($mangopayRefund) && !empty($entity))
 		    		{
-		    				if (!empty($mangopayRefund->ID))
+		    				if (!empty($mangopayRefund->ID) && $mangopayRefund->IsSucceeded && $mangopayRefund->IsCompleted)
 		    				{	
 				    				$entity->setIsRefunded(true);
 				    				$entity->setMangopayRefundId($mangopayRefund->ID);
@@ -311,7 +313,7 @@ class ProjectContributionController extends Controller
 		    				}		    				
 		    		}
 		    }
-	    
+	    	
 	    	return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_contributions'));
     }
     

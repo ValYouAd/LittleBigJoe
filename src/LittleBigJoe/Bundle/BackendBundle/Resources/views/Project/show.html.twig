@@ -61,7 +61,7 @@
 		    								<div class="input-group">
 						            		<input type="text" class="form-control" id="operations_where" name="operations_where" />
 						            		<span class="input-group-btn">
-										    		    <button class="btn btn-default" type="button">{{ 'OK'|trans() }}</button>
+										    		    <input type="submit" class="btn btn-default" value="{{ 'OK'|trans() }}"/>
 											      </span>
 										    </div>
 										</div>
@@ -112,7 +112,7 @@
 		    								<div class="input-group">
 						            		<input type="text" class="form-control" id="contributors_where" name="contributors_where" />
 						            		<span class="input-group-btn">
-										    		    <button class="btn btn-default" type="button">{{ 'OK'|trans() }}</button>
+										    		    <input type="submit" class="btn btn-default" value="{{ 'OK'|trans() }}"/>
 											      </span>
 										    </div>
 										</div>
@@ -175,8 +175,8 @@
 			    {% if withdrawals_pagination %} 
 					    <div class="clearfix">&nbsp;</div>
 					    
-					    <h3>{{ 'backend.last_withdrawals'|trans() }}</h3>
-			    
+					    <h3>{{ 'backend.last_withdrawals'|trans() }} <a href="{{ path('littlebigjoe_backendbundle_projects_synchronize_withdrawals', {id: entity.id}) }}" class="pull-right btn btn-sm btn-warning"><i class="glyphicon glyphicon-repeat"></i> {{ 'backend.synchronize_withdrawals'|trans() }}</a></h3>
+			    					    		
 			    		<table class="table table-striped">
 					        <thead>
 					        <tr>

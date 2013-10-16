@@ -736,4 +736,25 @@ class ApiService
 						return $withdrawal;
 				}
 		}
+		
+		/**
+		 * Fetch withdrawal
+		 *
+		 * @param integer $withdrawalId
+		 * @return NULL|mixed
+		 */
+		public function fetchWithdrawal($withdrawalId)
+		{
+				// Fetch withdrawal
+				$withdrawal = $this->request("withdrawals/".$withdrawalId, "GET");
+					
+				if (!isset($withdrawal) || !isset($withdrawal->ID))
+				{
+						return null;
+				}
+				else
+				{
+						return $withdrawal;
+				}
+		}
 }

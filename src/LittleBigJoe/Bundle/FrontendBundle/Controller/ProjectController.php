@@ -435,19 +435,20 @@ class ProjectController extends Controller
                 
         // Create the entry form
         $entry = new Entry();
-        $entry->setProject($entity);        
+        $entry->setProject($entity);      
         $entryForm = $this->createForm(new EntryType(), $entry);
 	      
         // Create the entry comment form
         $entryComment = new EntryComment();
-        $options = array('project' => $entity);
+        $options = array('project' => $entity, 'user' => $currentUser);
         $entryCommentForm = $this->createForm(new EntryCommentType($options), $entryComment);
         
 	      // Create the comment form
 	      $comment = new Comment();
 	      $comment->setProject($entity);
 	      $comment->setIsVisible(true);
-	      $commentForm = $this->createForm(new CommentType(), $comment);
+	      $options = array('user' => $currentUser);
+	      $commentForm = $this->createForm(new CommentType($options), $comment);
 											        
         // Create the funding form
         $fundingForm = $this->createFormBuilder()

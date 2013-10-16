@@ -61,6 +61,9 @@ class BrandType extends AbstractType
                 'label' => 'backend.website_url',
                 'required' => false
             ))
+            ->add('minimumLikesRequired', 'integer', array(
+            		'label' => 'backend.minimum_likes_to_get'
+            ))
             ->add('contactName', 'text', array(
                 'label' => 'backend.contact_name',
             		'required' => false

@@ -134,7 +134,7 @@ class PaymentController extends Controller
 	    	{
 	    			return $data;
 	    	}
-	    			
+	    				    	
 	    	// If user has enterd a specific amount
 	    	if (!empty($data['form']['amount']))
 	    	{
@@ -166,7 +166,7 @@ class PaymentController extends Controller
 	    	
 	    	// Make sure the reward id we get is correct
 	    	$reward = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findOneBy(array('project' => $data['project'], 'id' => $rewardId));
-	    		    	
+	    		    		    	
 	    	// If the reward doesn't exist and amount not specified
 	    	if (empty($reward) && $amountToPay == 0)
 	    	{
@@ -195,7 +195,7 @@ class PaymentController extends Controller
 	    	{
 	    			$amountToPay = $reward->getAmount();
 	    	}
-	    	
+	    		    	
 	    	$mangopayContribution = $api->createContribution($data['project']->getMangopayWalletId(), $data['user']->getMangopayUserId(),	$amountToPay*100, $returnUrl, $contribution->getId(), null, null, null, null, $data['user']->getDefaultLanguage(), null, null);
 	    	if (!empty($mangopayContribution))
 	    	{

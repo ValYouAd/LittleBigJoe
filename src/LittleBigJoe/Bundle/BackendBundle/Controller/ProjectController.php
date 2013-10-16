@@ -347,10 +347,6 @@ class ProjectController extends Controller
 		        				$withdrawal->setMangopayUpdatedAt(new \DateTime('@'.$mangopayWithdrawal->UpdateDate));
 		        		}
 		        		
-		        		// We force booleans to true, because of MangoPay Withdrawals validation
-		        		$withdrawal->setMangopayIsSucceeded(true);
-		        		$withdrawal->setMangopayIsCompleted(true);
-		        		
 		        		$em->persist($withdrawal);
 		        		$em->flush();
 	        	}
@@ -379,6 +375,66 @@ class ProjectController extends Controller
         		'contributors_pagination' => $contributors_pagination,
         		'withdrawals_pagination' => $withdrawals_pagination
         );
+    }
+    
+    /**
+     * Synchronize withdrawals for an existing Project entity.
+     *
+     * @Route("/{id}/synchronize-withdrawals", name="littlebigjoe_backendbundle_projects_synchronize_withdrawals")
+     * @Method("GET")
+     * @Template()
+     */
+    public function synchronizeWithdrawalAction($id)
+    {
+	    	$em = $this->getDoctrine()->getManager();
+	    	$api = $this->container->get('little_big_joe_mango_pay.api');
+	    	
+	    	$entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
+	    
+	    	if (!$entity) {
+	    			throw $this->createNotFoundException('Unable to find Project entity.');
+	    	}
+	    	
+	    	// If some withdrawals have been made
+	    	$withdrawals = $entity->getWithdrawals();
+	    	if (!empty($withdrawals))
+	    	{
+	    			foreach ($withdrawals as $withdrawal)
+	    			{
+	    					// Fetch withdrawal from MangoPay
+	    					$mangopayWithdrawal = $api->fetchWithdrawal($withdrawal->getMangopayWithdrawalId());
+	    					var_dump($mangopayWithdrawal);
+	    					if (!empty($mangopayWithdrawal))
+	    					{		    						
+	    							if (isset($mangopayWithdrawal->IsSucceeded))
+		    						{
+		    								$withdrawal->setMangopayIsSucceeded($mangopayWithdrawal->IsSucceeded);
+		    						}
+	    							if (isset($mangopayWithdrawal->IsCompleted))
+		    						{
+		    								$withdrawal->setMangopayIsCompleted($mangopayWithdrawal->IsCompleted);
+		    						}
+		    						if (isset($mangopayWithdrawal->Error))
+		    						{
+		    								$withdrawal->setMangopayError($mangopayWithdrawal->Error);
+		    						}
+		    						if (!empty($mangopayWithdrawal->CreationDate))
+		    						{
+			    							$withdrawal->setMangopayCreatedAt(new \DateTime('@'.$mangopayWithdrawal->CreationDate));
+			    							$withdrawal->setMangopayUpdatedAt(new \DateTime('@'.$mangopayWithdrawal->CreationDate));
+		    						}
+		    						if (!empty($mangopayWithdrawal->UpdateDate))
+		    						{
+		    								$withdrawal->setMangopayUpdatedAt(new \DateTime('@'.$mangopayWithdrawal->UpdateDate));
+		    						}
+		    					
+		    						$em->persist($withdrawal);
+		    						$em->flush();
+	    					}
+	    			}
+	    	}
+	    
+	    	return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_projects_show', array('id' => $id)));
     }
     
     /**

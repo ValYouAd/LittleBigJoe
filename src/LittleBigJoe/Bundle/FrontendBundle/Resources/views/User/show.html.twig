@@ -27,10 +27,9 @@
     <p>{{ entity.bio }}</p>
 
     <div class="clearfix">&nbsp;</div>
-
-    {% if entity.projects|length > 0 %}    		
-    		<h2 id="projects">{{ 'His projects'|trans() }}</h2>
-    
+     		
+    <h2 id="projects">{{ 'His projects'|trans() }}</h2>    
+    {% if entity.projects|length > 0 %}   
         {% for project in entity.projects %}
             {% if project.photo %}
                 <img src="{{ asset(project.photo) }}" width="200" height="200">
@@ -81,13 +80,14 @@
                 </p>
             {% endif %}
         {% endfor %}
+    {% else %}
+    		<p>{{ 'There\'s no projects for the moment'|trans() }}</p>
     {% endif %}
     
     <div class="clearfix">&nbsp;</div>
     
-    {% if distinctProjects|length > 0 %}    		
-    		<h2 id="projects_contributions">{{ 'Projects in which the user has participated'|trans() }}</h2>
-    
+    <h2 id="projects_contributions">{{ 'Projects in which the user has participated'|trans() }}</h2>    
+    {% if distinctProjects|length > 0 %}  
         {% for project in distinctProjects %}
             {% if project.photo %}
                 <img src="{{ asset(project.photo) }}" width="200" height="200">
@@ -138,5 +138,7 @@
                 </p>
             {% endif %}
         {% endfor %}
+    {% else %}
+    		<p>{{ 'There\'s no projects for the moment'|trans() }}</p>
     {% endif %}
 {% endblock %}

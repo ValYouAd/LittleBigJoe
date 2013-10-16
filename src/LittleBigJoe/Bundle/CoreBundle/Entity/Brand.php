@@ -171,6 +171,19 @@ class Brand
      * )
      */
     private $contactEmail;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="minimum_likes_required", type="integer")
+     *
+     * @Assert\NotBlank(message = "You must enter the minimum required likes count")
+     * @Assert\Regex(
+     *    pattern = "/^[0-9]*$/",
+     *    message = "Your minimum required likes count must only contains numbers"
+     * )
+     */
+    private $minimumLikesRequired;
 
     /**
      * @ORM\OneToMany(targetEntity="Project", mappedBy="brand", cascade={"persist", "remove"})
@@ -473,6 +486,29 @@ class Brand
         return $this->contactEmail;
     }
 
+    /**
+     * Set minimumLikesRequired
+     *
+     * @param integer $minimumLikesRequired
+     * @return Brand
+     */
+    public function setMinimumLikesRequired($minimumLikesRequired)
+    {
+	    	$this->minimumLikesRequired = $minimumLikesRequired;
+	    
+	    	return $this;
+    }
+    
+    /**
+     * Get minimumLikesRequired
+     *
+     * @return integer
+     */
+    public function getMinimumLikesRequired()
+    {
+    		return $this->minimumLikesRequired;
+    }
+    
     /**
      * Add projects
      *

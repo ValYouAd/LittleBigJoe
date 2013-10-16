@@ -12,9 +12,8 @@
 
 <div class="clearfix">&nbsp;</div>
 
-{% if user.projects|length > 0 %}    		
-		<h2 id="projects">{{ 'My projects'|trans() }}</h2>
-
+<h2 id="projects">{{ 'My projects'|trans() }}</h2>
+{% if user.projects|length > 0 %}  
     {% for project in user.projects %}
         {% if project.photo %}
             <img src="{{ asset(project.photo) }}" width="200" height="200">
@@ -64,14 +63,15 @@
                 {{ project.endingAt|time_remaining }}
             </p>
         {% endif %}
-    {% endfor %}              
+    {% endfor %} 
+{% else %}
+    <p>{{ 'There\'s no projects for the moment'|trans() }}</p>
 {% endif %}
 
 <div class="clearfix">&nbsp;</div>
 
-{% if user.contributions|length > 0 %}    		
-		<h2 id="contributions">{{ 'My contributions'|trans() }}</h2>
-
+<h2 id="contributions">{{ 'My contributions'|trans() }}</h2>
+{% if user.contributions|length > 0 %}  
     {% for contribution in user.contributions|reverse() %}
     		<h3>
             <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': contribution.project.slug}) }}">{{ contribution.project.name }}</a>
@@ -88,4 +88,6 @@
    					<p><a href="{{ asset('uploads/pdfs/' ~ contribution.invoice) }}" target="_blank">{{ 'Download invoice'|trans() }}</a></p>
    			{% endif %}
    	{% endfor %}
+{% else %}
+    <p>{{ 'There\'s no projects for the moment'|trans() }}</p>
 {% endif %}
