@@ -40,11 +40,14 @@ littlebigjoe_frontendbundle_home: /
 # Desc: /page/{slug}
 littlebigjoe_frontendbundle_page_show: '/page/{slug}'
 
+# Desc: /payment/confirmation
+littlebigjoe_frontendbundle_payment_confirmation: /confirmation-de-paiement
+
 # Desc: /payment/process
 littlebigjoe_frontendbundle_payment_process: /paiement/traitement
 
 # Desc: /payment/
-littlebigjoe_frontendbundle_payment_project: /paiement/ 
+littlebigjoe_frontendbundle_payment_project: /paiement/
 
 # Desc: /projects
 littlebigjoe_frontendbundle_project: /projets
@@ -54,6 +57,9 @@ littlebigjoe_frontendbundle_project_almost_ending_projects: /projets-bientot-ter
 
 # Desc: /launch-my-project
 littlebigjoe_frontendbundle_project_create_project: /lancer-mon-projet
+
+# Desc: /project/{slug}/edit
+littlebigjoe_frontendbundle_project_edit: '/projet/{slug}/edition'
 
 # Desc: /favorite-projects
 littlebigjoe_frontendbundle_project_favorite_projects: /coups-de-coeur

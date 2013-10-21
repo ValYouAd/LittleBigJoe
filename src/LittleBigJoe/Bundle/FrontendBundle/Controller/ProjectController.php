@@ -16,6 +16,7 @@ use LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment;
 use LittleBigJoe\Bundle\FrontendBundle\Form\EntryCommentType;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
 use LittleBigJoe\Bundle\FrontendBundle\Form\CommentType;
+use LittleBigJoe\Bundle\FrontendBundle\Form\EditProjectType;
 
 class ProjectController extends Controller
 {
@@ -373,6 +374,148 @@ class ProjectController extends Controller
 		        'form' => $form->createView(),
 		        'flow' => $flow,
 		    ));
+    }
+    
+    /**
+     * Edit specific project
+     *
+     * @Route("/project/{slug}/edit", name="littlebigjoe_frontendbundle_project_edit")
+     * @Template("LittleBigJoeFrontendBundle:Project:edit.html.twig")
+     */
+    public function editProjectAction(Request $request, $slug)
+    {
+	    	$em = $this->getDoctrine()->getManager();	    
+	    	$currentUser = $this->get('security.context')->getToken()->getUser();
+	    	$entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
+	    	
+	    	if (!$entity) {
+	    			throw $this->createNotFoundException('Unable to find Project entity.');
+	    	}
+	    	
+	    	// If the current user is not logged, redirect him to login page
+	    	if (!is_object($currentUser))
+	    	{
+		    		$this->get('session')->getFlashBag()->add(
+		    				'notice',
+		    				'You must be logged in to edit a project'
+		    		);
+		    
+		    		// Force base url to make sure environment is not specified in the URL
+						$this->get('router')->getContext()->setBaseUrl('');
+						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('slug' => $entity->getSlug())));	
+		    		return $this->redirect($this->generateUrl('fos_user_security_login'));
+	    	}
+	    	
+	    	// If the current user is not the project owner
+	    	if ($currentUser != $entity->getUser())
+	    	{
+		    		$this->get('session')->getFlashBag()->add(
+		    				'notice',
+		    				'You must be the project owner to edit the project'
+		    		);
+
+		    		return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $entity->getSlug())));
+	    	}
+	    	
+	    	// Get the rewards ids that already have been "purchased"
+	    	$usedRewardsIds = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findUsed($entity->getId());
+				
+	    	// Create an array of existing rewards
+	    	$originalRewards = array();
+	    	foreach ($entity->getRewards() as $reward)
+	    	{
+	    			$originalRewards[] = $reward;
+	    	}	    	
+	    	
+	    	$editForm = $this->createForm(new EditProjectType($usedRewardsIds), $entity);
+	    	$editForm->handleRequest($request);
+	    	
+	    	if ($editForm->isValid()) {		
+		    		$rewards = $entity->getRewards();
+		    		// Set default project for associated rewards
+		    		foreach ($rewards as $projectReward)
+		    		{
+		    				$projectReward->setProject($entity);
+		    		}
+		    				
+		    		// Move tmp file from server, to project directory
+		    		$matches = array();
+		    		preg_match_all('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $entity->getDescription(), $matches, PREG_PATTERN_ORDER);
+		    		foreach ($matches[0] as $key => $match)
+		    		{
+			    			if (@fopen($match, 'r'))
+			    			{
+				    				// Create project directory if it doesn't exist
+				    				if (!is_dir(__DIR__.'/../../../../../web/uploads/projects/'.$entity->getId()))
+				    				{
+				    					mkdir(__DIR__.'/../../../../../web/uploads/projects/'.$entity->getId(), 0777);
+				    				}
+				    		
+				    				// Move file
+				    				$filePath = preg_replace('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')/i', '', $match);
+				    				copy(__DIR__.'/../../../../../web'.$filePath, __DIR__.'/../../../../../web/uploads/projects/'.$entity->getId().'/'.basename($filePath));
+				    		
+				    				// Update description field
+				    				$description = preg_replace('#'.$filePath.'#', '/uploads/projects/'.$entity->getId().'/'.basename($filePath), $entity->getDescription());
+				    				$entity->setDescription($description);
+			    			}
+		    		}		
+		    		
+		    		// Retrieve rewards that can't be deleted
+		    		if (sizeof($rewards) < 1 && !empty($usedRewardsIds))
+		    		{
+		    				foreach ($usedRewardsIds as $key => $usedRewardId)
+		    				{	
+		    						$projectReward = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->find($usedRewardId);
+		    						if (!empty($projectReward))
+		    						{
+		    								$entity->addReward($projectReward);
+		    						}
+		    				}
+		    		}
+		    		
+		    		// Only retrieve rewards that are supposed to be deleted
+		    		foreach ($entity->getRewards() as $projectReward) 
+			    	{
+		    				foreach ($originalRewards as $key => $toDel) 
+			    			{
+			    					if ($toDel->getId() === $projectReward->getId()) 
+				    				{
+				    						unset($originalRewards[$key]);
+				    				}
+				    				elseif (!empty($usedRewardsIds) && in_array($toDel->getId(), $usedRewardsIds))
+				    				{
+				    						unset($originalRewards[$key]);
+				    				}
+			    			}
+			    	}
+		    		
+		    		// Delete relation between reward and project
+		    		if (!empty($originalRewards))
+		    		{
+		    				foreach ($originalRewards as $projectReward) 
+				    		{
+					    			$entity->removeReward($projectReward);
+					    			$em->persist($entity);
+					    			$em->remove($projectReward);
+				    		}
+		    		}
+		    				    				    		
+		    		// Persist form data and redirect user
+		    		$em->persist($entity);
+		    		$em->flush();
+		    		
+		    		// Delete session data
+		    		$this->getRequest()->getSession()->remove('tmpUploadedFile');
+		    		$this->getRequest()->getSession()->remove('tmpUploadedFilePath');
+		    	
+		    		return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $entity->getSlug())));
+	    	}
+	    	
+	    	return array(
+	    			'entity' => $entity,
+	    			'form' => $editForm->createView(),
+	    	);
     }
     
     /**

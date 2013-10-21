@@ -1,21 +1,36 @@
 '% completed': '% completed'
-(Private): (Private)   # FIXME
-(Public): (Public)   # FIXME
+(Private): (Private)
+(Public): (Public)
 +: +
+'3 Villa du Clos de Malevart': '3 Villa du Clos de Malevart'   # FIXME
+
+'A problem has occured during your payment':
+    '': 'A problem has occured during your payment.'   # FIXME
+
 'Activity infos': 'Activity infos'
-'Add entry': 'Add entry'   # FIXME
-'Add new audio file': 'Add new audio file'   # FIXME
-'Add new entry': 'Add new entry'   # FIXME
-'Add new file': 'Add new file'   # FIXME
-'Add new reward': 'Add new reward'   # FIXME
-Amount: Amount   # FIXME
+'Add entry to this project': 'Add entry to this project'   # FIXME
+'Add new audio file': 'Add new audio file'
+'Add new comment': 'Add new comment'   # FIXME
+'Add new entry': 'Add new entry'
+'Add new entry comment': 'Add new entry comment'   # FIXME
+'Add new file': 'Add new file'
+'Add new reward': 'Add new reward'
+Amount: Amount
 'Amount to raise': 'Amount to raise'
+
+'An error has occured during comment saving':
+    ' Please try again': 'An error has occured during comment saving. Please try again'   # FIXME
+
+'An error has occured during entry saving':
+    ' Please try again': 'An error has occured during entry saving. Please try again'   # FIXME
 
 'An error has occured during project liking':
     ' Please try again': 'An error has occured during project liking. Please try again'
 
+'Any method you want': 'Any method you want'   # FIXME
 'Associated brand': 'Associated brand'
 'Associated category': 'Associated category'
+'Associated entry': 'Associated entry'   # FIXME
 'Back to the list': 'Back to the list'
 'Below you''ll find some informations regarding the category :': 'Below you''ll find some informations regarding the category :'
 Bio: Bio
@@ -23,30 +38,41 @@ Biography: Biography
 'Birthday date': 'Birthday date'
 Brand: Brand
 By: By
-CGV: CGV   # FIXME
+CGV: CGV
 Category: Category
 'Check his profile': 'Check his profile'
 'Choose awards': 'Choose awards'
 City: City
+'Comment content': 'Comment content'   # FIXME
+'Comment this entry': 'Comment this entry'   # FIXME
+'Comment this project': 'Comment this project'   # FIXME
 Comments: Comments
 Contact: Contact
-Continue: Continue   # FIXME
+Continue: Continue
+'Contribution ID': 'Contribution ID'   # FIXME
+'Contribution amount': 'Contribution amount'   # FIXME
+'Contribution for': 'Contribution for'   # FIXME
+Contributor: Contributor   # FIXME
 Country: Country
 'Create my project': 'Create my project'
 'Current projects': 'Current projects'
+Date: Date   # FIXME
 'Default language': 'Default language'
 'Define my goals': 'Define my goals'
-'Delete reward': 'Delete reward'   # FIXME
+'Delete reward': 'Delete reward'
 Description: Description
+Details: Details   # FIXME
 'Discovering projects': 'Découvrir les projets'
+'Don''t hesitate to contribute to others projects to help creators !': 'Don''t hesitate to contribute to others projects to help creators !'   # FIXME
 'Edit this category': 'Edit this category'
+'Edit this project': 'Edit this project'   # FIXME
 'Email address': 'Email address'
 'Ended projects': 'Ended projects'
 'Engagement evolution': 'Engagement evolution'
 'Engagement phase': 'Engagement phase'
 English: English
-'Entry content': 'Entry content'   # FIXME
-'Entry title': 'Entry title'   # FIXME
+'Entry title': 'Entry title'
+'Error during payment': 'Error during payment'   # FIXME
 FAQ: FAQ
 'Facebook URL': 'Facebook URL'
 'Favorite projects': 'Favorite projects'
@@ -56,9 +82,12 @@ French: French
 'Fund this project': 'Fund this project'
 'Funding phase': 'Funding phase'
 'Getting online': 'Getting online'
+'Go back to homepage': 'Go back to homepage'   # FIXME
 'Google URL': 'Google URL'
 'Google+ URL': 'Google+ URL'
 Hello: Hello
+'Here''s some infos regarding your contribution :': 'Here''s some infos regarding your contribution :'   # FIXME
+'Here''s the important data regarding this contribution': 'Here''s the important data regarding this contribution'   # FIXME
 'Here''s the important data regarding your account': 'Here''s the important data regarding your account'
 'Here''s the list of comments related to': 'Here''s the list of comments related to'
 'Here''s the list of news related to': 'Here''s the list of news related to'
@@ -66,12 +95,13 @@ Hello: Hello
 'His projects': 'His projects'
 Home: Accueil
 'I like this project': 'I like this project'
+'Invoice for contribution': 'Invoice for contribution'   # FIXME
 Lastname: Lastname
 'Latest brands': 'Latest brands'
 'Latest contributions': 'Latest contributions'
 'Latest projects': 'Latest projects'
 'Launch my project': 'Lancer mon projet'
-'Likes to get': 'Likes to get'
+'Little Big Joe': 'Little Big Joe'   # FIXME
 Location: Location
 Logo: Logo
 'META Description': 'META Description'
@@ -83,8 +113,9 @@ Logo: Logo
 N/A: N/A
 Name: Name
 Nationality: Nationality
+'New contribution': 'New contribution'   # FIXME
 News: News
-No: No   # FIXME
+No: No
 'No image': 'No image'
 'Not visible': 'Not visible'
 'Number of related projects': 'Number of related projects'
@@ -92,12 +123,17 @@ On: On
 Page: Page
 Participants: Participants
 Password: Password
-'Payment for': 'Payment for'   # FIXME
-'Payment methods': 'Payment methods'   # FIXME
+'Payment confirmation': 'Payment confirmation'   # FIXME
+'Payment for': 'Payment for'
+'Payment methods': 'Payment methods'
 Photo: Photo
 Pitch: Pitch
-'Please enter the amount you would like to pay, or select a defined amount :': 'Please enter the amount you would like to pay, or select a defined amount :'   # FIXME
-'Please select a file before submitting the form': 'Please select a file before submitting the form'   # FIXME
+'Please enter the amount you would like to pay, or select a defined amount :': 'Please enter the amount you would like to pay, or select a defined amount :'
+'Please select a file before submitting the form': 'Please select a file before submitting the form'
+
+'Please try again':
+    '': 'Please try again.'   # FIXME
+
 Popular: Popular
 'Popular projects': 'Popular projects'
 'Popular this week': 'Popular this week'
@@ -107,13 +143,16 @@ Project: Project
 'Project ending at': 'Project ending at'
 'Project realized by': 'Project realized by'
 Projects: Projects
+'Projects in which the user has participated': 'Projects in which the user has participated'   # FIXME
 'Projects nearing completion': 'Projects nearing completion'
 'Projects to fund': 'Projects to fund'
+Quantity: Quantity   # FIXME
 'Recently updated projects': 'Recently updated projects'
+'Related project': 'Related project'   # FIXME
 'Required amount': 'Required amount'
 'Reward description': 'Reward description'
 'Reward title': 'Reward title'
-Rewards: Rewards   # FIXME
+Rewards: Rewards
 'Search for ': 'Search for '
 'See all current projects': 'See all current projects'
 'See all ended projects': 'See all ended projects'
@@ -122,13 +161,21 @@ Rewards: Rewards   # FIXME
 'See all projects': 'See all projects'
 'See all updated projects': 'See all updated projects'
 Slug: Slug
+
+'Some fields are required':
+    ' Please fill them before submitting the form': 'Some fields are required. Please fill them before submitting the form'   # FIXME
+
 Steps: Steps
 Stock: Stock
 'Thanks for liking the project !': 'Thanks for liking the project !'
+'Thanks for posting your comment !': 'Thanks for posting your comment !'   # FIXME
+'Thanks for posting your entry !': 'Thanks for posting your entry !'   # FIXME
+'Thanks for your contribution': 'Thanks for your contribution'   # FIXME
+'Thanks for your payment': 'Thanks for your payment'   # FIXME
 
 'The file size is too big':
-    ' Please upload audio files that do not exceed 20Mo': 'The file size is too big. Please upload audio files that do not exceed 20Mo'   # FIXME
-    ' Please upload files that do not exceed 20Mo': 'The file size is too big. Please upload files that do not exceed 20Mo'   # FIXME
+    ' Please upload audio files that do not exceed 20Mo': 'The file size is too big. Please upload audio files that do not exceed 20Mo'
+    ' Please upload files that do not exceed 20Mo': 'The file size is too big. Please upload files that do not exceed 20Mo'
 
 'The file type is not authorized':
     ' Authorized audio types are : ':
@@ -136,7 +183,7 @@ Stock: Stock
             'mp3, ':
                 'mp4, ':
                     'wma, ':
-                        wav: 'The file type is not authorized. Authorized audio types are : .mpeg, .mp3, .mp4, .wma, .wav'   # FIXME
+                        wav: 'The file type is not authorized. Authorized audio types are : .mpeg, .mp3, .mp4, .wma, .wav'
 
     ' Authorized types are : ':
         'pdf, ':
@@ -144,42 +191,53 @@ Stock: Stock
                 'zip, ':
                     'csv, ':
                         'txt, ':
-                            doc: 'The file type is not authorized. Authorized types are : .pdf, .xml, .zip, .csv, .txt, .doc'   # FIXME
+                            doc: 'The file type is not authorized. Authorized types are : .pdf, .xml, .zip, .csv, .txt, .doc'
 
+'There''s a new contribution on the': 'There''s a new contribution on the'   # FIXME
 'There''s no comments for the moment': 'There''s no comments for the moment'
 'There''s no news for the moment': 'There''s no news for the moment'
 'There''s no participants for the moment': 'There''s no participants for the moment'
-'There''s no projects for the moment': 'There''s no projects for the moment'   # FIXME
-'There''s no results for your search': 'There''s no results for your search'   # FIXME
+'There''s no projects for the moment': 'There''s no projects for the moment'
+'There''s no results for your search': 'There''s no results for your search'
 'Top funded projects': 'Top funded projects'
+Total: Total   # FIXME
 'Twitter URL': 'Twitter URL'
-Upload: Upload   # FIXME
-'Upload new audio file': 'Upload new audio file'   # FIXME
-'Upload new file': 'Upload new file'   # FIXME
+'Unit Price': 'Unit Price'   # FIXME
+Upload: Upload
+'Upload new audio file': 'Upload new audio file'
+'Upload new file': 'Upload new file'
 User: User
 Users: Users
 Verification: Verification
 Visible: Visible
-'Visible to non participants ?': 'Visible to non participants ?'   # FIXME
-'We are pleased to announce you that your project has been fully funded by the community !"': 'We are pleased to announce you that your project has been fully funded by the community !"'   # FIXME
-'We are pleased to announce you that your project has reached the "funding phase"': 'We are pleased to announce you that your project has reached the "funding phase"'   # FIXME
+'Visible to non participants ?': 'Visible to non participants ?'
+'We are pleased to announce you that your project has been fully funded by the community !"': 'We are pleased to announce you that your project has been fully funded by the community !"'
+'We are pleased to announce you that your project has reached the "funding phase"': 'We are pleased to announce you that your project has reached the "funding phase"'
 'We are pleased to welcome you in this wonderful world !': 'We are pleased to welcome you in this wonderful world !'
 'We hope to see you soon in': 'We hope to see you soon in'
 'Website URL': 'Website URL'
 'Welcome to Little Big Joe': 'Welcome to Little Big Joe'
 'Welcome to Little Big Joe website': 'Welcome to Little Big Joe website'
-'What a great news !': 'What a great news !'   # FIXME
-Yes: Yes   # FIXME
-'You already have liked this project !': 'You already have liked this project !'   # FIXME
-'You can access to your project at :': 'You can access to your project at :'   # FIXME
+'What a great news !': 'What a great news !'
+Yes: Yes
+'You already have liked this project !': 'You already have liked this project !'
+'You can access to your project at': 'You can access to your project at'   # FIXME
+'You should receive your money in the next two days': 'You should receive your money in the next two days'   # FIXME
+'You''ll receive an confirmation email with your payment invoice': 'You''ll receive an confirmation email with your payment invoice'   # FIXME
+'You''ve been refund for your contribution': 'You''ve been refund for your contribution'   # FIXME
+'You''ve been refunded for your contribution on the': 'You''ve been refunded for your contribution on the'   # FIXME
 'associated project(s)': 'associated project(s)'
 'current projects': 'current projects'
 'ended projects': 'ended projects'
+'for contributing to the': 'for contributing to the'   # FIXME
 'for registering in Little Big Joe website': 'for registering in Little Big Joe website'
+gived: gived   # FIXME
 likes: likes
 'likes in total': 'likes in total'
+participant(s): participant(s)   # FIXME
 participants: participants
 project: project
+'project, in Little Big Joe website': 'project, in Little Big Joe website'   # FIXME
 'realized projects': 'realized projects'
 €: €
 '€ of': '€ of'

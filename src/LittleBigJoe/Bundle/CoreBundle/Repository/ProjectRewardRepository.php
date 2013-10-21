@@ -31,6 +31,48 @@ class ProjectRewardRepository extends EntityRepository
 		}
 		
 		/**
+		 * Return the rewards already purchased for specific project
+		 *
+		 * @param integer $projectId : specific project id
+		 * @return array rewards
+		 */
+		public function findUsed($projectId)
+		{
+				$usedRewardsIds = array();
+				$rewards = $this->getEntityManager()
+		            				->createQuery('
+		                        SELECT pr.id, COUNT(pc.id) as quantity_bought
+		                        FROM LittleBigJoeCoreBundle:ProjectReward pr
+		            						LEFT JOIN LittleBigJoeCoreBundle:ProjectContribution pc WITH pc.reward = pr.id
+														WHERE pr.project = :projectId
+		            						AND pc.mangopayIsSucceeded = :mangopayIsSucceeded
+														AND pc.mangopayIsCompleted = :mangopayIsCompleted
+		            						GROUP BY pc.reward
+														HAVING (quantity_bought > 0)
+		                    ')
+		                    ->setParameters(array(
+		                    		'projectId' => $projectId,
+		                    		'mangopayIsSucceeded' => true,
+		                    		'mangopayIsCompleted' => true
+		                    ))
+												->getResult();
+
+				// If there's no used rewards
+				if (empty($rewards))
+				{
+						return array();
+				}	   
+
+				// Stock used rewards ids
+				foreach ($rewards as $key => $reward)
+				{
+						$usedRewardsIds[] = $reward['id'];
+				}
+				
+				return $usedRewardsIds;
+		}
+		
+		/**
 		 * Return the unavailable rewards for specific project
 		 *
 		 * @param integer $projectId : specific project id

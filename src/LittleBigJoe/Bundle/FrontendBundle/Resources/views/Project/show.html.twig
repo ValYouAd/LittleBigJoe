@@ -121,7 +121,10 @@
 {% endblock %}
 
 {% block body %}				
-    <h1>{{ 'Project'|trans() }} {{ entity }}</h1>
+    <h1>
+    		{{ 'Project'|trans() }} {{ entity }} 
+    		{% if is_granted('ROLE_USER') and app.user.id == entity.user.id %}<a href="{{ path('littlebigjoe_frontendbundle_project_edit', {slug: entity.slug}) }}" class="pull-right btn btn-md btn-warning">{{ 'Edit this project'|trans() }}</a>{% endif %}
+    </h1>
     {% if entity.status == '1' %}
         <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
     {% else %}

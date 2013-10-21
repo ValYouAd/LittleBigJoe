@@ -63,7 +63,7 @@ class ProjectReward
      *
      * @ORM\Column(name="amount", type="decimal")
      *
-     * @Assert\NotBlank(message = "You must enter the reward", groups = {"Default", "flow_createProject_step4"})
+     * @Assert\NotBlank(message = "You must enter the reward amount", groups = {"Default", "flow_createProject_step4"})
      * @Assert\Regex(
      *    pattern = "/^[0-9\.\,]*$/",
      *    message = "Your reward amount must only contains numbers, dots, or commas", 

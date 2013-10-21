@@ -897,9 +897,9 @@ class Project
      * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward $rewards
      * @return Project
      */
-    public function addReward(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward $rewards)
+    public function addReward(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward $reward)
     {
-        $this->rewards[] = $rewards;
+        $this->rewards[] = $reward;
 
         return $this;
     }
@@ -909,11 +909,28 @@ class Project
      *
      * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward $rewards
      */
-    public function removeReward(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward $rewards)
+    public function removeReward(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward $reward)
     {
-        $this->rewards->removeElement($rewards);
+        $this->rewards->removeElement($reward);
     }
 
+    /**
+     * Set rewards
+     * 
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward $rewards
+     * @return Project
+     */
+    public function setRewards(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward $rewards)
+    {
+   			if (!empty($rewards))
+   			{
+   					foreach ($rewards as $reward)
+   					{
+   							$this->addReward($reward);
+   					}
+   			}
+    }
+    
     /**
      * Get rewards
      *
