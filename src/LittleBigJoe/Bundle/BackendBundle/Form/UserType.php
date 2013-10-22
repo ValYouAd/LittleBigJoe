@@ -52,9 +52,6 @@ class UserType extends BaseType
             ->add('country', 'country', array(
                 'label' => 'backend.country',
             ))
-            ->add('nationality', 'text', array(
-                'label' => 'backend.nationality',
-            ))
             ->add('defaultLanguage', 'locale', array(
                 'label' => 'backend.default_language',
                 'required' => false

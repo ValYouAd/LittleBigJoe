@@ -167,25 +167,6 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="nationality", type="string", length=255)
-     *
-     * @Assert\NotBlank(message = "You must enter your nationality")
-     * @Assert\Length(
-     *    min = "2",
-     *    max = "250",
-     *    minMessage = "Your nationality must contains at least {{ limit }} characters",
-     *    maxMessage = "Your nationality can't exceed {{ limit }} characters"
-     * )
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -]*$/",
-     *    message = "Your nationality must only contains letters, spaces, or dashes"
-     * )
-     */
-    private $nationality;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="default_language", type="string", length=45, nullable=true)
      *
      * @Assert\Language(message = "The language is incorrect")
@@ -467,7 +448,6 @@ class User extends BaseUser
 	    			
 	    			$this->setDefaultLanguage($locale);
 	    			$this->setCountry($country);
-	    			$this->setNationality(Locale::getDisplayCountries($locale)[$country]);
 	    	}
 	    	if (isset($fbdata['link']))
 	    	{
@@ -673,29 +653,6 @@ class User extends BaseUser
     public function getCountry()
     {
         return $this->country;
-    }
-
-    /**
-     * Set nationality
-     *
-     * @param string $nationality
-     * @return User
-     */
-    public function setNationality($nationality)
-    {
-        $this->nationality = $nationality;
-
-        return $this;
-    }
-
-    /**
-     * Get nationality
-     *
-     * @return string
-     */
-    public function getNationality()
-    {
-        return $this->nationality;
     }
 
     /**

@@ -32,7 +32,8 @@
         "Trsteel/ckeditor-bundle": "dev-master",
         "helios-ag/fm-elfinder-bundle": "1.x",
         "ensepar/html2pdf" : "dev-master",
-        "ensepar/html2pdf-bundle" : "dev-master"
+        "ensepar/html2pdf-bundle" : "dev-master",
+        "knplabs/knp-time-bundle" : "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

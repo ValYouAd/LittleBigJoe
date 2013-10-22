@@ -21,7 +21,6 @@
             <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'u.lastname') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.city'|trans(), 'u.city') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.country'|trans(), 'u.country') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'backend.nationality'|trans(), 'u.nationality') }}</th>
             <th>{{ 'backend.related_projects'|trans() }}</th>
             <th>{{ 'backend.likes'|trans() }}</th>
             <th>{{ 'backend.contributions'|trans() }}</th>
@@ -37,7 +36,6 @@
                 <td>{{ entity }}</td>
                 <td>{{ entity.city }}</td>
                 <td>{{ entity.country }}</td>
-                <td>{{ entity.nationality }}</td>
                 <td>{{ entity.projects|length }}</td>
                 <td>{{ entity.likes|length }}</td>
                 <td>{{ entity.contributions|length }}</td>

@@ -91,9 +91,6 @@ class RegistrationFormType extends BaseType
             ->add('country', 'country', array(
                 'label' => 'Country',
             ))
-            ->add('nationality', 'text', array(
-                'label' => 'Nationality',
-            ))
             ->add('defaultLanguage', 'locale', array(
                 'label' => 'Default language',
                 'choices' => $langs,

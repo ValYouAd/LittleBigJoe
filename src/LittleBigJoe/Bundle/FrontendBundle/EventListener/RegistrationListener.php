@@ -51,7 +51,15 @@ class RegistrationListener implements EventSubscriberInterface
         
         // Create user in MangoPay
         $api = $this->container->get('little_big_joe_mango_pay.api');
-        $mangopayUser = $api->createUser($user->getEmail(), $user->getFirstname(), $user->getLastname(), $user->getIpAddress(), $user->getBirthday()->getTimestamp(), $user->getNationality(), $user->getPersonType(), $user->getId());
+        
+        // Set default nationality (required for MangoPay)
+        $userLanguage = $user->getDefaultLanguage();
+        if ($userLanguage == 'fr')
+        	$userNationality = 'FR';
+        else
+        	$userNationality = 'EN';
+        
+        $mangopayUser = $api->createUser($user->getEmail(), $user->getFirstname(), $user->getLastname(), $user->getIpAddress(), $user->getBirthday()->getTimestamp(), $userNationality, $user->getPersonType(), $user->getId());
        	if (!empty($mangopayUser))
        	{
        			if (!empty($mangopayUser->ID))

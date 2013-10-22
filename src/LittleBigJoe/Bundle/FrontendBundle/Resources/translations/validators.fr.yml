@@ -33,7 +33,6 @@
 'You must enter your firstname': 'You must enter your firstname'   # FIXME
 'You must enter your lastname': 'You must enter your lastname'   # FIXME
 'You must enter your location': 'You must enter your location'   # FIXME
-'You must enter your nationality': 'You must enter your nationality'   # FIXME
 'You must enter your page content': 'You must enter your page content'   # FIXME
 'You must enter your page slug': 'You must enter your page slug'   # FIXME
 'You must enter your page title': 'You must enter your page title'   # FIXME
@@ -92,9 +91,6 @@
 'Your location can''t exceed {{ limit }} characters': 'Your location can''t exceed {{ limit }} characters'   # FIXME
 'Your location must contains at least {{ limit }} characters': 'Your location must contains at least {{ limit }} characters'   # FIXME
 'Your max quantity by user must only contains numbers': 'Your max quantity by user must only contains numbers'   # FIXME
-'Your nationality can''t exceed {{ limit }} characters': 'Your nationality can''t exceed {{ limit }} characters'   # FIXME
-'Your nationality must contains at least {{ limit }} characters': 'Your nationality must contains at least {{ limit }} characters'   # FIXME
-'Your nationality must only contains letters, spaces, or dashes': 'Your nationality must only contains letters, spaces, or dashes'   # FIXME
 'Your page slug must only contains letters, or dashes': 'Your page slug must only contains letters, or dashes'   # FIXME
 'Your page title can''t exceed {{ limit }} characters': 'Your page title can''t exceed {{ limit }} characters'   # FIXME
 'Your page title must contains at least {{ limit }} characters': 'Your page title must contains at least {{ limit }} characters'   # FIXME

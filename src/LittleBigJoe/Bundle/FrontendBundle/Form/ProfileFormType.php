@@ -52,9 +52,6 @@ class ProfileFormType extends BaseType
             ->add('country', 'country', array(
                 'label' => 'Country',
             ))
-            ->add('nationality', 'text', array(
-                'label' => 'Nationality',
-            ))
             ->add('defaultLanguage', 'locale', array(
                 'label' => 'Default language',
                 'choices' => array('en' => 'English', 'fr' => 'French')

@@ -29,6 +29,7 @@ class AppKernel extends Kernel
         		new Trsteel\CkeditorBundle\TrsteelCkeditorBundle(), // Used to handle CKeditor
         		new FM\ElfinderBundle\FMElfinderBundle(), // Used to handle file upload via CKeditor
         		new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(), // Used to generate PDF file
+        		new Knp\Bundle\TimeBundle\KnpTimeBundle(), // Used for "time ago" date
             new LittleBigJoe\Bundle\BackendBundle\LittleBigJoeBackendBundle(),
             new LittleBigJoe\Bundle\FrontendBundle\LittleBigJoeFrontendBundle(),
             new LittleBigJoe\Bundle\CoreBundle\LittleBigJoeCoreBundle(),

@@ -72,7 +72,15 @@ class UserController extends Controller
             
             // Create user in MangoPay
             $api = $this->container->get('little_big_joe_mango_pay.api');
-            $mangopayUser = $api->createUser($entity->getEmail(), $entity->getFirstname(), $entity->getLastname(), $entity->getIpAddress(), $entity->getBirthday()->getTimestamp(), $entity->getNationality(), $entity->getPersonType(), $entity->getId());
+            
+            // Set nationality (required for MangoPay)
+            $userLanguage = $entity->getDefaultLanguage();
+            if ($userLanguage == 'fr')
+            		$userNationality = 'FR';
+            else 
+            		$userNationality = 'EN';
+            
+            $mangopayUser = $api->createUser($entity->getEmail(), $entity->getFirstname(), $entity->getLastname(), $entity->getIpAddress(), $entity->getBirthday()->getTimestamp(), $userNationality, $entity->getPersonType(), $entity->getId());
             if (!empty($mangopayUser))
             {
 	            	if (!empty($mangopayUser->ID))

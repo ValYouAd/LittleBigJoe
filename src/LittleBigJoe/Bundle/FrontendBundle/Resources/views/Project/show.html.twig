@@ -184,7 +184,7 @@
 	        									{% for comment in entry.comments|reverse %}
        													<li>
 					          							<strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
-					          							<small>{{ 'On'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</small><br />
+					          							<small>{{ time_diff(comment.createdAt) }}</small><br />
 					          							<p>{{ comment.content|raw }}</p>
 						          				</li>
        											{% endfor %}

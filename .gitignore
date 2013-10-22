@@ -20,7 +20,7 @@ web/uploads/pdfs/*
 web/bundles/*
 
 # Don't allow to use the default ckeditor.js file (from the bundle), and use our own 
-!/web/bundles/trsteelckeditor/
+!/web/bundles/trsteelckeditor/*
 
 # Configuration files
 app/config/parameters.ini

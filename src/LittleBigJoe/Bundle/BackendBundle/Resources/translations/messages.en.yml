@@ -35,7 +35,6 @@ backend.twitter_url: 'URL Twitter'
 backend.googleplus_url: 'URL Google +'
 backend.website_url: 'URL du site web'
 backend.regional_infos: 'Infos régionales'
-backend.nationality: Nationalité
 backend.default_language: 'Langue par défaut'
 backend.likes: Likes
 backend.contributions: Contributions
