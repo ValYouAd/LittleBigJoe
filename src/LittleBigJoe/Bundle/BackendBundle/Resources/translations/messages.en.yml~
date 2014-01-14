@@ -38,7 +38,7 @@ backend.regional_infos: 'Infos régionales'
 backend.default_language: 'Langue par défaut'
 backend.likes: Likes
 backend.contributions: Contributions
-backend.mangopay_infos: 'Informations MangoPay'
+backend.mangopay_infos: 'Infos Mangopay'
 backend.mangopay_user_id: 'ID Utilisateur Mangopay'
 backend.mangopay_user_created_at: 'Utilisateur Mangopay créé le'
 backend.mangopay_user_updated_at: 'Utilisateur Mangopay mis à jour le'
@@ -171,7 +171,7 @@ backend.photo: Photo
 backend.roles: Rôles
 backend.admin: Administrateur
 backend.ip_address: 'Adresse IP'
-backend.bio: Bio
+backend.bio: 'Bio'
 backend.logo: Logo
 backend.pitch: Pitch
 backend.status_updated_at: 'Statut mis à jour le'
@@ -182,14 +182,16 @@ backend.is_favorite: 'Favori ?'
 backend.contact_status: 'Statut du contact'
 backend.mangopay_payment_created_at: 'Paiement Mangopay créé le'
 backend.mangopay_payment_updated_at: 'Paiement Mangopay mis à jour le'
+backend.pitch: Pitch
 backend.mangopay: MangoPay
+backend.mangopay_infos: Informations MangoPay
 backend.mangopay_infos_resume: 'Ci-dessous, un résumé des différentes informations concernant MangoPay :'
 backend.mangopay_funding_phase_projects: 'Projets en "phase de financement"'
 backend.mangopay_last_contributions: 'Dernières contributions'
 backend.mangopay_ended_projects: 'Projets terminés'
-backend.amounts: Montants
+backend.amounts: 'Montants'
 backend.ending_date: 'Date de fin'
-backend.details: Détails
+backend.details: 'Détails'
 backend.show_in_fo: 'Afficher en FO'
 backend.see_funding_projects: 'Voir tous les projets en cours de financement'
 backend.see_all_contributions: 'Voir toutes les contributions'
@@ -207,37 +209,38 @@ backend.answer_code: 'Code réponse'
 backend.creation_date: 'Date de création'
 backend.update_date: 'Date de mise à jour'
 backend.is_anonymous: 'Anonyme ?'
-backend.anonymous: Anonyme
-backend.public: Public
+backend.anonymous: 'Anonyme'
+backend.public: 'Public'
 backend.is_refunded: 'Remboursé ?'
-backend.refunded: Remboursé
+backend.refunded: 'Remboursé'
 backend.not_refunded: 'Non remboursé'
 backend.contributors_list: 'Liste des contributeurs'
-backend.email: Email
+backend.email: 'Email'
 backend.can_register_new_payment_method: 'Peut enregistrer un nouveau moyen de paiement ?'
 backend.payment_method: 'Moyen de paiement'
 backend.wallet_amount: 'Montant wallet'
-backend.detail: Détail
-backend.transfers: Transferts
-backend.refund: Remboursement
+backend.detail: 'Détail'
+backend.transfers: 'Transferts'
+backend.refund: 'Remboursement'
 backend.mangopay_refund_id: 'ID Refund Mangopay'
 backend.refund_contribution: 'Rembourser la contribution'
 backend.refund_confirmation_contribution: 'En remboursant cette contribution, vous ne pourrez plus récupérer l''argent de la contribution'
 backend.delete_contribution: 'Suppression de la contribution'
 backend.delete_confirmation_contribution: 'En supprimant cette contribution, vous ne pourrez plus la récupérer'
-backend.ip: IP
-backend.cb_visa_mastercard: CB
-backend.tag: Tag
-backend.beneficiaries: Bénéficiaires
+backend.ip: 'IP'
+backend.update_date: 'Date de mise à jour'
+backend.cb_visa_mastercard: 'CB'
+backend.tag: 'Tag'
+backend.beneficiaries: 'Bénéficiaires'
 backend.beneficiaries_list: 'Liste des bénéficiaires'
 backend.beneficiaries_list_resume: 'Ci-dessous, une liste de tous les bénéficiaires créés sur le site :'
 backend.bank_account_owner_name: 'Nom du titulaire du compte bancaire'
 backend.bank_account_owner_address: 'Adresse du titulaire du compte bancaire'
-backend.bank_account_iban: IBAN
-backend.bank_account_bic: BIC
+backend.bank_account_iban: 'IBAN'
+backend.bank_account_bic: 'BIC'
 backend.create_beneficiary: 'Création d''un bénéficiaire'
 backend.new_beneficiary: 'Nouveau bénéficiaire'
-backend.beneficiary: Bénéficiaire
+backend.beneficiary: 'Bénéficiaire'
 backend.beneficiary_infos: 'Infos du bénéficiaire'
 backend.bank_infos: 'Infos bancaires'
 backend.mangopay_beneficiary_id: 'ID Bénéficiaire Mangopay'
@@ -245,28 +248,25 @@ backend.edit_beneficiary: 'Edition du bénéficiaire'
 backend.delete_beneficiary: 'Suppression du bénéficiaire'
 backend.delete_confirmation_beneficiary: 'En supprimant ce bénéficiaire, vous supprimerez tous les transferts associés, et vous ne pourrez plus le récupérer'
 backend.last_withdrawals: 'Derniers transferts'
-backend.wallet: Wallet
+backend.wallet: 'Wallet'
 backend.amount_without_fees: 'Montant sans frais'
-backend.fees: Frais
+backend.fees: 'Frais'
 backend.create_withdrawal: 'Nouveau transfert'
 backend.withdrawal_amount: 'Montant du transfert'
 backend.withdrawal_amount_without_fees: 'Montant du transfert sans les frais'
 backend.withdrawal_client_fee_amount: 'Montant des frais'
-backend.withdraw: Transférer
+backend.withdraw: 'Transférer'
 backend.add_new_beneficiary: 'Ajouter un nouveau bénéficiaire'
 backend.minimum_likes_to_get: 'Nombre de likes minimum par projet pour passage en phase de financement'
 backend.synchronize_withdrawals: 'Synchroniser les transferts'
-withdrawal.success: OK
-French: Français(e)
-Contribution: Contribution
-Refund: Rembourser
+withdrawal.success: 'OK'
+French: 'Français(e)'
+Contribution: 'Contribution'
+Refund: 'Remboursement'
 Create: Créer
 Edit: Editer
-Transfer: Transférer
+Refund: Rembourser
+Transfer: 'Transférer'
 Update: 'Mettre à jour'
 Delete: Supprimer
-Translations: Traductions
-N/A: __N/A
-€: __€
-OK: __OK
-backend.has_brand_representation: 'A une représentation de la marque ?'
+Translations: 'Traductions'

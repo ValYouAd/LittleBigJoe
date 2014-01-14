@@ -257,6 +257,20 @@
 			        {% endif %}
 			        {% if entity.statusUpdatedAt %} {{ 'backend.updated_at'|trans() }} : {{ entity.statusUpdatedAt|date('d/m/Y H:i:s') }}{% endif %}
 			    </p>
+			    <p>{{ 'backend.is_favorite'|trans() }} :
+                    {% if entity.isFavorite %}
+                        <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+                    {% else %}
+                        <span class="label label-primary">{{ 'backend.no'|trans() }}</span>
+                    {% endif %}
+			    </p>
+			    <p>{{ 'backend.has_brand_representation'|trans() }} :
+                    {% if entity.hasBrandRepresentation %}
+                        <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+                    {% else %}
+                        <span class="label label-primary">{{ 'backend.no'|trans() }}</span>
+                    {% endif %}
+                </p>
 			    <p>{{ 'backend.ending_at'|trans() }} : <strong>{{ entity.endingAt|date('d/m/Y H:i:s') }}</strong></p>
 			
 			    {% if entity.endedAt %}

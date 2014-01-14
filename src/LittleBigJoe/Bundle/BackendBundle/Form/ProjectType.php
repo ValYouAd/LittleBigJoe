@@ -110,6 +110,10 @@ class ProjectType extends AbstractType
             ->add('isFavorite', 'choice', array(
             		'label' => 'backend.is_favorite',
             		'choices' => array(0 => 'backend.no', 1 => 'backend.yes')
+            ))
+            ->add('hasBrandRepresentation', 'choice', array(
+            		'label' => 'backend.has_brand_representation',
+            		'choices' => array(0 => 'backend.no', 1 => 'backend.yes')
             ));
     }
 

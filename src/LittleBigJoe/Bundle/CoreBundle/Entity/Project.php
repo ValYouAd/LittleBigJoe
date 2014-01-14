@@ -248,7 +248,14 @@ class Project
      * @ORM\Column(name="is_favorite", type="boolean")
      */
     private $isFavorite;
-
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="has_brand_representation", type="boolean")
+     */
+    private $hasBrandRepresentation;
+    
     /**
      * @ORM\ManyToOne(targetEntity="Brand", inversedBy="projects")
      * @ORM\JoinColumn(name="brand_id", referencedColumnName="id")
@@ -804,6 +811,29 @@ class Project
     public function getIsFavorite()
     {
         return $this->isFavorite;
+    }
+        
+    /**
+     * Set hasBrandRepresentation
+     *
+     * @param boolean $hasBrandRepresentation
+     * @return Project
+     */
+    public function setHasBrandRepresentation($hasBrandRepresentation)
+    {
+        $this->hasBrandRepresentation = $hasBrandRepresentation;
+    
+        return $this;
+    }
+    
+    /**
+     * Get hasBrandRepresentation
+     *
+     * @return boolean
+     */
+    public function getHasBrandRepresentation()
+    {
+        return $this->hasBrandRepresentation;
     }
 
     /**

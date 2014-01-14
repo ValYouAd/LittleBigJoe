@@ -70,7 +70,11 @@ class CreateProjectFormType extends AbstractType
 						            ))
 						            ->add('pitch', 'textarea', array(
 						            		'label' => 'Pitch'
-						            ));
+						            ))						            
+                                    ->add('hasBrandRepresentation', 'choice', array(
+                                		'label' => 'Does the project contains a visual or written representation of the brand ?',
+                                		'choices' => array(0 => 'No', 1 => 'Yes'),
+                                    ));
 										break;
 										
             // Step 2 : Define my goals
