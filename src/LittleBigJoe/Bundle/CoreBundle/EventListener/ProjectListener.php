@@ -81,7 +81,7 @@ class ProjectListener extends ContainerAware
 										// Send welcome email
 										$email = \Swift_Message::newInstance()
 															->setContentType('text/html')
-															->setSubject($this->container->get('translator')->trans('Your project has been updated1'))
+															->setSubject($this->container->get('translator')->trans('Your project has been updated'))
 															->setFrom($this->container->getParameter('default_email_address'))
 															->setTo(array($project->getUser()->getEmail() => $project->getUser()))
 															->setBody(

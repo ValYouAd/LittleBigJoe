@@ -17,6 +17,7 @@ use LittleBigJoe\Bundle\FrontendBundle\Form\EntryCommentType;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
 use LittleBigJoe\Bundle\FrontendBundle\Form\CommentType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\EditProjectType;
+use LittleBigJoe\Bundle\FrontendBundle\Form\ReportProjectType;
 
 class ProjectController extends Controller
 {
@@ -427,9 +428,10 @@ class ProjectController extends Controller
 	    			$originalRewards[] = $reward;
 	    	}	    	
 	    	
+	    	// Formulaire d'édition
 	    	$editForm = $this->createForm(new EditProjectType($usedRewardsIds), $entity);
 	    	$editForm->handleRequest($request);
-	    	
+	    		    	
 	    	if ($editForm->isValid()) {		
 		    		$rewards = $entity->getRewards();
 		    		// Set default project for associated rewards
@@ -512,9 +514,25 @@ class ProjectController extends Controller
 		    		return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $entity->getSlug())));
 	    	}
 	    	
+	    	// Suppression du projet
+	    	$deleteForm = $this->createFormBuilder()
+                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('slug' => $slug)))
+                                ->setMethod('DELETE')
+                                ->add('submit', 'submit', array('label' => 'Delete this project', 'attr' => array('class' => 'btn btn-danger')))
+                                ->getForm();
+	    	$deleteForm->handleRequest($request);
+	    	
+	    	if ($deleteForm->isValid()) {	    	    	    	
+	    	    $entity->setDeletedAt(new \Datetime());
+	    	    $em->flush();
+	    	    
+	    	    return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+	    	}	    	
+	    	
 	    	return array(
 	    			'entity' => $entity,
 	    			'form' => $editForm->createView(),
+	    	        'deleteForm' => $deleteForm->createView(),
 	    	);
     }
     
@@ -586,13 +604,48 @@ class ProjectController extends Controller
         $options = array('project' => $entity, 'user' => $currentUser);
         $entryCommentForm = $this->createForm(new EntryCommentType($options), $entryComment);
         
-	      // Create the comment form
-	      $comment = new Comment();
-	      $comment->setProject($entity);
-	      $comment->setIsVisible(true);
-	      $options = array('user' => $currentUser);
-	      $commentForm = $this->createForm(new CommentType($options), $comment);
-											        
+          // Create the comment form
+          $comment = new Comment();
+          $comment->setProject($entity);
+          $comment->setIsVisible(true);
+          $options = array('user' => $currentUser);
+          $commentForm = $this->createForm(new CommentType($options), $comment);
+
+          // Create the reporting form
+          $options = array(
+            'reportReasons' => array(
+                $this->get('translator')->trans('Intellectual property infringement'), 
+                $this->get('translator')->trans('I think this project should not be on LittleBigJoe'), 
+                $this->get('translator')->trans('This is spam'), 
+                $this->get('translator')->trans('Other')
+            )
+          );
+          $reportForm = $this->createForm(new ReportProjectType($options), null, array(
+             'action' => $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $slug))
+          ));          
+          $reportForm->handleRequest($request);
+          
+          // If report form is valid, and submitted, send mail to admin
+          if ($reportForm->isValid()) {              
+              // Send report email
+    			$email = \Swift_Message::newInstance()
+    								->setContentType('text/html')
+    								->setSubject($this->get('translator')->trans('A project has been reported'))
+    								->setFrom($this->container->getParameter('default_email_address'))
+    								->setTo($this->container->getParameter('default_email_address'))
+    								->setBody(
+										$this->renderView('LittleBigJoeFrontendBundle:Email:report_project.html.twig', array(
+											'user' => $currentUser,
+										    'userIp' => $_SERVER['REMOTE_ADDR'],
+										    'reportReasons' => $options['reportReasons'],
+										    'report' => $reportForm->getData(),
+											'project' => $entity,
+				        				    'url' => $this->get('request')->getSchemeAndHttpHost()
+										), 'text/html')
+    								);
+    			$this->get('mailer')->send($email);
+          }
+          
         // Create the funding form
         $fundingForm = $this->createFormBuilder()
 										        ->setAction($this->generateUrl('littlebigjoe_frontendbundle_payment_project'))
@@ -638,6 +691,7 @@ class ProjectController extends Controller
         		'entry_comment_form' => $entryCommentForm->createView(),
         		'comment_form' => $commentForm->createView(),
         		'funding_form' => $fundingForm->createView(),
+                'report_form' => $reportForm->createView(),
             'current_date' => new \Datetime()
         );
     }
