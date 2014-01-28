@@ -58,8 +58,10 @@
                 </li>
                 {% if is_granted('ROLE_USER') %}
                 		<li>
-                			<p>{{ 'Welcome'|trans() }}, {{ app.user }}<br />
+                			<p>{{ 'Welcome'|trans() }}, {{ app.user }} 
+                			<span id="unread_notifications" style="display:none;background:red;color:white;"></span><br />
                 			<a href="{{ path('fos_user_profile_show') }}">{{ 'Profile'|trans() }}</a> &nbsp;
+                			<a href="{{ path('littlebigjoe_frontendbundle_user_news') }}">{{ 'My news'|trans() }}</a> &nbsp;
 											<a href="{{ path('fos_user_security_logout') }}">{{ 'Logout'|trans() }}</a></p>
 										</li>
 		            {% else %}
@@ -110,6 +112,40 @@
 				}
 				</script> 		
         <script src="{{ asset('bundles/littlebigjoebackend/assets/js/jquery.js') }}"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+        	// Used to retrieve user notifications 
+        	var notificationsCheck = null;
+
+        	function getNotifications()
+        	{
+	        	if (notificationsCheck != null)
+	        	  clearTimeout(notificationsCheck);
+	        	
+	        	$.post("{{ path('littlebigjoe_frontendbundle_ajax_get_notifications') }}")
+                .done(function(data) {
+                    if (data.status == "OK" && data.nb_notifs > 0)
+                    {
+                    	$('#unread_notifications').text(data.nb_notifs).show();
+                    }
+                    else 
+                    {
+                    	$('#unread_notifications').empty().hide();
+                    }
+                    callGetNotifications();
+	            });
+        	}
+
+        	function callGetNotifications()
+        	{
+        		notificationsCheck = setTimeout(function(){
+        			  getNotifications();   
+	        	}, 60000);
+        	}
+
+        	getNotifications();
+        });        
+        </script>
         <script src="{{ asset('bundles/littlebigjoebackend/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('bundles/littlebigjoebackend/assets/js/holder.js') }}"></script>
     {% endblock %}

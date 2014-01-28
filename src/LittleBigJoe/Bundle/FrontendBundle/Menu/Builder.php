@@ -24,9 +24,21 @@ class Builder extends ContainerAware
             ));
         }
 
+        // Add "Projects" link
+        $projects = $menu->addChild($this->container->get('translator')->trans('Projects'), array('uri' => '#'));
+        
         // Add "Discover projects" link
-        $menu->addChild($this->container->get('translator')->trans('Discovering projects'), array('route' => 'littlebigjoe_frontendbundle_project'));
-
+        $projects->addChild($this->container->get('translator')->trans('Discovering projects'), array('route' => 'littlebigjoe_frontendbundle_project'));
+        
+        // Add "Projects I'm supporting" link
+        $projects->addChild($this->container->get('translator')->trans('Projects I\'m supporting'), array('route' => 'littlebigjoe_frontendbundle_project_supported_projects'));
+        
+        // Add "Projects of users I follow" link
+        $projects->addChild($this->container->get('translator')->trans('Projects of users I follow'), array('route' => 'littlebigjoe_frontendbundle_project_users_followed_projects'));
+        
+        // Add "Projects of brands I follow" link
+        $projects->addChild($this->container->get('translator')->trans('Projects of brands I follow'), array('route' => 'littlebigjoe_frontendbundle_project_brands_followed_projects'));
+        
         // Add "Launch my project" link
         $menu->addChild($this->container->get('translator')->trans('Launch my project'), array('route' => 'littlebigjoe_frontendbundle_project_create_project'));
 

@@ -23,6 +23,13 @@ class ProjectLike
     private $id;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="answers", type="array", nullable=true)
+     */
+    private $answers;
+    
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -42,6 +49,14 @@ class ProjectLike
     protected $user;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->answers = array();
+    }
+    
+    /**
      * @ORM\PrePersist
      */
     public function prePersist()
@@ -57,6 +72,29 @@ class ProjectLike
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set answers
+     *
+     * @param array $answers
+     * @return ProjectLike
+     */
+    public function setAnswers($answers)
+    {
+        $this->answers = $answers;
+    
+        return $this;
+    }
+
+    /**
+     * Get answers
+     *
+     * @return array 
+     */
+    public function getAnswers()
+    {
+        return $this->answers;
     }
 
     /**

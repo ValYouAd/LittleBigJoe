@@ -49,20 +49,19 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="{{ 'littlebigjoe_backendbundle_home'|current() }}"><a
-                            href="{{ path('littlebigjoe_backendbundle_home') }}">{{ 'backend.home'|trans() }}</a></li>
                 <li class="{{ 'littlebigjoe_backendbundle_pages'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_pages') }}">{{ 'backend.pages'|trans() }}</a></li>
                 <li class="{{ 'littlebigjoe_backendbundle_users'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_users') }}">{{ 'backend.users'|trans() }}</a></li>
                 <li class="dropdown {{ 'littlebigjoe_backendbundle_projects'|current() }}">
-               			<a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ 'backend.projects'|trans() }} <b class="caret"></b></a>
-               			<ul class="dropdown-menu">
-				                <li><a href="{{ path('littlebigjoe_backendbundle_projects') }}">{{ 'backend.projects_list'|trans() }}</a></li>
-				                <li><a href="{{ path('littlebigjoe_backendbundle_projects_engagement_phase') }}">{{ 'backend.engagement_phase_projects_list'|trans() }}</a></li>
-			            		  <li><a href="{{ path('littlebigjoe_backendbundle_projects_funding_phase') }}">{{ 'backend.funding_phase_projects_list'|trans() }}</a></li>
-			            		  <li><a href="{{ path('littlebigjoe_backendbundle_projects_ended') }}">{{ 'backend.ended_projects_list'|trans() }}</a></li>
-				            </ul>
+            		<a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ 'backend.projects'|trans() }} <b class="caret"></b></a>
+            	<ul class="dropdown-menu">
+	                <li><a href="{{ path('littlebigjoe_backendbundle_projects') }}">{{ 'backend.projects_list'|trans() }}</a></li>
+	                <li><a href="{{ path('littlebigjoe_backendbundle_projects_engagement_phase') }}">{{ 'backend.engagement_phase_projects_list'|trans() }}</a></li>
+            		 <li><a href="{{ path('littlebigjoe_backendbundle_projects_funding_phase') }}">{{ 'backend.funding_phase_projects_list'|trans() }}</a></li>
+           		  <li><a href="{{ path('littlebigjoe_backendbundle_projects_ended') }}">{{ 'backend.ended_projects_list'|trans() }}</a></li>
+		            <li><a href="{{ path('littlebigjoe_backendbundle_projects_helps') }}">{{ 'backend.projects_helps_list'|trans() }}</a></li>
+		        </ul>
                 </li>
                 <li class="{{ 'littlebigjoe_backendbundle_categories'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_categories') }}">{{ 'backend.categories'|trans() }}</a>

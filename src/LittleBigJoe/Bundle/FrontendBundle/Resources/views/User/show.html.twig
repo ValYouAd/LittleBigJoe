@@ -13,6 +13,27 @@
     {% if entity.twitterUrl %}<a href="{{ entity.twitterUrl }}">{{ 'Twitter URL'|trans() }}</a>{% endif %}
     {% if entity.googleUrl %}<a href="{{ entity.googleUrl }}">{{ 'Google URL'|trans() }}</a>{% endif %}
 
+    {% set show_follow_button = true %}
+            
+    {% if (is_granted('ROLE_USER') and app.user.id != entity.id) %}            
+        {% for follower in entity.followers %}
+            {% if app.user.id == follower.id %}
+                {% set show_follow_button = false %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}    
+
+    {% if (is_granted('ROLE_USER') and app.user.id != entity.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+    <div id="followBox" {% if show_follow_button != true %}style="display:none"{% endif %}>
+        <a id="followUser" class="btn btn btn-success" href="#">{{ 'Follow'|trans() }}</a>            
+    </div>
+    
+    <div id="unfollowBox" {% if show_follow_button %}style="display:none"{% endif %}>
+        <a id="currentFollowUser" class="btn btn btn-info" href="#">{{ 'Followed'|trans() }}</a>
+        <a id="unfollowUser" class="btn btn btn-danger" href="#" style="display:none">{{ 'Unfollow'|trans() }}</a>            
+    </div>  
+    {% endif %}
+
     <div class="clearfix">&nbsp;</div>
     {% if entity.websiteUrl %}<a href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% endif %}
     <div class="clearfix">&nbsp;</div>
@@ -141,4 +162,71 @@
     {% else %}
     		<p>{{ 'There\'s no projects for the moment'|trans() }}</p>
     {% endif %}
+{% endblock %}
+
+{% block footer_javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+	    var currentUserId = {{ entity.id }};
+	    $(document).ready(function () {                
+	        // Follow request 
+	        $('#followUser').click(function (e) {
+	           $.post("{{ path('littlebigjoe_frontendbundle_ajax_follow_user') }}", { 'userId' : currentUserId })
+	           .done(function(data) { 
+	                   if (data.status == 'OK')
+	                   {
+	                           alert("{{ 'Thanks for follow this user !'|trans() }}");   
+	                           $('#followBox').hide();
+	                           $('#unfollowBox').show();
+	                   }
+	                   else if (data.status == 'KO USER')
+	                   {
+	                           window.location = "{{ path('fos_user_security_login') }}";
+	                   }
+	                   else if (data.status == 'KO FOLLOW')
+	                   {
+	                           alert("{{ 'You already have followed this user !'|trans() }}");     
+	                   }
+	                   else
+	                   {
+	                           alert("{{ 'An error has occured during user follow. Please try again'|trans() }}"); 
+	                   } 
+	           });
+	        });
+	        
+	        // Hover
+            $('#unfollowBox').hover(function(e){
+                $('#currentFollowUser').hide();
+                $('#unfollowUser').show();
+            }, function(e){
+                $('#unfollowUser').hide();
+                $('#currentFollowUser').show();
+            });
+	        
+	        // Unfollow request 
+	           $('#unfollowUser').click(function (e) {
+	              $.post("{{ path('littlebigjoe_frontendbundle_ajax_unfollow_user') }}", { 'userId' : currentUserId })
+	              .done(function(data) { 
+	                      if (data.status == 'OK')
+	                      {
+	                              alert("{{ 'Thanks for unfollow this user !'|trans() }}");   
+	                              $('#unfollowBox').hide();
+	                              $('#followBox').show();
+	                      }
+	                      else if (data.status == 'KO USER')
+	                      {
+	                              window.location = "{{ path('fos_user_security_login') }}";
+	                      }
+	                      else if (data.status == 'KO UNFOLLOW')
+	                      {
+	                              alert("{{ 'You already have unfollowed this user !'|trans() }}");     
+	                      }
+	                      else
+	                      {
+	                              alert("{{ 'An error has occured during user unfollow. Please try again'|trans() }}"); 
+	                      } 
+	              });
+	           });
+	     });
+	</script>
 {% endblock %}

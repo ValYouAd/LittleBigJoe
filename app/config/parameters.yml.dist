@@ -37,3 +37,4 @@ parameters:
     # HWIOAuthBundle Configuration
     api_twitter_key: 'm8z0OJ6k1LxTIjnp6ud8KQ'
     api_twitter_secret: 'OHyVibMQoTJGlg80DkckiNeMLVTljnu7CH4Pu1MDpHE'
+    api_twitter_baseurl: https://api.twitter.com/1.1

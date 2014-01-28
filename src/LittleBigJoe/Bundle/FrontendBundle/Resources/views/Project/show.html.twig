@@ -26,7 +26,7 @@
 				   	<strong><span class="likes_count">{{ entity.likesCount }}</span> {{ 'likes'|trans() }}</strong><br/>
 		    		<strong>{{ entity.endingAt|time_remaining }}</strong>
 		    </p>
-		    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY')) %}
+		    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
 		    <p>
 		    		<a href="#" class="btn btn btn-success" id="likeProject">{{ 'I like this project'|trans() }}</a>
 		    </p>
@@ -46,8 +46,8 @@
     				<strong>{{ usersIds|length }} {{ 'participant(s)'|trans() }}</strong><br />
     				<strong>{{ entity.endingAt|time_remaining }}</strong>
     		</p>		
-    		{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY')) %}
-    				{{ form(funding_form, {attr:{role:'form' }}) }}
+    		{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+    				{{ form(funding_form, {attr:{id:'fundingForm', role:'form'}}) }}
     		{% endif %}
 		{% endif %}
 		
@@ -68,6 +68,27 @@
     
 	    <strong>{{ entity.user }}</strong>
 	    <small>{{ entity.user.city }}, {{ entity.user.country|country(app.request.locale) }}</small>
+	    
+	    {% set show_follow_button = true %}
+            
+	    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) %}            
+	        {% for follower in entity.user.followers %}
+	            {% if app.user.id == follower.id %}
+	                {% set show_follow_button = false %}
+	            {% endif %}
+	        {% endfor %}
+	    {% endif %}    
+	
+	   {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+	    <div id="followUserBox" {% if show_follow_button != true %}style="display:none"{% endif %}>
+	        <a id="followUser" class="btn btn btn-success" href="#">{{ 'Follow'|trans() }}</a>            
+	    </div>
+	    
+	    <div id="unfollowUserBox" {% if show_follow_button %}style="display:none"{% endif %}>
+	        <a id="currentFollowUser" class="btn btn btn-info" href="#">{{ 'Followed'|trans() }}</a>
+	        <a id="unfollowUser" class="btn btn btn-danger" href="#" style="display:none">{{ 'Unfollow'|trans() }}</a>            
+	    </div>
+	   {% endif %}
     </p>
     <p>
     		<a href="mailto:{{ entity.user.email }}">{{ 'Contact'|trans() }}</a>
@@ -87,7 +108,26 @@
 	    {% else %}
 	        <strong>{{ 'N/A'|trans() }}</strong>
 	    {% endif %}
-    
+	    
+	    {% set show_follow_button = true %}
+            
+	    {% if is_granted('ROLE_USER') %}            
+	        {% for follower in entity.brand.followers %}
+	            {% if app.user.id == follower.id %}
+	                {% set show_follow_button = false %}
+	            {% endif %}
+	        {% endfor %}
+	    {% endif %}    
+	
+	    <div id="followBrandBox" {% if show_follow_button != true %}style="display:none"{% endif %}>
+	        <a id="followBrand" class="btn btn btn-success" href="#">{{ 'Follow'|trans() }}</a>            
+	    </div>
+	    
+	    <div id="unfollowBrandBox" {% if show_follow_button %}style="display:none"{% endif %}>
+	        <a id="currentFollowBrand" class="btn btn btn-info" href="#">{{ 'Followed'|trans() }}</a>
+	        <a id="unfollowBrand" class="btn btn btn-danger" href="#" style="display:none">{{ 'Unfollow'|trans() }}</a>            
+	    </div>
+        
 	    <ul>
 	    {% for project in entity.brand.projects|reverse|slice(0, 4) %}
 	        <li><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name|e }}</a></li>
@@ -139,6 +179,24 @@
 		    <a href="{{ path('littlebigjoe_frontendbundle_category_show', { 'slug': entity.category.slug }) }}">{{ entity.category }}</a>
 		</h2>  
     <span class="label label-info">{{ 'Project default language :'|trans() }} {{ entity.language }}</span>
+	
+		<div class="modal fade" id="helpProject" tabindex="-1" role="dialog" aria-labelledby="helpProjectLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="helpProjectLabel">{{ 'Help us to realize this project'|trans() }}</h4>
+		      </div>
+		      <div class="modal-body">
+		          {{ form(help_project_form) }}
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Cancel'|trans() }}</button>
+		        <button type="button" id="saveHelpProject" class="btn btn-primary">{{ 'Save'|trans() }}</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
 	
 		<div class="clearfix">&nbsp;</div>
 
@@ -256,194 +314,393 @@
 {% endblock %}
 
 {% block footer_javascripts %}
-		{{ parent() }}
-		{% if entity.status == '1' %}<script src="http://code.highcharts.com/highcharts.js"></script>{% endif %}
-		<script type="text/javascript">
-				var currentProjectId = {{ entity.id }};
-				var onLabel = "{{ 'On'|trans() }}";
-				var publicLabel = "{{ '(Public)'|trans() }}";
-				var privateLabel = "{{ '(Private)'|trans() }}";
-				{% if entity.status == '1' %}
-						{% set dates = [] %}
-						{% for dateStat in dateStats %}
-								{% set dates = dates|merge([dateStat|localizeddate('short', 'none')]) %}
-						{% endfor %}
-						var projectDates = {{ dates|json_encode()|raw }};
-						var projectLikes = {{ likesStats|raw }};
-				{% endif %}
-				
-				$(document).ready(function () {
-	        	// Project tabs
-	        	$('#projectTab a').click(function (e) {
-								e.preventDefault();
-								$(this).tab('show');
-						});
-	        	
-	        	for ( instance in CKEDITOR.instances )
-    		    	CKEDITOR.instances[instance].setData("");
-	        	
-	        	{% if entity.status == '1' %}
-			        	// Engagement evolution chart 
-			        	$('#highcharts').highcharts({
-				            title: {
-				                text: null
-				            },
-				            xAxis: {
-				                categories: projectDates,
-				                labels: {
-			                			enabled: false
-				                },
-				                title: {
-				                		text: null
-				                }
-				            },
-				            yAxis: {
-				                labels: {
-				                		enabled: false
-				                },
-				                title: {
-				                		text: null
-				                },
-				                min: 0
-				            },
-				            tooltip: {
-				                valueSuffix: " {{ 'likes'|trans() }}"
-				            },
-				            legend: {
-				            		enabled: false
-				            },
-				            series: [{
-				                name: "{{ entity.name }}",
-				                data: projectLikes
-				            }]
-			        	});
-	        	{% endif %}
-	        	
-	        	// Like request
-	        	$('#likeProject').click(function (e) {
-		        		$.post("{{ path('littlebigjoe_frontendbundle_ajax_like_project') }}", { 'projectId' : currentProjectId })
-			        	.done(function(data) { 
-		        				if (data.status == 'OK')
-		        				{
-		        						alert("{{ 'Thanks for liking the project !'|trans() }}"); 	
-		        						var likes = parseInt($('.likes_count').text()) + 1;
-		        						$('.likes_count').text(likes);
-		        				}
-		        				else if (data.status == 'KO USER')
-		        				{
-		        						window.location = "{{ path('fos_user_security_login') }}";
-		        				}
-		        				else if (data.status == 'KO VOTE')
-		        				{
-		        						alert("{{ 'You already have liked this project !'|trans() }}"); 	
-		        				}
-		        				else
-		        				{
-		        						alert("{{ 'An error has occured during project liking. Please try again'|trans() }}"); 
-		        				} 
-		        		});
-	        	});
-	        	
-	        	// Create entry 
-	        	$('#entry_addEntry').click(function (e) {
-	        			for ( instance in CKEDITOR.instances )
-	        		    	CKEDITOR.instances[instance].updateElement();
-	        		
-	        			$.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_project') }}", $('#entryForm').serialize())
-			        	.done(function(data) { 
-		        				if (data.status == 'OK')
-		        				{
-		        						alert("{{ 'Thanks for posting your entry !'|trans() }}");
-		        						
-		        						$('#entries_list li:eq(0)').before('<li><strong>' + data.entry.title + ' ' + ((data.entry.is_public == '1') ? publicLabel : privateLabel) + '</strong><br /><small>' + onLabel + ' ' + data.entry.created_at + '</small><br /><p>' + data.entry.content + '</p></li>');
-		        						
-		        						$("#entry_title").val("");
-		        						CKEDITOR.instances['entry_content'].setData("");
-		        						
-		        						var entries = parseInt($('.entries_count').text()) + 1;
-		        						$('.entries_count').text(entries);
-		        				}
-		        				else if (data.status == 'KO USER')
-		        				{
-		        						window.location = "{{ path('fos_user_security_login') }}";
-		        				}
-		        				else if (data.status == 'KO FIELD')
-		        				{
-		        						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
-		        				}
-		        				else
-		        				{
-		        						alert("{{ 'An error has occured during entry saving. Please try again'|trans() }}"); 
-		        				} 
-		        		});
-	        	});
-	        	
-	        	// Create entry comment 
-	        	$('#entrycomment_addEntryComment').click(function (e) {
-	        			for ( instance in CKEDITOR.instances )
-	        		    	CKEDITOR.instances[instance].updateElement();
-	        		
-	        			var entryId = parseInt($('#entrycomment_entry').val());
-	        			
-	        			$.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_comment_project') }}", $('#entryCommentForm').serialize())
-			        	.done(function(data) { 
-		        				if (data.status == 'OK')
-		        				{
-		        						alert("{{ 'Thanks for posting your comment !'|trans() }}");
-		        						
-		        						var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
-		        						$('#entry_' + entryId + '_comment_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
-		        						
-		        						CKEDITOR.instances['entrycomment_content'].setData("");
-		        				}
-		        				else if (data.status == 'KO USER')
-		        				{
-		        						window.location = "{{ path('fos_user_security_login') }}";
-		        				}
-		        				else if (data.status == 'KO FIELD')
-		        				{
-		        						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
-		        				}
-		        				else
-		        				{
-		        						alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}"); 
-		        				} 
-		        		});
-	        	});
-	        	
-	        	// Create comment 
-	        	$('#comment_addComment').click(function (e) {
-	        			for ( instance in CKEDITOR.instances )
-	        		    	CKEDITOR.instances[instance].updateElement();
-	        		
-	        			$.post("{{ path('littlebigjoe_frontendbundle_ajax_comment_project') }}", $('#commentForm').serialize())
-			        	.done(function(data) { 
-		        				if (data.status == 'OK')
-		        				{
-		        						alert("{{ 'Thanks for posting your comment !'|trans() }}");
-		        						
-		        						var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
-		        						$('#comments_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
-		        						
-		        						CKEDITOR.instances['comment_content'].setData("");
-		        						
-		        						var comments = parseInt($('.comments_count').text()) + 1;
-		        						$('.comments_count').text(comments);
-		        				}
-		        				else if (data.status == 'KO USER')
-		        				{
-		        						window.location = "{{ path('fos_user_security_login') }}";
-		        				}
-		        				else if (data.status == 'KO FIELD')
-		        				{
-		        						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
-		        				}
-		        				else
-		        				{
-		        						alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}"); 
-		        				} 
-		        		});
-	        	});
-				});
-		</script>
+{{ parent() }}
+{% if entity.status == '1' %}<script src="http://code.highcharts.com/highcharts.js"></script>{% endif %}
+<script type="text/javascript">
+	var currentProjectId = {{ entity.id }};
+	var currentUserId = {{ entity.user.id }};
+	var currentBrandId = {{ entity.brand.id }};
+	var onLabel = "{{ 'On'|trans() }}";
+	var publicLabel = "{{ '(Public)'|trans() }}";
+	var privateLabel = "{{ '(Private)'|trans() }}";
+	{% if entity.status == '1' %}
+			{% set dates = [] %}
+			{% for dateStat in dateStats %}
+					{% set dates = dates|merge([dateStat|localizeddate('short', 'none')]) %}
+			{% endfor %}
+			var projectDates = {{ dates|json_encode()|raw }};
+			var projectLikes = {{ likesStats|raw }};
+	{% endif %}
+	
+	$(document).ready(function () {
+		{% if showLikePopup == 'true' %}
+		    $('#helpProject').modal();
+		    $('#helpProject').on('hidden.bs.modal', function (e) {
+				$.post("{{ path('littlebigjoe_frontendbundle_ajax_like_project') }}", { 'projectId' : currentProjectId })
+		        .done(function(data) { 
+	                if (data.status == 'OK')
+	                {
+                        alert("{{ 'Thanks for liking the project !'|trans() }}");   
+                        var likes = parseInt($('.likes_count').text()) + 1;
+                        $('.likes_count').text(likes);
+	                }
+	                else if (data.status == 'KO USER')
+	                {
+                        window.location = "{{ path('fos_user_security_login') }}";
+	                }
+	                else if (data.status == 'KO VOTE')
+	                {
+	                	alert("{{ 'You already have liked this project !'|trans() }}");     
+                        
+	                }
+	                else
+	                {
+                        alert("{{ 'An error has occured during project liking. Please try again'|trans() }}"); 
+	                } 
+		        });
+		    });
+		{% endif %}
+		
+		{% if showFundingPopup == 'true' %}
+	        $('#helpProject').modal();
+	        $('#helpProject').on('hidden.bs.modal', function (e) {
+	            $('#fundingForm').submit();
+	        });
+	    {% endif %}
+		
+      	// Project tabs
+      	$('#projectTab a').click(function (e) {
+					e.preventDefault();
+					$(this).tab('show');
+			});
+      	
+      	for ( instance in CKEDITOR.instances )
+ 		    	CKEDITOR.instances[instance].setData("");
+      	
+      	{% if entity.status == '1' %}
+        	// Engagement evolution chart 
+        	$('#highcharts').highcharts({
+	            title: {
+	                text: null
+	            },
+	            xAxis: {
+	                categories: projectDates,
+	                labels: {
+                			enabled: false
+	                },
+	                title: {
+	                		text: null
+	                }
+	            },
+	            yAxis: {
+	                labels: {
+	                		enabled: false
+	                },
+	                title: {
+	                		text: null
+	                },
+	                min: 0
+	            },
+	            tooltip: {
+	                valueSuffix: " {{ 'likes'|trans() }}"
+	            },
+	            legend: {
+	            		enabled: false
+	            },
+	            series: [{
+	                name: "{{ entity.name }}",
+	                data: projectLikes
+	            }]
+        	});
+      	{% endif %}
+      	
+        // Follow request 
+        $('#followUser').click(function (e) {
+           $.post("{{ path('littlebigjoe_frontendbundle_ajax_follow_user') }}", { 'userId' : currentUserId })
+           .done(function(data) { 
+                   if (data.status == 'OK')
+                   {
+                           alert("{{ 'Thanks for follow this user !'|trans() }}");   
+                           $('#followUserBox').hide();
+                           $('#unfollowUserBox').show();
+                   }
+                   else if (data.status == 'KO USER')
+                   {
+                           window.location = "{{ path('fos_user_security_login') }}";
+                   }
+                   else if (data.status == 'KO FOLLOW')
+                   {
+                           alert("{{ 'You already have followed this user !'|trans() }}");     
+                   }
+                   else
+                   {
+                           alert("{{ 'An error has occured during user follow. Please try again'|trans() }}"); 
+                   } 
+           });
+        });
+        
+        // Hover
+        $('#unfollowUserBox').hover(function(e){
+            $('#currentFollowUser').hide();
+            $('#unfollowUser').show();
+        }, function(e){
+            $('#unfollowUser').hide();
+            $('#currentFollowUser').show();
+        });
+        
+        // Unfollow request 
+           $('#unfollowUser').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_unfollow_user') }}", { 'userId' : currentUserId })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                              alert("{{ 'Thanks for unfollow this user !'|trans() }}");   
+                              $('#unfollowUserBox').hide();
+                              $('#followUserBox').show();
+                      }
+                      else if (data.status == 'KO USER')
+                      {
+                              window.location = "{{ path('fos_user_security_login') }}";
+                      }
+                      else if (data.status == 'KO UNFOLLOW')
+                      {
+                              alert("{{ 'You already have unfollowed this user !'|trans() }}");     
+                      }
+                      else
+                      {
+                              alert("{{ 'An error has occured during user unfollow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+      	
+        // Follow request 
+           $('#followBrand').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_follow_brand') }}", { 'brandId' : currentBrandId })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                              alert("{{ 'Thanks for follow this brand !'|trans() }}");   
+                              $('#followBrandBox').hide();
+                              $('#unfollowBrandBox').show();
+                      }
+                      else if (data.status == 'KO BRAND')
+                      {
+                              window.location = "{{ path('fos_user_security_login') }}";
+                      }
+                      else if (data.status == 'KO FOLLOW')
+                      {
+                              alert("{{ 'You already have followed this brand !'|trans() }}");     
+                      }
+                      else
+                      {
+                              alert("{{ 'An error has occured during nra follow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+        
+           // Help project request
+           $('#saveHelpProject').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_help_project') }}", { 'projectId' : currentProjectId, 'data' : $('#helpProject form').serializeArray() })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                    	  $('#helpProject').modal('hide');
+                      }
+                      else
+                      {
+                          alert("{{ 'An error has occured during nra follow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+           
+           // Hover
+           $('#unfollowBrandBox').hover(function(e){
+               $('#currentFollowBrand').hide();
+               $('#unfollowBrand').show();
+           }, function(e){
+               $('#unfollowBrand').hide();
+               $('#currentFollowBrand').show();
+           });
+           
+           // Unfollow request 
+           $('#unfollowBrand').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_unfollow_brand') }}", { 'brandId' : currentBrandId })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                              alert("{{ 'Thanks for unfollow this brand !'|trans() }}");   
+                              $('#unfollowBrandBox').hide();
+                              $('#followBrandBox').show();
+                      }
+                      else if (data.status == 'KO BRAND')
+                      {
+                              window.location = "{{ path('fos_user_security_login') }}";
+                      }
+                      else if (data.status == 'KO UNFOLLOW')
+                      {
+                              alert("{{ 'You already have unfollowed this brand !'|trans() }}");     
+                      }
+                      else
+                      {
+                              alert("{{ 'An error has occured during brand unfollow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+      	
+      	// Like request
+      	$('#likeProject').click(function (e) {      		
+           	$.post("{{ path('littlebigjoe_frontendbundle_ajax_like_project') }}", { 'projectId' : currentProjectId })
+             	.done(function(data) { 
+       				if (data.status == 'OK')
+       				{
+       					$('#helpProject').modal();
+       		            $('#helpProject').on('hidden.bs.modal', function (e) {
+       		            	alert("{{ 'Thanks for liking the project !'|trans() }}");
+       						var likes = parseInt($('.likes_count').text()) + 1;
+       						$('.likes_count').text(likes);
+       		            });
+       				}
+       				else if (data.status == 'KO USER')
+       				{
+       						window.location = "{{ path('fos_user_security_login') }}";
+       				}
+       				else if (data.status == 'KO VOTE')
+       				{
+       					$('#helpProject').modal();
+                        $('#helpProject').on('hidden.bs.modal', function (e) {
+                        	alert("{{ 'You already have liked this project !'|trans() }}"); 	
+                        });
+       				}
+       				else
+       				{
+       						alert("{{ 'An error has occured during project liking. Please try again'|trans() }}"); 
+       				} 
+       		});
+      	});
+      	
+        // Funding request
+        $('#form_submit').click(function (e) { 
+        	e.preventDefault();
+        	$.post("{{ path('littlebigjoe_frontendbundle_ajax_fund_project') }}", { 'projectId' : currentProjectId })
+               .done(function(data) { 
+                   if (data.status == 'OK')
+                   {
+                       $('#helpProject').modal();
+                       $('#helpProject').on('hidden.bs.modal', function (e) {
+                           $('#fundingForm').submit();
+                       });
+                   }
+                   else if (data.status == 'KO USER')
+                   {
+                           window.location = "{{ path('fos_user_security_login') }}";
+                   }
+                   else
+                   {
+                           alert("{{ 'An error has occured during project liking. Please try again'|trans() }}"); 
+                   } 
+           });
+        });
+     
+      	// Create entry 
+      	$('#entry_addEntry').click(function (e) {
+      			for ( instance in CKEDITOR.instances )
+      		    	CKEDITOR.instances[instance].updateElement();
+      		
+      			$.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_project') }}", $('#entryForm').serialize())
+        	.done(function(data) { 
+       				if (data.status == 'OK')
+       				{
+       						alert("{{ 'Thanks for posting your entry !'|trans() }}");
+       						
+       						$('#entries_list li:eq(0)').before('<li><strong>' + data.entry.title + ' ' + ((data.entry.is_public == '1') ? publicLabel : privateLabel) + '</strong><br /><small>' + onLabel + ' ' + data.entry.created_at + '</small><br /><p>' + data.entry.content + '</p></li>');
+       						
+       						$("#entry_title").val("");
+       						CKEDITOR.instances['entry_content'].setData("");
+       						
+       						var entries = parseInt($('.entries_count').text()) + 1;
+       						$('.entries_count').text(entries);
+       				}
+       				else if (data.status == 'KO USER')
+       				{
+       						window.location = "{{ path('fos_user_security_login') }}";
+       				}
+       				else if (data.status == 'KO FIELD')
+       				{
+       						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+       				}
+       				else
+       				{
+       						alert("{{ 'An error has occured during entry saving. Please try again'|trans() }}"); 
+       				} 
+       		});
+      	});
+      	
+      	// Create entry comment 
+      	$('#entrycomment_addEntryComment').click(function (e) {
+      			for ( instance in CKEDITOR.instances )
+      		    	CKEDITOR.instances[instance].updateElement();
+      		
+      			var entryId = parseInt($('#entrycomment_entry').val());
+      			
+      			$.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_comment_project') }}", $('#entryCommentForm').serialize())
+        	.done(function(data) { 
+       				if (data.status == 'OK')
+       				{
+       						alert("{{ 'Thanks for posting your comment !'|trans() }}");
+       						
+       						var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
+       						$('#entry_' + entryId + '_comment_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
+       						
+       						CKEDITOR.instances['entrycomment_content'].setData("");
+       				}
+       				else if (data.status == 'KO USER')
+       				{
+       						window.location = "{{ path('fos_user_security_login') }}";
+       				}
+       				else if (data.status == 'KO FIELD')
+       				{
+       						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+       				}
+       				else
+       				{
+       						alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}"); 
+       				} 
+       		});
+      	});
+      	
+      	// Create comment 
+      	$('#comment_addComment').click(function (e) {
+      			for ( instance in CKEDITOR.instances )
+      		    	CKEDITOR.instances[instance].updateElement();
+      		
+      			$.post("{{ path('littlebigjoe_frontendbundle_ajax_comment_project') }}", $('#commentForm').serialize())
+        	.done(function(data) { 
+       				if (data.status == 'OK')
+       				{
+       						alert("{{ 'Thanks for posting your comment !'|trans() }}");
+       						
+       						var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
+       						$('#comments_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
+       						
+       						CKEDITOR.instances['comment_content'].setData("");
+       						
+       						var comments = parseInt($('.comments_count').text()) + 1;
+       						$('.comments_count').text(comments);
+       				}
+       				else if (data.status == 'KO USER')
+       				{
+       						window.location = "{{ path('fos_user_security_login') }}";
+       				}
+       				else if (data.status == 'KO FIELD')
+       				{
+       						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+       				}
+       				else
+       				{
+       						alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}"); 
+       				} 
+       		});
+      	});
+	});
+</script>
 {% endblock %}

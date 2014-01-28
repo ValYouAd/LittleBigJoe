@@ -39,6 +39,22 @@ class ProjectContributionRepository extends EntityRepository
     }
 
     /**
+     * Return the number of participants for a project
+     *
+     * @param integer/null $projectId : $projectId
+     * @return int totalParticipants
+     */
+    public function countParticipants($projectId)
+    {
+        return $this->createQueryBuilder('pc')
+                    ->select('COUNT(DISTINCT pc.user)')
+                    ->where('pc.project = :project')
+                    ->setParameter('project', $projectId)
+                    ->getQuery()
+                    ->getSingleScalarResult();
+    }
+    
+    /**
      * Return latest projects contributions
      *
      * @param integer $limit : return the $limit project contributions

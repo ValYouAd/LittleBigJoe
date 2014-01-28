@@ -13,6 +13,10 @@
             <tag name="doctrine.event_listener" event="onFlush" />
             <argument type="service" id="service_container"/>
         </service>
+        <service id="littlebigjoefrontend.listener.entry" class="LittleBigJoe\Bundle\CoreBundle\EventListener\EntryListener">
+            <tag name="doctrine.event_listener" event="postPersist" />
+            <argument type="service" id="service_container"/>
+        </service>
         <service id="littlebigjoefrontend.listener.projectlike" class="LittleBigJoe\Bundle\CoreBundle\EventListener\ProjectLikeListener">
             <tag name="doctrine.event_listener" event="postPersist" />
             <argument type="service" id="service_container"/>

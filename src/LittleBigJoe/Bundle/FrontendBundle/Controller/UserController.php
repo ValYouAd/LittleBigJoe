@@ -41,7 +41,55 @@ class UserController extends Controller
 
         return array(
             'entity' => $entity,
-        		'distinctProjects' => $distinctProjects
+        	'distinctProjects' => $distinctProjects
+        );
+    }
+    
+    /**
+     * Notifications feed
+     *
+     * @Route("/my-news", name="littlebigjoe_frontendbundle_user_news")
+     * @Template()
+     */
+    public function newsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+    
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to access to your news'
+            );
+            	
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_user_news'));
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }        
+    
+        // Get notifications for current user
+        $notifications = $em->getRepository('LittleBigJoeCoreBundle:Notification')->findBy(array('user' => $currentUser), array('createdAt' => 'desc'));
+        
+        // Set notifications has viewed
+        if (!empty($notifications))
+        {
+            foreach ($notifications as $notification)
+            {
+                if (!$notification->getViewed())
+                {
+                    $notification->setViewed(true);
+                    $em->persist($notification);
+                    $em->flush();
+                }
+            }
+        }
+        
+        return array(
+            'entity' => $currentUser,
+            'notifications' => $notifications,
         );
     }
 }

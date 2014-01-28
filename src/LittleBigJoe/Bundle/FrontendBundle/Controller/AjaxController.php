@@ -12,6 +12,7 @@ use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectLike;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
 use LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp;
 
 /**
  * Ajax controller.
@@ -20,6 +21,434 @@ use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
  */
 class AjaxController extends Controller
 {
+    /**
+     * Get user notifications
+     *
+     * @Route("/get-notifications", name="littlebigjoe_frontendbundle_ajax_get_notifications")
+     * @Method("POST")
+     * @Template()
+     */
+    public function getNotificationsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            return new JsonResponse(array('status' => 'KO'));
+        }
+    
+        $nbNotifs = $em->getRepository('LittleBigJoeCoreBundle:Notification')->getUnreadNotifications($currentUser->getId());
+        if (empty($nbNotifs))
+        {
+            $nbNotifs = 0;
+        }
+        
+        // Make sure no code is executed after it
+        return new JsonResponse(array('status' => 'OK', 'nb_notifs' => $nbNotifs));
+        exit;
+    }
+    
+    /**
+     * Save help project form
+     *
+     * @Route("/help-project", name="littlebigjoe_frontendbundle_ajax_help_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function helpProjectAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $projectId = (int)$this->get('request')->request->get('projectId');
+        $formData = $this->get('request')->request->get('data');
+        
+        // If it's not a correct project id
+        if (empty($projectId))
+        {
+            return new JsonResponse(array('status' => 'KO ID'));
+        }
+    
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($projectId);
+    
+        // If the project doesn't exist
+        if (empty($project))
+        {
+            return new JsonResponse(array('status' => 'KO PROJECT'));
+        }
+    
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to submit this form'
+            );
+             
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_brand_show', array('slug' => $brand->getSlug())));
+            return new JsonResponse(array('status' => 'KO BRAND'));
+        }
+    
+        // Create new project help
+        $projectHelp = new ProjectHelp();
+    	$projectHelp->setProject($project);
+    	$projectHelp->setUser($currentUser);
+    	$projectHelp->setPrice($formData[0]['value']);
+    	$projectHelp->setCurrency($formData[1]['value']);
+    	$projectHelp->setQuantity($formData[2]['value']);
+    	$projectHelp->setReason($formData[3]['value']);
+    	
+    	// Generate social network message
+    	$projectUrl = $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug()), true);
+    	$brandUrl = '';
+    	$status = $project->getStatus();
+    	if ($status == '1')
+    	{
+    	    $message = $this->get('translator')->trans('I just voted for project %project%', array('%project%' => $project->getName()));
+    	}
+    	else
+    	{
+    	    $message = $this->get('translator')->trans('I just financed project %project%', array('%project%' => $project->getName()));
+    	}
+
+    	$brandFacebookUrl = $project->getBrand()->getFacebookUrl();
+    	$brandTwitterUrl = $project->getBrand()->getTwitterUrl();
+    	if (!empty($brandFacebookUrl))
+    	{
+    	    $brandUrl = $brandFacebookUrl;
+    	}
+    	elseif (!empty($brandTwitterUrl))
+    	{
+    	    $brandUrl = $brandTwitterUrl;
+    	}
+    	if (!empty($brandUrl))
+    	{
+    	   $message .= ' '.$this->get('translator')->trans('for %brand%%url%', array(
+    	       '%brand%' => $project->getBrand(),
+    	       '%url%' => ' '.$brandUrl
+    	   ));
+    	}
+    	
+    	$message .= ' '.$this->get('translator')->trans('on @LittleBigJoe %url%', array(
+    	    '%url%' => $projectUrl
+    	));
+    		
+    	// Send message
+    	if ($formData[4]['name'] == 'helpproject[sharedFacebook]')
+    	{
+    	    $projectHelp->setSharedFacebook($formData[4]['value']);
+    	        	    
+    	    $this->container->get('fos_facebook.api')->api('/me/feed', 'POST',    	    
+    	        array(
+    	            'link' => $projectUrl,
+    	            'message' => $message
+    	        )
+    	    );
+    	}    	
+    	
+    	if ($formData[4]['name'] == 'helpproject[sharedTwitter]')
+    	{
+    	    $projectHelp->setSharedTwitter($formData[4]['value']);
+    	    
+    	    $client = new \Guzzle\Service\Client('https://api.twitter.com/{version}', array('version' => '1.1'));
+            $oauth  = new \Guzzle\Plugin\Oauth\OauthPlugin(array(
+                'consumer_key' => $this->container->getParameter('api_twitter_key'),
+                'consumer_secret' => $this->container->getParameter('api_twitter_secret'),
+                'token' => $this->get('security.context')->getToken()->getUser()->getTwitterAccessToken(),
+                'token_secret' => $this->get('security.context')->getToken()->getUser()->getTwitterAccessTokenSecret()
+            ));
+            $client->addSubscriber($oauth);
+            
+            $client->post('statuses/update.json', null, array(
+                'status' => $message
+            ))->send();
+    	}
+    	// Save project help in DB
+    	$em->persist($projectHelp);
+    	$em->flush();
+    
+        // Make sure no code is executed after it
+        return new JsonResponse(array('status' => 'OK'));
+        exit;
+    }    
+    
+    /**
+     * Follow a brand
+     *
+     * @Route("/follow-brand", name="littlebigjoe_frontendbundle_ajax_follow_brand")
+     * @Method("POST")
+     * @Template()
+     */
+    public function followBrandAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $brandId = (int)$this->get('request')->request->get('brandId');
+    
+        // If it's not a correct brand id
+        if (empty($brandId))
+        {
+            return new JsonResponse(array('status' => 'KO ID'));
+        }
+    
+        $brand = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($brandId);
+    
+        // If the brand doesn't exist
+        if (empty($brand))
+        {
+        			 return new JsonResponse(array('status' => 'KO BRAND'));
+        }
+    
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to follow this brand'
+            );
+            	
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_brand_show', array('slug' => $brand->getSlug())));
+            return new JsonResponse(array('status' => 'KO BRAND'));
+        }
+    
+        // If user has already follow this brand
+        $followedBrands = $currentUser->getFollowedBrands();
+        if (empty($followedBrands))
+        {
+            $followedBrands = array();
+        }
+    
+        foreach ($followedBrands as $followedBrand)
+        {
+            if ($brand->getId() == $followedBrand->getId())
+            {
+                return new JsonResponse(array('status' => 'KO FOLLOW'));
+            }
+        }
+    
+        // Set followed brand
+        $currentUser->addFollowedBrand($brand);
+    
+        // Save follow in DB
+        $em->persist($currentUser);
+        $em->flush();
+    
+        // Make sure no code is executed after it
+        return new JsonResponse(array('status' => 'OK'));
+        exit;
+    }
+    
+    /**
+     * Unfollow a brand
+     *
+     * @Route("/unfollow-brand", name="littlebigjoe_frontendbundle_ajax_unfollow_brand")
+     * @Method("POST")
+     * @Template()
+     */
+    public function unfollowBrandAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $brandId = (int)$this->get('request')->request->get('brandId');
+    
+        // If it's not a correct brand id
+        if (empty($brandId))
+        {
+            return new JsonResponse(array('status' => 'KO ID'));
+        }
+    
+        $brand = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($brandId);
+    
+        // If the brand doesn't exist
+        if (empty($brand))
+        {
+            return new JsonResponse(array('status' => 'KO BRAND'));
+        }
+    
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to follow this brand'
+            );
+             
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_brand_show', array('slug' => $brand->getSlug())));
+            return new JsonResponse(array('status' => 'KO BRAND'));
+        }
+    
+        // If user has already follow this brand
+        $followedBrands = $currentUser->getFollowedBrands();
+        if (empty($followedBrands))
+        {
+            $followedBrands = array();
+        }
+            
+        foreach ($followedBrands as $followedBrand)
+        {
+            if ($brand->getId() == $followedBrand->getId())
+            {
+                // Unfollow brand
+                $currentUser->removeFollowedBrand($brand);
+    
+                // Save unfollow in DB
+                $em->persist($currentUser);
+                $em->flush();
+    
+                // Make sure no code is executed after it
+                return new JsonResponse(array('status' => 'OK'));
+                exit;
+            }
+        }
+    
+        return new JsonResponse(array('status' => 'KO UNFOLLOW'));
+        exit;
+    }
+    
+    /**
+     * Follow a user
+     *
+     * @Route("/follow-user", name="littlebigjoe_frontendbundle_ajax_follow_user")
+     * @Method("POST")
+     * @Template()
+     */
+    public function followUserAction(Request $request)
+    {    		
+    		$em = $this->getDoctrine()->getManager();
+    		$userId = (int)$this->get('request')->request->get('userId');
+
+    		// If it's not a correct user id
+    		if (empty($userId))
+    		{
+    		     return new JsonResponse(array('status' => 'KO ID'));
+    		}
+    		
+    		$user = $em->getRepository('LittleBigJoeCoreBundle:User')->find($userId);
+    		
+    		// If the user doesn't exist
+    		if (empty($user))
+    		{
+    			 return new JsonResponse(array('status' => 'KO USER'));
+    		}    		
+    		
+    		$currentUser = $this->get('security.context')->getToken()->getUser();
+			// If the current user is not logged, redirect him to login page
+			if (!is_object($currentUser))
+			{
+					$this->get('session')->getFlashBag()->add(
+							'notice',
+							'You must be logged in to follow this user'
+					);						
+					
+					// Force base url to make sure environment is not specified in the URL
+					$this->get('router')->getContext()->setBaseUrl('');
+					$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_user_show', array('id' => $user->getId())));												
+					return new JsonResponse(array('status' => 'KO USER'));
+			}
+    		    		
+    		// If user has already follow this user
+    		$followedUsers = $currentUser->getFollowedUsers();
+    		if (empty($followedUsers))
+    		{
+    		    $followedUsers = array();
+    		}    		
+    		
+    		foreach ($followedUsers as $followedUser)
+    		{
+    		    if ($user->getId() == $followedUser->getId())
+    		    {
+    		        return new JsonResponse(array('status' => 'KO FOLLOW'));
+    		    }
+    		}
+    		
+    		// Set followed user
+    		$currentUser->addFollowedUser($user);
+    		
+    		// Save follow in DB
+    		$em->persist($currentUser);
+    		$em->flush();
+    		
+    		// Make sure no code is executed after it
+    		return new JsonResponse(array('status' => 'OK'));
+    		exit;
+    }
+    
+    /**
+     * Unfollow a user
+     *
+     * @Route("/unfollow-user", name="littlebigjoe_frontendbundle_ajax_unfollow_user")
+     * @Method("POST")
+     * @Template()
+     */
+    public function unfollowUserAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userId = (int)$this->get('request')->request->get('userId');
+    
+        // If it's not a correct user id
+        if (empty($userId))
+        {
+            return new JsonResponse(array('status' => 'KO ID'));
+        }
+    
+        $user = $em->getRepository('LittleBigJoeCoreBundle:User')->find($userId);
+    
+        // If the user doesn't exist
+        if (empty($user))
+        {
+        			 return new JsonResponse(array('status' => 'KO USER'));
+        }
+    
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to follow this user'
+            );
+            	
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_user_show', array('id' => $user->getId())));
+            return new JsonResponse(array('status' => 'KO USER'));
+        }
+    
+        // If user has already follow this user
+        $followedUsers = $currentUser->getFollowedUsers();
+        if (empty($followedUsers))
+        {
+            $followedUsers = array();
+        }
+    
+        foreach ($followedUsers as $followedUser)
+        {
+            if ($user->getId() == $followedUser->getId())
+            {
+                // Unfollow user
+                $currentUser->removeFollowedUser($user);
+            
+                // Save unfollow in DB
+                $em->persist($currentUser);
+                $em->flush();
+            
+                // Make sure no code is executed after it
+                return new JsonResponse(array('status' => 'OK'));
+                exit;
+            }
+        }
+    
+        return new JsonResponse(array('status' => 'KO UNFOLLOW'));
+        exit;        
+    }
+    
     /**
      * Like a project
      *
@@ -57,7 +486,7 @@ class AjaxController extends Controller
 						
 						// Force base url to make sure environment is not specified in the URL
 						$this->get('router')->getContext()->setBaseUrl('');
-						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));												
+						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())).'?likePopup=true');												
 						return new JsonResponse(array('status' => 'KO USER'));
 				}
     		
@@ -83,6 +512,52 @@ class AjaxController extends Controller
     		// Make sure no code is executed after it
     		return new JsonResponse(array('status' => 'OK'));
     		exit;
+    }
+    
+    /**
+     * Fund a project
+     *
+     * @Route("/fund-project", name="littlebigjoe_frontendbundle_ajax_fund_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function fundProjectAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $projectId = (int)$this->get('request')->request->get('projectId');
+    
+        // If it's not a correct project id
+        if (empty($projectId))
+        {
+            return new JsonResponse(array('status' => 'KO ID'));
+        }
+    
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($projectId);
+    
+        // If the project doesn't exist
+        if (empty($project))
+        {
+            return new JsonResponse(array('status' => 'KO PROJECT'));
+        }
+    
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to like this project'
+            );
+    
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())).'?fundingPopup=true');
+            return new JsonResponse(array('status' => 'KO USER'));
+        }
+    
+        // Make sure no code is executed after it
+        return new JsonResponse(array('status' => 'OK'));
+        exit;
     }
     
     /**

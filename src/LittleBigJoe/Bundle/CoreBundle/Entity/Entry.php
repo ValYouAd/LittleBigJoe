@@ -84,9 +84,15 @@ class Entry
      */
     protected $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="entry", cascade={"persist", "remove"})
+     */
+    protected $notifications;
+    
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function __toString()
@@ -281,5 +287,38 @@ class Entry
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add notifications
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications
+     * @return Entry
+     */
+    public function addNotification(\LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications)
+    {
+        $this->notifications[] = $notifications;
+    
+        return $this;
+    }
+
+    /**
+     * Remove notifications
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications
+     */
+    public function removeNotification(\LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications)
+    {
+        $this->notifications->removeElement($notifications);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
     }
 }

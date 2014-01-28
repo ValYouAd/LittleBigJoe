@@ -2,7 +2,11 @@
 
 {% block title %}{{ title|trans() }} - {{ parent() }}{% endblock %}
 
-{% block sidebar %}{% endblock %}
+{% block sidebar %}
+    {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:brandMenu') }}
+    {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:typeMenu') }}
+    {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:categoryMenu') }}
+{% endblock %}
 
 {% block body %}
     <h2>{{ title|trans() }}</h2>

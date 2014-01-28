@@ -24,11 +24,13 @@ class ProjectLikeRepository extends EntityRepository
 		{
 				if (empty($endDate))
 				{
-						$endDate = new \DateTime();
+				    $endDate = new \DateTime();
 				}
 				
+				$endDate->modify('+1 day');
+				
 				// Generate array with days
-				$period = new \DatePeriod($beginDate,	new \DateInterval('P1D'), $endDate);				
+				$period = new \DatePeriod($beginDate, new \DateInterval('P1D'), $endDate);				
 				$datesArray = array();
 				foreach ( $period as $day )
 				{

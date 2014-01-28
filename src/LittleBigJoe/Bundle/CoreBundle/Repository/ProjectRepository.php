@@ -109,7 +109,7 @@ class ProjectRepository extends EntityRepository
         return $qb->getQuery()
             ->getSingleScalarResult();
     }
-
+    
     /**
      * Find by slug, indepently from the language
      *
@@ -132,7 +132,75 @@ class ProjectRepository extends EntityRepository
             )
             ->getSingleResult();
     }
-
+    
+    /**
+     * Return users followers projects by user
+     *
+     * @param array $followersIds : users ids followed by current user
+     * @param integer/null $limit : return the $limit latest projects
+     * @return array followersProjects
+     */
+    public function findUsersFollowersProjects($followersIds, $limit = 4)
+    {
+        $qb = $this->createQueryBuilder('p')
+                    ->where('p.deletedAt IS NULL')
+                    ->andWhere('p.user IN (:followersIds)')
+                    ->setParameter('followersIds', $followersIds)
+                    ->orderBy('p.id', 'DESC');
+            
+        if (!empty($limit))
+            $qb = $qb->setMaxResults($limit);
+    
+        return $qb->getQuery()
+                ->getResult();
+    }
+    
+    /**
+     * Return brands followers projects by user
+     *
+     * @param array $followersIds : users ids followed by current user
+     * @param integer/null $limit : return the $limit latest projects
+     * @return array followersProjects
+     */
+    public function findBrandsFollowersProjects($followersIds, $limit = 4)
+    {
+        $qb = $this->createQueryBuilder('p')
+                    ->where('p.deletedAt IS NULL')
+                    ->andWhere('p.brand IN (:followersIds)')
+                    ->setParameter('followersIds', $followersIds)
+                    ->orderBy('p.id', 'DESC');
+    
+        if (!empty($limit))
+            $qb = $qb->setMaxResults($limit);
+    
+        return $qb->getQuery()
+        ->getResult();
+    }
+    
+    /**
+     * Return supported projects by user
+     * 
+     * @param integer $userId : user id
+     * @param integer/null $limit : return the $limit latest projects
+     * @return array supportedProjects
+     */
+    public function findSupported($userId, $limit = 4)
+    {
+        $qb = $this->createQueryBuilder('p')
+                    ->leftJoin('p.likes', 'pl')
+                    ->leftJoin('p.contributions', 'pc')
+                    ->where('p.deletedAt IS NULL')
+                    ->andWhere('pl.user = :user OR pc.user = :user')
+                    ->setParameter('user', $userId)
+                    ->orderBy('p.id', 'DESC');
+    
+        if (!empty($limit))
+            $qb = $qb->setMaxResults($limit);
+    
+        return $qb->getQuery()
+                ->getResult();
+    }
+    
     /**
      * Return latest projects
      *

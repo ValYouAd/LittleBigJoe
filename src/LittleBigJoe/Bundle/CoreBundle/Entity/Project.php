@@ -305,6 +305,16 @@ class Project
      */
     protected $withdrawals;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="project", cascade={"persist", "remove"})
+     */
+    protected $notifications;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ProjectHelp", mappedBy="project", cascade={"persist", "remove"})
+     */
+    protected $projectHelps;
+        
     public function __construct()
     {
         $this->entries = new ArrayCollection();
@@ -315,6 +325,8 @@ class Project
         $this->withdrawals = new ArrayCollection();
         $this->amountCount = 0;
         $this->likesCount = 0;
+        $this->notifications = new ArrayCollection();
+        $this->projectHelps = new ArrayCollection();
     }
 
     public function __toString()
@@ -1185,5 +1197,71 @@ class Project
     public function getWithdrawals()
     {
         return $this->withdrawals;
+    }
+
+    /**
+     * Add notifications
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications
+     * @return Project
+     */
+    public function addNotification(\LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications)
+    {
+        $this->notifications[] = $notifications;
+    
+        return $this;
+    }
+
+    /**
+     * Remove notifications
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications
+     */
+    public function removeNotification(\LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications)
+    {
+        $this->notifications->removeElement($notifications);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    /**
+     * Add projectHelps
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp $projectHelps
+     * @return Project
+     */
+    public function addProjectHelp(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp $projectHelps)
+    {
+        $this->projectHelps[] = $projectHelps;
+    
+        return $this;
+    }
+
+    /**
+     * Remove projectHelps
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp $projectHelps
+     */
+    public function removeProjectHelp(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp $projectHelps)
+    {
+        $this->projectHelps->removeElement($projectHelps);
+    }
+
+    /**
+     * Get projectHelps
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjectHelps()
+    {
+        return $this->projectHelps;
     }
 }

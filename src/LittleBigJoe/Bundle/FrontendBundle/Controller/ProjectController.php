@@ -11,13 +11,15 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
-use LittleBigJoe\Bundle\FrontendBundle\Form\EntryType;
 use LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment;
-use LittleBigJoe\Bundle\FrontendBundle\Form\EntryCommentType;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Comment;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp;
 use LittleBigJoe\Bundle\FrontendBundle\Form\CommentType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\EditProjectType;
+use LittleBigJoe\Bundle\FrontendBundle\Form\EntryType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\ReportProjectType;
+use LittleBigJoe\Bundle\FrontendBundle\Form\EntryCommentType;
+use LittleBigJoe\Bundle\FrontendBundle\Form\HelpProjectType;
 
 class ProjectController extends Controller
 {
@@ -28,7 +30,7 @@ class ProjectController extends Controller
      * @Template()
      */
     public function indexAction()
-    {
+    {             
         $em = $this->getDoctrine()->getManager();
 
         $favoriteProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findFavorite();
@@ -42,6 +44,156 @@ class ProjectController extends Controller
         );
     }
 
+    /**
+     * Projects supported (likes of funds) by the logged user
+     *
+     * @Route("/projects-supported", name="littlebigjoe_frontendbundle_project_supported_projects")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
+     */
+    public function supportedProjectsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to create a project'
+            );
+        
+            $request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project');
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findSupported($currentUser, null);
+    
+        $paginator = $this->get('knp_paginator');
+        $projects = $paginator->paginate(
+            $query,
+            $this->get('request')->query->get('page', 1),
+            $this->container->getParameter('nb_elements_by_page')
+        );
+    
+        return array(
+            'title' => 'Projects I\'m supporting',
+            'projects' => $projects
+        );
+    }
+    
+    /**
+     * Projects from the followed people by the logged user
+     *
+     * @Route("/projects-of-followed-users", name="littlebigjoe_frontendbundle_project_users_followed_projects")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
+     */
+    public function usersFollowedProjectsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+    
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to access to the projects of users you follow'
+            );
+    
+            $request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project_users_followed_projects');
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+        
+        $followedUsers = $currentUser->getFollowedUsers();
+        $followedUsersIds = array();
+        
+        if (!empty($followedUsers))
+        {
+            foreach ($followedUsers as $followedUser)
+            {
+                array_push($followedUsersIds, $followedUser->getId());
+            }
+        }
+        
+        if (!empty($followedUsersIds))
+        {
+            $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findUsersFollowersProjects($followedUsersIds, null);
+    
+            $paginator = $this->get('knp_paginator');
+            $projects = $paginator->paginate(
+                $query,
+                $this->get('request')->query->get('page', 1),
+                $this->container->getParameter('nb_elements_by_page')
+            );
+        }
+        else
+        {
+            $projects = array();            
+        }
+        
+        return array(
+            'title' => 'Projects of users I follow',
+            'projects' => $projects
+        );
+    }
+    
+    /**
+     * Projects from the followed people by the logged user
+     *
+     * @Route("/projects-of-followed-brands", name="littlebigjoe_frontendbundle_project_brands_followed_projects")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
+     */
+    public function brandsFollowedProjectsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+    
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to access to the projects of brands you follow'
+            );
+    
+            $request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project_brands_followed_projects');
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+    
+        $followedBrands = $currentUser->getFollowedBrands();
+        $followedBrandsIds = array();
+    
+        if (!empty($followedBrands))
+        {
+            foreach ($followedBrands as $followedBrand)
+            {
+                array_push($followedBrandsIds, $followedBrand->getId());
+            }
+        }
+    
+        if (!empty($followedBrandsIds))
+        {
+            $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBrandsFollowersProjects($followedBrandsIds, null);
+        
+            $paginator = $this->get('knp_paginator');
+            $projects = $paginator->paginate(
+                $query,
+                $this->get('request')->query->get('page', 1),
+                $this->container->getParameter('nb_elements_by_page')
+            );
+        }
+        else
+        {
+            $projects = array();
+        }
+            
+        return array(
+            'title' => 'Projects of brands I follow',
+            'projects' => $projects
+        );
+    }
+    
     /**
      * Latest projects
      *
@@ -576,13 +728,16 @@ class ProjectController extends Controller
     public function showAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
+        
+        $showLikePopup = $request->query->get('likePopup', false);
+        $showFundingPopup = $request->query->get('fundingPopup', false);
         $currentUser = $this->get('security.context')->getToken()->getUser();
         $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
-        }
-        
+        }     
+                
         // Generate stats for chart
         $stats = $em->getRepository('LittleBigJoeCoreBundle:ProjectLike')->findLikesStats($entity->getCreatedAt(), new \DateTime(), $entity->getId());
         $dateStats = array();
@@ -593,12 +748,21 @@ class ProjectController extends Controller
         		$dateStats[] = $stat['date'];
         		$likesStats[] = $stat['nbLikes'];
         }
-                
+
+        // Create the help project form
+        $projectHelp = new ProjectHelp();
+        $projectHelp->setProject($entity);
+        $options = array(
+            'loggedFb' => $this->get('security.context')->isGranted('ROLE_FACEBOOK'),
+            'loggedTwitter' => $this->get('security.context')->isGranted('ROLE_TWITTER'),
+        );
+        $helpProjectForm = $this->createForm(new HelpProjectType($options), $projectHelp);
+        
         // Create the entry form
         $entry = new Entry();
         $entry->setProject($entity);      
         $entryForm = $this->createForm(new EntryType(), $entry);
-	      
+	            
         // Create the entry comment form
         $entryComment = new EntryComment();
         $options = array('project' => $entity, 'user' => $currentUser);
@@ -680,18 +844,21 @@ class ProjectController extends Controller
 								}
 						}
 				}						
-				        						
+			     						
         return array(
             'entity' => $entity,        		
-        		'usersIds' => $usersIds,
-        		'usersAmounts' => $usersAmounts,        		
-        		'dateStats' => $dateStats,
-        		'likesStats' => json_encode($likesStats),
-        		'entry_form' => $entryForm->createView(),
-        		'entry_comment_form' => $entryCommentForm->createView(),
-        		'comment_form' => $commentForm->createView(),
-        		'funding_form' => $fundingForm->createView(),
-                'report_form' => $reportForm->createView(),
+    		'usersIds' => $usersIds,
+    		'usersAmounts' => $usersAmounts,        		
+    		'dateStats' => $dateStats,
+    		'likesStats' => json_encode($likesStats),
+            'showLikePopup' => $showLikePopup,
+            'showFundingPopup' => $showFundingPopup,
+            'help_project_form' => $helpProjectForm->createView(),
+    		'entry_form' => $entryForm->createView(),
+    		'entry_comment_form' => $entryCommentForm->createView(),
+    		'comment_form' => $commentForm->createView(),
+    		'funding_form' => $fundingForm->createView(),
+            'report_form' => $reportForm->createView(),
             'current_date' => new \Datetime()
         );
     }

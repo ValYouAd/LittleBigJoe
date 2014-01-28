@@ -111,6 +111,13 @@ class User extends BaseUser
     /**
      * @var string
      *
+     * @ORM\Column(name="twitter_access_token_secret", type="string", length=255, nullable=true)
+     */
+    private $twitterAccessTokenSecret;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="twitter_url", type="string", length=255, nullable=true)
      *
      * @Assert\Url(message = "Your Twitter URL is invalid")
@@ -263,7 +270,37 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="Withdrawal", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $withdrawals;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="followedUsers")
+     */
+    protected $followers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="followers")
+     * @ORM\JoinTable(name="users_followers",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="follower_user_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $followedUsers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Brand", inversedBy="followers")
+     * @ORM\JoinTable(name="users_brands")
+     */
+    protected $followedBrands;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user", cascade={"persist", "remove"})
+     */
+    protected $notifications;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProjectHelp", mappedBy="project", cascade={"persist", "remove"})
+     */
+    protected $projectHelps;
+    
     public function __construct()
     {
         parent::__construct();
@@ -276,6 +313,11 @@ class User extends BaseUser
         $this->contributions = new ArrayCollection();
         $this->beneficiaries = new ArrayCollection();
         $this->withdrawals = new ArrayCollection();
+        $this->followers = new ArrayCollection();
+        $this->followedUsers = new ArrayCollection();
+        $this->followedBrands = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->projectHelps = new ArrayCollection();
     }
 
     public function __toString()
@@ -538,6 +580,29 @@ class User extends BaseUser
     public function getTwitterAccessToken()
     {
     		return $this->twitterAccessToken;
+    }
+    
+    /**
+     * Set twitterAccessTokenSecret
+     *
+     * @param string $twitterAccessTokenSecret
+     * @return User
+     */
+    public function setTwitterAccessTokenSecret($twitterAccessTokenSecret)
+    {
+        $this->twitterAccessTokenSecret = $twitterAccessTokenSecret;
+         
+        return $this;
+    }
+    
+    /**
+     * Get twitterAccessTokenSecret
+     *
+     * @return string
+     */
+    public function getTwitterAccessTokenSecret()
+    {
+        return $this->twitterAccessTokenSecret;
     }
     
     /**
@@ -1080,5 +1145,170 @@ class User extends BaseUser
     public function getWithdrawals()
     {
         return $this->withdrawals;
+    }
+
+    /**
+     * Add followers
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $followers
+     * @return User
+     */
+    public function addFollower(\LittleBigJoe\Bundle\CoreBundle\Entity\User $followers)
+    {
+        $this->followers[] = $followers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove followers
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $followers
+     */
+    public function removeFollower(\LittleBigJoe\Bundle\CoreBundle\Entity\User $followers)
+    {
+        $this->followers->removeElement($followers);
+    }
+
+    /**
+     * Get followers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFollowers()
+    {
+        return $this->followers;
+    }
+
+    /**
+     * Add followedUsers
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $followedUsers
+     * @return User
+     */
+    public function addFollowedUser(\LittleBigJoe\Bundle\CoreBundle\Entity\User $followedUsers)
+    {
+        $this->followedUsers[] = $followedUsers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove followedUsers
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $followedUsers
+     */
+    public function removeFollowedUser(\LittleBigJoe\Bundle\CoreBundle\Entity\User $followedUsers)
+    {
+        $this->followedUsers->removeElement($followedUsers);
+    }
+
+    /**
+     * Get followedUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFollowedUsers()
+    {
+        return $this->followedUsers;
+    }
+
+    /**
+     * Add followedBrands
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Brand $followedBrands
+     * @return User
+     */
+    public function addFollowedBrand(\LittleBigJoe\Bundle\CoreBundle\Entity\Brand $followedBrands)
+    {
+        $this->followedBrands[] = $followedBrands;
+    
+        return $this;
+    }
+
+    /**
+     * Remove followedBrands
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Brand $followedBrands
+     */
+    public function removeFollowedBrand(\LittleBigJoe\Bundle\CoreBundle\Entity\Brand $followedBrands)
+    {
+        $this->followedBrands->removeElement($followedBrands);
+    }
+
+    /**
+     * Get followedBrands
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFollowedBrands()
+    {
+        return $this->followedBrands;
+    }
+
+    /**
+     * Add notifications
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications
+     * @return User
+     */
+    public function addNotification(\LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications)
+    {
+        $this->notifications[] = $notifications;
+    
+        return $this;
+    }
+
+    /**
+     * Remove notifications
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications
+     */
+    public function removeNotification(\LittleBigJoe\Bundle\CoreBundle\Entity\Notification $notifications)
+    {
+        $this->notifications->removeElement($notifications);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    /**
+     * Add projectHelps
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp $projectHelps
+     * @return User
+     */
+    public function addProjectHelp(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp $projectHelps)
+    {
+        $this->projectHelps[] = $projectHelps;
+    
+        return $this;
+    }
+
+    /**
+     * Remove projectHelps
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp $projectHelps
+     */
+    public function removeProjectHelp(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp $projectHelps)
+    {
+        $this->projectHelps->removeElement($projectHelps);
+    }
+
+    /**
+     * Get projectHelps
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjectHelps()
+    {
+        return $this->projectHelps;
     }
 }

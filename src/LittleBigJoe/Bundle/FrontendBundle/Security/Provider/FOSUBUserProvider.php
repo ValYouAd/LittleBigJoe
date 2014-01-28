@@ -48,18 +48,21 @@ class FOSUBUserProvider extends BaseClass
 				$setter = 'set'.ucfirst($service);
 				$setter_id = $setter.'Id';
 				$setter_token = $setter.'AccessToken';
+				$setter_token_secret = $setter.'AccessTokenSecret';
 		
 				// we "disconnect" previously connected users
 				if (null !== $previousUser = $this->userManager->findUserBy(array($property => $username))) 
 				{
 						$previousUser->$setter_id(null);
 						$previousUser->$setter_token(null);
+						$previousUser->$setter_token_secret(null);
 						$this->userManager->updateUser($previousUser);
 				}
 		
 				//we connect current user
 				$user->$setter_id($username);
 				$user->$setter_token($response->getAccessToken());
+				$user->$setter_token_secret($response->getTokenSecret());
 		
 				$this->userManager->updateUser($user);
 		}
@@ -75,15 +78,17 @@ class FOSUBUserProvider extends BaseClass
 								
 				// when the user is registrating
 				if (null === $user) 
-				{
+				{				    
 						$service = $response->getResourceOwner()->getName();
 						$setter = 'set'.ucfirst($service);
 						$setter_id = $setter.'Id';
 						$setter_token = $setter.'AccessToken';
+						$setter_token_secret = $setter.'AccessTokenSecret';
 						// create new user here
 						$user = $this->userManager->createUser();
 						$user->$setter_id($username);
 						$user->$setter_token($response->getAccessToken());
+						$user->$setter_token_secret($response->getTokenSecret());
 						// I have set all requested data with the user's username
 						// modify here with relevant data
 						$resp = $response->getResponse();
@@ -115,12 +120,15 @@ class FOSUBUserProvider extends BaseClass
 		
 				// if user exists - go with the HWIOAuth way
 				$user = parent::loadUserByOAuthUserResponse($response);
-		
+		        $user->addRole('ROLE_TWITTER');      
+			
 				$serviceName = $response->getResourceOwner()->getName();
-				$setter = 'set' . ucfirst($serviceName) . 'AccessToken';
+				$setter_token = 'set' . ucfirst($serviceName) . 'AccessToken';
+				$setter_token_secret = 'set' . ucfirst($serviceName) . 'AccessTokenSecret';
 		
 				// update access token
-				$user->$setter($response->getAccessToken());
+				$user->$setter_token($response->getAccessToken());
+				$user->$setter_token_secret($response->getTokenSecret());
 		
 				return $user;
 		}

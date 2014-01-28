@@ -190,9 +190,15 @@ class Brand
      */
     protected $projects;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="followedBrands")
+     */
+    protected $followers;
+    
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function __toString()
@@ -540,5 +546,38 @@ class Brand
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    /**
+     * Add followers
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $followers
+     * @return Brand
+     */
+    public function addFollower(\LittleBigJoe\Bundle\CoreBundle\Entity\User $followers)
+    {
+        $this->followers[] = $followers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove followers
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $followers
+     */
+    public function removeFollower(\LittleBigJoe\Bundle\CoreBundle\Entity\User $followers)
+    {
+        $this->followers->removeElement($followers);
+    }
+
+    /**
+     * Get followers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFollowers()
+    {
+        return $this->followers;
     }
 }

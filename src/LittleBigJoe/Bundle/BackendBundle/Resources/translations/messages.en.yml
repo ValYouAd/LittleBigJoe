@@ -1,272 +1,286 @@
-backend.edit_category: 'Edition de la catégorie'
-backend.fill_fields: 'Veuillez remplir les champs suivants :'
-backend.back_to_list: 'Retourner à la liste'
-backend.delete_category: 'Suppression de la catégorie'
-backend.delete_confirmation_category: 'En supprimant cette catégorie, vous supprimerez tous les projets associés, et vous ne pourrez plus la récupérer'
-backend.category: Catégorie
-backend.category_infos: 'Infos de la catégorie'
-backend.visible: Visible
-backend.invisible: Invisible
-backend.activity_infos: 'Infos sur l''activité'
-backend.related_projects: 'Projets liés'
-backend.meta_infos: 'Infos META'
-backend.meta_title: 'META Title'
-backend.na: N/A
-backend.meta_description: 'META Description'
-backend.edit: Editer
-backend.new_category: 'Nouvelle catégorie'
-backend.categories_list: 'Liste des catégories'
-backend.categories_list_resume: 'Ci-dessous, une liste de toutes les catégories créées sur le site :'
-backend.ID: ID
-backend.name: Nom
-backend.slug: 'URL raccourcie'
-backend.is_visible: 'Est visible ?'
-backend.actions: Actions
-backend.show: Afficher
-backend.create_category: 'Création d''une catégorie'
-backend.edit_user: 'Edition de l''utilisateur'
-backend.delete_user: 'Suppression de l''utilisateur'
-backend.delete_confirmation_user: 'En supprimant cet utilisateur, vous supprimerez toute son activité, et vous ne pourrez plus le récupérer'
-backend.user: Utilisateur
-backend.user_resume: 'Ci-dessous, les informations détaillées de l''utilisateur'
-backend.social_infos: 'Infos sociales'
-backend.facebook_url: 'URL Facebook'
-backend.twitter_url: 'URL Twitter'
-backend.googleplus_url: 'URL Google +'
-backend.website_url: 'URL du site web'
-backend.regional_infos: 'Infos régionales'
-backend.default_language: 'Langue par défaut'
-backend.likes: Likes
-backend.contributions: Contributions
-backend.mangopay_infos: 'Informations MangoPay'
-backend.mangopay_user_id: 'ID Utilisateur Mangopay'
-backend.mangopay_user_created_at: 'Utilisateur Mangopay créé le'
-backend.mangopay_user_updated_at: 'Utilisateur Mangopay mis à jour le'
-backend.mangopay_wallet_created_at: 'Wallet Mangopay créé le'
-backend.mangopay_wallet_updated_at: 'Wallet Mangopay mis à jour le'
-backend.mangopay_contribution_created_at: 'Contribution Mangopay créée le'
-backend.mangopay_contribution_updated_at: 'Contribution Mangopay mise à jour le'
-backend.new_user: 'Nouvel utilisateur'
-backend.users_list: 'Liste des utilisateurs'
-backend.users_list_resume: 'Ci-dessous, une liste de toutes les utilisateurs créés sur le site :'
-backend.id: ID
-backend.city: Ville
-backend.country: Pays
-backend.create_user: 'Création d''un utilisateur'
-backend.edit_page: 'Edition de la page'
-backend.delete_page: 'Suppression de la page'
-backend.delete_confirmation_page: 'En supprimant cette page, vous ne pourrez plus la récupérer'
-backend.page: Page
-backend.page_infos: 'Infos de la page'
-backend.new_page: 'Nouvelle page'
-backend.pages_list: 'Liste des pages'
-backend.pages_list_resume: 'Ci-dessous, une liste de toutes les pags créées sur le site :'
-backend.title: Titre
-backend.create_page: 'Création d''une page'
-backend.edit_brand: 'Edition de la marque'
-backend.delete_brand: 'Suppression de la marque'
-backend.delete_confirmation_brand: 'En supprimant cette marque, vous supprimerez tous les projets associés, et vous ne pourrez plus la récupérer'
-backend.brand: Marque
-backend.brand_infos: 'Infos de la marque'
-backend.contact_infos: 'Infos du contact'
-backend.new_brand: 'Nouvelle marque'
-backend.brands_list: 'Liste des marques'
-backend.brands_list_resume: 'Ci-dessous, une liste de toutes les marques créées sur le site :'
-backend.contact_name: 'Nom du contact'
-backend.contact_phone_number: 'Numéro de téléphone du contact'
-backend.contact_email: 'Email du contact'
-backend.create_brand: 'Création d''une marque'
-backend.edit_faq: 'Edition de la FAQ'
-backend.delete_faq: 'Suppression de la FAQ'
-backend.delete_confirmation_faq: 'En supprimant cette FAQ, vous ne pourrez plus la récupérer'
-backend.faq: FAQ
-backend.faq_infos: 'Ci-dessous, les informations détaillées de la FAQ'
-backend.new_faq: 'Nouvelle FAQ'
-backend.faqs_list: 'Liste des FAQs'
-backend.faqs_list_resume: 'Ci-dessous, une liste de toutes les FAQs sur le site :'
-backend.question: Question
-backend.answer: Réponse
-backend.create_faq: 'Création d''une FAQ'
-backend.home: Accueil
-backend.lbj_activity: 'Activité du site'
-backend.pages: Pages
-backend.visible_pages: 'pages visibles'
-backend.invisible_pages: 'pages invisibles'
-backend.users: Utilisateurs
-backend.created_users: 'utilisateurs créés'
-backend.projects: Projets
-backend.active_projects: 'projets actifs'
-backend.deleted_projects: 'projets supprimés'
-backend.engagement_phase_projects: 'projets en "phase d''engagement"'
-backend.funding_phase_projects: 'projets en "phase de financement"'
-backend.categories: Catégories
-backend.visible_categories: 'catégories visibles'
-backend.invisible_categories: 'catégories invisibles'
-backend.brands: Marques
-backend.created_brands: 'marques créées'
-backend.successful_contributions: 'contributions réussies'
-backend.completed_contributions: 'contributions complétées'
-backend.edit_project_contribution: 'Edition de la contribution'
-backend.delete_project: 'Suppression du projet'
-backend.delete_confirmation_project: 'En supprimant ce projet, vous supprimerez tous les éléments en relation avec celui ci'
-backend.contribution: Contribution
-backend.contribution_resume: 'Ci-dessous, les informations détaillées de la contribution'
-backend.related_infos: 'Infos en relation'
-backend.associated_project: 'Projet associé'
-backend.associated_user: 'Utilisateur associé'
-backend.associated_reward: 'Récompense associée'
-backend.mangopay_contribution_id: 'ID Contribution Mangopay'
-backend.mangopay_amount: 'Montant Mangopay'
-backend.succeeded_payment: 'Paiement réussi ?'
-backend.yes: Oui
-backend.no: Non
-backend.completed_payment: 'Paiement complété ?'
-backend.mangopay_error: 'Erreur Mangopay'
-backend.mangopay_answer_code: 'Code réponse Mangopay'
-backend.new_contribution: 'Nouvelle contribution'
-backend.contributions_list: 'Liste des contributions'
-backend.contributions_list_resume: 'Ci-dessous, une liste de toutes les contributions sur le site :'
-backend.project: Projet
-backend.creator: Créateur
-backend.reward: Récompense
-backend.success: Succès
-backend.failure: Echec
-backend.completed: Complété(e)
-backend.not_completed: 'Non complété(e)'
-backend.create_contribution: 'Création d''une contribution'
-backend.edit_project: 'Edition du projet'
-backend.project_infos: 'Infos du projet'
-backend.associated_brand: 'Marque associée'
-backend.associated_category: 'Catégorie associée'
-backend.status: Status
-backend.engagement_phase: 'Phase d''engagement'
-backend.funding_phase: 'Phase de financement'
-backend.updated_at: 'Mis à jour le'
-backend.ending_at: 'Termine le'
-backend.project_ended_on: 'Projet terminé le :'
-backend.project_deleted_on: 'Projet supprimé le :'
-backend.location: Localisation
-backend.language: Langue
-backend.description: Description
-backend.amount_raised: 'Montant levé'
-backend.amount_spent: 'Montant dépensé'
-backend.amount_to_raise: 'Montant à lever'
-backend.percent_completed: '% complétés'
-backend.likes_to_get: 'Likes à obtenir'
-backend.mangopay_walled_id: 'ID Wallet Mangopay'
-backend.new_project: 'Nouveau projet'
-backend.projects_list: 'Liste des projets'
-backend.projects_list_resume: 'Ci-dessous, une liste de tous les projets créés sur le site :'
-backend.amount: Montant
-backend.is_deleted: 'Est supprimé(e) ?'
-backend.deleted: Supprimé(e)
-backend.not_deleted: 'Non supprimé(e)'
-backend.create_project: 'Création d''un projet'
-backend.content: Contenu
-backend.visibility: Visibilité
-backend.firstname: Prénom
-backend.lastname: Nom
-backend.birthday_date: 'Date de naissance'
-backend.photo: Photo
-backend.roles: Rôles
-backend.admin: Administrateur
-backend.ip_address: 'Adresse IP'
-backend.bio: Bio
-backend.logo: Logo
-backend.pitch: Pitch
-backend.status_updated_at: 'Statut mis à jour le'
-backend.project_ending_at: 'Le projet se termine le'
-backend.project_ended_at: 'Le projet s''est terminé le'
-backend.project_deleted_at: 'Le projet a été supprimé le'
-backend.is_favorite: 'Favori ?'
-backend.contact_status: 'Statut du contact'
-backend.mangopay_payment_created_at: 'Paiement Mangopay créé le'
-backend.mangopay_payment_updated_at: 'Paiement Mangopay mis à jour le'
-backend.mangopay: MangoPay
-backend.mangopay_infos_resume: 'Ci-dessous, un résumé des différentes informations concernant MangoPay :'
-backend.mangopay_funding_phase_projects: 'Projets en "phase de financement"'
-backend.mangopay_last_contributions: 'Dernières contributions'
-backend.mangopay_ended_projects: 'Projets terminés'
-backend.amounts: Montants
-backend.ending_date: 'Date de fin'
-backend.details: Détails
-backend.show_in_fo: 'Afficher en FO'
-backend.see_funding_projects: 'Voir tous les projets en cours de financement'
-backend.see_all_contributions: 'Voir toutes les contributions'
-backend.see_ended_projects: 'Voir tous les projets terminés'
-backend.contribution_date: 'Date de contribution'
-backend.engagement_phase_projects_list: 'Liste des projets en "phase d''engagement"'
-backend.funding_phase_projects_list: 'Liste des projets en "phase de financement"'
-backend.ended_projects_list: 'Liste des projets terminés'
-backend.engagement_phase_projects_list_resume: 'Ci-dessous, une liste de tous les projets créés, en "phase d''engagement", sur le site :'
-backend.funding_phase_projects_list_resume: 'Ci-dessous, une liste de tous les projets créés, en "phase de financement", sur le site :'
-backend.ended_projects_list_resume: 'Ci-dessous, une liste de tous les projets terminés sur le site :'
-backend.operations_list: 'Liste des opérations'
-backend.operation_type: 'Type d''opération'
-backend.answer_code: 'Code réponse'
-backend.creation_date: 'Date de création'
-backend.update_date: 'Date de mise à jour'
-backend.is_anonymous: 'Anonyme ?'
-backend.anonymous: Anonyme
-backend.public: Public
-backend.is_refunded: 'Remboursé ?'
-backend.refunded: Remboursé
-backend.not_refunded: 'Non remboursé'
-backend.contributors_list: 'Liste des contributeurs'
-backend.email: Email
-backend.can_register_new_payment_method: 'Peut enregistrer un nouveau moyen de paiement ?'
-backend.payment_method: 'Moyen de paiement'
-backend.wallet_amount: 'Montant wallet'
-backend.detail: Détail
-backend.transfers: Transferts
-backend.refund: Remboursement
-backend.mangopay_refund_id: 'ID Refund Mangopay'
-backend.refund_contribution: 'Rembourser la contribution'
-backend.refund_confirmation_contribution: 'En remboursant cette contribution, vous ne pourrez plus récupérer l''argent de la contribution'
-backend.delete_contribution: 'Suppression de la contribution'
-backend.delete_confirmation_contribution: 'En supprimant cette contribution, vous ne pourrez plus la récupérer'
-backend.ip: IP
-backend.cb_visa_mastercard: CB
-backend.tag: Tag
-backend.beneficiaries: Bénéficiaires
-backend.beneficiaries_list: 'Liste des bénéficiaires'
-backend.beneficiaries_list_resume: 'Ci-dessous, une liste de tous les bénéficiaires créés sur le site :'
-backend.bank_account_owner_name: 'Nom du titulaire du compte bancaire'
-backend.bank_account_owner_address: 'Adresse du titulaire du compte bancaire'
-backend.bank_account_iban: IBAN
-backend.bank_account_bic: BIC
-backend.create_beneficiary: 'Création d''un bénéficiaire'
-backend.new_beneficiary: 'Nouveau bénéficiaire'
-backend.beneficiary: Bénéficiaire
-backend.beneficiary_infos: 'Infos du bénéficiaire'
-backend.bank_infos: 'Infos bancaires'
-backend.mangopay_beneficiary_id: 'ID Bénéficiaire Mangopay'
-backend.edit_beneficiary: 'Edition du bénéficiaire'
-backend.delete_beneficiary: 'Suppression du bénéficiaire'
-backend.delete_confirmation_beneficiary: 'En supprimant ce bénéficiaire, vous supprimerez tous les transferts associés, et vous ne pourrez plus le récupérer'
-backend.last_withdrawals: 'Derniers transferts'
-backend.wallet: Wallet
-backend.amount_without_fees: 'Montant sans frais'
-backend.fees: Frais
-backend.create_withdrawal: 'Nouveau transfert'
-backend.withdrawal_amount: 'Montant du transfert'
-backend.withdrawal_amount_without_fees: 'Montant du transfert sans les frais'
-backend.withdrawal_client_fee_amount: 'Montant des frais'
-backend.withdraw: Transférer
-backend.add_new_beneficiary: 'Ajouter un nouveau bénéficiaire'
-backend.minimum_likes_to_get: 'Nombre de likes minimum par projet pour passage en phase de financement'
-backend.synchronize_withdrawals: 'Synchroniser les transferts'
-withdrawal.success: OK
-French: Français(e)
-Contribution: Contribution
-Refund: Rembourser
 Create: Créer
-Edit: Editer
-Transfer: Transférer
-Update: 'Mettre à jour'
 Delete: Supprimer
-Translations: Traductions
-N/A: __N/A
-€: __€
-OK: __OK
-backend.has_brand_representation: 'A une représentation de la marque ?'
+EUR: EUR
+GBP: GBP
+JPY: JPY
+N/A: N/A
+OK: OK
+Refund: Rembourser
+USD: USD
+Update: 'Mettre à jour'
+'Welcome to Little Big Joe': 'Welcome to Little Big Joe'   # FIXME
+'You''ve been refund for your contribution': 'You''ve been refund for your contribution'   # FIXME
+
+backend:
+    ID: ID
+    actions: Actions
+    active_projects: 'projets actifs'
+    activity_infos: 'Infos sur l''activité'
+    add_new_beneficiary: 'Ajouter un nouveau bénéficiaire'
+    admin: Administrateur
+    amount: Montant
+    amount_raised: 'Montant levé'
+    amount_spent: 'Montant dépensé'
+    amount_to_raise: 'Montant à lever'
+    amount_without_fees: 'Montant sans frais'
+    amounts: Montants
+    answer: Réponse
+    associated_brand: 'Marque associée'
+    associated_category: 'Catégorie associée'
+    associated_project: 'Projet associé'
+    associated_reward: 'Récompense associée'
+    associated_user: 'Utilisateur associé'
+    back_to_list: 'Retourner à la liste'
+    bank_account_bic: BIC
+    bank_account_iban: IBAN
+    bank_account_owner_address: 'Adresse du titulaire du compte bancaire'
+    bank_account_owner_name: 'Nom du titulaire du compte bancaire'
+    bank_infos: 'Infos bancaires'
+    beneficiaries: 'Bénéficiaires'
+    beneficiaries_list: 'Liste des bénéficiaires'
+    beneficiaries_list_resume: 'Ci-dessous, une liste de tous les bénéficiaires créés sur le site :'
+    beneficiary: Bénéficiaire
+    beneficiary_infos: 'Infos du bénéficiaire'
+    bio: Bio
+    birthday_date: 'Date de naissance'
+    brand: Marque
+    brand_infos: 'Infos de la marque'
+    brands: Marques
+    brands_list: 'Liste des marques'
+    brands_list_resume: 'Ci-dessous, une liste de toutes les marques créées sur le site :'
+    can_register_new_payment_method: 'Peut enregistrer un nouveau moyen de paiement ?'
+    categories: Catégories
+    categories_list: 'Liste des catégories'
+    categories_list_resume: 'Ci-dessous, une liste de toutes les catégories créées sur le site :'
+    category: Catégorie
+    category_infos: 'Infos de la catégorie'
+    cb_visa_mastercard: CB
+    city: Ville
+    completed: Complété(e)
+    completed_contributions: 'contributions complétées'
+    completed_payment: 'Paiement complété ?'
+    contact_email: 'Email du contact'
+    contact_infos: 'Infos du contact'
+    contact_name: 'Nom du contact'
+    contact_phone_number: 'Numéro de téléphone du contact'
+    contact_status: 'Statut du contact'
+    content: Contenu
+    contribution: Contribution
+    contribution_date: 'Date de contribution'
+    contribution_resume: 'Ci-dessous, les informations détaillées de la contribution'
+    contributions: Contributions
+    contributions_list: 'Liste des contributions'
+    contributions_list_resume: 'Ci-dessous, une liste de toutes les contributions sur le site :'
+    contributors_list: 'Liste des contributeurs'
+    country: Pays
+    create_beneficiary: 'Création d''un bénéficiaire'
+    create_brand: 'Création d''une marque'
+    create_category: 'Création d''une catégorie'
+    create_contribution: 'Création d''une contribution'
+    create_faq: 'Création d''une FAQ'
+    create_page: 'Création d''une page'
+    create_project: 'Création d''un projet'
+    create_project_help: 'Création d''un formulaire d''aide au projet'
+    create_user: 'Création d''un utilisateur'
+    create_withdrawal: 'Nouveau transfert'
+    created_at: 'Créé le'
+    created_brands: 'marques créées'
+    created_users: 'utilisateurs créés'
+    creation_date: 'Date de création'
+    creator: Créateur
+    currency: Devise
+    default_language: 'Langue par défaut'
+    delete_beneficiary: 'Suppression du bénéficiaire'
+    delete_brand: 'Suppression de la marque'
+    delete_category: 'Suppression de la catégorie'
+    delete_confirmation_beneficiary: 'En supprimant ce bénéficiaire, vous supprimerez tous les transferts associés, et vous ne pourrez plus le récupérer'
+    delete_confirmation_brand: 'En supprimant cette marque, vous supprimerez tous les projets associés, et vous ne pourrez plus la récupérer'
+    delete_confirmation_category: 'En supprimant cette catégorie, vous supprimerez tous les projets associés, et vous ne pourrez plus la récupérer'
+    delete_confirmation_contribution: 'En supprimant cette contribution, vous ne pourrez plus la récupérer'
+    delete_confirmation_faq: 'En supprimant cette FAQ, vous ne pourrez plus la récupérer'
+    delete_confirmation_page: 'En supprimant cette page, vous ne pourrez plus la récupérer'
+    delete_confirmation_project: 'En supprimant ce projet, vous supprimerez tous les éléments en relation avec celui ci'
+    delete_confirmation_project_help: 'En supprimant ce formulaire d''aide au projet, vous ne pourrez plus le récupérer'
+    delete_confirmation_user: 'En supprimant cet utilisateur, vous supprimerez toute son activité, et vous ne pourrez plus le récupérer'
+    delete_contribution: 'Suppression de la contribution'
+    delete_faq: 'Suppression de la FAQ'
+    delete_page: 'Suppression de la page'
+    delete_project: 'Suppression du projet'
+    delete_project_help: 'Suppression du formulaire d''aide au projet'
+    delete_user: 'Suppression de l''utilisateur'
+    deleted: Supprimé(e)
+    deleted_projects: 'projets supprimés'
+    description: Description
+    detail: Détail
+    details: Détails
+    edit: Editer
+    edit_beneficiary: 'Edition du bénéficiaire'
+    edit_brand: 'Edition de la marque'
+    edit_category: 'Edition de la catégorie'
+    edit_faq: 'Edition de la FAQ'
+    edit_page: 'Edition de la page'
+    edit_project: 'Edition du projet'
+    edit_project_contribution: 'Edition de la contribution'
+    edit_project_help: 'Edition du formulaire d''aide au projet'
+    edit_user: 'Edition de l''utilisateur'
+    email: Email
+    ended_projects_list: 'Liste des projets terminés'
+    ended_projects_list_resume: 'Ci-dessous, une liste de tous les projets terminés sur le site :'
+    ending_at: 'Termine le'
+    ending_date: 'Date de fin'
+    engagement_phase: 'Phase d''engagement'
+    engagement_phase_projects: 'projets en "phase d''engagement"'
+    engagement_phase_projects_list: 'Liste des projets en "phase d''engagement"'
+    engagement_phase_projects_list_resume: 'Ci-dessous, une liste de tous les projets créés, en "phase d''engagement", sur le site :'
+    facebook_url: 'URL Facebook'
+    failure: Echec
+    faq: FAQ
+    faq_infos: 'Ci-dessous, les informations détaillées de la FAQ'
+    faqs_list: 'Liste des FAQs'
+    faqs_list_resume: 'Ci-dessous, une liste de toutes les FAQs sur le site :'
+    fees: Frais
+    fill_fields: 'Veuillez remplir les champs suivants :'
+    firstname: Prénom
+    funding_phase: 'Phase de financement'
+    funding_phase_projects: 'projets en "phase de financement"'
+    funding_phase_projects_list: 'Liste des projets en "phase de financement"'
+    funding_phase_projects_list_resume: 'Ci-dessous, une liste de tous les projets créés, en "phase de financement", sur le site :'
+    googleplus_url: 'URL Google +'
+    has_brand_representation: 'A une représentation de la marque ?'
+    home: Accueil
+    id: ID
+    invisible: Invisible
+    invisible_categories: 'catégories invisibles'
+    invisible_pages: 'pages invisibles'
+    ip: IP
+    ip_address: 'Adresse IP'
+    is_deleted: 'Est supprimé(e) ?'
+    is_favorite: 'Favori ?'
+    is_visible: 'Est visible ?'
+    language: Langue
+    last_withdrawals: 'Derniers transferts'
+    lastname: Nom
+    lbj_activity: 'Activité du site'
+    likes: Likes
+    likes_to_get: 'Likes à obtenir'
+    location: Localisation
+    logo: Logo
+    mangopay: 'Mangopay'
+    mangopay_amount: 'Montant Mangopay'
+    mangopay_answer_code: 'Code réponse Mangopay'
+    mangopay_beneficiary_id: 'ID Bénéficiaire Mangopay'
+    mangopay_contribution_created_at: 'Contribution Mangopay créée le'
+    mangopay_contribution_id: 'ID Contribution Mangopay'
+    mangopay_contribution_updated_at: 'Contribution Mangopay mise à jour le'
+    mangopay_ended_projects: 'Projets terminés'
+    mangopay_error: 'Erreur Mangopay'
+    mangopay_funding_phase_projects: 'Projets en "phase de financement"'
+    mangopay_infos: 'Informations MangoPay'
+    mangopay_infos_resume: 'Ci-dessous, un résumé des différentes informations concernant MangoPay :'
+    mangopay_last_contributions: 'Dernières contributions'
+    mangopay_payment_created_at: 'Paiement Mangopay créé le'
+    mangopay_payment_updated_at: 'Paiement Mangopay mis à jour le'
+    mangopay_refund_id: 'ID Refund Mangopay'
+    mangopay_user_created_at: 'Utilisateur Mangopay créé le'
+    mangopay_user_id: 'ID Utilisateur Mangopay'
+    mangopay_user_updated_at: 'Utilisateur Mangopay mis à jour le'
+    mangopay_walled_id: 'ID Wallet Mangopay'
+    mangopay_wallet_created_at: 'Wallet Mangopay créé le'
+    mangopay_wallet_updated_at: 'Wallet Mangopay mis à jour le'
+    meta_description: 'META Description'
+    meta_infos: 'Infos META'
+    meta_title: 'META Title'
+    minimum_likes_to_get: 'Nombre de likes minimum par projet pour passage en phase de financement'
+    na: N/A
+    name: Nom
+    new_beneficiary: 'Nouveau bénéficiaire'
+    new_brand: 'Nouvelle marque'
+    new_category: 'Nouvelle catégorie'
+    new_contribution: 'Nouvelle contribution'
+    new_faq: 'Nouvelle FAQ'
+    new_page: 'Nouvelle page'
+    new_project: 'Nouveau projet'
+    new_project_help: 'Nouveau formulaire d''aide au projet'
+    new_user: 'Nouvel utilisateur'
+    no: Non
+    not_completed: 'Non complété(e)'
+    not_deleted: 'Non supprimé(e)'
+    operation_type: 'Type d''opération'
+    operations_list: 'Liste des opérations'
+    page: Page
+    page_infos: 'Infos de la page'
+    pages: Pages
+    pages_list: 'Liste des pages'
+    pages_list_resume: 'Ci-dessous, une liste de toutes les pags créées sur le site :'
+    payment_method: 'Moyen de paiement'
+    percent_completed: '% complétés'
+    photo: Photo
+    pitch: Pitch
+    price: Prix
+    project: Projet
+    project_deleted_at: 'Le projet a été supprimé le'
+    project_deleted_on: 'Projet supprimé le :'
+    project_ended_at: 'Le projet s''est terminé le'
+    project_ended_on: 'Projet terminé le :'
+    project_ending_at: 'Le projet se termine le'
+    project_help: Formulaire d'aide au projet
+    project_help_resume: 'Ci-dessous, les informations détaillées du formulaire d''aide au projet'
+    project_infos: 'Infos du projet'
+    projects: Projets
+    projects_helps_list: 'Liste des formulaires d''aide au projet'
+    projects_helps_list_resume: 'Ci-dessous, une liste de toutes les formulaires d''aide au projet créées sur le site :'
+    projects_list: 'Liste des projets'
+    projects_list_resume: 'Ci-dessous, une liste de tous les projets créés sur le site :'
+    quantity: Quantité
+    question: Question
+    reason: Motif
+    refund: Remboursement
+    refund_confirmation_contribution: 'En remboursant cette contribution, vous ne pourrez plus récupérer l''argent de la contribution'
+    refund_contribution: 'Rembourser la contribution'
+    refunded: Remboursé
+    regional_infos: 'Infos régionales'
+    related_infos: 'Infos en relation'
+    related_projects: 'Projets liés'
+    reward: Récompense
+    roles: Rôles
+    see_all_contributions: 'Voir toutes les contributions'
+    see_ended_projects: 'Voir tous les projets terminés'
+    see_funding_projects: 'Voir tous les projets en cours de financement'
+    shared_on_facebook: 'Partagé sur Facebook'
+    shared_on_twitter: 'Partagé sur Twitter'
+    show: Afficher
+    show_in_fo: 'Afficher en FO'
+    slug: 'URL raccourcie'
+    social_infos: 'Infos sociales'
+    status: Status
+    status_updated_at: 'Statut mis à jour le'
+    submitter: 'Personne ayant soumis le formulaire'
+    succeeded_payment: 'Paiement réussi ?'
+    success: Succès
+    successful_contributions: 'contributions réussies'
+    synchronize_withdrawals: 'Synchroniser les transferts'
+    tag: Tag
+    title: Titre
+    transfers: Transferts
+    twitter_url: 'URL Twitter'
+    update_date: 'Date de mise à jour'
+    updated_at: 'Mis à jour le'
+    user: Utilisateur
+    user_resume: 'Ci-dessous, les informations détaillées de l''utilisateur'
+    users: Utilisateurs
+    users_list: 'Liste des utilisateurs'
+    users_list_resume: 'Ci-dessous, une liste de toutes les utilisateurs créés sur le site :'
+    visibility: Visibilité
+    visible: Visible
+    visible_categories: 'catégories visibles'
+    visible_pages: 'pages visibles'
+    wallet: Wallet
+    wallet_amount: 'Montant wallet'
+    website_url: 'URL du site web'
+    withdraw: Transférer
+    withdrawal_amount: 'Montant du transfert'
+    withdrawal_amount_without_fees: 'Montant du transfert sans les frais'
+    withdrawal_client_fee_amount: 'Montant des frais'
+    yes: Oui
+
+€: €

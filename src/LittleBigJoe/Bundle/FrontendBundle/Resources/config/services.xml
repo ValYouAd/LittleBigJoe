@@ -4,10 +4,13 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 				
-		<parameters>
+    <parameters>
         <parameter key="fosubuserprovider.properties" type="collection">
             <parameter key="twitter">twitterId</parameter>
-        </parameter>
+        </parameter>         
+        <parameter key="class.guzzle.response">Guzzle\Http\Message\Response</parameter>
+        <parameter key="class.guzzle.client">Guzzle\Http\Client</parameter>
+        <parameter key="class.guzzle.oauthplugin">Guzzle\Plugin\Oauth\OauthPlugin</parameter>
     </parameters>		
 		
     <services>
@@ -41,12 +44,12 @@
             <argument type="service" id="service_container"/>
         </service>
         <service id="littlebigjoefrontend.project.createProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProjectFormType">
-        		<tag name="form.type" alias="createProject" />
-    		</service>
-   			<service id="littlebigjoefrontend.flow.project.createProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProjectFlow" parent="craue.form.flow" scope="request">
-        		<call method="setFormType">
-            		<argument type="service" id="littlebigjoefrontend.project.createProject" />
-        		</call>
-    		</service>
+            <tag name="form.type" alias="createProject" />
+    	</service>
+   		<service id="littlebigjoefrontend.flow.project.createProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProjectFlow" parent="craue.form.flow" scope="request">
+        	<call method="setFormType">
+            	<argument type="service" id="littlebigjoefrontend.project.createProject" />
+        	</call>
+    	</service>  
     </services>
 </container>
