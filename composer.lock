@@ -3,39 +3,35 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "bb506d6fcb184c929a589b6e549752d4",
+    "hash": "3a7d5d05fbb0aa9f02887746a3dd14a5",
     "packages": [
         {
             "name": "a2lix/translation-form-bundle",
-	    "version": "dev-master",
+            "version": "1.x-dev",
             "target-dir": "A2lix/TranslationFormBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/a2lix/TranslationFormBundle.git",
-		"reference": "f4523c6561ae2557cb9db789961212dc10ff4cb6"
+                "reference": "7f0f33af0863275791c96b18f7c1d78bf5a290c0"
             },
             "dist": {
                 "type": "zip",
-		"url": "https://api.github.com/repos/a2lix/TranslationFormBundle/zipball/f4523c6561ae2557cb9db789961212dc10ff4cb6",
-		"reference": "f4523c6561ae2557cb9db789961212dc10ff4cb6",
+                "url": "https://api.github.com/repos/a2lix/TranslationFormBundle/zipball/7f0f33af0863275791c96b18f7c1d78bf5a290c0",
+                "reference": "7f0f33af0863275791c96b18f7c1d78bf5a290c0",
                 "shasum": ""
             },
             "require": {
                 "symfony/symfony": ">=2.3"
             },
-	    "require-dev": {
-		"gedmo/doctrine-extensions": "dev-wip-v2.4.0"
-	    },
             "suggest": {
                 "a2lix/i18n-doctrine-bundle": "For A2lix strategy",
-		"gedmo/doctrine-extensions": "For Gedmo strategy",
                 "knplabs/doctrine-behaviors": "For Knp strategy",
-		"prezent/doctrine-translatable-bundle": "For Prezent strategy"
+                "stof/doctrine-extensions-bundle": "For Gedmo strategy"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-		    "dev-master": "2.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -69,7 +65,7 @@
                 "translatable",
                 "translation"
             ],
-	    "time": "2014-01-15 12:27:12"
+            "time": "2013-12-17 18:40:49"
         },
         {
             "name": "craue/formflow-bundle",
@@ -394,7 +390,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-		    "name": "Johannes M. Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -591,9 +587,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-		    "name": "Johannes M. Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-		    "homepage": "http://jmsyst.com",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -992,12 +988,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-		"reference": "23d15ad680fe5b695df1565e7854342e608bc483"
+                "reference": "23d15ad680fe5b695df1565e7854342e608bc483"
             },
             "dist": {
                 "type": "zip",
-		"url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/23d15ad680fe5b695df1565e7854342e608bc483",
-		"reference": "23d15ad680fe5b695df1565e7854342e608bc483",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/23d15ad680fe5b695df1565e7854342e608bc483",
+                "reference": "23d15ad680fe5b695df1565e7854342e608bc483",
                 "shasum": ""
             },
             "require": {
@@ -1052,7 +1048,7 @@
             "keywords": [
                 "User management"
             ],
-	    "time": "2014-01-26 23:20:11"
+            "time": "2014-01-26 23:20:11"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1140,12 +1136,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-		"reference": "dce090bdeeea701bb95f68f2ea66b4e532c68207"
+                "reference": "dce090bdeeea701bb95f68f2ea66b4e532c68207"
             },
             "dist": {
                 "type": "zip",
-		"url": "https://api.github.com/repos/guzzle/guzzle/zipball/dce090bdeeea701bb95f68f2ea66b4e532c68207",
-		"reference": "dce090bdeeea701bb95f68f2ea66b4e532c68207",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/dce090bdeeea701bb95f68f2ea66b4e532c68207",
+                "reference": "dce090bdeeea701bb95f68f2ea66b4e532c68207",
                 "shasum": ""
             },
             "require": {
@@ -1224,7 +1220,7 @@
                 "rest",
                 "web service"
             ],
-	    "time": "2014-01-29 18:20:08"
+            "time": "2014-01-29 18:20:08"
         },
         {
             "name": "helios-ag/fm-elfinder-bundle",
@@ -1331,17 +1327,17 @@
         },
         {
             "name": "hwi/oauth-bundle",
-	    "version": "dev-master",
+            "version": "0.3.x-dev",
             "target-dir": "HWI/Bundle/OAuthBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-		"reference": "4c9e19a203a571b9bd459843512afd1d2cd6375a"
+                "reference": "d88c690885beb6eff302092d59c00930f8a31ac9"
             },
             "dist": {
                 "type": "zip",
-		"url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/4c9e19a203a571b9bd459843512afd1d2cd6375a",
-		"reference": "4c9e19a203a571b9bd459843512afd1d2cd6375a",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/d88c690885beb6eff302092d59c00930f8a31ac9",
+                "reference": "d88c690885beb6eff302092d59c00930f8a31ac9",
                 "shasum": ""
             },
             "require": {
@@ -1364,7 +1360,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-		    "dev-master": "0.4-dev"
+                    "dev-master": "0.3-dev"
                 }
             },
             "autoload": {
@@ -1440,7 +1436,7 @@
                 "yahoo",
                 "yandex"
             ],
-	    "time": "2013-12-09 13:36:26"
+            "time": "2014-01-17 17:22:09"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1753,12 +1749,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-		"reference": "835ee51d911e4d8c9adf129907ebbebfa9a1e906"
+                "reference": "835ee51d911e4d8c9adf129907ebbebfa9a1e906"
             },
             "dist": {
                 "type": "zip",
-		"url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/835ee51d911e4d8c9adf129907ebbebfa9a1e906",
-		"reference": "835ee51d911e4d8c9adf129907ebbebfa9a1e906",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/835ee51d911e4d8c9adf129907ebbebfa9a1e906",
+                "reference": "835ee51d911e4d8c9adf129907ebbebfa9a1e906",
                 "shasum": ""
             },
             "require": {
@@ -1809,7 +1805,7 @@
                 "menu",
                 "tree"
             ],
-	    "time": "2014-02-03 10:44:10"
+            "time": "2014-02-03 10:44:10"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -2669,17 +2665,17 @@
         },
         {
             "name": "symfony/swiftmailer-bundle",
-	    "version": "v2.3.5",
+            "version": "v2.3.5",
             "target-dir": "Symfony/Bundle/SwiftmailerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/SwiftmailerBundle.git",
-		"reference": "fcefa9dbd5a1ed20547b0f8a2afd5ad6837ea321"
+                "reference": "fcefa9dbd5a1ed20547b0f8a2afd5ad6837ea321"
             },
             "dist": {
                 "type": "zip",
-		"url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/fcefa9dbd5a1ed20547b0f8a2afd5ad6837ea321",
-		"reference": "fcefa9dbd5a1ed20547b0f8a2afd5ad6837ea321",
+                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/fcefa9dbd5a1ed20547b0f8a2afd5ad6837ea321",
+                "reference": "fcefa9dbd5a1ed20547b0f8a2afd5ad6837ea321",
                 "shasum": ""
             },
             "require": {
@@ -2720,7 +2716,7 @@
             ],
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
-	    "time": "2013-11-21 12:29:01"
+            "time": "2013-11-21 12:29:01"
         },
         {
             "name": "symfony/symfony",
