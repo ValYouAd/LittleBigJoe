@@ -28,7 +28,7 @@ class LittleBigJoeExtension extends \Twig_Extension
     {
         $request = $this->container->get('request');
         $routeName = $request->get('_route');
-
+        
         return preg_match('#^' . $routePrefix . '#', $routeName) ? 'active' : '';
     }
 

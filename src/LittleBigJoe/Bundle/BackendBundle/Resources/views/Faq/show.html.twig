@@ -1,21 +1,21 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'FAQ'|trans() }} {{ entity.question|striptags }} | {{ parent() }}
+    {{ 'backend.faq'|trans() }} {{ entity.question|striptags }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
 <div class="faq-header">
-    <h1><span class="glyphicon glyphicon-search"></span> {{ 'FAQ'|trans() }} <span
+    <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.faq'|trans() }} <span
                 class="text-primary">{{ entity.question|striptags }}</span></h1>
 </div>
-<p class="lead">{{ 'Below you\'ll find some informations regarding the FAQ :'|trans() }}</p>
+<p class="lead">{{ 'backend.faq_infos'|trans() }}</p>
 
 <h3 class="media-heading">{{ entity.question|striptags }}</h4>
     {% if entity.isVisible %}
-        <span class="label label-success">{{ 'Visible'|trans() }}</span>
+        <span class="label label-success">{{ 'backend.visible'|trans() }}</span>
     {% else %}
-        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
+        <span class="label label-default">{{ 'backend.invisible'|trans() }}</span>
     {% endif %}
     <div class="clearfix">&nbsp;</div>
     {{ entity.answer|raw }}
@@ -23,10 +23,10 @@
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_faqs') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_faqs_edit', { 'id': entity.id }) }}">
-            {{ 'Edit this faq'|trans() }}
+            {{ 'backend.edit'|trans() }}
         </a>
     </p>
     {% endblock %}

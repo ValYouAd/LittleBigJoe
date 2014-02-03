@@ -12,19 +12,19 @@ class CategoryController extends Controller
      * Specific category
      *
      * @Route("/category/{slug}", name="littlebigjoe_frontendbundle_category_show")
-     * @Template("LittleBigJoeFrontendBundle:Project:projects_list.html.twig")
+     * @Template("LittleBigJoeFrontendBundle:Project:list.html.twig")
      */
     public function showAction($slug)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Category')->findBySlugI18n($slug);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Category')->findBySlugI18n($slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        $query = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findBy(array('category' => $entity->getId(), 'deletedAt' => null), array('id' => 'DESC'));
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBy(array('category' => $entity->getId(), 'deletedAt' => null), array('id' => 'DESC'));
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(

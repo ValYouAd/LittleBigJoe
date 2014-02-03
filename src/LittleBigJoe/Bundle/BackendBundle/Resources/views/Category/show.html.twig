@@ -1,44 +1,64 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Category'|trans() }} {{ entity.name }} | {{ parent() }}
+    {{ 'backend.category'|trans() }} {{ entity.name }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
 <div class="page-header">
-    <h1><span class="glyphicon glyphicon-search"></span> {{ 'Category'|trans() }} <span
+    <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.category'|trans() }} <span
                 class="text-primary">{{ entity.name }}</span></h1>
 </div>
-<p class="lead">{{ 'Below you\'ll find some informations regarding the category :'|trans() }}</p>
+<p class="lead">{{ 'backend.category_infos'|trans() }}</p>
 
 <h3 class="media-heading">{{ entity.name }}</h4>
     {% if entity.isVisible %}
-        <span class="label label-success">{{ 'Visible'|trans() }}</span>
+        <span class="label label-success">{{ 'backend.visible'|trans() }}</span>
     {% else %}
-        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
+        <span class="label label-default">{{ 'backend.invisible'|trans() }}</span>
     {% endif %}
 
     <div class="clearfix">&nbsp;</div>
-    <h4>{{ 'Activity infos'|trans() }}</h4>
 
-    <p>{{ 'Number of related projects'|trans() }} : <strong>{{ entity.projects|length }}</strong></p>
-
-    <div class="clearfix">&nbsp;</div>
-    <h4>{{ 'META infos'|trans() }}</h4>
-    <ul class="list-group">
-        <li class="list-group-item">{{ 'META Title'|trans() }}
-            : {% if entity.metaTitle %}{{ entity.metaTitle }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
-        <li class="list-group-item">{{ 'META Description'|trans() }}
-            : {% if entity.metaDescription %}{{ entity.metaDescription }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
-    </ul>
-
+		<ul class="nav nav-tabs" id="tabs">
+		  <li class="active"><a href="#meta">{{ 'backend.meta_infos'|trans() }}</a></li>
+		  <li><a href="#activity">{{ 'backend.activity_infos'|trans() }}</a></li>
+		</ul>
+				
+   	<div class="tab-content">
+  		<div class="tab-pane active" id="meta">
+		    <div class="clearfix">&nbsp;</div>
+		    <p>{{ 'backend.meta_title'|trans() }} : {% if entity.metaTitle %}{{ entity.metaTitle }}{% else %}{{ 'backend.na'|trans() }}{% endif %}</p>
+		    <p>
+					{{ 'backend.meta_description'|trans() }} : {% if entity.metaDescription %}{{ entity.metaDescription }}{% else %}{{ 'backend.na'|trans() }}{% endif %}</li>
+		    </p>		
+			</div>
+			
+			<div class="tab-pane" id="activity">
+		    <div class="clearfix">&nbsp;</div>
+		    <p>{{ 'backend.related_projects'|trans() }} : <strong>{{ entity.projects|length }}</strong></p>
+		  </div>
+		</div>
+    
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_categories') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_categories_edit', { 'id': entity.id }) }}">
-            {{ 'Edit this category'|trans() }}
+            {{ 'backend.edit'|trans() }}
         </a>
     </p>
-    {% endblock %}
+{% endblock %}
+
+{% block footer_javascripts %}
+		{{ parent() }}
+		<script type="text/javascript">
+				$(document).ready(function(){
+						$('#tabs a').click(function (e) {
+						  e.preventDefault()
+						  $(this).tab('show')
+						});
+				});
+		</script>
+{% endblock %}

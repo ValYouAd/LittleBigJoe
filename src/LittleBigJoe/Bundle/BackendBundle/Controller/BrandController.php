@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\Brand;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Brand;
 use LittleBigJoe\Bundle\BackendBundle\Form\BrandType;
 
 /**
@@ -29,7 +29,7 @@ class BrandController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT b FROM LittleBigJoeFrontendBundle:Brand b";
+        $dql = "SELECT b FROM LittleBigJoeCoreBundle:Brand b";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -61,7 +61,7 @@ class BrandController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
 
-            if ($entity->getLogo() != null) {
+        		if ($entity->getLogo() != null) {
                 $evm = $em->getEventManager();
                 $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
                 $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
@@ -127,7 +127,7 @@ class BrandController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Brand entity.');
@@ -152,7 +152,7 @@ class BrandController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Brand entity.');
@@ -198,7 +198,7 @@ class BrandController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Brand entity.');
@@ -241,7 +241,7 @@ class BrandController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Brand entity.');

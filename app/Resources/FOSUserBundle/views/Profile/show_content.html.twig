@@ -1,7 +1,93 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div class="fos_user_user_show">
-    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+{% if user.photo %}
+    <img src="{{ asset(user.photo) }}" width="150">
+{% else %}
+    <strong>{{ 'N/A'|trans() }}</strong>
+{% endif %}
 
-    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-</div>
+<h2>{{ user }}</h2>
+    
+<p><a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">{{ 'Edit my profile' }}</a></p>
+
+<div class="clearfix">&nbsp;</div>
+
+<h2 id="projects">{{ 'My projects'|trans() }}</h2>
+{% if user.projects|length > 0 %}  
+    {% for project in user.projects %}
+        {% if project.photo %}
+            <img src="{{ asset(project.photo) }}" width="200" height="200">
+        {% else %}
+            <strong>{{ 'No image'|trans() }}</strong>
+        {% endif %}
+
+        {% if project.brand.logo %}
+            <img src="{{ asset(project.brand.logo) }}" width="50" height="50">
+        {% endif %}
+
+        <h3>
+            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a>
+        </h3>
+        {% if project.status == '1' %}
+            <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+        {% else %}
+            <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+        {% endif %}
+
+        <p>{{ project.pitch }}</p>
+        <p>
+            <a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug': project.category.slug}) }}">{{ project.category }}</a>
+        </p>
+
+        {% if project.status == '1' %}
+            <p>
+                <strong>{{ project.likesCount }}</strong> {{ 'likes'|trans() }} |
+                {% if project.likesCount == 0 %}
+                    0
+                {% elseif ((project.likesCount/project.likesRequired) * 100) > 100 %}
+                    100
+                {% else %}
+                    {{ ((project.likesCount/project.likesRequired) * 100)|number_format(1, '.', ',') }}
+                {% endif %} %
+            </p>
+        {% else %}
+            <p>
+                {% if project.amountCount == 0 %}
+                    0
+                {% elseif ((project.amountCount/project.amountRequired) * 100) > 100 %}
+                    100
+                {% else %}
+                    {{ ((project.amountCount/project.amountRequired) * 100)|number_format(1, '.', ',') }}
+                {% endif %} % |
+                <strong>{{ project.amountCount }}</strong>{{ '€'|trans() }} |
+                {{ project.endingAt|time_remaining }}
+            </p>
+        {% endif %}
+    {% endfor %} 
+{% else %}
+    <p>{{ 'There\'s no projects for the moment'|trans() }}</p>
+{% endif %}
+
+<div class="clearfix">&nbsp;</div>
+
+<h2 id="contributions">{{ 'My contributions'|trans() }}</h2>
+{% if user.contributions|length > 0 %}  
+    {% for contribution in user.contributions|reverse() %}
+    		<h3>
+            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': contribution.project.slug}) }}">{{ contribution.project.name }}</a>
+        </h3>
+        <h4>{{ contribution.mangopayAmount() }} {{ '€'|trans() }} {% if contribution.isAnonymous %}({{ 'Anonymous contribution'|trans() }}){% else %}({{ 'Public contribution'|trans() }}){% endif %}</h4>
+   			<p>{{ 'Made on'|trans() }} {{ contribution.createdAt|localizeddate('medium', 'medium') }}</p>
+   			{% if contribution.reward %}
+   					<p>
+   							{{ 'Associated reward'|trans() }} : {{ contribution.reward.title }}<br />
+   							<small>{{ contribution.reward.description }}</small>
+   					</p>
+   			{% endif %}   			
+   			{% if contribution.invoice %}
+   					<p><a href="{{ asset('uploads/pdfs/' ~ contribution.invoice) }}" target="_blank">{{ 'Download invoice'|trans() }}</a></p>
+   			{% endif %}
+   	{% endfor %}
+{% else %}
+    <p>{{ 'There\'s no projects for the moment'|trans() }}</p>
+{% endif %}

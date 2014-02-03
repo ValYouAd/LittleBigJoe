@@ -1,108 +1,745 @@
 {% extends '::base.html.twig' %}
 
+{% set entries_ids = [] %}
+{% if entity.entries %}
+  		{% for entry in entity.entries|reverse %}
+      		{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
+        			{% set entries_ids = entries_ids|merge([entry.id]) %}
+        	{% endif %}
+      {% endfor %}
+  {% endif %}			
+
 {% block title %}
     {{ 'Project'|trans() }} {{ entity }} | {{ parent() }}
 {% endblock %}
 
-{% block body %}
-    <h1>{{ 'Project'|trans() }} {{ entity }}</h1>
-    <p class="lead">{{ 'Below you\'ll find some informations regarding the project :'|trans() }}</p>
-
-    <div class="row">
-        <div class="col-sm-6 col-md-3 pull-left">
-            <a href="#" class="thumbnail text-center">
-                {% if entity.photo %}
-                    <img src="{{ asset(entity.photo) }}">
-                {% else %}
-                    <strong>{{ 'N/A'|trans() }}</strong>
-                {% endif %}
-            </a>
-        </div>
-        <div class="media-body">
-            <h3 class="media-heading">{{ entity }}</h4>
-                {{ entity.pitch }}
-        </div>
-    </div>
-
-    <div class="page-header">
-        <h3>{{ 'Related infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'Related brand'|trans() }} : <a
-                href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}"><strong>{{ entity.brand }}</strong></a>
+{% block sidebar %}
+		{% if entity.status == '1' %}
+				<p>
+			    	<div class="progress progress-striped active">
+				        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.likesCount }}" aria-valuemin="0"
+				             aria-valuemax="{{ entity.likesRequired }}"
+				             style="width:{% if entity.likesCount == 0 %}0{% else %}{{ (entity.likesCount/entity.likesRequired) * 100 }}{% endif %}%">
+				            <span class="sr-only">{% if entity.likesCount == 0 %}0{% else %}{{ (entity.likesCount/entity.likesRequired) * 100 }}{% endif %} {{ '% completed'|trans() }}</span>
+				        </div>
+				    </div>
+				   	<strong><span class="likes_count">{{ entity.likesCount }}</span> {{ 'likes'|trans() }}</strong><br/>
+		    		<strong>{{ entity.endingAt|time_remaining }}</strong>
+		    </p>
+		    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+		    <p>
+		    		<a href="#" class="btn btn btn-success" id="likeProject">{{ 'I like this project'|trans() }}</a>
+		    </p>
+		    {% endif %}
+		    <p class="lead">{{ 'Engagement evolution'|trans() }}</p>		
+				<div id="highcharts" style="min-width: 200px; height: 200px; margin: 0 auto"></div>   
+		{% else %}
+				<p>
+				    <div class="progress progress-striped active">
+				        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.amountCount }}" aria-valuemin="0"
+				             aria-valuemax="{{ entity.amountRequired }}"
+				             style="width:{% if entity.amountCount == 0 %}0{% else %}{{ (entity.amountCount/entity.amountRequired) * 100 }}{% endif %}%">
+				            <span class="sr-only">{% if entity.amountCount == 0 %}0{% else %}{{ (entity.amountCount/entity.amountRequired) * 100 }}{% endif %} {{ '€'|trans() }}</span>
+				        </div>
+				    </div>
+				    <strong><span class="amount_count">{{ entity.amountCount }}</span> {{ '€ of'|trans() }} {{ entity.amountRequired }} {{ '€ required amount to raise'|trans() }}</strong><br/>
+    				<strong>{{ usersIds|length }} {{ 'participant(s)'|trans() }}</strong><br />
+    				<strong>{{ entity.endingAt|time_remaining }}</strong>
+    		</p>		
+    		{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+    				{{ form(funding_form, {attr:{id:'fundingForm', role:'form'}}) }}
+    		{% endif %}
+		{% endif %}
+		
+		<hr class="clearfix" />
+		
+		<div class="modal fade" id="reportProject" tabindex="-1" role="dialog" aria-labelledby="reportProjectLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="reportProjectLabel">{{ 'Report this project'|trans() }}</h4>
+              </div>
+              <div class="modal-body">
+                  {{ form(report_form, {attr:{id:'reportForm', role:'form'}}) }}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Cancel'|trans() }}</button>
+                <button type="button" id="saveReportProject" class="btn btn-primary">{{ 'Report'|trans() }}</button>
+              </div>
+            </div>
+          </div>
+        </div>  
+        
+		<a id="reportProjectButton" class="btn btn btn-info" href="#">{{ 'Report'|trans() }}</a>
+		
+		<hr class="clearfix" />
+		
+    <p>    
+	    {{ 'Project realized by'|trans() }}<br />
+	    
+    	{% if entity.user.photo %}
+	        <img src="{{ asset(entity.user.photo) }}" width="75">
+	    {% else %}
+	        <strong>{{ 'N/A'|trans() }}</strong>
+	    {% endif %}
+    
+	    <strong>{{ entity.user }}</strong>
+	    <small>{{ entity.user.city }}, {{ entity.user.country|country(app.request.locale) }}</small>
+	    
+	    {% set show_follow_button = true %}
+            
+	    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) %}            
+	        {% for follower in entity.user.followers %}
+	            {% if app.user.id == follower.id %}
+	                {% set show_follow_button = false %}
+	            {% endif %}
+	        {% endfor %}
+	    {% endif %}    
+	
+	   {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+	    <div id="followUserBox" {% if show_follow_button != true %}style="display:none"{% endif %}>
+	        <a id="followUser" class="btn btn btn-success" href="#">{{ 'Follow'|trans() }}</a>            
+	    </div>
+	    
+	    <div id="unfollowUserBox" {% if show_follow_button %}style="display:none"{% endif %}>
+	        <a id="currentFollowUser" class="btn btn btn-info" href="#">{{ 'Followed'|trans() }}</a>
+	        <a id="unfollowUser" class="btn btn btn-danger" href="#" style="display:none">{{ 'Unfollow'|trans() }}</a>            
+	    </div>
+	   {% endif %}
     </p>
-    <p>{{ 'Related category'|trans() }} : <a
-                href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}"><strong>{{ entity.category }}</strong></a>
-    </p>
-    <p>{{ 'Creator'|trans() }} : <a
-                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
-    </p>
-    <p>{{ 'Status'|trans() }} :
-        {% if entity.status %}
-            <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-        {% else %}
-            <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-        {% endif %}
-        {% if entity.statusUpdatedAt %}{{ '(updated at'|trans() }} : {{ entity.statusUpdatedAt|date('d/m/Y H:i:s') }} {{ ')'|trans() }}{% endif %}
-    </p>
-    <p>{{ 'Ending at'|trans() }} : <strong>{{ entity.endingAt|date('d/m/Y H:i:s') }}</strong></p>
-
-    {% if entity.endingAt < current_date %}
-        <div class="alert alert-info">
-            <p>{{ 'This project has ended on :'|trans() }} <strong>{{ entity.endingAt|date('d/m/Y H:i:s') }}</strong>
-            </p>
-        </div>
-    {% endif %}
-
-    {% if entity.deletedAt %}
-        <div class="alert alert-danger">
-            <p>{{ 'This project was deleted on :'|trans() }} <strong>{{ entity.deletedAt|date('d/m/Y H:i:s') }}</strong>
-            </p>
-        </div>
-    {% endif %}
-
-    <div class="page-header">
-        <h3>{{ 'Regional infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'Location'|trans() }} : <strong>{{ entity.location }}</strong></p>
-    <p>{{ 'Language'|trans() }} : <strong>{{ entity.language }}</strong></p>
-
-    <div class="page-header">
-        <h3>{{ 'Description'|trans() }}</h3>
-    </div>
-    {{ entity.description|raw('html') }}
-
-    <div class="page-header">
-        <h3>{{ 'Project infos'|trans() }}</h3>
-    </div>
     <p>
-        {{ 'Amount to raise'|trans() }} : <strong>{{ entity.amountCount }}
-            / {{ entity.amountRequired }} {{ '(required amount to raise)'|trans() }}</strong><br/>
-    <div class="progress progress-striped active">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.amountCount }}" aria-valuemin="0"
-             aria-valuemax="{{ entity.amountRequired }}"
-             style="width:{% if entity.amountCount == 0 %}0{% else %}{{ (entity.amountCount/entity.amountRequired) * 100 }}{% endif %}%">
-            <span class="sr-only">{% if entity.amountCount == 0 %}0{% else %}{{ (entity.amountCount/entity.amountRequired) * 100 }}{% endif %} {{ '% completed'|trans() }}</span>
-        </div>
-    </div>
-    </p>
+    		<a href="mailto:{{ entity.user.email }}">{{ 'Contact'|trans() }}</a>
+    		<a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}">{{ 'Check his profile'|trans() }}</a>
+    </p>   
     <p>
-        {{ 'Likes'|trans() }} : <strong>{{ entity.likesCount }}
-            / {{ entity.likesRequired }} {{ '(required likes)'|trans() }}</strong><br/>
-    <div class="progress progress-striped active">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ entity.likesCount }}" aria-valuemin="0"
-             aria-valuemax="{{ entity.likesRequired }}"
-             style="width:{% if entity.likesCount == 0 %}0{% else %}{{ (entity.likesCount/entity.likesRequired) * 100 }}{% endif %}%">
-            <span class="sr-only">{% if entity.likesCount == 0 %}0{% else %}{{ (entity.likesCount/entity.likesRequired) * 100 }}{% endif %} {{ '% completed'|trans() }}</span>
-        </div>
-    </div>
+    		<a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}#projects">{{ 'His projects'|trans() }} ({{ entity.user.projects|length }} {{ 'realized projects'|trans() }})</a>
+    </p> 
+    
+		<hr class="clearfix" />
+		
+		<p>
+			<strong>{{ entity.brand }}</strong>	
+			
+			{% if entity.brand.logo %}
+	        <img src="{{ asset(entity.brand.logo) }}" width="75">
+	    {% else %}
+	        <strong>{{ 'N/A'|trans() }}</strong>
+	    {% endif %}
+	    
+	    {% set show_follow_button = true %}
+            
+	    {% if is_granted('ROLE_USER') %}            
+	        {% for follower in entity.brand.followers %}
+	            {% if app.user.id == follower.id %}
+	                {% set show_follow_button = false %}
+	            {% endif %}
+	        {% endfor %}
+	    {% endif %}    
+	
+	    <div id="followBrandBox" {% if show_follow_button != true %}style="display:none"{% endif %}>
+	        <a id="followBrand" class="btn btn btn-success" href="#">{{ 'Follow'|trans() }}</a>            
+	    </div>
+	    
+	    <div id="unfollowBrandBox" {% if show_follow_button %}style="display:none"{% endif %}>
+	        <a id="currentFollowBrand" class="btn btn btn-info" href="#">{{ 'Followed'|trans() }}</a>
+	        <a id="unfollowBrand" class="btn btn btn-danger" href="#" style="display:none">{{ 'Unfollow'|trans() }}</a>            
+	    </div>
+        
+	    <ul>
+	    {% for project in entity.brand.projects|reverse|slice(0, 4) %}
+	        <li><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name|e }}</a></li>
+	    {% endfor %}	
+	    </ul>
+		</p>
+		<p>
+    		<a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': entity.brand.slug}) }}">{{ 'More projects from'|trans() }} {{ entity.brand }}</a>
     </p>
+    
+   	<hr class="clearfix" />
+   			         		
+    {% if entity.status != '1' %}
+    	{% if entity.rewards %}
+    		<ul>
+     			{% for reward in entity.rewards %}     				
+     				{% set participants_reward_ids = [] %}
+						{% if entity.contributions %}
+								{% for contribution in entity.contributions %}
+										{% if contribution.user.id not in participants_reward_ids and contribution.reward and contribution.reward.id == reward.id %}
+												{% set participants_reward_ids = participants_reward_ids|merge([contribution.user.id]) %}
+										{% endif %}
+								{% endfor %}
+						{% endif %}
+						     			
+     				<li>
+     					<p><strong>{{ reward.title }}</strong></p>
+     					<p>{{ participants_reward_ids|length }} {{ 'participant(s)'|trans() }}</p>
+     					<p>{{ reward.description }}</p>
+     				</li>
+     			{% endfor %}
+    		</ul>
+    	{% endif %}
+    {% endif %}    
+{% endblock %}
 
-    <div class="page-header">
-        <h3>{{ 'MangoPay infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'MangoPay wallet id'|trans() }} : <strong>{{ entity.mangopayWalletId }}</strong></p>
-    <p>{{ 'MangoPay user created at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
-    </p>
-    <p>{{ 'MangoPay user updated at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
-    </p>
+{% block body %}				
+    <h1>
+    		{{ 'Project'|trans() }} {{ entity }} 
+    		{% if is_granted('ROLE_USER') and app.user.id == entity.user.id %}<a href="{{ path('littlebigjoe_frontendbundle_project_edit', {slug: entity.slug}) }}" class="pull-right btn btn-md btn-warning">{{ 'Edit this project'|trans() }}</a>{% endif %}
+    </h1>
+    {% if entity.status == '1' %}
+        <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+    {% else %}
+        <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+    {% endif %}
+    <h2>
+		    {{ entity.location }} - 
+		    <a href="{{ path('littlebigjoe_frontendbundle_category_show', { 'slug': entity.category.slug }) }}">{{ entity.category }}</a>
+		</h2>  
+    <span class="label label-info">{{ 'Project default language :'|trans() }} {{ entity.language }}</span>
+	
+		<div class="modal fade" id="helpProject" tabindex="-1" role="dialog" aria-labelledby="helpProjectLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="helpProjectLabel">{{ 'Help us to realize this project'|trans() }}</h4>
+		      </div>
+		      <div class="modal-body">
+		          {{ form(help_project_form) }}
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Cancel'|trans() }}</button>
+		        <button type="button" id="saveHelpProject" class="btn btn-primary">{{ 'Save'|trans() }}</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
+	
+		<div class="clearfix">&nbsp;</div>
+
+		<ul class="nav nav-tabs" id="projectTab">
+	      <li class="active"><a data-toggle="tab" href="#project">{{ 'Project'|trans() }}</a></li>
+	      <li><a data-toggle="tab" href="#news">{{ 'News'|trans() }} (<span class="entries_count">{{ entries_ids|length|default('0') }}</span>)</a></li>
+	      <li><a data-toggle="tab" href="#participants">{{ 'Participants'|trans() }} (<span class="participants_count">{{ usersIds|length|default('0') }}</span>)</a></li>
+      	<li><a data-toggle="tab" href="#comments">{{ 'Comments'|trans() }} (<span class="comments_count">{{ entity.comments|length|default('0') }}</span>)</a></li>
+    </ul>
+
+		<div id="projectTabContent" class="tab-content">
+				<div id="project" class="tab-pane in active">
+						<div class="clearfix">&nbsp;</div>
+          	<div class="col-sm-6 col-md-3 pull-left">
+		            <a href="#" class="thumbnail text-center">
+		                {% if entity.photo %}
+		                    <img src="{{ asset(entity.photo) }}">
+		                {% else %}
+		                    <strong>{{ 'N/A'|trans() }}</strong>
+		                {% endif %}
+		            </a>
+		        </div>
+		        <p class="lead">{{ entity.pitch }}</p>
+		         {{ entity.description|raw() }}
+        </div>
+        <div id="news" class="tab-pane">
+        		<div class="clearfix">&nbsp;</div>
+          	<p class="lead">{{ 'Here\'s the list of news related to'|trans() }} {{ entity }} {{ 'project'|trans() }}</p>
+          	
+          	{% if is_granted('ROLE_USER') and app.user.id == entity.user.id %}
+          	<div style="padding:20px;border:1px dotted black">
+          		<h4>{{ 'Add new entry'|trans() }}</h4>
+          		{{ form(entry_form, {attr:{id:'entryForm', role:'form'}}) }}
+          	</div>
+          	{% endif %}
+          	
+          	{% if entity.entries %}
+          			<ul id="entries_list">
+          			{% for entry in entity.entries|reverse %}
+          					{% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
+          					<li>
+          							<strong>{{ entry }} {% if entry.isPublic %}{{ '(Public)'|trans() }}{% else %}{{ '(Private)'|trans() }}{% endif %}</strong><br />
+          							<small>{{ 'On'|trans() }} {{ entry.createdAt|localizeddate('short', 'short') }}</small><br />
+          							<p>{{ entry.content|raw }}</p>
+       									{% if entry.comments %}
+	      										<ul id="entry_{{ entry.id }}_comment_list">  
+	        									{% for comment in entry.comments|reverse %}
+       													<li>
+					          							<strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
+					          							<small>{{ time_diff(comment.createdAt) }}</small><br />
+					          							<p>{{ comment.content|raw }}</p>
+						          				</li>
+       											{% endfor %}
+       											</ul>
+       									{% endif %}							
+          					</li>
+          					{% endif %}
+          			{% endfor %}
+          			</ul>
+          	{% else %}
+          			<p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>
+          	{% endif %}
+          	
+          	<div style="padding:20px;border:1px dotted black">
+          		<h4>{{ 'Add new entry comment'|trans() }}</h4>
+          		{{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
+          	</div>
+        </div>
+        <div id="participants" class="tab-pane">
+        		<div class="clearfix">&nbsp;</div>
+          	<p class="lead">{{ 'Here\'s the list of persons that have funded'|trans() }} {{ entity }} {{ 'project'|trans() }}</p>
+          	{% if entity.contributions %}
+          			{% set already_shown_users_ids = [] %}
+          			<ul>
+          			{% for contribution in entity.contributions %}
+          					{% if contribution.user.id not in already_shown_users_ids %}
+          							{% set already_shown_users_ids = already_shown_users_ids|merge([contribution.user.id]) %}
+          							<li>
+          								<a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a>
+													{% if usersAmounts[contribution.user.id] > 0 %}{{ 'gived'|trans() }} <strong>{{ usersAmounts[contribution.user.id] }} {{ '€'|trans() }}</strong>{% endif %}
+												</li>
+          					{% endif %}
+          			{% endfor %}
+          			</ul>
+          	{% else %}
+          			<p><strong>{{ 'There\'s no participants for the moment'|trans() }}</strong><p>
+          	{% endif %}
+        </div>
+        <div id="comments" class="tab-pane">
+        		<div class="clearfix">&nbsp;</div>
+          	<p class="lead">{{ 'Here\'s the list of comments related to'|trans() }} {{ entity }} {{ 'project'|trans() }}</p> 
+          	
+          	{% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (app.user is null) %}
+          	<div style="padding:20px;border:1px dotted black">
+          		<h4>{{ 'Add new comment'|trans() }}</h4>
+          		{{ form(comment_form, {attr:{id:'commentForm', role:'form'}}) }}
+          	</div>
+          	{% endif %}
+          	
+          	{% if entity.comments %}
+          			<ul id="comments_list">  
+          			{% for comment in entity.comments|reverse %}
+          					<li>
+          							<strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
+          							<small>{{ 'On'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</small><br />
+          							<p>{{ comment.content|raw }}</p>
+          					</li>
+		          	{% endfor %}
+		          	</ul>
+		        {% else %}
+          			<p><strong>{{ 'There\'s no comments for the moment'|trans() }}</strong><p>
+          	{% endif %}         	
+        </div>
+		</div>
+{% endblock %}
+
+{% block footer_javascripts %}
+{{ parent() }}
+{% if entity.status == '1' %}<script src="http://code.highcharts.com/highcharts.js"></script>{% endif %}
+<script type="text/javascript">
+	var currentProjectId = {{ entity.id }};
+	var currentUserId = {{ entity.user.id }};
+	var currentBrandId = {{ entity.brand.id }};
+	var onLabel = "{{ 'On'|trans() }}";
+	var publicLabel = "{{ '(Public)'|trans() }}";
+	var privateLabel = "{{ '(Private)'|trans() }}";
+	{% if entity.status == '1' %}
+			{% set dates = [] %}
+			{% for dateStat in dateStats %}
+					{% set dates = dates|merge([dateStat|localizeddate('short', 'none')]) %}
+			{% endfor %}
+			var projectDates = {{ dates|json_encode()|raw }};
+			var projectLikes = {{ likesStats|raw }};
+	{% endif %}
+	
+	$(document).ready(function () {
+		{% if showLikePopup == 'true' %}
+		    $('#helpProject').modal();
+		    $('#helpProject').on('hidden.bs.modal', function (e) {
+				$.post("{{ path('littlebigjoe_frontendbundle_ajax_like_project') }}", { 'projectId' : currentProjectId })
+		        .done(function(data) { 
+	                if (data.status == 'OK')
+	                {
+                        alert("{{ 'Thanks for liking the project !'|trans() }}");   
+                        var likes = parseInt($('.likes_count').text()) + 1;
+                        $('.likes_count').text(likes);
+	                }
+	                else if (data.status == 'KO USER')
+	                {
+                        window.location = "{{ path('fos_user_security_login') }}";
+	                }
+	                else if (data.status == 'KO VOTE')
+	                {
+	                	alert("{{ 'You already have liked this project !'|trans() }}");     
+                        
+	                }
+	                else
+	                {
+                        alert("{{ 'An error has occured during project liking. Please try again'|trans() }}"); 
+	                } 
+		        });
+		    });
+		{% endif %}
+		
+		{% if showFundingPopup == 'true' %}
+	        $('#helpProject').modal();
+	        $('#helpProject').on('hidden.bs.modal', function (e) {
+	            $('#fundingForm').submit();
+	        });
+	    {% endif %}
+		
+      	// Project tabs
+      	$('#projectTab a').click(function (e) {
+					e.preventDefault();
+					$(this).tab('show');
+			});
+      	
+      	for ( instance in CKEDITOR.instances )
+ 		    	CKEDITOR.instances[instance].setData("");
+      	
+      	{% if entity.status == '1' %}
+        	// Engagement evolution chart 
+        	$('#highcharts').highcharts({
+	            title: {
+	                text: null
+	            },
+	            xAxis: {
+	                categories: projectDates,
+	                labels: {
+                			enabled: false
+	                },
+	                title: {
+	                		text: null
+	                }
+	            },
+	            yAxis: {
+	                labels: {
+	                		enabled: false
+	                },
+	                title: {
+	                		text: null
+	                },
+	                min: 0
+	            },
+	            tooltip: {
+	                valueSuffix: " {{ 'likes'|trans() }}"
+	            },
+	            legend: {
+	            		enabled: false
+	            },
+	            series: [{
+	                name: "{{ entity.name }}",
+	                data: projectLikes
+	            }]
+        	});
+      	{% endif %}
+      	
+        // Follow request 
+        $('#followUser').click(function (e) {
+           $.post("{{ path('littlebigjoe_frontendbundle_ajax_follow_user') }}", { 'userId' : currentUserId })
+           .done(function(data) { 
+                   if (data.status == 'OK')
+                   {
+                           alert("{{ 'Thanks for follow this user !'|trans() }}");   
+                           $('#followUserBox').hide();
+                           $('#unfollowUserBox').show();
+                   }
+                   else if (data.status == 'KO USER')
+                   {
+                           window.location = "{{ path('fos_user_security_login') }}";
+                   }
+                   else if (data.status == 'KO FOLLOW')
+                   {
+                           alert("{{ 'You already have followed this user !'|trans() }}");     
+                   }
+                   else
+                   {
+                           alert("{{ 'An error has occured during user follow. Please try again'|trans() }}"); 
+                   } 
+           });
+        });
+        
+        // Hover
+        $('#unfollowUserBox').hover(function(e){
+            $('#currentFollowUser').hide();
+            $('#unfollowUser').show();
+        }, function(e){
+            $('#unfollowUser').hide();
+            $('#currentFollowUser').show();
+        });
+        
+        // Unfollow request 
+           $('#unfollowUser').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_unfollow_user') }}", { 'userId' : currentUserId })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                              alert("{{ 'Thanks for unfollow this user !'|trans() }}");   
+                              $('#unfollowUserBox').hide();
+                              $('#followUserBox').show();
+                      }
+                      else if (data.status == 'KO USER')
+                      {
+                              window.location = "{{ path('fos_user_security_login') }}";
+                      }
+                      else if (data.status == 'KO UNFOLLOW')
+                      {
+                              alert("{{ 'You already have unfollowed this user !'|trans() }}");     
+                      }
+                      else
+                      {
+                              alert("{{ 'An error has occured during user unfollow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+      	
+        // Follow request 
+           $('#followBrand').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_follow_brand') }}", { 'brandId' : currentBrandId })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                              alert("{{ 'Thanks for follow this brand !'|trans() }}");   
+                              $('#followBrandBox').hide();
+                              $('#unfollowBrandBox').show();
+                      }
+                      else if (data.status == 'KO BRAND')
+                      {
+                              window.location = "{{ path('fos_user_security_login') }}";
+                      }
+                      else if (data.status == 'KO FOLLOW')
+                      {
+                              alert("{{ 'You already have followed this brand !'|trans() }}");     
+                      }
+                      else
+                      {
+                              alert("{{ 'An error has occured during nra follow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+        
+           // Show report form
+           $('#reportProjectButton').click(function(e) {
+        	   $('#reportProject').modal();
+           });           
+        
+           // Report project request
+           $('#saveReportProject').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_report_project') }}", { 'projectId' : currentProjectId, 'data' : $('#reportProject form').serializeArray() })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                    	  $('#reportProject').modal('hide');
+                    	  alert("{{ 'Thanks for reporting this project !'|trans() }}");   
+                      }
+                      else
+                      {
+                          alert("{{ 'An error has occured during project reporting. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+        
+           // Help project request
+           $('#saveHelpProject').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_help_project') }}", { 'projectId' : currentProjectId, 'data' : $('#helpProject form').serializeArray() })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                    	  $('#helpProject').modal('hide');
+                      }
+                      else
+                      {
+                          alert("{{ 'An error has occured during nra follow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+           
+           // Hover
+           $('#unfollowBrandBox').hover(function(e){
+               $('#currentFollowBrand').hide();
+               $('#unfollowBrand').show();
+           }, function(e){
+               $('#unfollowBrand').hide();
+               $('#currentFollowBrand').show();
+           });
+           
+           // Unfollow request 
+           $('#unfollowBrand').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_unfollow_brand') }}", { 'brandId' : currentBrandId })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                              alert("{{ 'Thanks for unfollow this brand !'|trans() }}");   
+                              $('#unfollowBrandBox').hide();
+                              $('#followBrandBox').show();
+                      }
+                      else if (data.status == 'KO BRAND')
+                      {
+                              window.location = "{{ path('fos_user_security_login') }}";
+                      }
+                      else if (data.status == 'KO UNFOLLOW')
+                      {
+                              alert("{{ 'You already have unfollowed this brand !'|trans() }}");     
+                      }
+                      else
+                      {
+                              alert("{{ 'An error has occured during brand unfollow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+      	
+      	// Like request
+      	$('#likeProject').click(function (e) {      		
+           	$.post("{{ path('littlebigjoe_frontendbundle_ajax_like_project') }}", { 'projectId' : currentProjectId })
+             	.done(function(data) { 
+       				if (data.status == 'OK')
+       				{
+       					$('#helpProject').modal();
+       		            $('#helpProject').on('hidden.bs.modal', function (e) {
+       		            	alert("{{ 'Thanks for liking the project !'|trans() }}");
+       						var likes = parseInt($('.likes_count').text()) + 1;
+       						$('.likes_count').text(likes);
+       		            });
+       				}
+       				else if (data.status == 'KO USER')
+       				{
+       						window.location = "{{ path('fos_user_security_login') }}";
+       				}
+       				else if (data.status == 'KO VOTE')
+       				{
+       					$('#helpProject').modal();
+                        $('#helpProject').on('hidden.bs.modal', function (e) {
+                        	alert("{{ 'You already have liked this project !'|trans() }}"); 	
+                        });
+       				}
+       				else
+       				{
+       						alert("{{ 'An error has occured during project liking. Please try again'|trans() }}"); 
+       				} 
+       		});
+      	});
+      	
+        // Funding request
+        $('#form_submit').click(function (e) { 
+        	e.preventDefault();
+        	$.post("{{ path('littlebigjoe_frontendbundle_ajax_fund_project') }}", { 'projectId' : currentProjectId })
+               .done(function(data) { 
+                   if (data.status == 'OK')
+                   {
+                       $('#helpProject').modal();
+                       $('#helpProject').on('hidden.bs.modal', function (e) {
+                           $('#fundingForm').submit();
+                       });
+                   }
+                   else if (data.status == 'KO USER')
+                   {
+                           window.location = "{{ path('fos_user_security_login') }}";
+                   }
+                   else
+                   {
+                           alert("{{ 'An error has occured during project liking. Please try again'|trans() }}"); 
+                   } 
+           });
+        });
+     
+      	// Create entry 
+      	$('#entry_addEntry').click(function (e) {
+      			for ( instance in CKEDITOR.instances )
+      		    	CKEDITOR.instances[instance].updateElement();
+      		
+      			$.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_project') }}", $('#entryForm').serialize())
+        	.done(function(data) { 
+       				if (data.status == 'OK')
+       				{
+       						alert("{{ 'Thanks for posting your entry !'|trans() }}");
+       						
+       						$('#entries_list li:eq(0)').before('<li><strong>' + data.entry.title + ' ' + ((data.entry.is_public == '1') ? publicLabel : privateLabel) + '</strong><br /><small>' + onLabel + ' ' + data.entry.created_at + '</small><br /><p>' + data.entry.content + '</p></li>');
+       						
+       						$("#entry_title").val("");
+       						CKEDITOR.instances['entry_content'].setData("");
+       						
+       						var entries = parseInt($('.entries_count').text()) + 1;
+       						$('.entries_count').text(entries);
+       				}
+       				else if (data.status == 'KO USER')
+       				{
+       						window.location = "{{ path('fos_user_security_login') }}";
+       				}
+       				else if (data.status == 'KO FIELD')
+       				{
+       						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+       				}
+       				else
+       				{
+       						alert("{{ 'An error has occured during entry saving. Please try again'|trans() }}"); 
+       				} 
+       		});
+      	});
+      	
+      	// Create entry comment 
+      	$('#entrycomment_addEntryComment').click(function (e) {
+      			for ( instance in CKEDITOR.instances )
+      		    	CKEDITOR.instances[instance].updateElement();
+      		
+      			var entryId = parseInt($('#entrycomment_entry').val());
+      			
+      			$.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_comment_project') }}", $('#entryCommentForm').serialize())
+        	.done(function(data) { 
+       				if (data.status == 'OK')
+       				{
+       						alert("{{ 'Thanks for posting your comment !'|trans() }}");
+       						
+       						var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
+       						$('#entry_' + entryId + '_comment_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
+       						
+       						CKEDITOR.instances['entrycomment_content'].setData("");
+       				}
+       				else if (data.status == 'KO USER')
+       				{
+       						window.location = "{{ path('fos_user_security_login') }}";
+       				}
+       				else if (data.status == 'KO FIELD')
+       				{
+       						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+       				}
+       				else
+       				{
+       						alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}"); 
+       				} 
+       		});
+      	});
+      	
+      	// Create comment 
+      	$('#comment_addComment').click(function (e) {
+      			for ( instance in CKEDITOR.instances )
+      		    	CKEDITOR.instances[instance].updateElement();
+      		
+      			$.post("{{ path('littlebigjoe_frontendbundle_ajax_comment_project') }}", $('#commentForm').serialize())
+        	.done(function(data) { 
+       				if (data.status == 'OK')
+       				{
+       						alert("{{ 'Thanks for posting your comment !'|trans() }}");
+       						
+       						var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
+       						$('#comments_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
+       						
+       						CKEDITOR.instances['comment_content'].setData("");
+       						
+       						var comments = parseInt($('.comments_count').text()) + 1;
+       						$('.comments_count').text(comments);
+       				}
+       				else if (data.status == 'KO USER')
+       				{
+       						window.location = "{{ path('fos_user_security_login') }}";
+       				}
+       				else if (data.status == 'KO FIELD')
+       				{
+       						alert("{{ 'Some fields are required. Please fill them before submitting the form'|trans() }}"); 
+       				}
+       				else
+       				{
+       						alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}"); 
+       				} 
+       		});
+      	});
+	});
+</script>
 {% endblock %}

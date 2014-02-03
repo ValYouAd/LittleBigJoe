@@ -17,12 +17,14 @@ class FrontendController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $latestProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findLatest();
-        $popularProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findPopular();
-        $fundingProjects = $em->getRepository('LittleBigJoeFrontendBundle:Project')->findFunding();
-        $latestBrands = $em->getRepository('LittleBigJoeFrontendBundle:Brand')->findLatestByProject();
-        $latestProjectContributions = $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->findLatest(3);
+       
+				$api = $this->get('little_big_joe_mango_pay.api');
+				
+        $latestProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findLatest();
+        $popularProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findPopular();
+        $fundingProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findFunding();
+        $latestBrands = $em->getRepository('LittleBigJoeCoreBundle:Brand')->findLatestByProject();
+        $latestProjectContributions = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->findLatest(3);
         
         return array(
             'latestProjects' => $latestProjects,

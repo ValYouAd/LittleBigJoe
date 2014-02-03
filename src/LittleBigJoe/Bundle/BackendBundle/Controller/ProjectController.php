@@ -7,8 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\Project;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
 use LittleBigJoe\Bundle\BackendBundle\Form\ProjectType;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Withdrawal;
+use LittleBigJoe\Bundle\BackendBundle\Form\WithdrawalType;
 
 /**
  * Project controller.
@@ -17,7 +19,6 @@ use LittleBigJoe\Bundle\BackendBundle\Form\ProjectType;
  */
 class ProjectController extends Controller
 {
-
     /**
      * Lists all Project entities.
      *
@@ -29,7 +30,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT p FROM LittleBigJoeFrontendBundle:Project p";
+        $dql = "SELECT p FROM LittleBigJoeCoreBundle:Project p";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -43,13 +44,91 @@ class ProjectController extends Controller
             'pagination' => $pagination
         );
     }
+    
+    /**
+     * Lists all Project entities that are in "funding phase".
+     *
+     * @Route("/funding-phase-projects", name="littlebigjoe_backendbundle_projects_funding_phase")
+     * @Method("GET")
+     * @Template("LittleBigJoeBackendBundle:Project:funding_phase.html.twig")
+     */
+    public function fundingPhaseProjectsAction()
+    {
+	    	$em = $this->getDoctrine()->getManager();
+	    
+	    	$dql = "SELECT p FROM LittleBigJoeCoreBundle:Project p WHERE p.status = 2";
+	    	$query = $em->createQuery($dql);
+	    
+	    	$paginator = $this->get('knp_paginator');
+	    	$pagination = $paginator->paginate(
+	    			$query,
+	    			$this->get('request')->query->get('page', 1),
+	    			$this->container->getParameter('nb_elements_by_page')
+	    	);
+	    
+	    	return array(
+	    			'pagination' => $pagination
+	    	);
+    }
 
+    /**
+     * Lists all Project entities that are in "engagement phase".
+     *
+     * @Route("/engagement-phase-projects", name="littlebigjoe_backendbundle_projects_engagement_phase")
+     * @Method("GET")
+     * @Template("LittleBigJoeBackendBundle:Project:engagement_phase.html.twig")
+     */
+    public function engagementPhaseProjectsAction()
+    {
+	    	$em = $this->getDoctrine()->getManager();
+	    	 
+	    	$dql = "SELECT p FROM LittleBigJoeCoreBundle:Project p WHERE p.status = 1";
+	    	$query = $em->createQuery($dql);
+	    	 
+	    	$paginator = $this->get('knp_paginator');
+	    	$pagination = $paginator->paginate(
+	    			$query,
+	    			$this->get('request')->query->get('page', 1),
+	    			$this->container->getParameter('nb_elements_by_page')
+	    	);
+	    	 
+	    	return array(
+	    			'pagination' => $pagination
+	    	);
+    }
+    
+    /**
+     * Lists all Project entities that are in ended.
+     *
+     * @Route("/ended-projects", name="littlebigjoe_backendbundle_projects_ended")
+     * @Method("GET")
+     * @Template("LittleBigJoeBackendBundle:Project:ended.html.twig")
+     */
+    public function endedProjectsAction()
+    {
+	    	$em = $this->getDoctrine()->getManager();
+	    	 
+	    	$dql = "SELECT p FROM LittleBigJoeCoreBundle:Project p WHERE p.endedAt IS NOT NULL";
+	    	$query = $em->createQuery($dql);
+	    	 
+	    	$paginator = $this->get('knp_paginator');
+	    	$pagination = $paginator->paginate(
+	    			$query,
+	    			$this->get('request')->query->get('page', 1),
+	    			$this->container->getParameter('nb_elements_by_page')
+	    	);
+	    	 
+	    	return array(
+	    			'pagination' => $pagination
+	    	);
+    }
+    
     /**
      * Creates a new Project entity.
      *
      * @Route("/", name="littlebigjoe_backendbundle_projects_create")
      * @Method("POST")
-     * @Template("LittleBigJoeFrontendBundle:Project:new.html.twig")
+     * @Template("LittleBigJoeBackendBundle:Project:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -62,13 +141,37 @@ class ProjectController extends Controller
             $em->persist($entity);
 
             if ($entity->getPhoto() != null) {
-                $evm = $em->getEventManager();
-                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
-                $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
-                $uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
+	            	$evm = $em->getEventManager();
+	            	$uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+	            	$uploadableListener = $uploadableManager->getUploadableListener();
+	            	$uploadableListener->setDefaultPath('uploads/projects/'.$entity->getId());
+	            	$evm->removeEventListener(array('postFlush'), $uploadableListener);
+	            	$uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
             }
 
             $em->flush();
+            
+            // Create project in MangoPay
+            $api = $this->container->get('little_big_joe_mango_pay.api');
+            $mangopayProject = $api->createProject($entity->getUser()->getMangopayUserId(), array($entity->getUser()->getMangopayUserId()), $entity->getId(), $entity->getName(), $entity->getPitch(), $entity->getAmountRequired(), $entity->getEndingAt()->getTimestamp());
+            if (!empty($mangopayProject))
+            {
+	            	if (!empty($mangopayProject->ID))
+	            	{
+	            			$entity->setMangopayWalletId($mangopayProject->ID);
+	            	}
+	            	if (!empty($mangopayProject->CreationDate))
+	            	{
+		            		$entity->setMangopayCreatedAt(new \DateTime('@'.$mangopayProject->CreationDate));
+		            		$entity->setMangopayUpdatedAt(new \DateTime('@'.$mangopayProject->CreationDate));
+	            	}
+	            	if (!empty($mangopayProject->UpdateDate))
+	            	{
+	            			$entity->setMangopayUpdatedAt(new \DateTime('@'.$mangopayProject->UpdateDate));
+	            	}
+	            	$em->persist($entity);
+	            	$em->flush();
+            }
 
             return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_projects_show', array('id' => $entity->getId())));
         }
@@ -120,28 +223,220 @@ class ProjectController extends Controller
      * Finds and displays a Project entity.
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_projects_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($id);
+        $api = $this->container->get('little_big_joe_mango_pay.api');
+        $paginator = $this->get('knp_paginator');
+        
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
+        
+        // Total of transfers for the project
+        $totalWithdrawalAmount = $em->getRepository('LittleBigJoeCoreBundle:Withdrawal')->count($entity->getId());
+				if (empty($totalWithdrawalAmount))
+				{
+						$totalWithdrawalAmount = 0;
+				}
+				
+        // Operations for the project
+        $operations = $api->fetchOperations($entity->getMangopayWalletId());
+        $operationsSearch = $request->query->get('operations_where', '');
+        $operations_pagination = array();
+        if (!empty($operations))
+        {
+	        	foreach ($operations as $key => $operation)
+	        	{	
+	        			$user = $em->getRepository("LittleBigJoeCoreBundle:User")->findOneByMangopayUserId($operation->UserID);
+	        			if (empty($user))
+	        			{
+	        					$user = 'N/A';
+								}
+								$operations[$key]->User = $user;  
+								
+								// If user name doesn't match the search
+								if (!empty($operationsSearch) && !preg_match('/'.$operationsSearch.'/i', $operations[$key]->User))
+								{
+										unset($operations[$key]);
+								}
+	        	}
 
-        $deleteForm = $this->createDeleteForm($id);
+		        $operations_pagination = $paginator->paginate(
+		        		$operations,
+		        		$this->get('request')->query->get('page1', 1),
+		        		$this->container->getParameter('nb_elements_by_page'),
+		        		array(
+		        				'pageParameterName' => 'page1',
+		        				'sortFieldParameterName' => 'sort1',
+		        				'sortDirectionParameterName' => 'direction1'
+		        		)
+		        );  
+        }
+        
+        // Contributors for the project
+        $contributors = $api->listUsers($entity->getMangopayWalletId());
+        $contributorsSearch = $request->query->get('contributors_where', '');
+        $contributors_pagination = array();
+        if (!empty($contributors))
+        {
+	        	foreach ($contributors as $key => $contributor)
+	        	{
+		        		$user = $em->getRepository("LittleBigJoeCoreBundle:User")->findOneByMangopayUserId($contributor->ID);
+		        		if (empty($user))
+		        		{
+		        				$user = 'N/A';
+		        		}
+		        		$contributors[$key]->User = $user;
+		        		
+		        		// If user name doesn't match the search
+		        		if (!empty($contributorsSearch) && !preg_match('/'.$contributorsSearch.'/i', $contributors[$key]->User))
+		        		{
+		        				unset($contributors[$key]);
+		        		}
+	        	}
+	        	
+	        	$contributors_pagination = $paginator->paginate(
+		        		$contributors,
+		        		$this->get('request')->query->get('page2', 1),
+		        		$this->container->getParameter('nb_elements_by_page'),
+		        		array(
+		        				'pageParameterName' => 'page2',
+		        				'sortFieldParameterName' => 'sort2',
+		        				'sortDirectionParameterName' => 'direction2'
+		        		)
+		        );  
+        }
 
+        // Withdrawal form
+        $withdrawal = new Withdrawal();
+        $withdrawal->setProject($entity);
+        $withdrawal->setUser($entity->getUser());
+        $withdrawForm = $this->createForm(new WithdrawalType(), $withdrawal);
+        $withdrawForm->handleRequest($request);
+        
+        if ($withdrawForm->isValid()) {
+	        	$em->persist($withdrawal);
+	        	$em->flush();
+              	
+	        	// Create withdrawal in MangoPay
+	        	$api = $this->container->get('little_big_joe_mango_pay.api');
+	        	$mangopayWithdrawal = $api->createWithdrawal($withdrawal->getUser()->getMangopayUserId(), $withdrawal->getProject()->getMangopayWalletId(), $withdrawal->getBeneficiary()->getMangopayBeneficiaryId(), $withdrawal->getMangopayAmount()*100, $withdrawal->getMangopayClientFeeAmount(), $withdrawal->getId());
+	        	if (!empty($mangopayWithdrawal))
+	        	{
+		        		if (!empty($mangopayWithdrawal->ID))
+		        		{
+		        				$withdrawal->setMangopayWithdrawalId($mangopayWithdrawal->ID);
+		        		}
+		        		if (isset($mangopayWithdrawal->Error))
+		        		{
+		        				$withdrawal->setMangopayError($mangopayWithdrawal->Error);
+		        		}
+		        		if (!empty($mangopayWithdrawal->CreationDate))
+		        		{
+			        			$withdrawal->setMangopayCreatedAt(new \DateTime('@'.$mangopayWithdrawal->CreationDate));
+			        			$withdrawal->setMangopayUpdatedAt(new \DateTime('@'.$mangopayWithdrawal->CreationDate));
+		        		}
+		        		if (!empty($mangopayWithdrawal->UpdateDate))
+		        		{
+		        				$withdrawal->setMangopayUpdatedAt(new \DateTime('@'.$mangopayWithdrawal->UpdateDate));
+		        		}
+		        		
+		        		$em->persist($withdrawal);
+		        		$em->flush();
+	        	}
+        }
+        
+        // Withdrawals for the project
+        $withdrawals_dql = "SELECT w FROM LittleBigJoeCoreBundle:Withdrawal w WHERE w.project = :project ORDER BY w.createdAt DESC";
+        $withdrawals_query = $em->createQuery($withdrawals_dql)->setParameter('project', $entity);
+        
+        $withdrawals_pagination = $paginator->paginate(
+        		$withdrawals_query,
+        		$this->get('request')->query->get('page1', 1),
+        		$this->container->getParameter('nb_elements_by_page'),
+        		array(
+        				'pageParameterName' => 'page3',
+        				'sortFieldParameterName' => 'sort3',
+        				'sortDirectionParameterName' => 'direction3'
+        		)
+        );
+                
         return array(
             'entity' => $entity,
-            'current_date' => new \Datetime(),
-            'delete_form' => $deleteForm->createView(),
+        		'totalWithdrawalAmount' => $totalWithdrawalAmount,
+        		'withdraw_form' => $withdrawForm->createView(),
+        		'operations_pagination' => $operations_pagination,
+        		'contributors_pagination' => $contributors_pagination,
+        		'withdrawals_pagination' => $withdrawals_pagination
         );
     }
-
+    
+    /**
+     * Synchronize withdrawals for an existing Project entity.
+     *
+     * @Route("/{id}/synchronize-withdrawals", name="littlebigjoe_backendbundle_projects_synchronize_withdrawals")
+     * @Method("GET")
+     * @Template()
+     */
+    public function synchronizeWithdrawalAction($id)
+    {
+	    	$em = $this->getDoctrine()->getManager();
+	    	$api = $this->container->get('little_big_joe_mango_pay.api');
+	    	
+	    	$entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
+	    
+	    	if (!$entity) {
+	    			throw $this->createNotFoundException('Unable to find Project entity.');
+	    	}
+	    	
+	    	// If some withdrawals have been made
+	    	$withdrawals = $entity->getWithdrawals();
+	    	if (!empty($withdrawals))
+	    	{
+	    			foreach ($withdrawals as $withdrawal)
+	    			{
+	    					// Fetch withdrawal from MangoPay
+	    					$mangopayWithdrawal = $api->fetchWithdrawal($withdrawal->getMangopayWithdrawalId());
+	    					var_dump($mangopayWithdrawal);
+	    					if (!empty($mangopayWithdrawal))
+	    					{		    						
+	    							if (isset($mangopayWithdrawal->IsSucceeded))
+		    						{
+		    								$withdrawal->setMangopayIsSucceeded($mangopayWithdrawal->IsSucceeded);
+		    						}
+	    							if (isset($mangopayWithdrawal->IsCompleted))
+		    						{
+		    								$withdrawal->setMangopayIsCompleted($mangopayWithdrawal->IsCompleted);
+		    						}
+		    						if (isset($mangopayWithdrawal->Error))
+		    						{
+		    								$withdrawal->setMangopayError($mangopayWithdrawal->Error);
+		    						}
+		    						if (!empty($mangopayWithdrawal->CreationDate))
+		    						{
+			    							$withdrawal->setMangopayCreatedAt(new \DateTime('@'.$mangopayWithdrawal->CreationDate));
+			    							$withdrawal->setMangopayUpdatedAt(new \DateTime('@'.$mangopayWithdrawal->CreationDate));
+		    						}
+		    						if (!empty($mangopayWithdrawal->UpdateDate))
+		    						{
+		    								$withdrawal->setMangopayUpdatedAt(new \DateTime('@'.$mangopayWithdrawal->UpdateDate));
+		    						}
+		    					
+		    						$em->persist($withdrawal);
+		    						$em->flush();
+	    					}
+	    			}
+	    	}
+	    
+	    	return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_projects_show', array('id' => $id)));
+    }
+    
     /**
      * Displays a form to edit an existing Project entity.
      *
@@ -153,7 +448,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -193,13 +488,13 @@ class ProjectController extends Controller
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_projects_update")
      * @Method("PUT")
-     * @Template("LittleBigJoeFrontendBundle:Project:edit.html.twig")
+     * @Template("LittleBigJoeBackendBundle:Project:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -210,11 +505,13 @@ class ProjectController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($entity->getPhoto() != null) {
-                $evm = $em->getEventManager();
-                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
-                $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
-                $uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
+        		if ($entity->getPhoto() != null) {
+	            	$evm = $em->getEventManager();
+	            	$uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+	            	$uploadableListener = $uploadableManager->getUploadableListener();
+	            	$uploadableListener->setDefaultPath('uploads/projects/'.$entity->getId());
+	            	$evm->removeEventListener(array('postFlush'), $uploadableListener);
+	            	$uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
             }
 
             $em->flush();
@@ -242,7 +539,7 @@ class ProjectController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:Project')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Project entity.');

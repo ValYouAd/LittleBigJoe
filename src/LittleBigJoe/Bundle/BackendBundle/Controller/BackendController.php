@@ -20,27 +20,27 @@ class BackendController extends Controller
 
         return array(
             // Pages stats
-            'nbPages' => $em->getRepository('LittleBigJoeFrontendBundle:Page')->count(),
-            'nbPagesVisible' => $em->getRepository('LittleBigJoeFrontendBundle:Page')->count(true),
-            'nbPagesNotVisible' => $em->getRepository('LittleBigJoeFrontendBundle:Page')->count(false),
+            'nbPages' => $em->getRepository('LittleBigJoeCoreBundle:Page')->count(),
+            'nbPagesVisible' => $em->getRepository('LittleBigJoeCoreBundle:Page')->count(true),
+            'nbPagesNotVisible' => $em->getRepository('LittleBigJoeCoreBundle:Page')->count(false),
             // Users stats
-            'nbUsers' => $em->getRepository('LittleBigJoeFrontendBundle:User')->count(),
+            'nbUsers' => $em->getRepository('LittleBigJoeCoreBundle:User')->count(),
             // Projects stats
-            'nbProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(),
-            'nbNotDeletedProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(false),
-            'nbDeletedProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(true),
-            'nbEngagementProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(null, 1),
-            'nbFundingProjects' => $em->getRepository('LittleBigJoeFrontendBundle:Project')->count(null, 2),
+            'nbProjects' => $em->getRepository('LittleBigJoeCoreBundle:Project')->count(),
+            'nbNotDeletedProjects' => $em->getRepository('LittleBigJoeCoreBundle:Project')->count(false),
+            'nbDeletedProjects' => $em->getRepository('LittleBigJoeCoreBundle:Project')->count(true),
+            'nbEngagementProjects' => $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, '1'),
+            'nbFundingProjects' => $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, '2'),
             // Cateogories stats
-            'nbCategories' => $em->getRepository('LittleBigJoeFrontendBundle:Category')->count(),
-            'nbCategoriesVisible' => $em->getRepository('LittleBigJoeFrontendBundle:Category')->count(true),
-            'nbCategoriesNotVisible' => $em->getRepository('LittleBigJoeFrontendBundle:Category')->count(false),
+            'nbCategories' => $em->getRepository('LittleBigJoeCoreBundle:Category')->count(),
+            'nbCategoriesVisible' => $em->getRepository('LittleBigJoeCoreBundle:Category')->count(true),
+            'nbCategoriesNotVisible' => $em->getRepository('LittleBigJoeCoreBundle:Category')->count(false),
             // Users stats
-            'nbBrands' => $em->getRepository('LittleBigJoeFrontendBundle:Brand')->count(),
+            'nbBrands' => $em->getRepository('LittleBigJoeCoreBundle:Brand')->count(),
             // Projects contributions stats
-            'nbContributions' => $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->count(),
-            'nbSucceededContributions' => $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->count(1),
-            'nbCompletedContributions' => $em->getRepository('LittleBigJoeFrontendBundle:ProjectContribution')->count(null, 1),
+            'nbContributions' => $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->count(),
+            'nbSucceededContributions' => $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->count(1),
+            'nbCompletedContributions' => $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->count(null, 1),
         );
     }
 }

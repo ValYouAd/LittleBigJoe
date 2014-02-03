@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>              		
+        <service id="littlebigjoefrontend.twig.littlebigjoe_extension" class="LittleBigJoe\Bundle\CoreBundle\Twig\LittleBigJoeExtension">
+            <tag name="twig.extension"/>
+            <argument type="service" id="service_container"/>
+        </service>      
+        <service id="littlebigjoefrontend.listener.project" class="LittleBigJoe\Bundle\CoreBundle\EventListener\ProjectListener">
+            <tag name="doctrine.event_listener" event="onFlush" />
+            <argument type="service" id="service_container"/>
+        </service>
+        <service id="littlebigjoefrontend.listener.entry" class="LittleBigJoe\Bundle\CoreBundle\EventListener\EntryListener">
+            <tag name="doctrine.event_listener" event="postPersist" />
+            <argument type="service" id="service_container"/>
+        </service>
+        <service id="littlebigjoefrontend.listener.projectlike" class="LittleBigJoe\Bundle\CoreBundle\EventListener\ProjectLikeListener">
+            <tag name="doctrine.event_listener" event="postPersist" />
+            <argument type="service" id="service_container"/>
+        </service>
+        <service id="littlebigjoefrontend.listener.projectcontribution" class="LittleBigJoe\Bundle\CoreBundle\EventListener\ProjectContributionListener">
+            <tag name="doctrine.event_listener" event="onFlush" />
+            <argument type="service" id="service_container"/>
+        </service>
+    </services>
+</container>

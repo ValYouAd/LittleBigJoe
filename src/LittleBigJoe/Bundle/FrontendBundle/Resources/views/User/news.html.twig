@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ 'My news'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
+
+{% block body %}
+    <h2>{{ 'News'|trans() }}</h2>
+
+    {% if notifications|length > 0 %}   
+        {% for notification in notifications %}
+            <div class="well well-sm">
+                <p>
+	                {% if notification.viewed == false %}
+	                    <span class="label label-success">{{ 'New'|trans() }}</span>
+	                {% endif %}
+	            
+		            {% if notification.project.photo %}
+		                <img src="{{ asset(notification.project.photo) }}" width="200" height="200">
+		            {% else %}
+		                <strong>{{ 'No image'|trans() }}</strong>
+		            {% endif %}
+		            
+		            {% if notification.type == '0' %}
+		                {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'got'|trans() }} <strong>{{ notification.data.step }}</strong> {{ 'supporters'|trans() }}.
+		            {% elseif notification.type == '1' %}
+                        {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'got'|trans() }} <strong>{{ notification.data.step }}</strong> {{ 'participants'|trans() }}.
+                    {% elseif notification.type == '2' %}
+                        {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'posted a new entry'|trans() }} : <strong>{{ notification.entry }}</strong>.
+                    {% endif %}
+		        </p> 
+            </div>            
+        {% endfor %}
+    {% else %}
+            <p>{{ 'There\'s no news for the moment'|trans() }}</p>
+    {% endif %}
+{% endblock %}

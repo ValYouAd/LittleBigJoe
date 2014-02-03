@@ -31,6 +31,8 @@
         <input type="submit" id="_submit" name="_submit" class="btn btn-lg btn-primary btn-block"
                value="{{ 'security.login.submit'|trans }}"/>
                
+        <a href="{{ path('fos_user_resetting_request') }}">{{ 'Forgot password ?'|trans() }}</a>
+               
         <h2 class="form-signin-heading">{{ 'You can also log yourself with :'|trans() }}</h2>        
         {{ facebook_login_button({'autologoutlink': false, 'label': 'Login via Facebook'|trans() }) }}
         <a href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}">{{ 'Login via Twitter'|trans() }}</a>        

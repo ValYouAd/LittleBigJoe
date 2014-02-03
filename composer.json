@@ -4,7 +4,8 @@
     "type": "project",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { "": "src/" },
+        "Guzzle": { "": "/vendor/guzzle/src" }
     },
     "require": {
         "php": ">=5.3.3",
@@ -28,7 +29,13 @@
         "knplabs/knp-menu": "2.0.*@dev",
         "knplabs/knp-menu-bundle": "dev-master",
         "jms/i18n-routing-bundle": "dev-master",
-        "craue/formflow-bundle": "~2.0"
+        "craue/formflow-bundle": "~2.0",
+        "Trsteel/ckeditor-bundle": "~1.2.1",
+        "helios-ag/fm-elfinder-bundle": "1.x",
+        "ensepar/html2pdf" : "1.0.1",
+        "ensepar/html2pdf-bundle" : "dev-master",
+        "knplabs/knp-time-bundle" : "dev-master",
+        "guzzle/guzzle" : "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\User;
+use LittleBigJoe\Bundle\CoreBundle\Entity\User;
 use LittleBigJoe\Bundle\BackendBundle\Form\UserType;
 
 /**
@@ -29,7 +29,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT u FROM LittleBigJoeFrontendBundle:User u";
+        $dql = "SELECT u FROM LittleBigJoeCoreBundle:User u";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -49,7 +49,7 @@ class UserController extends Controller
      *
      * @Route("/", name="littlebigjoe_backendbundle_users_create")
      * @Method("POST")
-     * @Template("LittleBigJoeFrontendBundle:User:new.html.twig")
+     * @Template("LittleBigJoeBackendBundle:User:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -58,9 +58,9 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();            
             $em->persist($entity);
-
+                        
             if ($entity->getPhoto() != null) {
                 $evm = $em->getEventManager();
                 $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
@@ -69,6 +69,51 @@ class UserController extends Controller
             }
 
             $em->flush();
+            
+            // Create user in MangoPay
+            $api = $this->container->get('little_big_joe_mango_pay.api');
+            
+            // Set nationality (required for MangoPay)
+            $userLanguage = $entity->getDefaultLanguage();
+            if ($userLanguage == 'fr')
+            		$userNationality = 'FR';
+            else 
+            		$userNationality = 'EN';
+            
+            $mangopayUser = $api->createUser($entity->getEmail(), $entity->getFirstname(), $entity->getLastname(), $entity->getIpAddress(), $entity->getBirthday()->getTimestamp(), $userNationality, $entity->getPersonType(), $entity->getId());
+            if (!empty($mangopayUser))
+            {
+	            	if (!empty($mangopayUser->ID))
+	            	{
+	            			$entity->setMangopayUserId($mangopayUser->ID);
+	            	}
+	            	if (!empty($mangopayUser->CreationDate))
+	            	{
+		            		$entity->setMangopayCreatedAt(new \DateTime('@'.$mangopayUser->CreationDate));
+		            		$entity->setMangopayUpdatedAt(new \DateTime('@'.$mangopayUser->CreationDate));
+	            	}
+	            	if (!empty($mangopayUser->UpdateDate))
+	            	{
+	            			$entity->setMangopayUpdatedAt(new \DateTime('@'.$mangopayUser->UpdateDate));
+	            	}
+	            	$em->persist($entity);
+	            	$em->flush();
+            }
+            
+            // Send welcome email
+            $email = \Swift_Message::newInstance()
+					            ->setContentType('text/html')
+					            ->setSubject($this->container->get('translator')->trans('Welcome to Little Big Joe'))
+					            ->setFrom($this->container->getParameter('default_email_address'))
+					            ->setTo(array($entity->getEmail() => $entity))
+					            ->setBody(
+					            		$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:welcome.html.twig', array(
+					            				'user' => $entity,
+					            				'plainPassword' => '',
+					            				'url' => $this->container->get('request')->getSchemeAndHttpHost()
+					            		), 'text/html')
+					            );
+            $this->container->get('mailer')->send($email);
 
             return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_users_show', array('id' => $entity->getId())));
         }
@@ -127,7 +172,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:User')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -152,7 +197,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:User')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -192,13 +237,13 @@ class UserController extends Controller
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_users_update")
      * @Method("PUT")
-     * @Template("LittleBigJoeFrontendBundle:User:edit.html.twig")
+     * @Template("LittleBigJoeBackendBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:User')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -241,7 +286,7 @@ class UserController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:User')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');

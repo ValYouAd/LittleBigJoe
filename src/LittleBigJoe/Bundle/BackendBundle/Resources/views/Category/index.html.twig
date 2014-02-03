@@ -1,14 +1,14 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Categories list'|trans() }} | {{ parent() }}
+    {{ 'backend.categories_list'|trans() }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-list"></span> {{ 'Categories list'|trans() }}</h1>
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.categories_list'|trans() }}</h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find categories that have been created :'|trans() }}</p>
+    <p class="lead">{{ 'backend.categories_list_resume'|trans() }}</p>
 
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
@@ -17,12 +17,12 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>{{ knp_pagination_sortable(pagination, 'ID'|trans(), 'c.id') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Name'|trans(), 'c.name') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Slug'|trans(), 'c.slug') }}</th>
-            <th>{{ 'Related projects'|trans() }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Is visible ?'|trans(), 'c.isVisible') }}</th>
-            <th>{{ 'Actions'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.ID'|trans(), 'c.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'c.name') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.slug'|trans(), 'c.slug') }}</th>
+            <th>{{ 'backend.related_projects'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.is_visible'|trans(), 'c.isVisible') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -36,16 +36,16 @@
                 <td>{{ entity.projects|length }}</td>
                 <td>
                     {% if entity.isVisible %}
-                        <span class="label label-success">{{ 'Visible'|trans() }}</span>
+                        <span class="label label-success">{{ 'backend.visible'|trans() }}</span>
                     {% else %}
-                        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
+                        <span class="label label-default">{{ 'backend.invisible'|trans() }}</span>
                     {% endif %}
                 </td>
                 <td>
                     <a class="btn btn-primary btn-xs"
-                       href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.id }) }}">{{ 'Show'|trans() }}</a>
+                       href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
                     <a class="btn btn-default btn-xs"
-                       href="{{ path('littlebigjoe_backendbundle_categories_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans() }}</a>
+                       href="{{ path('littlebigjoe_backendbundle_categories_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
                 </td>
             </tr>
         {% endfor %}
@@ -58,7 +58,7 @@
 
     <p>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_categories_new') }}">
-            {{ 'Create a new category'|trans() }}
+            {{ 'backend.create_category'|trans() }}
         </a>
     </p>
 {% endblock %}

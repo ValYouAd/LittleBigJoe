@@ -16,21 +16,48 @@ class FaqType extends AbstractType
     {
         $builder
             ->add('translations', 'a2lix_translations_gedmo', array(
-                'translatable_class' => "LittleBigJoe\Bundle\FrontendBundle\Entity\Faq",
+                'translatable_class' => "LittleBigJoe\Bundle\CoreBundle\Entity\Faq",
                 'fields' => array(
                     'question' => array(
-                        'type' => 'textarea',
-                        'label' => 'Question'
-                    ),
+                        'type' => 'ckeditor',
+                        'label' => 'backend.question',
+                    		'required' => false,
+				                'label' => 'backend.description',
+				            		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),
+				                'toolbar_groups' => array(
+				                    'document' => array('Source'),
+						            		'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
+						            		'editing' => array(),
+						            		'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
+						            		'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
+						            		'links' => array('Link','oembed', 'Unlink','Anchor'),
+						            		'insert' => array('Image','Table'),
+						            		'styles' => array('Styles','Format'),
+						            		'tools' => array('Maximize')
+				                )
+				            ),
                     'answer' => array(
-                        'type' => 'textarea',
-                        'label' => 'Answer'
+                        'type' => 'ckeditor',
+                        'label' => 'backend.answer',
+                    		'required' => false,
+                    		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),
+                    		'toolbar_groups' => array(
+                    				'document' => array('Source'),
+                    				'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
+                    				'editing' => array(),
+                    				'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
+                    				'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
+                    				'links' => array('Link','oembed', 'Unlink','Anchor'),
+                    				'insert' => array('Image','Table'),
+                    				'styles' => array('Styles','Format'),
+                    				'tools' => array('Maximize')
+                    		)
                     )
                 )
             ))
             ->add('isVisible', 'choice', array(
-                'label' => 'Visibility',
-                'choices' => array(0 => 'Not visible', 1 => 'Visible')
+                'label' => 'backend.visibility',
+                'choices' => array(0 => 'backend.invisible', 1 => 'backend.visible')
             ));
     }
 
@@ -40,7 +67,7 @@ class FaqType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\Faq'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Faq'
         ));
     }
 
@@ -49,6 +76,6 @@ class FaqType extends AbstractType
      */
     public function getName()
     {
-        return 'littlebigjoe_bundle_frontendbundle_faq';
+        return 'littlebigjoe_bundle_backendbundle_faq';
     }
 }

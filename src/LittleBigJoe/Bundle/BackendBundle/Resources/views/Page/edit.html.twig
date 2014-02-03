@@ -1,29 +1,29 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Edit page'|trans() }} {{ entity.title }} | {{ parent() }}
+    {{ 'backend.edit_page'|trans() }} {{ entity.title }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'Edit page'|trans() }} <span
+        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'backend.edit_page'|trans() }} <span
                     class="text-primary">{{ entity.title }}</span></h1>
     </div>
-    <p class="lead">{{ 'Please fill these fields, to edit the page :'|trans() }}</p>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
 
     {{ form(edit_form, {attr:{role:'form' }}) }}
 
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_pages') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
     </p>
 
     <div class="clearfix">&nbsp;</div>
     <fieldset>
-        <legend>{{ 'Delete this page'|trans() }}</legend>
-        <p>{{ 'By clicking on the button below, you\'ll delete the page'|trans() }}</p>
+        <legend>{{ 'backend.delete_page'|trans() }}</legend>
+        <p>{{ 'backend.delete_confirmation_page'|trans() }}</p>
 
         {{ form(delete_form, {attr:{role:'form' }}) }}
     </fieldset>
@@ -32,31 +32,8 @@
 
 {% block footer_javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/littlebigjoebackend/ckeditor/ckeditor.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            // CKEditor
-            var ckeditor_conf = [
-                { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'NewPage', '-', 'Templates' ] },
-                { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-                { name: 'editing', groups: [ 'spellchecker' ], items: [ 'Scayt' ] },
-                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-                { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-                { name: 'tools', items: [ 'Maximize' ] },
-                '/',
-                { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
-                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ] },
-            ];
-
-            CKEDITOR.replace('littlebigjoe_bundle_frontendbundle_page_translations_defaultLocale_en_content', {
-                toolbar: ckeditor_conf
-            });
-
-            CKEDITOR.replace('littlebigjoe_bundle_frontendbundle_page_translations_translations_fr_content', {
-                toolbar: ckeditor_conf
-            });
-
             $('#littlebigjoe_bundle_frontendbundle_page_translations_defaultLocale_en_title').on('keyup', null, function () {
                 var rExps = [
                     {re: /[\xC0-\xC6]/g, ch: 'A'},

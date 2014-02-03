@@ -1,65 +1,96 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Project contribution'|trans() }} #{{ entity.id }} | {{ parent() }}
+    {{ 'backend.contribution'|trans() }} #{{ entity.id }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-search"></span> {{ 'Project contribution'|trans() }} <span
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.contribution'|trans() }} <span
                     class="text-primary">#{{ entity.id }}</span></h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find some informations regarding the project contribution :'|trans() }}</p>
+    <p class="lead">{{ 'backend.contribution_resume'|trans() }}</p>
 
-    <div class="page-header">
-        <h3>{{ 'Related infos'|trans() }}</h3>
+		<div class="clearfix">&nbsp;</div>
+		
+		<ul class="nav nav-tabs" id="tabs">
+		  <li class="active"><a href="#related">{{ 'backend.related_infos'|trans() }}</a></li>
+		  <li><a href="#mangopay">{{ 'backend.mangopay_infos'|trans() }}</a></li>
+		</ul>
+		
+		<div class="tab-content">
+			<div class="tab-pane active" id="related">
+		    <div class="clearfix">&nbsp;</div>
+		    <p>{{ 'backend.associated_project'|trans() }} : <a
+		                href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.project.id }) }}"><strong>{{ entity.project }}</strong></a>
+		    </p>
+		    <p>{{ 'backend.associated_user'|trans() }} : <a
+		                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
+		    </p>
+		    <p>{{ 'backend.associated_reward'|trans() }} : <strong>{{ entity.reward }}</strong></p>
+			</div>
+    
+    	<div class="tab-pane" id="mangopay">
+		    <div class="clearfix">&nbsp;</div>
+		    <p>{{ 'backend.mangopay_contribution_id'|trans() }} : <strong>{{ entity.mangopayContributionId }}</strong></p>
+		    <p>{{ 'backend.mangopay_amount'|trans() }} : <strong>{{ entity.mangopayAmount }}</strong></p>
+		    <p>{{ 'backend.succeeded_payment'|trans() }} :
+		        {% if entity.mangopayIsSucceeded %}
+		            <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+		        {% else %}
+		            <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+		        {% endif %}
+		    </p>
+		    <p>{{ 'backend.completed_payment'|trans() }} :
+		        {% if entity.mangopayIsCompleted %}
+		            <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+		        {% else %}
+		            <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+		        {% endif %}
+		    </p>
+		    <p>{{ 'backend.mangopay_error'|trans() }} :
+		        <strong>{% if entity.mangopayError %}{{ entity.mangopayError }}{% else %}{{ 'backend.na'|trans() }}{% endif %}</strong>
+		    </p>
+		    <p>{{ 'backend.mangopay_answer_code'|trans() }} :
+		        <strong>{% if entity.mangopayAnswerCode %}{{ entity.mangopayAnswerCode }}{% else %}{{ 'backend.na'|trans() }}{% endif %}</strong>
+		    </p>
+		    <p>{{ 'backend.mangopay_contribution_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
+		    </p>
+		    <p>{{ 'backend.mangopay_contribution_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
+		    </p>
+		    
+		    <p>{{ 'backend.mangopay_refund_id'|trans() }} : <strong>{{ entity.mangopayRefundId }}</strong></p>
+		    <p>{{ 'backend.refunded'|trans() }} :
+		        {% if entity.isRefunded %}
+		            <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+		        {% else %}
+		            <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+		        {% endif %}
+		    </p>
+		    
+    	</div>
     </div>
-    <p>{{ 'Related project'|trans() }} : <a
-                href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.project.id }) }}"><strong>{{ entity.project }}</strong></a>
-    </p>
-    <p>{{ 'Related user'|trans() }} : <a
-                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
-    </p>
-    <p>{{ 'Related reward'|trans() }} : <strong>{{ entity.reward }}</strong></p>
-
-    <div class="page-header">
-        <h3>{{ 'MangoPay infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'MangoPay contribution id'|trans() }} : <strong>{{ entity.mangopayContributionId }}</strong></p>
-    <p>{{ 'MangoPay amount'|trans() }} : <strong>{{ entity.mangopayAmount }}</strong></p>
-    <p>{{ 'MangoPay is succeeded ?'|trans() }} :
-        {% if entity.mangopayIsSucceeded %}
-            <span class="label label-success">{{ 'Succeeded'|trans() }}</span>
-        {% else %}
-            <span class="label label-default">{{ 'Not succeeded'|trans() }}</span>
-        {% endif %}
-    </p>
-    <p>{{ 'MangoPay is completed ?'|trans() }} :
-        {% if entity.mangopayIsCompleted %}
-            <span class="label label-success">{{ 'Completed'|trans() }}</span>
-        {% else %}
-            <span class="label label-default">{{ 'Not completed'|trans() }}</span>
-        {% endif %}
-    </p>
-    <p>{{ 'MangoPay error'|trans() }} :
-        <strong>{% if entity.mangopayError %}{{ entity.mangopayError }}{% else %}{{ 'N/A'|trans() }}{% endif %}</strong>
-    </p>
-    <p>{{ 'MangoPay answer code'|trans() }} :
-        <strong>{% if entity.mangopayAnswerCode %}{{ entity.mangopayAnswerCode }}{% else %}{{ 'N/A'|trans() }}{% endif %}</strong>
-    </p>
-    <p>{{ 'MangoPay user created at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
-    </p>
-    <p>{{ 'MangoPay user updated at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
-    </p>
-
+    	
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_contributions') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
         <a class="btn btn-primary"
            href="{{ path('littlebigjoe_backendbundle_contributions_edit', { 'id': entity.id }) }}">
-            {{ 'Edit this project contribution'|trans() }}
+            {{ 'backend.edit'|trans() }}
         </a>
     </p>
+{% endblock %}
+
+{% block footer_javascripts %}
+		{{ parent() }}
+		<script type="text/javascript">
+				$(document).ready(function(){
+						$('#tabs a').click(function (e) {
+						  e.preventDefault()
+						  $(this).tab('show')
+						});
+				});
+		</script>
 {% endblock %}

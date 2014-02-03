@@ -16,13 +16,13 @@ class BrandType extends AbstractType
     {
         $builder
             ->add('name', 'text', array(
-                'label' => 'Brand name'
+                'label' => 'backend.name'
             ))
             ->add('slug', 'text', array(
-                'label' => 'Slug'
+                'label' => 'backend.slug'
             ))
             ->add('logo', 'file', array(
-                'label' => 'Logo',
+                'label' => 'backend.logo',
                 'attr' => array(
                     'class' => 'file'
                 ),
@@ -30,36 +30,55 @@ class BrandType extends AbstractType
                 'mapped' => true,
                 'required' => false
             ))
-            ->add('description', 'textarea', array(
-                'label' => 'Description'
+            ->add('description', 'ckeditor', array(
+                'label' => 'backend.description',
+            		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),
+                'toolbar_groups' => array(
+                    'document' => array('Source'),
+		            		'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
+		            		'editing' => array(),
+		            		'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
+		            		'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
+		            		'links' => array('Link','oembed', 'Unlink','Anchor'),
+		            		'insert' => array('Image','Table'),
+		            		'styles' => array('Styles','Format'),
+		            		'tools' => array('Maximize')
+                )
             ))
             ->add('facebookUrl', 'url', array(
-                'label' => 'Facebook URL',
+                'label' => 'backend.facebook_url',
                 'required' => false
             ))
             ->add('twitterUrl', 'url', array(
-                'label' => 'Twitter URL',
+                'label' => 'backend.twitter_url',
                 'required' => false
             ))
             ->add('googleUrl', 'url', array(
-                'label' => 'Google+ URL',
+                'label' => 'backend.googleplus_url',
                 'required' => false
             ))
             ->add('websiteUrl', 'url', array(
-                'label' => 'Website URL',
+                'label' => 'backend.website_url',
                 'required' => false
             ))
+            ->add('minimumLikesRequired', 'integer', array(
+            		'label' => 'backend.minimum_likes_to_get'
+            ))
             ->add('contactName', 'text', array(
-                'label' => 'Contact name'
+                'label' => 'backend.contact_name',
+            		'required' => false
             ))
             ->add('contactStatus', 'text', array(
-                'label' => 'Contact status'
+                'label' => 'backend.contact_status',
+            		'required' => false
             ))
             ->add('contactPhone', 'number', array(
-                'label' => 'Contact phone number'
+                'label' => 'backend.contact_phone_number',
+            		'required' => false
             ))
             ->add('contactEmail', 'email', array(
-                'label' => 'Contact email'
+                'label' => 'backend.contact_email',
+            		'required' => false
             ));
     }
 
@@ -69,7 +88,7 @@ class BrandType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\Brand'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Brand'
         ));
     }
 
@@ -78,6 +97,6 @@ class BrandType extends AbstractType
      */
     public function getName()
     {
-        return 'littlebigjoe_bundle_frontendbundle_brand';
+        return 'littlebigjoe_bundle_backendbundle_brand';
     }
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<!-- If you delete this meta tag, Half Life 3 will never be released. -->
+	<meta name="viewport" content="width=device-width" />
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>{{ 'You\'ve been refund for your contribution'|trans() }}</title>
+</head> 
+<body bgcolor="#FFFFFF">
+	<p>{{ 'Hello'|trans() }} <strong>{{ user }}</strong>!</p>	
+	<p>{{ 'You\'ve been refunded for your contribution on the'|trans() }} {{ contribution.project }} {{ 'project'|trans() }}</p>	
+	<p>{{ 'You should receive your money in the next two days'|trans() }}</p>
+	
+	<p>{{ 'We hope to see you soon in'|trans() }} <a href="{{ url }}">{{ url }}</a></p>
+</body>
+</html>

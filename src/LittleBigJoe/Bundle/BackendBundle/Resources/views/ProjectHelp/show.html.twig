@@ -1,0 +1,54 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.project_help'|trans() }} #{{ entity.id }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.project_help'|trans() }} <span
+                    class="text-primary">#{{ entity.id }}</span></h1>
+    </div>
+    <p class="lead">{{ 'backend.project_help_resume'|trans() }}</p>
+
+        <div class="clearfix">&nbsp;</div>
+        
+           <p>{{ 'backend.id'|trans() }} : <strong>{{ entity.id }}</strong></p>
+           <p>{{ 'backend.associated_project'|trans() }} : <a
+                        href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.project.id }) }}"><strong>{{ entity.project }}</strong></a>
+            </p>
+            <p>{{ 'backend.associated_user'|trans() }} : <a
+                        href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
+            </p>
+            <p>{{ 'backend.price'|trans() }} : <strong>{{ entity.price }}</strong></p>
+            <p>{{ 'backend.currency'|trans() }} : <strong>{{ entity.currency }}</strong></p>
+            <p>{{ 'backend.quantity'|trans() }} : <strong>{{ entity.quantity }}</strong></p>
+            <p>{{ 'backend.reason'|trans() }} : <strong>{{ entity.reason }}</strong></p>
+            <p>{{ 'backend.shared_on_facebook'|trans() }} :
+               {% if entity.sharedFacebook %}
+                   <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+               {% else %}
+                   <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+               {% endif %}
+           </p>
+           <p>{{ 'backend.shared_on_twitter'|trans() }} :
+               {% if entity.sharedTwitter %}
+                   <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+               {% else %}
+                   <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+               {% endif %}
+           </p>
+           <p>{{ 'backend.created_at'|trans() }} : <strong>{{ entity.createdAt|date('d/m/y H:i:s') }}</strong>
+           </p>
+        
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_projects_helps') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+        <a class="btn btn-primary"
+           href="{{ path('littlebigjoe_backendbundle_projects_helps_edit', { 'id': entity.id }) }}">
+            {{ 'backend.edit'|trans() }}
+        </a>
+    </p>
+{% endblock %}

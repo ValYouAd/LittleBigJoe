@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\Category;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Category;
 use LittleBigJoe\Bundle\BackendBundle\Form\CategoryType;
 
 /**
@@ -29,7 +29,7 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT c FROM LittleBigJoeFrontendBundle:Category c";
+        $dql = "SELECT c FROM LittleBigJoeCoreBundle:Category c";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');
@@ -49,7 +49,7 @@ class CategoryController extends Controller
      *
      * @Route("/", name="littlebigjoe_backendbundle_categories_create")
      * @Method("POST")
-     * @Template("LittleBigJoeFrontendBundle:Category:new.html.twig")
+     * @Template("LittleBigJoeBackendBundle:Category:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -119,7 +119,7 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Category')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -144,7 +144,7 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Category')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -184,13 +184,13 @@ class CategoryController extends Controller
      *
      * @Route("/{id}", name="littlebigjoe_backendbundle_categories_update")
      * @Method("PUT")
-     * @Template("LittleBigJoeFrontendBundle:Category:edit.html.twig")
+     * @Template("LittleBigJoeBackendBundle:Category:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('LittleBigJoeFrontendBundle:Category')->find($id);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -226,7 +226,7 @@ class CategoryController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('LittleBigJoeFrontendBundle:Category')->find($id);
+            $entity = $em->getRepository('LittleBigJoeCoreBundle:Category')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Category entity.');

@@ -27,5 +27,9 @@ monolog:
 assetic:
     use_controller: true
 
-#swiftmailer:
-#    delivery_address: me@example.com
+swiftmailer: 
+    delivery_address: laurentbrieu@gmail.com
+
+# LittleBigJoeBundle Configuration
+little_big_joe_mango_pay: 
+    leetchi_base_url: '%leetchi_base_url_preprod%'

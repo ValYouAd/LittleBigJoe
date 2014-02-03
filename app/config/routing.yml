@@ -48,7 +48,12 @@ hwi_oauth_redirect:
 twitter_login:
     pattern: /login/check-twitter
     options: { i18n: false }
-    
+ 
+# FMElfinderBundle routing
+elfinder:
+    resource: "@FMElfinderBundle/Resources/config/routing.yml"
+    options: { i18n: false }
+ 
 # LittleBigJoe routing
 little_big_joe_frontend:
     resource: "@LittleBigJoeFrontendBundle/Controller/"
@@ -59,4 +64,5 @@ little_big_joe_backend:
     resource: "@LittleBigJoeBackendBundle/Controller/"
     type:     annotation
     prefix:   /admin/
+    defaults:  { _locale: en } # Force the locale, to show admin in French
     options: { i18n: false }

@@ -52,9 +52,6 @@ class ProfileFormType extends BaseType
             ->add('country', 'country', array(
                 'label' => 'Country',
             ))
-            ->add('nationality', 'text', array(
-                'label' => 'Nationality',
-            ))
             ->add('defaultLanguage', 'locale', array(
                 'label' => 'Default language',
                 'choices' => array('en' => 'English', 'fr' => 'French')
@@ -80,7 +77,7 @@ class ProfileFormType extends BaseType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\User'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\User'
         ));
     }
 

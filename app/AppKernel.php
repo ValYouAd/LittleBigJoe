@@ -26,8 +26,14 @@ class AppKernel extends Kernel
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(), // Used to translate routes
             new JMS\TranslationBundle\JMSTranslationBundle(), // Used to handle some translations
             new Craue\FormFlowBundle\CraueFormFlowBundle(), // Used for multi steps form
+        		new Trsteel\CkeditorBundle\TrsteelCkeditorBundle(), // Used to handle CKeditor
+        		new FM\ElfinderBundle\FMElfinderBundle(), // Used to handle file upload via CKeditor
+        		new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(), // Used to generate PDF file
+        		new Knp\Bundle\TimeBundle\KnpTimeBundle(), // Used for "time ago" date
             new LittleBigJoe\Bundle\BackendBundle\LittleBigJoeBackendBundle(),
             new LittleBigJoe\Bundle\FrontendBundle\LittleBigJoeFrontendBundle(),
+            new LittleBigJoe\Bundle\CoreBundle\LittleBigJoeCoreBundle(),
+            new LittleBigJoe\Bundle\MangoPayBundle\LittleBigJoeMangoPayBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

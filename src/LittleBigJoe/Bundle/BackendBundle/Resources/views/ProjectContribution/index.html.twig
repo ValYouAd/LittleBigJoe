@@ -1,14 +1,14 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Contributions list'|trans() }} | {{ parent() }}
+    {{ 'backend.contributions_list'|trans() }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-list"></span> {{ 'Contributions list'|trans() }}</h1>
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.contributions_list'|trans() }}</h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find contributions made on the website :'|trans() }}</p>
+    <p class="lead">{{ 'backend.contributions_list_resume'|trans() }}</p>
 
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
@@ -17,13 +17,14 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>{{ knp_pagination_sortable(pagination, 'ID'|trans(), 'pc.id') }}</th>
-            <th>{{ 'Project'|trans() }}</th>
-            <th>{{ 'Creator'|trans() }}</th>
-            <th>{{ 'Reward'|trans() }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Mangopay success ?'|trans(), 'pc.mangopayIsSucceeded') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Mangopay completion ?'|trans(), 'pc.mangopayIsCompleted') }}</th>
-            <th>{{ 'Actions'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.id'|trans(), 'pc.id') }}</th>
+            <th>{{ 'backend.project'|trans() }}</th>
+            <th>{{ 'backend.creator'|trans() }}</th>
+            <th>{{ 'backend.reward'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.amount'|trans(), 'pc.mangopayAmount') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.succeeded_payment'|trans(), 'pc.mangopayIsSucceeded') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.completed_payment'|trans(), 'pc.mangopayIsCompleted') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -39,25 +40,26 @@
                     <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}">{{ entity.user }}</a>
                 </td>
                 <td>{{ entity.reward }}</td>
+               	<td>{{ entity.mangopayAmount }} {{ '€'|trans() }}</td>
                 <td>
                     {% if entity.mangopayIsSucceeded %}
-                        <span class="label label-success">{{ 'Succeeded'|trans() }}</span>
+                        <span class="label label-success">{{ 'backend.success'|trans() }}</span>
                     {% else %}
-                        <span class="label label-default">{{ 'Not succeeded'|trans() }}</span>
+                        <span class="label label-default">{{ 'backend.failure'|trans() }}</span>
                     {% endif %}
                 </td>
                 <td>
                     {% if entity.mangopayIsCompleted %}
-                        <span class="label label-success">{{ 'Completed'|trans() }}</span>
+                        <span class="label label-success">{{ 'backend.completed'|trans() }}</span>
                     {% else %}
-                        <span class="label label-default">{{ 'Not completed'|trans() }}</span>
+                        <span class="label label-default">{{ 'backend.not_completed'|trans() }}</span>
                     {% endif %}
                 </td>
                 <td>
                     <a class="btn btn-primary btn-xs"
-                       href="{{ path('littlebigjoe_backendbundle_contributions_show', { 'id': entity.id }) }}">{{ 'Show'|trans() }}</a>
+                       href="{{ path('littlebigjoe_backendbundle_contributions_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
                     <a class="btn btn-default btn-xs"
-                       href="{{ path('littlebigjoe_backendbundle_contributions_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans() }}</a>
+                       href="{{ path('littlebigjoe_backendbundle_contributions_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
                 </td>
             </tr>
         {% endfor %}
@@ -70,7 +72,7 @@
 
     <p>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_contributions_new') }}">
-            {{ 'Create a new contribution'|trans() }}
+            {{ 'backend.create_contribution'|trans() }}
         </a>
     </p>
 {% endblock %}

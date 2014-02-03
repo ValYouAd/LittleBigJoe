@@ -1,57 +1,31 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Edit user'|trans() }} {{ entity }} | {{ parent() }}
+    {{ 'backend.edit_user'|trans() }} {{ entity }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'Edit user'|trans() }} <span
+        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'backend.edit_user'|trans() }} <span
                     class="text-primary">{{ entity }}</span></h1>
     </div>
-    <p class="lead">{{ 'Please fill these fields, to edit the user :'|trans() }}</p>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
 
     {{ form(edit_form, {attr:{role:'form' }}) }}
 
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_users') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
     </p>
 
     <div class="clearfix">&nbsp;</div>
     <fieldset>
-        <legend>{{ 'Delete this user'|trans() }}</legend>
-        <p>{{ 'By clicking on the button below, you\'ll delete the user'|trans() }}</p>
+        <legend>{{ 'backend.delete_user'|trans() }}</legend>
+        <p>{{ 'backend.delete_confirmation_user'|trans() }}</p>
 
         {{ form(delete_form, {attr:{role:'form' }}) }}
     </fieldset>
     <div class="clearfix">&nbsp;</div>
-{% endblock %}
-
-{% block footer_javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bundles/littlebigjoebackend/ckeditor/ckeditor.js') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            // CKEditor
-            var ckeditor_conf = [
-                { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'NewPage', '-', 'Templates' ] },
-                { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-                { name: 'editing', groups: [ 'spellchecker' ], items: [ 'Scayt' ] },
-                { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-                { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-                { name: 'tools', items: [ 'Maximize' ] },
-                '/',
-                { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
-                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ] },
-            ];
-
-            CKEDITOR.replace('littlebigjoe_bundle_frontendbundle_user_bio', {
-                toolbar: ckeditor_conf
-            });
-        });
-    </script>
 {% endblock %}

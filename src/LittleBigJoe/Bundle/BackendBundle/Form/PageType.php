@@ -16,33 +16,46 @@ class PageType extends AbstractType
     {
         $builder
             ->add('translations', 'a2lix_translations_gedmo', array(
-                'translatable_class' => "LittleBigJoe\Bundle\FrontendBundle\Entity\Page",
+                'translatable_class' => "LittleBigJoe\Bundle\CoreBundle\Entity\Page",
                 'fields' => array(
                     'title' => array(
                         'type' => 'text',
-                        'label' => 'Title'
+                        'label' => 'backend.title'
                     ),
                     'slug' => array(
                         'type' => 'text',
-                        'label' => 'Slug'
+                        'label' => 'backend.slug'
                     ),
                     'metaTitle' => array(
                         'type' => 'text',
-                        'label' => 'META Title'
+                        'label' => 'backend.meta_title'
                     ),
                     'metaDescription' => array(
                         'type' => 'textarea',
-                        'label' => 'META Description'
+                        'label' => 'backend.meta_description'
                     ),
                     'content' => array(
-                        'type' => 'textarea',
-                        'label' => 'Content'
+                        'type' => 'ckeditor',
+                        'label' => 'backend.content',
+                    		'required' => false,
+                    		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),
+                    		'toolbar_groups' => array(
+                    				'document' => array('Source'),
+                    				'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
+                    				'editing' => array(),
+                    				'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
+                    				'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
+                    				'links' => array('Link','oembed', 'Unlink','Anchor'),
+                    				'insert' => array('Image','Table'),
+                    				'styles' => array('Styles','Format'),
+                    				'tools' => array('Maximize')
+                    		)
                     )
                 )
             ))
             ->add('isVisible', 'choice', array(
-                'label' => 'Visibility',
-                'choices' => array(0 => 'Not visible', 1 => 'Visible')
+                'label' => 'backend.visibility',
+                'choices' => array(0 => 'backend.invisible', 1 => 'backend.visible')
             ));
     }
 
@@ -52,7 +65,7 @@ class PageType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\Page'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Page'
         ));
     }
 
@@ -61,6 +74,6 @@ class PageType extends AbstractType
      */
     public function getName()
     {
-        return 'littlebigjoe_bundle_frontendbundle_page';
+        return 'littlebigjoe_bundle_backendbundle_page';
     }
 }

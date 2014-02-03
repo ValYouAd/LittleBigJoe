@@ -3,66 +3,70 @@
 {% block body %}
     <h1>{{ 'Search for '|trans() }} <strong>{{ search }}</strong></h1>
 
-		<div class="navigation">
-        {{ knp_pagination_render(pagination) }}
-    </div>
-
-		{% if projects is not empty %}
-				<h2>{{ 'Projects'|trans() }}</h2>
-        {% for project in projects %}
-            {% if project.photo %}
-                <img src="{{ asset(project.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
-
-            {% if project.brand.logo %}
-                <img src="{{ asset(project.brand.logo) }}" width="50" height="50">
-            {% endif %}
-
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a>
-            </h3>
-            {% if project.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-            {% endif %}
-
-            <p>{{ project.pitch }}</p>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': project.user.id}) }}">{{ project.user }}</a>
-            </p>
-        {% endfor %}
-    {% endif %}
-
-    {% if users is not empty %}    		
-				<h2>{{ 'Users'|trans() }}</h2>
-        {% for user in users %}
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': user.id}) }}">{{ user }}</a>
-            </h3>
-
-            {% if user.facebookUrl %}<a href="{{ user.facebookUrl }}">{{ 'Facebook URL'|trans() }}</a>{% endif %}
-            {% if user.twitterUrl %}<a href="{{ user.twitterUrl }}">{{ 'Twitter URL'|trans() }}</a>{% endif %}
-            {% if user.googleUrl %}<a href="{{ user.googleUrl }}">{{ 'Google URL'|trans() }}</a>{% endif %}
-
-            <div class="clearfix">&nbsp;</div>
-            {% if user.websiteUrl %}<a href="{{ user.websiteUrl }}">{{ user.websiteUrl }}</a>{% endif %}
-            <div class="clearfix">&nbsp;</div>
-
-            {% if user.photo %}
-                <img src="{{ asset(user.photo) }}" width="250">
-            {% else %}
-                <strong>{{ 'N/A'|trans() }}</strong>
-            {% endif %}
-
-            <h4>{{ 'Biography'|trans() }}</h4>
-            <p>{{ user.bio }}</p>
-        {% endfor %}
-    {% endif %}
+		{% if projects is not empty or users is not empty %}
+				<div class="navigation">
+		        {{ knp_pagination_render(pagination) }}
+		    </div>
     
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
-    </div>
+				{% if projects is not empty %}
+						<h2>{{ 'Projects'|trans() }}</h2>
+		        {% for project in projects %}
+		            {% if project.photo %}
+		                <img src="{{ asset(project.photo) }}" width="200" height="200">
+		            {% else %}
+		                <strong>{{ 'No image'|trans() }}</strong>
+		            {% endif %}
+		
+		            {% if project.brand.logo %}
+		                <img src="{{ asset(project.brand.logo) }}" width="50" height="50">
+		            {% endif %}
+		
+		            <h3>
+		                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a>
+		            </h3>
+		            {% if project.status == '1' %}
+		                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+		            {% else %}
+		                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+		            {% endif %}
+		
+		            <p>{{ project.pitch }}</p>
+		            <p>{{ 'By'|trans() }} <a
+		                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': project.user.id}) }}">{{ project.user }}</a>
+		            </p>
+		        {% endfor %}
+		    {% endif %}
+		
+		    {% if users is not empty %}    		
+						<h2>{{ 'Users'|trans() }}</h2>
+		        {% for user in users %}
+		            <h3>
+		                <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': user.id}) }}">{{ user }}</a>
+		            </h3>
+		
+		            {% if user.facebookUrl %}<a href="{{ user.facebookUrl }}">{{ 'Facebook URL'|trans() }}</a>{% endif %}
+		            {% if user.twitterUrl %}<a href="{{ user.twitterUrl }}">{{ 'Twitter URL'|trans() }}</a>{% endif %}
+		            {% if user.googleUrl %}<a href="{{ user.googleUrl }}">{{ 'Google URL'|trans() }}</a>{% endif %}
+		
+		            <div class="clearfix">&nbsp;</div>
+		            {% if user.websiteUrl %}<a href="{{ user.websiteUrl }}">{{ user.websiteUrl }}</a>{% endif %}
+		            <div class="clearfix">&nbsp;</div>
+		
+		            {% if user.photo %}
+		                <img src="{{ asset(user.photo) }}" width="250">
+		            {% else %}
+		                <strong>{{ 'N/A'|trans() }}</strong>
+		            {% endif %}
+		
+		            <h4>{{ 'Biography'|trans() }}</h4>
+		            <p>{{ user.bio }}</p>
+		        {% endfor %}
+		    {% endif %}
+    
+		    <div class="navigation">
+		        {{ knp_pagination_render(pagination) }}
+		    </div>
+		{% else %}   
+		    <p>{{ 'There\'s no results for your search'|trans() }}</p>
+		{% endif %}
 {% endblock %}

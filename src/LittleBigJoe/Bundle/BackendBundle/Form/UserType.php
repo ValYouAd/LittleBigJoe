@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
-use LittleBigJoe\Bundle\FrontendBundle\Entity\User;
+use LittleBigJoe\Bundle\CoreBundle\Entity\User;
 
 class UserType extends BaseType
 {
@@ -21,46 +21,43 @@ class UserType extends BaseType
 
         $builder
             ->add('firstname', 'text', array(
-                'label' => 'Firstname'
+                'label' => 'backend.firstname'
             ))
             ->add('lastname', 'text', array(
-                'label' => 'Lastname'
+                'label' => 'backend.lastname'
             ))
             ->add('birthday', 'birthday', array(
-                'label' => 'Birthday date',
+                'label' => 'backend.birthday_date',
                 'years' => range(date('Y') - 100, date('Y'))
             ))
             ->add('facebookUrl', 'url', array(
-                'label' => 'Facebook URL',
+                'label' => 'backend.facebook_url',
                 'required' => false
             ))
             ->add('twitterUrl', 'url', array(
-                'label' => 'Twitter URL',
+                'label' => 'backend.twitter_url',
                 'required' => false
             ))
             ->add('googleUrl', 'url', array(
-                'label' => 'Google+ URL',
+                'label' => 'backend.googleplus_url',
                 'required' => false
             ))
             ->add('websiteUrl', 'url', array(
-                'label' => 'Website URL',
+                'label' => 'backend.website_url',
                 'required' => false
             ))
             ->add('city', 'text', array(
-                'label' => 'City',
+                'label' => 'backend.city',
             ))
             ->add('country', 'country', array(
-                'label' => 'Country',
-            ))
-            ->add('nationality', 'text', array(
-                'label' => 'Nationality',
+                'label' => 'backend.country',
             ))
             ->add('defaultLanguage', 'locale', array(
-                'label' => 'Default language',
+                'label' => 'backend.default_language',
                 'required' => false
             ))
             ->add('photo', 'file', array(
-                'label' => 'Photo',
+                'label' => 'backend.photo',
                 'attr' => array(
                     'class' => 'file'
                 ),
@@ -69,16 +66,16 @@ class UserType extends BaseType
                 'required' => false
             ))
             ->add('bio', 'textarea', array(
-                'label' => 'Bio',
+                'label' => 'backend.bio',
                 'required' => false
             ))
             ->add('ipAddress', 'text', array(
-                'label' => 'IP Address',
+                'label' => 'backend.ip_address',
                 'data' => $_SERVER['REMOTE_ADDR']
             ))
             ->add('roles', 'choice', array(
-                'label' => 'Roles',
-                'choices' => array('ROLE_USER' => 'User', 'ROLE_ADMIN' => 'Admin'),
+                'label' => 'backend.roles',
+                'choices' => array('ROLE_USER' => 'backend.user', 'ROLE_ADMIN' => 'backend.admin'),
                 'multiple' => true,
                 'expanded' => false,
             ))
@@ -96,7 +93,7 @@ class UserType extends BaseType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\User'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\User'
         ));
     }
 

@@ -45,6 +45,27 @@ class ProfileListener implements EventSubscriberInterface
 
         $userManager->updateUser($user);
 
+        // Update user in MangoPay
+        $api = $this->container->get('little_big_joe_mango_pay.api');
+        
+        // Set default nationality (required for MangoPay)
+        $userLanguage = $user->getDefaultLanguage();
+        if ($userLanguage == 'fr')
+        		$userNationality = 'FR';
+        else
+        		$userNationality = 'EN';
+        
+        $mangopayUser = $api->updateUser($user->getMangopayUserId(), $user->getEmail(), $user->getFirstname(), $user->getLastname(), $user->getBirthday()->getTimestamp(), $userNationality, $user->getId());
+        if (!empty($mangopayUser))
+        {
+	        	if (!empty($mangopayUser->UpdateDate))
+	        	{
+	        			$user->setMangopayUpdatedAt(new \DateTime('@'.$mangopayUser->UpdateDate));
+	        	}
+	        	$em->persist($user);
+	        	$em->flush();
+        }
+        
         if (null === $response = $event->getResponse()) {
             $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
             return new RedirectResponse($url);

@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- If you delete this meta tag, Half Life 3 will never be released. -->
+    <meta name="viewport" content="width=device-width" />
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{{ 'A project has been reported'|trans() }}</title>
+</head> 
+<body bgcolor="#FFFFFF">
+    <p>{{ 'Hello'|trans() }},</p>  
+    <p>{{ 'A user has reported the following project : '|trans() }}{{ project }}</p> 
+    <p>{{ 'Here\'s some details regarding this report : '|trans() }}</p>
+    
+    <p>{{ 'User : '|trans() }}
+	    {% if is_granted('ROLE_USER') %}
+	        <strong>#{{ user.id }}, {{ user }}, <a href="mailto:{{ user.email }}">{{ user.email }}</a></strong>        
+	    {% else %}
+	        <strong>{{ 'N/A'|trans() }}</strong>
+	    {% endif %}
+    </p>    
+    <p>{{ 'User IP address : '|trans() }}<strong>{{ userIp }}</strong></p>
+    <p>{{ 'Report reason : '|trans() }}<strong>{{ reportReasons[report.0.value]|trans() }}</strong></p>
+    <p>{{ 'Report details : '|trans() }}<strong>{{ report.1.value|trans()|default('N/A'|trans()) }}</strong></p>
+   
+    <p>{{ 'You can access to your project at'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_project_show', {slug: project.slug}) }}">{{ project.name }}</a>
+    
+    <p>{{ 'We hope to see you soon in'|trans() }} <a href="{{ url }}">{{ url }}</a></p>
+</body>
+</html>

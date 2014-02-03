@@ -5,8 +5,8 @@
         {% if label is empty %}
             {% set label = name|humanize %}
         {% endif %}
-        <button class="btn btn-primary"
-                type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+        {% set attr = attr|merge({'class': (attr.class|default('btn btn-primary'))|trim}) %}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
     {% endspaceless %}
 {% endblock button_widget %}
 
@@ -171,7 +171,10 @@
     {% spaceless %}
         {# type="number" doesn't work with floats #}
         {% set type = type|default('text') %}
-        {{ block('form_widget_simple') }}
+        <div class="input-group">
+      		{{ block('form_widget_simple') }}
+        	<span class="input-group-addon">{{ '€'|trans() }}</span>
+       	</div>
     {% endspaceless %}
 {% endblock number_widget %}
 

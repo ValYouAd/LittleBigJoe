@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<!-- If you delete this meta tag, Half Life 3 will never be released. -->
+	<meta name="viewport" content="width=device-width" />
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>{{ 'New contribution'|trans() }}</title>
+</head> 
+<body bgcolor="#FFFFFF">
+	<p>{{ 'Hello'|trans() }} <strong>{{ user }}</strong>!</p>	
+	<p>{{ 'There\'s a new contribution on the'|trans() }} {{ project }} {{ 'project'|trans() }}</p>	
+	<p>{{ 'Here\'s the important data regarding this contribution'|trans() }}</p>
+	
+	<ul>
+			<li>{{ 'Related project'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_project_show', {slug: project.slug}) }}"><strong>{{ project }}<strong></a></li>
+			<li>{{ 'Contribution ID'|trans() }} : <strong>#{{ contribution.id }}</strong></li>
+			<li>{{ 'Contribution amount'|trans() }} : <strong>{{ contribution.mangopayAmount }} {{ '€'|trans() }}</strong></li>
+			<li>{{ 'Contributor'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_user_show', {id: contributor.id}) }}"><strong>{{ contributor }}<strong></a></li>
+	</ul>
+	
+	<p>{{ 'We hope to see you soon in'|trans() }} <a href="{{ url }}">{{ url }}</a></p>
+</body>
+</html>

@@ -1,15 +1,15 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'User'|trans() }} {{ entity }} | {{ parent() }}
+    {{ 'backend.user'|trans() }} {{ entity }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-search"></span> {{ 'User'|trans() }} <span
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.user'|trans() }} <span
                     class="text-primary">{{ entity }}</span></h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find some informations regarding the user :'|trans() }}</p>
+    <p class="lead">{{ 'backend.user_resume'|trans() }}</p>
 
     <div class="row">
         <div class="col-sm-6 col-md-3 pull-left">
@@ -17,7 +17,7 @@
                 {% if entity.photo %}
                     <img src="{{ asset(entity.photo) }}">
                 {% else %}
-                    <strong>{{ 'N/A'|trans() }}</strong>
+                    <strong>{{ 'backend.na'|trans() }}</strong>
                 {% endif %}
             </a>
         </div>
@@ -26,55 +26,75 @@
                 {{ entity.bio|raw }}
         </div>
     </div>
-
-    <div class="page-header">
-        <h3>{{ 'Social infos'|trans() }}</h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">{{ 'Facebook URL'|trans() }} : {% if entity.facebookUrl %}<a target="_blank"
-                                                                                                 href="{{ entity.facebookUrl }}">{{ entity.facebookUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
-        </li>
-        <li class="list-group-item">{{ 'Twitter URL'|trans() }} : {% if entity.twitterUrl %}<a target="_blank"
-                                                                                               href="{{ entity.twitterUrl }}">{{ entity.twitterUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
-        </li>
-        <li class="list-group-item">{{ 'Google+ URL'|trans() }} : {% if entity.googleUrl %}<a target="_blank"
-                                                                                              href="{{ entity.googleUrl }}">{{ entity.googleUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
-        </li>
-        <li class="list-group-item">{{ 'Website URL'|trans() }} : {% if entity.websiteUrl %}<a target="_blank"
-                                                                                               href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% else %}{{ 'N/A'|trans() }}{% endif %}
-        </li>
-    </ul>
-
-    <div class="page-header">
-        <h3>{{ 'Regional infos'|trans() }}</h3>
-    </div>
-    <p><strong>{{ entity.city }}, {{ entity.country }}</strong></p>
-    <p>{{ 'Nationality'|trans() }} : <strong>{{ entity.nationality }}</strong></p>
-    <p>{{ 'Default language'|trans() }} : <strong>{{ entity.defaultLanguage }}</strong></p>
-
-    <div class="page-header">
-        <h3>{{ 'Activity infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'Number of related projects'|trans() }} : <strong>{{ entity.projects|length }}</strong></p>
-    <p>{{ 'Number of posted likes'|trans() }} : <strong>{{ entity.likes|length }}</strong></p>
-    <p>{{ 'Number of contributions'|trans() }} : <strong>{{ entity.contributions|length }}</strong></p>
-
-    <div class="page-header">
-        <h3>{{ 'MangoPay infos'|trans() }}</h3>
-    </div>
-    <p>{{ 'MangoPay user id'|trans() }} : <strong>{{ entity.mangopayUserId }}</strong></p>
-    <p>{{ 'MangoPay user created at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
-    </p>
-    <p>{{ 'MangoPay user updated at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
-    </p>
-
+    
+    <div class="clearfix">&nbsp;</div>
+    
+    <ul class="nav nav-tabs" id="tabs">
+		  <li class="active"><a href="#social">{{ 'backend.social_infos'|trans() }}</a></li>
+		  <li><a href="#region">{{ 'backend.regional_infos'|trans() }}</a></li>
+		  <li><a href="#activity">{{ 'backend.activity_infos'|trans() }}</a></li>
+		  <li><a href="#mangopay">{{ 'backend.mangopay_infos'|trans() }}</a></li>
+		</ul>
+				
+   	<div class="tab-content">
+  		<div class="tab-pane active" id="social">
+		    <div class="clearfix">&nbsp;</div>
+		    <p>{{ 'backend.facebook_url'|trans() }} : {% if entity.facebookUrl %}
+		    		<a target="_blank" href="{{ entity.facebookUrl }}">{{ entity.facebookUrl }}</a>{% else %}{{ 'backend.na'|trans() }}{% endif %}
+		    </p>
+		    <p>{{ 'backend.twitter_url'|trans() }} : {% if entity.twitterUrl %}
+		    <a target="_blank" href="{{ entity.twitterUrl }}">{{ entity.twitterUrl }}</a>{% else %}{{ 'backend.na'|trans() }}{% endif %}
+	       </p>
+	       <p>{{ 'backend.googleplus_url'|trans() }} : {% if entity.googleUrl %}<a target="_blank"
+	                                                                                             href="{{ entity.googleUrl }}">{{ entity.googleUrl }}</a>{% else %}{{ 'backend.na'|trans() }}{% endif %}
+	       </p>
+	       <p>{{ 'backend.website_url'|trans() }} : {% if entity.websiteUrl %}<a target="_blank"
+	                                                                                              href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% else %}{{ 'backend.na'|trans() }}{% endif %}
+	       </p>
+		  </div>
+		  
+		  <div class="tab-pane" id="region">
+		  	<div class="clearfix">&nbsp;</div>
+		  	<p><strong>{{ entity.city }}, {{ entity.country }}</strong></p>
+		    <p>{{ 'backend.default_language'|trans() }} : <strong>{{ entity.defaultLanguage }}</strong></p>
+		  </div>
+		  
+		  <div class="tab-pane" id="activity">
+	  		<div class="clearfix">&nbsp;</div>
+		  	<p>{{ 'backend.related_projects'|trans() }} : <strong>{{ entity.projects|length }}</strong></p>
+		    <p>{{ 'backend.likes'|trans() }} : <strong>{{ entity.likes|length }}</strong></p>
+		    <p>{{ 'backend.contributions'|trans() }} : <strong>{{ entity.contributions|length }}</strong></p>
+		  </div>
+		  
+		  <div class="tab-pane" id="mangopay">
+	  		<div class="clearfix">&nbsp;</div>
+				 <p>{{ 'backend.mangopay_user_id'|trans() }} : <strong>{{ entity.mangopayUserId }}</strong></p>
+		    <p>{{ 'backend.mangopay_user_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
+		    </p>
+		    <p>{{ 'backend.mangopay_user_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
+			  </p>
+			</div>
+		</div>
+		
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_users') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_users_edit', { 'id': entity.id }) }}">
-            {{ 'Edit this user'|trans() }}
+            {{ 'backend.edit'|trans() }}
         </a>
     </p>
+{% endblock %}
+
+{% block footer_javascripts %}
+		{{ parent() }}
+		<script type="text/javascript">
+				$(document).ready(function(){
+						$('#tabs a').click(function (e) {
+						  e.preventDefault()
+						  $(this).tab('show')
+						});
+				});
+		</script>
 {% endblock %}

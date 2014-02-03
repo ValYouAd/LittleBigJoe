@@ -1,0 +1,82 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.projects_helps_list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.projects_helps_list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.projects_helps_list_resume'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.id'|trans(), 'p.id') }}</th>
+            <th>{{ 'backend.project'|trans() }}</th>
+            <th>{{ 'backend.user'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.price'|trans(), 'ph.price') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.currency'|trans(), 'ph.currency') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.quantity'|trans(), 'ph.quantity') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.shared_on_facebook'|trans(), 'ph.sharedFacebook') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.shared_on_twitter'|trans(), 'ph.sharedTwitter') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.created_at'|trans(), 'ph.createdAt') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_projects_helps_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.project.id }) }}">{{ entity.project }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}">{{ entity.user }}</a>
+                </td>
+                <td>{{ entity.price }}</td>
+                <td>{{ entity.currency }}</td>
+                <td>{{ entity.quantity }}</td>
+                <td>
+                    {% if entity.sharedFacebook %}
+                        <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+                    {% else %}
+                        <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entity.sharedTwitter %}
+                        <span class="label label-success">{{ 'backend.yes'|trans() }}</span>
+                    {% else %}
+                        <span class="label label-default">{{ 'backend.no'|trans() }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ entity.createdAt|date('d/m/Y h:i') }}</td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_projects_helps_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_projects_helps_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_projects_helps_new') }}">
+            {{ 'backend.create_project_help'|trans() }}
+        </a>
+    </p>
+{% endblock %}

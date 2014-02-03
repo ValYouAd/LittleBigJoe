@@ -1,14 +1,14 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Projects list'|trans() }} | {{ parent() }}
+    {{ 'backend.projects_list'|trans() }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-list"></span> {{ 'Projects list'|trans() }}</h1>
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.projects_list'|trans() }}</h1>
     </div>
-    <p class="lead">{{ 'Below you\'ll find projects that have been created :'|trans() }}</p>
+    <p class="lead">{{ 'backend.projects_list_resume'|trans() }}</p>
 
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
@@ -17,18 +17,18 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>{{ knp_pagination_sortable(pagination, 'ID'|trans(), 'p.id') }}</th>
-            <th>{{ 'Brand'|trans() }}</th>
-            <th>{{ 'Category'|trans() }}</th>
-            <th>{{ 'Creator'|trans() }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Name'|trans(), 'p.name') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Slug'|trans(), 'p.slug') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Likes'|trans(), 'p.likesRequired') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Amount'|trans(), 'p.amountRequired') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Status'|trans(), 'p.status') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Ending date'|trans(), 'p.endingAt') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Is deleted ?'|trans(), 'p.deletedAt') }}</th>
-            <th>{{ 'Actions'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.id'|trans(), 'p.id') }}</th>
+            <th>{{ 'backend.brand'|trans() }}</th>
+            <th>{{ 'backend.category'|trans() }}</th>
+            <th>{{ 'backend.creator'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'p.name') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.slug'|trans(), 'p.slug') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.likes'|trans(), 'p.likesRequired') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.amount'|trans(), 'p.amountRequired') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.status'|trans(), 'p.status') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.ending_at'|trans(), 'p.endingAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.is_deleted'|trans(), 'p.deletedAt') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
         </tr>
         </thead>
         <tbody>
@@ -52,24 +52,24 @@
                 <td>{{ entity.amountCount }} / {{ entity.amountRequired }}</td>
                 <td>
                     {% if entity.status == '1' %}
-                        <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
+                        <span class="label label-primary">{{ 'backend.engagement_phase'|trans() }}</span>
                     {% else %}
-                        <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+                        <span class="label label-success">{{ 'backend.funding_phase'|trans() }}</span>
                     {% endif %}
                 </td>
-                <td>{{ entity.endingAt|date('d/m/y H:i:s') }}</td>
+                <td>{{ entity.endingAt|date('d/m/Y h:i') }}</td>
                 <td>
                     {% if entity.deletedAt %}
-                        <span class="label label-default">{{ 'Deleted'|trans() }}</span>
+                        <span class="label label-default">{{ 'backend.deleted'|trans() }}</span>
                     {% else %}
-                        <span class="label label-success">{{ 'Not deleted'|trans() }}</span>
+                        <span class="label label-success">{{ 'backend.not_deleted'|trans() }}</span>
                     {% endif %}
                 </td>
                 <td>
                     <a class="btn btn-primary btn-xs"
-                       href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">{{ 'Show'|trans() }}</a>
+                       href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
                     <a class="btn btn-default btn-xs"
-                       href="{{ path('littlebigjoe_backendbundle_projects_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans() }}</a>
+                       href="{{ path('littlebigjoe_backendbundle_projects_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
                 </td>
             </tr>
         {% endfor %}
@@ -82,7 +82,7 @@
 
     <p>
         <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_projects_new') }}">
-            {{ 'Create a new project'|trans() }}
+            {{ 'backend.create_project'|trans() }}
         </a>
     </p>
 {% endblock %}

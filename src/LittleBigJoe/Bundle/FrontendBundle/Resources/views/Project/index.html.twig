@@ -7,11 +7,11 @@
 {% endblock %}
 
 {% block body %}
-    <h3>{{ 'Favorite projects'|trans() }}</h3>
-    <p><a href="{{ path('littlebigjoe_frontendbundle_project_favorite_projects') }}"
-          class="btn btn-primary">{{ 'See all favorite projects'|trans() }}</a></p>
-
     {% if favoriteProjects %}
+		    <h2>{{ 'Favorite projects'|trans() }}</h2>
+		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_favorite_projects') }}"
+		          class="btn btn-primary">{{ 'See all favorite projects'|trans() }}</a></p>
+
         {% for favoriteProject in favoriteProjects %}
             {% if favoriteProject.photo %}
                 <img src="{{ asset(favoriteProject.photo) }}" width="200" height="200">
@@ -64,11 +64,11 @@
         {% endfor %}
     {% endif %}
 
-    <h2>{{ 'Popular this week'|trans() }}</h2>
-    <p><a href="{{ path('littlebigjoe_frontendbundle_project_popular_week_projects') }}"
-          class="btn btn-primary">{{ 'See all popular projects'|trans() }}</a></p>
-
     {% if popularProjects %}
+		    <h2>{{ 'Popular this week'|trans() }}</h2>
+		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_popular_week_projects') }}"
+		          class="btn btn-primary">{{ 'See all popular projects'|trans() }}</a></p>
+
         {% for popularProject in popularProjects %}
             {% if popularProject.photo %}
                 <img src="{{ asset(popularProject.photo) }}" width="200" height="200">
@@ -121,11 +121,11 @@
         {% endfor %}
     {% endif %}
 
-    <h2>{{ 'Recently updated projects'|trans() }}</h2>
-    <p><a href="{{ path('littlebigjoe_frontendbundle_project_recently_updated_projects') }}"
-          class="btn btn-primary">{{ 'See all updated projects'|trans() }}</a></p>
-
     {% if recentlyUpdatedProjects %}
+		    <h2>{{ 'Recently updated projects'|trans() }}</h2>
+		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_recently_updated_projects') }}"
+		          class="btn btn-primary">{{ 'See all updated projects'|trans() }}</a></p>
+
         {% for recentlyUpdatedProject in recentlyUpdatedProjects %}
             {% if recentlyUpdatedProject.photo %}
                 <img src="{{ asset(recentlyUpdatedProject.photo) }}" width="200" height="200">

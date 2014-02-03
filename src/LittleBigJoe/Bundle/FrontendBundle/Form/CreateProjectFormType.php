@@ -14,7 +14,23 @@ class CreateProjectFormType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    {    		
+    		$ckeditorLanguage = $options['data']->getUser()->getDefaultLanguage();
+    		if (empty($ckeditorLanguage))
+    		{
+    				$ckeditorLanguage = 'en';
+    		}
+    		// Define default language for CKEditor interface
+    		switch ($ckeditorLanguage)
+    		{
+	    			case 'en': $ckeditorLanguage = 'en-US'; 
+	    								 break;
+	    			case 'fr': $ckeditorLanguage = 'fr-FR';
+	    								 break;
+	    			default: 	 $ckeditorLanguage = 'en-US';
+	    								 break;
+    		}
+    		
     		switch ($options['flow_step']) 
     		{
     				// Step 1 : Create my project
@@ -36,7 +52,7 @@ class CreateProjectFormType extends AbstractType
 						            ))
 						            ->add('brand', 'entity', array(
 						                'label' => 'Associated brand',
-						                'class' => 'LittleBigJoeFrontendBundle:Brand',
+						                'class' => 'LittleBigJoeCoreBundle:Brand',
 						                'property' => 'name'
 						            ))
 						            ->add('location', 'text', array(
@@ -44,7 +60,7 @@ class CreateProjectFormType extends AbstractType
 						            ))
 						            ->add('category', 'entity', array(
 						                'label' => 'Associated category',
-						                'class' => 'LittleBigJoeFrontendBundle:Category',
+						                'class' => 'LittleBigJoeCoreBundle:Category',
 						                'query_builder' => function (EntityRepository $er) {
 						                    return $er->createQueryBuilder('c')
 						                    		->where('c.isVisible = :isVisible')
@@ -54,16 +70,17 @@ class CreateProjectFormType extends AbstractType
 						            ))
 						            ->add('pitch', 'textarea', array(
 						            		'label' => 'Pitch'
-						            ));
+						            ))						            
+                                    ->add('hasBrandRepresentation', 'choice', array(
+                                		'label' => 'Does the project contains a visual or written representation of the brand ?',
+                                		'choices' => array(0 => 'No', 1 => 'Yes'),
+                                    ));
 										break;
 										
             // Step 2 : Define my goals
             case 2: $builder
 						            ->add('amountRequired', 'text', array(
 						            		'label' => 'Amount to raise'
-						            ))
-						            ->add('likesRequired', 'integer', array(
-						            		'label' => 'Likes to get'
 						            ))
 						            ->add('endingAt', 'datetime', array(
 						            		'label' => 'Project ending at'
@@ -72,14 +89,22 @@ class CreateProjectFormType extends AbstractType
 
 						// Step 3 : Present my project
             case 3: $builder
-						            ->add('description', 'textarea', array(
+						            ->add('description', 'ckeditor', array(
 						            		'label' => 'Description',
-						            		'required' => true
+						            		'data' => $options['data']->getDescription(),
+						            		'language' => $ckeditorLanguage
 						            ));
 										break;
 									
 						// Step 4 : Choose awards
-            case 4: break;
+            case 4: $builder
+						            ->add('rewards', 'collection', array(
+						            		'type' => new ProjectRewardType(),
+						            		'allow_add' => true,
+										        'allow_delete' => true,
+										        'by_reference' => false
+						            ));
+						        break;
 
             // Step 5 : Getting online
             case 5: break;
@@ -94,7 +119,7 @@ class CreateProjectFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\Project',
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Project',
         		'flow_step' => null,
         ));
     }

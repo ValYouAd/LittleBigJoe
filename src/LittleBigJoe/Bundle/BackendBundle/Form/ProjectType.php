@@ -17,19 +17,19 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name', 'text', array(
-                'label' => 'Name'
+                'label' => 'backend.name'
             ))
             ->add('slug', 'text', array(
-                'label' => 'Slug'
+                'label' => 'backend.slug'
             ))
             ->add('brand', 'entity', array(
-                'label' => 'Associated brand',
-                'class' => 'LittleBigJoeFrontendBundle:Brand',
+                'label' => 'backend.associated_brand',
+                'class' => 'LittleBigJoeCoreBundle:Brand',
                 'property' => 'name'
             ))
             ->add('category', 'entity', array(
-                'label' => 'Associated category',
-                'class' => 'LittleBigJoeFrontendBundle:Category',
+                'label' => 'backend.associated_category',
+                'class' => 'LittleBigJoeCoreBundle:Category',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                     		->where('c.isVisible = :isVisible')
@@ -38,15 +38,15 @@ class ProjectType extends AbstractType
                 }
             ))
             ->add('user', 'entity', array(
-                'label' => 'Creator',
-                'class' => 'LittleBigJoeFrontendBundle:User',
+                'label' => 'backend.creator',
+                'class' => 'LittleBigJoeCoreBundle:User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.lastname', 'ASC');
                 }
             ))
             ->add('photo', 'file', array(
-                'label' => 'Logo',
+                'label' => 'backend.logo',
                 'attr' => array(
                     'class' => 'file'
                 ),
@@ -55,45 +55,65 @@ class ProjectType extends AbstractType
                 'required' => false
             ))
             ->add('location', 'text', array(
-                'label' => 'Location'
+                'label' => 'backend.location'
             ))
             ->add('pitch', 'textarea', array(
-                'label' => 'Pitch'
+                'label' => 'backend.pitch'
             ))
             ->add('language', 'locale', array(
-                'label' => 'Language'
+                'label' => 'backend.language'
             ))
-            ->add('description', 'textarea', array(
-                'label' => 'Description'
+            ->add('description', 'ckeditor', array(
+                'label' => 'backend.description',
+            		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),
+            		'toolbar_groups' => array(
+            				'document' => array('Source'),
+            				'clipboard' => array('Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'),
+            				'editing' => array(),
+            				'basicstyles' => array('Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'),
+            				'paragraph' => array('NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft', 'JustifyCenter','JustifyRight','JustifyBlock'),
+            				'links' => array('Link','oembed', 'Unlink','Anchor'),
+            				'insert' => array('Image','Table'),
+            				'styles' => array('Styles','Format'),
+            				'tools' => array('Maximize')
+            		)
             ))
             ->add('amountRequired', 'number', array(
-                'label' => 'Amount to raise'
+                'label' => 'backend.amount_to_raise'
             ))
             ->remove('amountCount')
             ->add('likesRequired', 'integer', array(
-                'label' => 'Likes to get'
+                'label' => 'backend.likes_to_get'
             ))
             ->remove('likesCount')
             ->remove('mangopayWalletId')
             ->remove('mangopayCreatedAt')
             ->remove('mangopayUpdatedAt')
             ->add('status', 'choice', array(
-                'label' => 'Status',
-                'choices' => array(1 => 'Engagement phase', 2 => 'Funding phase')
+                'label' => 'backend.status',
+                'choices' => array(1 => 'backend.engagement_phase', 2 => 'backend.funding_phase')
             ))
             ->add('statusUpdatedAt', 'datetime', array(
-                'label' => 'Status updated at'
+                'label' => 'backend.status_updated_at'
             ))
             ->add('endingAt', 'datetime', array(
-                'label' => 'Project ending at'
+                'label' => 'backend.project_ending_at'
+            ))
+            ->add('endedAt', 'datetime', array(
+            		'label' => 'backend.project_ended_at',
+                'required' => false
             ))
             ->add('deletedAt', 'datetime', array(
-                'label' => 'Project deleted at',
+                'label' => 'backend.project_deleted_at',
                 'required' => false
             ))
             ->add('isFavorite', 'choice', array(
-                'label' => 'Visibility',
-                'choices' => array(0 => 'No', 1 => 'Yes')
+            		'label' => 'backend.is_favorite',
+            		'choices' => array(0 => 'backend.no', 1 => 'backend.yes')
+            ))
+            ->add('hasBrandRepresentation', 'choice', array(
+            		'label' => 'backend.has_brand_representation',
+            		'choices' => array(0 => 'backend.no', 1 => 'backend.yes')
             ));
     }
 
@@ -103,7 +123,7 @@ class ProjectType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\Project'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Project'
         ));
     }
 
@@ -112,6 +132,6 @@ class ProjectType extends AbstractType
      */
     public function getName()
     {
-        return 'littlebigjoe_bundle_frontendbundle_project';
+        return 'littlebigjoe_bundle_backendbundle_project';
     }
 }

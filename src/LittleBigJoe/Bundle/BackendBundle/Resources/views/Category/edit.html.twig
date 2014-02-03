@@ -1,29 +1,29 @@
 {% extends '::admin.html.twig' %}
 
 {% block title %}
-    {{ 'Edit category'|trans() }} {{ entity.name }} | {{ parent() }}
+    {{ 'backend.edit_category'|trans() }} {{ entity.name }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
     <div class="page-header">
-        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'Edit category'|trans() }} <span
+        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'backend.edit_category'|trans() }} <span
                     class="text-primary">{{ entity.name }}</span></h1>
     </div>
-    <p class="lead">{{ 'Please fill these fields, to edit the category :'|trans() }}</p>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
 
     {{ form(edit_form, {attr:{role:'form' }}) }}
 
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_categories') }}">
-            {{ 'Back to the list'|trans() }}
+            {{ 'backend.back_to_list'|trans() }}
         </a>
     </p>
 
     <div class="clearfix">&nbsp;</div>
     <fieldset>
-        <legend>{{ 'Delete this category'|trans() }}</legend>
-        <p>{{ 'By clicking on the button below, you\'ll delete the category'|trans() }}</p>
+        <legend>{{ 'backend.delete_category'|trans() }}</legend>
+        <p>{{ 'backend.delete_confirmation_category'|trans() }}</p>
 
         {{ form(delete_form, {attr:{role:'form' }}) }}
     </fieldset>

@@ -16,29 +16,29 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('translations', 'a2lix_translations_gedmo', array(
-                'translatable_class' => "LittleBigJoe\Bundle\FrontendBundle\Entity\Category",
+                'translatable_class' => "LittleBigJoe\Bundle\CoreBundle\Entity\Category",
                 'fields' => array(
                     'name' => array(
                         'type' => 'text',
-                        'label' => 'Category name'
+                        'label' => 'backend.name'
                     ),
                     'slug' => array(
                         'type' => 'text',
-                        'label' => 'Slug'
+                        'label' => 'backend.slug'
                     ),
                     'metaTitle' => array(
                         'type' => 'text',
-                        'label' => 'META Title'
+                        'label' => 'backend.meta_title'
                     ),
                     'metaDescription' => array(
                         'type' => 'textarea',
-                        'label' => 'META Description'
+                        'label' => 'backend.meta_description'
                     )
                 )
             ))
             ->add('isVisible', 'choice', array(
-                'label' => 'Visibility',
-                'choices' => array(0 => 'Not visible', 1 => 'Visible')
+                'label' => 'backend.visibility',
+                'choices' => array(0 => 'backend.invisible', 1 => 'backend.visible')
             ));
     }
 
@@ -48,7 +48,7 @@ class CategoryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\FrontendBundle\Entity\Category'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Category'
         ));
     }
 
@@ -57,6 +57,6 @@ class CategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'littlebigjoe_bundle_frontendbundle_category';
+        return 'littlebigjoe_bundle_backendbundle_category';
     }
 }
