@@ -31,9 +31,6 @@ class ReportProjectType extends AbstractType
             	'label' => 'Details',
                 'required' => false
             ))
-            ->add('submit', 'submit', array(
-                'label' => 'Report project'
-            ))
         ;
     }
     

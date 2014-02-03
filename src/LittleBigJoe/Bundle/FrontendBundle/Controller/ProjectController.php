@@ -784,31 +784,7 @@ class ProjectController extends Controller
                 $this->get('translator')->trans('Other')
             )
           );
-          $reportForm = $this->createForm(new ReportProjectType($options), null, array(
-             'action' => $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $slug))
-          ));          
-          $reportForm->handleRequest($request);
-          
-          // If report form is valid, and submitted, send mail to admin
-          if ($reportForm->isValid()) {              
-              // Send report email
-    			$email = \Swift_Message::newInstance()
-    								->setContentType('text/html')
-    								->setSubject($this->get('translator')->trans('A project has been reported'))
-    								->setFrom($this->container->getParameter('default_email_address'))
-    								->setTo($this->container->getParameter('default_email_address'))
-    								->setBody(
-										$this->renderView('LittleBigJoeFrontendBundle:Email:report_project.html.twig', array(
-											'user' => $currentUser,
-										    'userIp' => $_SERVER['REMOTE_ADDR'],
-										    'reportReasons' => $options['reportReasons'],
-										    'report' => $reportForm->getData(),
-											'project' => $entity,
-				        				    'url' => $this->get('request')->getSchemeAndHttpHost()
-										), 'text/html')
-    								);
-    			$this->get('mailer')->send($email);
-          }
+          $reportForm = $this->createForm(new ReportProjectType($options));      
           
         // Create the funding form
         $fundingForm = $this->createFormBuilder()

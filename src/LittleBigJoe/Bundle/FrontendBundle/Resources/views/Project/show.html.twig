@@ -53,7 +53,25 @@
 		
 		<hr class="clearfix" />
 		
-		{{ form(report_form, {attr:{id:'reportForm', role:'form'}}) }}
+		<div class="modal fade" id="reportProject" tabindex="-1" role="dialog" aria-labelledby="reportProjectLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="reportProjectLabel">{{ 'Report this project'|trans() }}</h4>
+              </div>
+              <div class="modal-body">
+                  {{ form(report_form, {attr:{id:'reportForm', role:'form'}}) }}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Cancel'|trans() }}</button>
+                <button type="button" id="saveReportProject" class="btn btn-primary">{{ 'Report'|trans() }}</button>
+              </div>
+            </div>
+          </div>
+        </div>  
+        
+		<a id="reportProjectButton" class="btn btn btn-info" href="#">{{ 'Report'|trans() }}</a>
 		
 		<hr class="clearfix" />
 		
@@ -494,6 +512,27 @@
                       else
                       {
                               alert("{{ 'An error has occured during nra follow. Please try again'|trans() }}"); 
+                      } 
+              });
+           });
+        
+           // Show report form
+           $('#reportProjectButton').click(function(e) {
+        	   $('#reportProject').modal();
+           });           
+        
+           // Report project request
+           $('#saveReportProject').click(function (e) {
+              $.post("{{ path('littlebigjoe_frontendbundle_ajax_report_project') }}", { 'projectId' : currentProjectId, 'data' : $('#reportProject form').serializeArray() })
+              .done(function(data) { 
+                      if (data.status == 'OK')
+                      {
+                    	  $('#reportProject').modal('hide');
+                    	  alert("{{ 'Thanks for reporting this project !'|trans() }}");   
+                      }
+                      else
+                      {
+                          alert("{{ 'An error has occured during project reporting. Please try again'|trans() }}"); 
                       } 
               });
            });

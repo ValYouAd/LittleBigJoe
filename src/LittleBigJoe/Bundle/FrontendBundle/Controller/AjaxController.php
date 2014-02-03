@@ -49,6 +49,79 @@ class AjaxController extends Controller
         return new JsonResponse(array('status' => 'OK', 'nb_notifs' => $nbNotifs));
         exit;
     }
+        
+    /**
+     * Save report project form
+     *
+     * @Route("/report-project", name="littlebigjoe_frontendbundle_ajax_report_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function reportProjectAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $projectId = (int)$this->get('request')->request->get('projectId');
+        $formData = $this->get('request')->request->get('data');
+        $options = array(
+            'reportReasons' => array(
+                $this->get('translator')->trans('Intellectual property infringement'),
+                $this->get('translator')->trans('I think this project should not be on LittleBigJoe'),
+                $this->get('translator')->trans('This is spam'),
+                $this->get('translator')->trans('Other')
+            )
+        );
+        
+        // If it's not a correct project id
+        if (empty($projectId))
+        {
+            return new JsonResponse(array('status' => 'KO ID'));
+        }
+    
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($projectId);
+    
+        // If the project doesn't exist
+        if (empty($project))
+        {
+            return new JsonResponse(array('status' => 'KO PROJECT'));
+        }
+    
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to submit this form'
+            );
+             
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_brand_show', array('slug' => $brand->getSlug())));
+            return new JsonResponse(array('status' => 'KO BRAND'));
+        }
+    
+        $email = \Swift_Message::newInstance()
+					->setContentType('text/html')
+					->setSubject($this->get('translator')->trans('A project has been reported'))
+					->setFrom($this->container->getParameter('default_email_address'))
+					->setTo($this->container->getParameter('default_email_address'))
+					->setBody(
+						$this->renderView('LittleBigJoeFrontendBundle:Email:report_project.html.twig', array(
+							'user' => $currentUser,
+						    'userIp' => $_SERVER['REMOTE_ADDR'],
+						    'reportReasons' => $options['reportReasons'],
+						    'report' => $formData,
+							'project' => $project,
+        				    'url' => $this->get('request')->getSchemeAndHttpHost()
+						), 'text/html')
+					);
+		$this->get('mailer')->send($email);
+    
+        // Make sure no code is executed after it
+        return new JsonResponse(array('status' => 'OK'));
+        exit;
+    }
+    
     
     /**
      * Save help project form
