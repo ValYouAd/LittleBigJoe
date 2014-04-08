@@ -1,209 +1,148 @@
 {% extends '::base.html.twig' %}
 
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/progress-bars.js') }}" ></script>
+{% endblock %}
+
 {% block body %}
-    {% if latestProjects %}
-    		<h2>{{ 'Latest projects'|trans() }}</h2>
-		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_latest_projects') }}"
-		          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
-    
-        {% for latestProject in latestProjects %}
-            {% if latestProject.photo %}
-                <img src="{{ asset(latestProject.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
+    <section>
 
-            {% if latestProject.brand.logo %}
-                <img src="{{ asset(latestProject.brand.logo) }}" width="50" height="50">
-            {% endif %}
-
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': latestProject.slug}) }}">{{ latestProject.name }}</a>
-            </h3>
-            {% if latestProject.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-            {% endif %}
-
-            <p>{{ latestProject.pitch }}</p>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': latestProject.user.id}) }}">{{ latestProject.user }}</a>
-            </p>
-
-            {% if latestProject.status == '1' %}
-                <p>
-                    <strong>{{ latestProject.likesCount }}</strong> {{ 'likes'|trans() }} |
-                    {% if latestProject.likesCount == 0 %}
-                        0
-                    {% elseif ((latestProject.likesCount/latestProject.likesRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((latestProject.likesCount/latestProject.likesRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} %
-                </p>
-            {% else %}
-                <p>
-                    {% if latestProject.amountCount == 0 %}
-                        0
-                    {% elseif ((latestProject.amountCount/latestProject.amountRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((latestProject.amountCount/latestProject.amountRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} % |
-                    <strong>{{ latestProject.amountCount }}</strong>{{ '€'|trans() }} |
-                    {{ latestProject.endingAt|time_remaining }}
-                </p>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+    <div class="aside-part wMosaic">
+        {% set side_menu_vars = {'brands': true, 'categories': true} %}
+        {% include "LittleBigJoeFrontendBundle:includes:aside/side-menu.html.twig" with side_menu_vars %}
+    </div>
 
     {% if popularProjects %}
-    		<h2>{{ 'Popular'|trans() }}</h2>
-		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_popular_projects') }}"
-		          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
+        <article class="top-content">
+            <div class="white-container">
+                <div class="article-header">
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-star-empty.png') }}" alt="alt-LBJ - pop icon" /> {{ 'Popular'|trans() }} <span class="grand-hotel">{{ 'projects'|trans() }}</span></h2>
+                    <a href="{{ path('littlebigjoe_frontendbundle_project') }}" class="btn classic-style">{{ 'See all projects'|trans() }}</a>
+                </div>
 
-        {% for popularProject in popularProjects %}
-            {% if popularProject.photo %}
-                <img src="{{ asset(popularProject.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
+                <div class="top-main-project">
+                    <div class="top-thumbnail-cont">
+                        {% if popularProjects.0.photo %}
+                            <img src="{{ asset(popularProjects.0.photo) }}" width="534" height="329">
+                        {% else %}
+                            <img class="top-thumbnail" src="http://placehold.it/722x445" alt="alt-LBJ" />
+                        {% endif %}
+                    </div>
 
-            {% if popularProject.brand.logo %}
-                <img src="{{ asset(popularProject.brand.logo) }}" width="50" height="50">
-            {% endif %}
+                    <div class="top-infos">
+                        <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': popularProjects.0.slug}) }}">{{ popularProjects.0.name }}</a></h3>
 
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': popularProject.slug}) }}">{{ popularProject.name }}</a>
-            </h3>
-            {% if popularProject.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-            {% endif %}
+                        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': popularProjects.0.user.id}) }}" class="author">{{ 'By'|trans() }} {{ popularProjects.0.user }}</a>
 
-            <p>{{ popularProject.pitch }}</p>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': popularProject.user.id}) }}">{{ popularProject.user }}</a>
-            </p>
+                        <p>{{ popularProjects.0.pitch }}</p>
 
-            {% if popularProject.status == '1' %}
-                <p>
-                    <strong>{{ popularProject.likesCount }}</strong> {{ 'likes'|trans() }} |
-                    {% if popularProject.likesCount == 0 %}
-                        0
-                    {% elseif ((popularProject.likesCount/popularProject.likesRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((popularProject.likesCount/popularProject.likesRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} %
-                </p>
-            {% else %}
-                <p>
-                    {% if popularProject.amountCount == 0 %}
-                        0
-                    {% elseif ((popularProject.amountCount/popularProject.amountRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((popularProject.amountCount/popularProject.amountRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} % |
-                    <strong>{{ popularProject.amountCount }}</strong>{{ '€'|trans() }} |
-                    {{ popularProject.endingAt|time_remaining }}
-                </p>
-            {% endif %}
-        {% endfor %}
+                        <div class="status-bar-container">
+                            <img src="{{ asset('static/img/bg/progress-bar.jpg') }}" alt="alt-LBJ - status bar" />
+                            {% if popularProjects.0.status == '1' %}
+                                {% if popularProjects.0.likesCount == 0 %}
+                                    {% set project_status = 0 %}
+                                {% elseif ((popularProjects.0.likesCount/popularProjects.0.likesRequired) * 100) > 100 %}
+                                    {% set project_status = 100 %}
+                                {% else %}
+                                    {% set project_status = ((popularProjects.0.likesCount/popularProjects.0.likesRequired) * 100)|number_format(1, '.', ',') %}
+                                {% endif %}
+                            {% else %}
+                                {% if popularProjects.0.amountCount == 0 %}
+                                    {% set project_status = 0 %}
+                                {% elseif ((popularProjects.0.amountCount/popularProjects.0.amountRequired) * 100) > 100 %}
+                                    {% set project_status = 100 %}
+                                {% else %}
+                                    {% set project_status = ((popularProjects.0.amountCount/popularProjects.0.amountRequired) * 100)|number_format(1, '.', ',') %}
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="status-bar-overflowed" data-status-percent="{{ project_status|default(0) }}"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {% for popularProject in popularProjects %}
+                    {% if loop.index >= 2 and loop.index < 4 %}
+                        {% if popularProject.photo %}
+                            <div class="top-secondary-project"><img class="top-thumbnail" src="{{ asset(popularProject.photo) }}" width="346" height="215" alt="alt-LBJ" /></div>
+                        {% else %}
+                            <div class="top-secondary-project"><img class="top-thumbnail" src="http://placehold.it/346x215" alt="alt-LBJ" /></div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                <div class="launch-btn"><a href="{{ path('littlebigjoe_frontendbundle_project_create_project') }}" class="btn validate-style">{{ 'Launch my project'|trans() }}</a></div>
+            </div>
+        </article>
     {% endif %}
 
-    {% if fundingProjects %}    
-		    <h2>{{ 'Projects to fund'|trans() }}</h2>
-		    <p><a href="{{ path('littlebigjoe_frontendbundle_project_funding_projects') }}"
-		          class="btn btn-primary">{{ 'See all projects'|trans() }}</a></p>
+    {% if latestProjects %}
+        <article class="wMosaic">
+            <div class="article-header">
+                <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects.png') }}" alt="alt-LBJ - projects icon" /> {{ 'Latest'|trans() }} <span class="grand-hotel">{{ 'projects'|trans() }}</span></h2>
+                <a href="{{ path('littlebigjoe_frontendbundle_project_latest_projects') }}" class="btn mosaic-style">{{ 'See all projects'|trans() }}</a>
+            </div>
 
-        {% for fundingProject in fundingProjects %}
-            {% if fundingProject.photo %}
-                <img src="{{ asset(fundingProject.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
-
-            {% if fundingProject.brand.logo %}
-                <img src="{{ asset(fundingProject.brand.logo) }}" width="50" height="50">
-            {% endif %}
-
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': fundingProject.slug}) }}">{{ fundingProject.name }}</a>
-            </h3>
-            {% if fundingProject.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-            {% endif %}
-
-            <p>{{ fundingProject.pitch }}</p>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': fundingProject.user.id}) }}">{{ fundingProject.user }}</a>
-            </p>
-
-            {% if fundingProject.status == '1' %}
-                <p>
-                    <strong>{{ fundingProject.likesCount }}</strong> {{ 'likes'|trans() }} |
-                    {% if fundingProject.likesCount == 0 %}
-                        0
-                    {% elseif ((fundingProject.likesCount/fundingProject.likesRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((fundingProject.likesCount/fundingProject.likesRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} %
-                </p>
-            {% else %}
-                <p>
-                    {% if fundingProject.amountCount == 0 %}
-                        0
-                    {% elseif ((fundingProject.amountCount/fundingProject.amountRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((fundingProject.amountCount/fundingProject.amountRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} % |
-                    <strong>{{ fundingProject.amountCount }}</strong>{{ '€'|trans() }} |
-                    {{ fundingProject.endingAt|time_remaining }}
-                </p>
-            {% endif %}
-        {% endfor %}
+            {% for latestProject in latestProjects %}
+                <div class="mosaic-container">
+                    {% set mosaic_pres_vars = {'project': latestProject} %}
+                    {% include "LittleBigJoeFrontendBundle:includes:pres/mosaic-pres.html.twig" with mosaic_pres_vars %}
+                </div>
+            {% endfor %}
+        </article>
     {% endif %}
 
-    {% if latestBrands %}
-    		<h2>{{ 'Latest brands'|trans() }}</h2>
+    {% if fundingProjects %}
+        <article class="wMosaic">
+            <div class="article-header">
+                <h2><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - funds icon" /> {{ 'Projects'|trans() }} <span class="grand-hotel">{{ 'to be funded'|trans() }}</span></h2>
+                <a href="{{ path('littlebigjoe_frontendbundle_project_latest_projects') }}" class="btn mosaic-style">{{ 'See all projects'|trans() }}</a>
+            </div>
 
-        {% for latestBrand in latestBrands %}
-            {% if latestBrand.logo %}
-                <img src="{{ asset(latestBrand.logo) }}" width="100" height="100">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
-
-            <h3>{{ latestBrand.name }}</h3>
-            {% if latestBrand.projects.0 is defined %}
-            <h4>{{ latestBrand.projects.0.name }}</h4>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': latestBrand.projects.0.user.id}) }}">{{ latestBrand.projects.0.user }}</a>
-            </p>
-            {% endif %}
-        {% endfor %}
+            {% for fundingProject in fundingProjects %}
+                <div class="mosaic-container">
+                    {% set mosaic_pres_vars = {'project': fundingProject} %}
+                    {% include "LittleBigJoeFrontendBundle:includes:pres/mosaic-pres.html.twig" with mosaic_pres_vars %}
+                </div>
+            {% endfor %}
+        </article>
     {% endif %}
 
     {% if latestProjectContributions %}
-    		<h2>{{ 'Latest contributions'|trans() }}</h2>
+        <article class="fPage">
+            <div class="white-container">
+                <div class="article-header">
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - funds icon" /> {{ 'Latest'|trans() }} <span class="grand-hotel">{{ 'contributions'|trans() }}</span></h2>
+                    <a href="#" class="btn classic-style">{{ 'See all contributions'|trans() }}</a>
+                </div>
 
-        {% for latestProjectContribution in latestProjectContributions %}
-            <h3>{{ '+'|trans() }}{{ latestProjectContribution.mangopayAmount }}{{ '€'|trans() }}</h3>
-            <p>
-            	{% if latestProjectContribution.reward %}
-            			{{ latestProjectContribution.reward.description }}
-            	{% else %}
-            			{{ 'N/A'|trans() }}
-            	{% endif %}
-            </p>
-        {% endfor %}
+                {% for latestProjectContribution in latestProjectContributions %}
+                    <div class="short-pres">
+                        {% set short_pres_vars = {'type': 'project', 'item': latestProjectContribution} %}
+                        {% include "LittleBigJoeFrontendBundle:includes:pres/short-pres.html.twig" with short_pres_vars %}
+                    </div>
+                {% endfor %}
+            </div>
+        </article>
+    {% endif %}
+
+    {% if latestBrands %}
+        <article class="fPage">
+            <div class="white-container">
+                <div class="article-header">
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-brands.png') }}" alt="alt-LBJ - brands icon" /> {{ 'Latest'|trans() }} <span class="grand-hotel">{{ 'brands quoted'|trans() }}</span></h2>
+                    <a href="{{ path('littlebigjoe_frontendbundle_brand') }}" class="btn classic-style">{{ 'See all brands'|trans() }}</a>
+                </div>
+
+                {% for latestBrand in latestBrands %}
+                    <div class="short-pres">
+                        {% set short_pres_vars = {'type': 'brand', 'item': latestBrand} %}
+                        {% include "LittleBigJoeFrontendBundle:includes:pres/short-pres.html.twig" with short_pres_vars %}
+                    </div>
+                {% endfor %}
+            </div>
+        </article>
     {% endif %}
 {% endblock %}

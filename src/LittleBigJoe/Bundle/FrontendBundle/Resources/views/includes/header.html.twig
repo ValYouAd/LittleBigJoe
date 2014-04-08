@@ -1,0 +1,81 @@
+<div class="colored-nav-container">
+    <div class="container header-container">
+
+        <nav class="navbar navbar-default navigation-container" role="navigation">
+
+            <a class="logo mascot" href="{{ path('littlebigjoe_frontendbundle_home') }}">
+                <img src="{{ asset('static/img/mascot.png') }}" alt="alt-LBJ - little big joe" />
+            </a>
+
+            <div class="navbar-header">
+                <a class="logo" href="{{ path('littlebigjoe_frontendbundle_home') }}">Little<span class="black">Big</span><span class="grand-hotel">Joe</span></a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="main-nav">
+                {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:topMenu', {'currentClass': 'active', 'allow_safe_labels': true}) }}
+
+                <form method="get" action="{{ path('littlebigjoe_frontendbundle_search') }}" role="search" name="search">
+                    <div class="form-field">
+                        <input type="text" value="{{ 'Search'|trans() }}" name="term" id="term"/>
+                        <button><img class="icon" src="{{ asset('static/img/icons/icon-search.png') }}" alt="alt-LBJ - search icon" /></button>
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right login-container" style="margin-right: -30px;">
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="dropdown login">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <div class="user-login-img-container"><img class="user-login-img" src="{{ asset('static/img/mascot.png') }}" alt="alt-LBJ - user-pic" /></div>
+                                <div class="username">
+                                    <span>{{ app.user }} </span>
+                                    (<span id="unread_notifications"></span>)
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dark-item"><a href="{{ path('fos_user_profile_show') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - profile icon" /> {{ 'My account'|trans() }}</a></li>
+                                <li class="light-item"><a href="{{ path('fos_user_profile_edit') }}"><img class="icon" src="{{ asset('static/img/icons/icon-edit.png') }}" alt="alt-LBJ - edit icon" /> {{ 'Edit'|trans() }}</a></li>
+                                <li class="dark-item"><a href="{{ path('littlebigjoe_frontendbundle_user_news') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - edit icon" /> {{ 'My news'|trans() }}</a></li>
+                                <li class="light-item"><a href="{{ path('fos_user_security_logout') }}"><img class="icon" src="{{ asset('static/img/icons/icon-logout.png') }}" alt="alt-LBJ - logout icon" /> {{ 'Logout'|trans() }}</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <a href="{{ path('fos_user_registration_register') }}" class="btn subscribe-style subscribe-btn ">{{ 'Registration'|trans() }}</a>
+                        <a href="{{ path('fos_user_security_login') }}#" class="btn login-style  login-btn">{{ 'Login'|trans() }}</a>
+                    {% endif %}
+
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div id="quick-start-container">
+    <div class="container">
+        <div class="quick-start-step step-1">
+            <span>{{ '1. Create my project'|trans() }}</span>
+        </div>
+
+        <div class="quick-start-step step-2">
+            <span>{{ '2. Engagement & funding phase'|trans() }}</span>
+        </div>
+
+        <div class="quick-start-step step-3">
+            <span>{{ '3. Launch my project'|trans() }}</span>
+        </div>
+    </div>
+</div>
+
+<div id="image-message-container">
+    <div class="container">
+        {% block trans %}
+            <p>Submit &amp; participate <span class="grand-hotel">for free</span> in projects right now, by
+            <strong>signing up</strong> <span id="imc-arrow">&#x25BC;</span></p>
+        {% endblock %}
+    </div>
+</div>

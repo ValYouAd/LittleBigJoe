@@ -7,7 +7,7 @@
 {% block sidebar %}{% endblock %}
 
 {% block body %}
-    <h2>{{ 'News'|trans() }}</h2>
+    <h1>{{ 'News'|trans() }}</h1>
 
     {% if notifications|length > 0 %}   
         {% for notification in notifications %}

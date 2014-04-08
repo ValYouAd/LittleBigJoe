@@ -243,8 +243,10 @@
 			    <p>{{ 'backend.associated_brand'|trans() }} : <a
 			                href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}"><strong>{{ entity.brand }}</strong></a>
 			    </p>
-			    <p>{{ 'backend.associated_category'|trans() }} : <a
-			                href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}"><strong>{{ entity.category }}</strong></a>
+			    <p>{{ 'backend.associated_categories'|trans() }} :
+                    {% for category in entity.categories %}
+                    <a href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': category.id }) }}">{{ category }}</a>
+                    {% endfor %}
 			    </p>
 			    <p>{{ 'backend.creator'|trans() }} : <a
 			                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>

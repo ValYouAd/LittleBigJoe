@@ -1,0 +1,2 @@
+<div id="follow{{ type|capitalize }}" class="btn follow-btn login-style" {% if status == 'followed' %}style="display:none"{% endif %}>{{ 'Follow'|trans() }}</div>
+<div id="unfollow{{ type|capitalize }}" class="btn follow-btn followed-style" {% if status == 'follow' %}style="display:none"{% endif %}>{{ 'Followed'|trans() }}</div>

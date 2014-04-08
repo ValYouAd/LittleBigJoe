@@ -1,0 +1,202 @@
+{# To make sure fields are passed to Form Flow #}
+{% do form.images.setRendered %}
+{% do form.videos.setRendered %}
+
+<style type="text/css">
+    .mediaId, .mediaType {display:none}
+    .highlightGalleryItem, .deleteGalleryItem {cursor:pointer}
+</style>
+
+<h3>{{ 'Media gallery'|trans() }}</h3>
+<div>
+    {% if productMedias %}
+        {% set showNoData = true %}
+        {% if projectMedias|length > 0 %}
+            {% set showNoData = false %}
+        {% endif %}
+        <div id="defaultMedia">
+            {% for productMedia in productMedias %}
+                {% if productMedia.highlighted %}
+                    {% include "LittleBigJoeFrontendBundle:includes:create_project/gallery_product_item.html.twig" with {'productMedia': productMedia} %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        {% if showNoData %}
+            <div class="noData" style="text-align:center">
+                <p>{{ 'There\'s no media added to your product.'|trans() }}</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="noData" style="text-align:center">
+            <p>{{ 'There\'s no media added to your product.'|trans() }}</p>
+        </div>
+    {% endif %}
+    <div class="clearfix"></div>
+    <p style="text-align:center"><span id="showGallery" class="btn btn-primary">{{ 'Add images/videos'|trans() }}</span></p>
+</div>
+<div class="clearfix">&nbsp;</div>
+
+<div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Media gallery'|trans() }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{ 'Media gallery'|trans() }} - <span class="nbGalleryElements">{{ productMedias|length() }}</span> {{ 'element(s)'|trans() }}</h4>
+            </div>
+            <div class="modal-body">
+                <div style="width:50%;float:left">
+                    <h5>{{ 'Images'|trans() }}</h5>
+                    <input type="file" class="btn btn-info btn-xs" id="selectGalleryImages" name="selectGalleryImages" style="padding:0;font-size:10px" value="{{ 'Add images'|trans() }}" multiple />
+                </div>
+                <div style="width:50%;float:left">
+                    <h5>{{ 'Videos'|trans() }}</h5>
+                    <p>{{ 'Paste your Youtube/Dailymotion/Vimeo video url'|trans() }}</p>
+                    <p>
+                        <input type="text" id="videoUrl" name="videoUrl" value="" size="15" />
+                        <span id="getVideoBtn" class="btn btn-info btn-xs" style="padding:0;font-size:10px">{{ 'Get the video'|trans() }}</span>
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="double-separator"></div>
+                <div id="gallery_container">
+                    <h5>{{ 'Your product medias'|trans() }}</h5>
+                    <div id="gallery">
+                        {% if productMedias %}
+                            {% for productMedia in productMedias %}
+                                {% include "LittleBigJoeFrontendBundle:includes:create_project/gallery_product_item.html.twig" with {'productMedia': productMedia} %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var nbItems = {{ productMedias|length() }};
+
+        $('#showGallery').click(function(){
+            $('#galleryModal').modal({'backdrop': false});
+        });
+
+        // Add image
+        $('#selectGalleryImages').fileupload({
+            dataType: 'json',
+            url: "{{ path('littlebigjoe_frontendbundle_ajax_insert_product_image') }}",
+            progress: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#fileProgress .progress-bar').css('width', progress + '%');
+                $('#fileProgress .progress-bar').attr('aria-valuenow', progress);
+            },
+            done: function (e, dataReceived) {
+                var data = dataReceived.jqXHR.responseJSON;
+                console.log(data);
+                if (data.status == 'OK')
+                {
+                    $('#gallery').append('<div id="image_' + data.id + '" style="float:left; width:30%"><img src="' + data.image + '" width="100" /><input type="checkbox" class="mediaId" name="createProduct[images][]" id="createProduct_images_' + data.id + '" value="' + data.id + '" checked="checked" /><input type="hidden" class="mediaType" name="createProduct_image_' + data.id + '_type" id="createProduct_image_' + data.id + '_type" value="image" /><div class="clearfix"></div><p><span class="highlightGalleryItem">' + ((data.highlighted == true) ? "{{ 'Highlighted'|trans() }}" : "{{ 'Highlight'|trans() }}") + '</span><span class="deleteGalleryItem">{{ 'Delete'|trans() }}</span></p></div>');
+                    nbItems++;
+                    $(".nbGalleryElements").text(nbItems);
+                }
+                else if (data.status == 'KO USER')
+                {
+                    window.location = "{{ path('fos_user_security_login') }}";
+                }
+                else if (data.status == 'KO FILE')
+                {
+                    $('#fileProgress .progress-bar').css('width', '0%');
+                    $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                    alert(selectAFileLabel);
+                }
+                else if (data.status == 'KO SIZE')
+                {
+                    $('#fileProgress .progress-bar').css('width', '0%');
+                    $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                    alert(fileSizeLabel);
+                }
+                else if (data.status == 'KO TYPE')
+                {
+                    $('#fileProgress .progress-bar').css('width', '0%');
+                    $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                    alert(wrongFileTypeLabel);
+                }
+            }
+        });
+
+        // Add video
+        $('#getVideoBtn').click(function(){
+            $.post("{{ path('littlebigjoe_frontendbundle_ajax_insert_product_video') }}", { 'videoUrl' : $('#videoUrl').val() })
+                    .done(function(data) {
+                        if (data.status == 'OK')
+                        {
+                            $('#gallery').append('<div id="video_' + data.id + '" style="float:left; width:30%"><img src="' + data.image + '" width="100" /><input type="checkbox" checked="checked" class="mediaId" name="createProduct[videos][]" id="createProduct_videos_' + data.id + '" value="' + data.id + '" /><input class="mediaType" name="createProduct_video_' + data.id + '_type" id="createProduct_video_' + data.id + '_type" value="video" /><div class="clearfix"></div><p><span class="highlightGalleryItem">' + ((data.highlighted == true) ? "{{ 'Highlighted'|trans() }}" : "{{ 'Highlight'|trans() }}") + '</span><span class="deleteGalleryItem">{{ 'Delete'|trans() }}</span></p></div>');
+                            nbItems++;
+                            $(".nbGalleryElements").text(nbItems);
+                        }
+                        else
+                        {
+                            alert("{{ 'An error has occured during video downloading. Please try again'|trans() }}");
+                        }
+                    });
+        });
+
+        // Highlight item
+        $(document).on('click', '.highlightGalleryItem', function(){
+            var mediaType = $(this).parent().parent().find('.mediaType').val();
+            var mediaId = $(this).parent().parent().find('.mediaId').val();
+
+            $.post("{{ path('littlebigjoe_frontendbundle_ajax_highlight_product_gallery_item') }}",
+                    { 'type' : mediaType, 'id' : mediaId })
+                    .done(function(data) {
+                        if (data.status == 'OK' && (mediaType == 'video' || mediaType == 'image'))
+                        {
+                            $('#gallery .highlightGalleryItem').text("{{ 'Highlight'|trans() }}");
+                            if (data.toHighlight == true)
+                            {
+                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').text("{{ 'Highlighted'|trans() }}");
+                                $('#defaultMedia').html($('#' + mediaType + '_' + mediaId).html());
+                            }
+                            else
+                            {
+                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').text("{{ 'Highlight'|trans() }}");
+                                $('#defaultMedia').empty();
+                            }
+                        }
+                        else
+                        {
+                            alert("{{ 'An error has occured during media highlighting. Please try again'|trans() }}");
+                        }
+                    });
+        });
+
+        // Delete item
+        $(document).on('click', '.deleteGalleryItem', function(){
+            var mediaType = $(this).parent().parent().find('.mediaType').val();
+            var mediaId = $(this).parent().parent().find('.mediaId').val();
+
+            $.post("{{ path('littlebigjoe_frontendbundle_ajax_remove_product_gallery_item') }}",
+                    { 'type' : mediaType, 'id' : mediaId })
+                    .done(function(data) {
+                        if (data.status == 'OK' && (mediaType == 'video' || mediaType == 'image'))
+                        {
+                            $('#' + mediaType + '_' + mediaId).remove();
+                            if ($('#defaultMedia .mediaId').val() == mediaId && $('#defaultMedia .mediaType').val() == mediaType)
+                            {
+                                $('#defaultMedia').empty();
+                            }
+                        }
+                        else
+                        {
+                            alert("{{ 'An error has occured during item deletion. Please try again'|trans() }}");
+                        }
+                    });
+        });
+    });
+</script>

@@ -6,148 +6,109 @@
 {% if entry_comment_form is defined %}{% form_theme entry_comment_form 'LittleBigJoeBackendBundle:Form:fields.html.twig' %}{% endif %}
 
 <!DOCTYPE html>
-<html lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% block meta_description %}{% endblock %}">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="{{ asset('bundles/littlebigjoebackend/assets/ico/favicon.png') }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="utf-8"/>
+    <title>{% block meta_title %}Little Big Joe{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Little Big Joe{% endblock %}"/>
+    <meta name="keywords" content="{% block meta_keywords %}little, big, joe, crowdfunding{% endblock %}"/>
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="shortcut icon" href="" />
 
-    <title>{% block title %}{{ 'Little Big Joe'|trans() }}{% endblock %}</title>
-
-    {% block css %}
-        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/bootstrap.css') }}" rel="stylesheet">
-        <link href="{{ asset('bundles/littlebigjoebackend/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('bundles/littlebigjoebackend/dist/theme.css') }}" rel="stylesheet">
-        <style type="text/css">
-            .main-content {
-                margin-top: 60px
-            }
-        </style>
-    {% endblock %}
+    <link href="{{ asset('static/less/main.less') }}" type="text/less" rel="stylesheet"/>
+    {% block header_css %}{% endblock %}
 
     {% block header_javascripts %}
-        <!--[if lt IE 9]>
-        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/html5shiv.js') }}"></script>
-        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/respond.min.js') }}"></script>
-        <![endif]-->
+        <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+        <script type="text/javascript">
+            less = {}; less.env = 'development';
+        </script>
+        <script type="text/javascript" src="{{ asset('static/js/lib/less-1.5.0.min.js') }}" ></script>
+        <script type="text/javascript" src="{{ asset('static/js/lib/jquery.min.js') }}" ></script>
+        <script type="text/javascript" src="{{ asset('static/js/lib/bootstrap.min.js') }}" ></script>
+        <script type="text/javascript" src="{{ asset('static/js/lib/sparklines.min.js') }}" ></script>
+        <script type="text/javascript" src="{{ asset('static/js/modules/quick-start.js') }}" ></script>
+        <script type="text/javascript" src="{{ asset('static/js/main.js') }}" ></script>
     {% endblock %}
 </head>
 <body>
-<div class="navbar navbar-default">
-    <div class="container">
-        <div class="navbar-header">
-            <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="{{ path('littlebigjoe_frontendbundle_home') }}" class="navbar-brand">{{ 'Little Big Joe'|trans() }}</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <div class="nav navbar-nav">
-                {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:topMenu') }}
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <form method="get" action="{{ path('littlebigjoe_frontendbundle_search') }}">
-                        <input type="text" id="term" name="term" />
-                        <input type="submit" class="btn btn-primary" value="{{ 'Go'|trans() }}" />
-                    </form>
-                </li>
-                {% if is_granted('ROLE_USER') %}
-                		<li>
-                			<p>{{ 'Welcome'|trans() }}, {{ app.user }} 
-                			<span id="unread_notifications" style="display:none;background:red;color:white;"></span><br />
-                			<a href="{{ path('fos_user_profile_show') }}">{{ 'Profile'|trans() }}</a> &nbsp;
-                			<a href="{{ path('littlebigjoe_frontendbundle_user_news') }}">{{ 'My news'|trans() }}</a> &nbsp;
-											<a href="{{ path('fos_user_security_logout') }}">{{ 'Logout'|trans() }}</a></p>
-										</li>
-		            {% else %}
-		                <li><a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans() }}</a></li>
-		                <li><a href="{{ path('fos_user_registration_register') }}">{{ 'Register'|trans() }}</a></li>
-                {% endif %}
-            </ul>
-        </div>
-        <!--/.nav-collapse -->
+    <!--[if lt IE 8]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+    <header>
+        {% block header %}
+            {% set header_vars = {'logged': false} %}
+            {% include "LittleBigJoeFrontendBundle:includes:header.html.twig" %}
+        {% endblock %}
+    </header>
+
+    <div class="container page">
+        {% block body %}{% endblock %}
+        {% block fos_user_content %}{% endblock %}
     </div>
-</div>
+    <img id="fixed-mascot" src="{{ asset('static/img/bg/fixed-mascot.png') }}" alt="alt-LBJ - mascot" />
 
-<div class="clearfix">&nbsp;</div>
-<div class="container">
-    <div class="row row-offcanvas row-offcanvas-right">
-        <div class="col-xs-12 col-sm-9">
-            <div class="row">
-                {% block body %}{% endblock %}
-                {% block fos_user_content %}{% endblock %}
-            </div>
-        </div>
-        <div id="sidebar" class="col-xs-6 col-sm-3 sidebar-offcanvas" role="navigation">
-            {% block sidebar %}
-                {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:brandMenu') }}
-                {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:categoryMenu') }}
-            {% endblock %}
-        </div>
-        <hr>
-    </div>
-	
-    {% block footer_javascripts %}   
-    		{{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();'}) }}
-				<script type="text/javascript" >
-				function goLogIn(){
-				    window.location = "{{ path('_security_check') }}";
-				}
-				
-				function onFbInit() {
-				    if (typeof(FB) != 'undefined' && FB != null ) {
-				        FB.Event.subscribe('auth.statusChange', function(response) {
-				            if (response.session || response.authResponse) {
-				                setTimeout(goLogIn, 50);
-				            } else {
-				                window.location = "{{ path('_security_logout') }}";
-				            }
-				        });
-				    }
-				}
-				</script> 		
-        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/jquery.js') }}"></script>
-        <script type="text/javascript">
-        $(document).ready(function(){
-        	// Used to retrieve user notifications 
-        	var notificationsCheck = null;
+    <footer>
+        {% block footer %}
+            {% include "LittleBigJoeFrontendBundle:includes:footer.html.twig" %}
+        {% endblock %}
 
-        	function getNotifications()
-        	{
-	        	if (notificationsCheck != null)
-	        	  clearTimeout(notificationsCheck);
-	        	
-	        	$.post("{{ path('littlebigjoe_frontendbundle_ajax_get_notifications') }}")
-                .done(function(data) {
-                    if (data.status == "OK" && data.nb_notifs > 0)
-                    {
-                    	$('#unread_notifications').text(data.nb_notifs).show();
+        {% block footer_javascripts %}
+            {{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();'}) }}
+
+            <script type="text/javascript" >
+                function goLogIn(){
+                    window.location = "{{ path('_security_check') }}";
+                }
+
+                function onFbInit() {
+                    if (typeof(FB) != 'undefined' && FB != null ) {
+                        FB.Event.subscribe('auth.statusChange', function(response) {
+                            if (response.session || response.authResponse) {
+                                setTimeout(goLogIn, 50);
+                            } else {
+                                window.location = "{{ path('_security_logout') }}";
+                            }
+                        });
                     }
-                    else 
+                }
+            </script>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    // Used to retrieve user notifications
+                    var notificationsCheck = null;
+
+                    function getNotifications()
                     {
-                    	$('#unread_notifications').empty().hide();
+                        if (notificationsCheck != null)
+                            clearTimeout(notificationsCheck);
+
+                        $.post("{{ path('littlebigjoe_frontendbundle_ajax_get_notifications') }}")
+                            .done(function(data) {
+                                if (data.status == "OK" && data.nb_notifs > 0)
+                                {
+                                    $('#unread_notifications').text(data.nb_notifs).show();
+                                }
+                                else
+                                {
+                                    $('#unread_notifications').empty().hide();
+                                }
+                                callGetNotifications();
+                            });
                     }
-                    callGetNotifications();
-	            });
-        	}
 
-        	function callGetNotifications()
-        	{
-        		notificationsCheck = setTimeout(function(){
-        			  getNotifications();   
-	        	}, 60000);
-        	}
+                    function callGetNotifications()
+                    {
+                        notificationsCheck = setTimeout(function(){
+                            getNotifications();
+                        }, 60000);
+                    }
 
-        	getNotifications();
-        });        
-        </script>
-        <script src="{{ asset('bundles/littlebigjoebackend/dist/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('bundles/littlebigjoebackend/assets/js/holder.js') }}"></script>
-    {% endblock %}
+                    getNotifications();
+                });
+            </script>
+        {% endblock %}
+    </footer>
 </body>
 </html>

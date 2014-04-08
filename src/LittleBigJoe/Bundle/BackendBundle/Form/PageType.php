@@ -19,23 +19,23 @@ class PageType extends AbstractType
                 'translatable_class' => "LittleBigJoe\Bundle\CoreBundle\Entity\Page",
                 'fields' => array(
                     'title' => array(
-                        'type' => 'text',
+                        'field_type' => 'text',
                         'label' => 'backend.title'
                     ),
                     'slug' => array(
-                        'type' => 'text',
+                        'field_type' => 'text',
                         'label' => 'backend.slug'
                     ),
                     'metaTitle' => array(
-                        'type' => 'text',
+                        'field_type' => 'text',
                         'label' => 'backend.meta_title'
                     ),
                     'metaDescription' => array(
-                        'type' => 'textarea',
+                        'field_type' => 'textarea',
                         'label' => 'backend.meta_description'
                     ),
                     'content' => array(
-                        'type' => 'ckeditor',
+                        'field_type' => 'ckeditor',
                         'label' => 'backend.content',
                     		'required' => false,
                     		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),

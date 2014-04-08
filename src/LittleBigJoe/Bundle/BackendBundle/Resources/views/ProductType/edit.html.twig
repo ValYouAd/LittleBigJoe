@@ -1,0 +1,31 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.edit_product_type'|trans() }} {{ entity.name }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'backend.edit_product_type'|trans() }} <span
+                    class="text-primary">{{ entity.name }}</span></h1>
+    </div>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
+
+    {{ form(edit_form, {attr:{role:'form' }}) }}
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_product_types') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+    </p>
+
+    <div class="clearfix">&nbsp;</div>
+    <fieldset>
+        <legend>{{ 'backend.delete_product_type'|trans() }}</legend>
+        <p>{{ 'backend.delete_confirmation_product_type'|trans() }}</p>
+
+        {{ form(delete_form, {attr:{role:'form' }}) }}
+    </fieldset>
+    <div class="clearfix">&nbsp;</div>
+{% endblock %}

@@ -27,15 +27,22 @@ class ProjectType extends AbstractType
                 'class' => 'LittleBigJoeCoreBundle:Brand',
                 'property' => 'name'
             ))
-            ->add('category', 'entity', array(
-                'label' => 'backend.associated_category',
+            ->add('productType', 'entity', array(
+                'label' => 'backend.product_type',
+                'class' => 'LittleBigJoeCoreBundle:ProductType',
+                'property' => 'name'
+            ))
+            ->add('categories', 'entity', array(
+                'label' => 'backend.associated_categories',
                 'class' => 'LittleBigJoeCoreBundle:Category',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                     		->where('c.isVisible = :isVisible')
                     		->setParameter('isVisible', true)
                         ->orderBy('c.name', 'ASC');
-                }
+                },
+                'multiple' => true,
+                'expanded' => true
             ))
             ->add('user', 'entity', array(
                 'label' => 'backend.creator',

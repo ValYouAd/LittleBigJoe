@@ -73,27 +73,6 @@ class ProjectListener extends ContainerAware
 										}	
 								}
 								
-								// Update status if likes required has been reached, and send email
-								if ($project->getLikesRequired() == $project->getLikesCount() && $project->getStatus() == '1')
-								{
-										$project->setStatus('2');
-											
-										// Send welcome email
-										$email = \Swift_Message::newInstance()
-															->setContentType('text/html')
-															->setSubject($this->container->get('translator')->trans('Your project has been updated'))
-															->setFrom($this->container->getParameter('default_email_address'))
-															->setTo(array($project->getUser()->getEmail() => $project->getUser()))
-															->setBody(
-																	$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:update_funding_phase_project.html.twig', array(
-																			'user' => $project->getUser(),
-																			'project' => $project,
-											        				'url' => $this->container->get('request')->getSchemeAndHttpHost()
-																	), 'text/html')
-															);
-										$this->container->get('mailer')->send($email);
-								}
-								
 								// Update status if amount required has been reached, and send email
 								if ($project->getAmountRequired() == $project->getAmountCount() && $project->getStatus() == '2')
 								{

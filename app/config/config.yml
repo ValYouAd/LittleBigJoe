@@ -162,8 +162,8 @@ knp_menu:
     twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
         template: knp_menu.html.twig
     templating: false # if true, enables the helper for PHP templates
-    default_renderer: twig 
-    
+    default_renderer: twig
+
 # JMSI18NRoutingBundle Configuration
 jms_i18n_routing:
     default_locale: %locale%
@@ -191,7 +191,7 @@ trsteel_ckeditor:
     height: 300 #Integer or %    
     language: 'en-US'
     # Used to aovid some problems regarding iframes/embed placeholders (check template override in /app folder)
-    custom_config: "toolbarGroups: [{ name: 'clipboard', groups: ['clipboard']}, { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] }, { name: 'links' }, { name: 'others' }, { name: 'insert', groups: ['image', 'flash', 'table'] },'/', { name: 'styles' }]"
+    custom_config: "toolbar: [{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ] }, { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] }, { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }, { name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] }, '/', { name: 'document', items: [ 'Source' ]}, { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] }]"
     external_plugins:
         oembed:
             path: js/ckeditor/plugins/oembed

@@ -1,232 +1,158 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}
-    {{ 'User'|trans() }} {{ entity }} | {{ parent() }}
+{% block meta_title %}
+    {{ entity }} | {{ parent() }}
 {% endblock %}
 
-{% block sidebar %}{% endblock %}
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/progress-bars.js') }}" ></script>
+{% endblock %}
 
 {% block body %}
-    <h2>{{ 'User'|trans() }} {{ entity }}</h2>
+    <section>
+        <div class="aside-part classic">
+            <div class="biography">
+                <h2>{{ 'Biography of'|trans() }} <span class="grand-hotel">{{ entity }}</span></h2>
+                <p>{{ entity.bio|default('N/A'|trans()) }}</p>
+            </div>
+        </div>
 
-    {% if entity.facebookUrl %}<a href="{{ entity.facebookUrl }}">{{ 'Facebook URL'|trans() }}</a>{% endif %}
-    {% if entity.twitterUrl %}<a href="{{ entity.twitterUrl }}">{{ 'Twitter URL'|trans() }}</a>{% endif %}
-    {% if entity.googleUrl %}<a href="{{ entity.googleUrl }}">{{ 'Google URL'|trans() }}</a>{% endif %}
+        <article class="wContent classic">
+            <div class="white-container">
 
-    {% set show_follow_button = true %}
-            
-    {% if (is_granted('ROLE_USER') and app.user.id != entity.id) %}            
-        {% for follower in entity.followers %}
-            {% if app.user.id == follower.id %}
-                {% set show_follow_button = false %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}    
+            <div class="wContent-id-title">
+                <h1>{{ entity }}</h1>
+                <div class="brand-location"><img class="icon" src="{{ asset('static/img/icons/icon-location.png') }}" alt="alt-LBJ - location icon" /> <strong>{{ entity.city }}</strong> ({{ entity.country|country(app.request.locale) }})</div>
 
-    {% if (is_granted('ROLE_USER') and app.user.id != entity.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
-    <div id="followBox" {% if show_follow_button != true %}style="display:none"{% endif %}>
-        <a id="followUser" class="btn btn btn-success" href="#">{{ 'Follow'|trans() }}</a>            
-    </div>
-    
-    <div id="unfollowBox" {% if show_follow_button %}style="display:none"{% endif %}>
-        <a id="currentFollowUser" class="btn btn btn-info" href="#">{{ 'Followed'|trans() }}</a>
-        <a id="unfollowUser" class="btn btn btn-danger" href="#" style="display:none">{{ 'Unfollow'|trans() }}</a>            
-    </div>  
-    {% endif %}
+                {% set status = 'follow' %}
+                {% if is_granted('ROLE_USER') %}
+                    {% for follower in entity.followers %}
+                        {% if app.user.id == follower.id %}
+                            {% set status = 'followed' %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
 
-    <div class="clearfix">&nbsp;</div>
-    {% if entity.websiteUrl %}<a href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% endif %}
-    <div class="clearfix">&nbsp;</div>
+                {% if (is_granted('ROLE_USER') and app.user.id != entity.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+                    {% include "LittleBigJoeFrontendBundle:includes:utils/follow-button.html.twig" with {'status': status, 'type': 'user'} %}
+                {% endif %}
+            </div>
 
-    {% if entity.photo %}
-        <img src="{{ asset(entity.photo) }}" width="250">
-    {% else %}
-        <strong>{{ 'N/A'|trans() }}</strong>
-    {% endif %}
+            <div class="wContent-id-img">
+                {% if entity.photo %}
+                    <img src="{{ asset(entity.photo) }}" width="243" height="243" />
+                {% else %}
+                    <img src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand" />
+                {% endif %}
+            </div>
 
-    <h2>{{ 'Biography'|trans() }}</h2>
-    <p>{{ entity.bio }}</p>
+            <div class="wContent-id-infos">
+                <div><span class="orange-text">{{ entity.projects|length|default('0') }}</span> {{ 'projects' }}</div>
+                <div>{{ 'Registered since' }} <strong>{{ entity.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
+                {% if entity.websiteUrl %}<a href="{{ entity.websiteUrl }}" target="_blank"><div class="orange-text"><strong>{{ entity.websiteUrl }}</strong></div></a>{% endif %}
+                <div class="social-links">
+                    {% if entity.twitterUrl %}<a href="{{ entity.twitterUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                    {% if entity.facebookUrl %}<a href="{{ entity.facebookUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                    {#<a href="#"><img class="icon" src="static/img/icons/icon-social-pinterest.png" alt="alt-LBJ - social" /></a>#}
+                    {% if entity.googleUrl %}<a href="{{ entity.googleUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                </div>
+            </div>
 
-    <div class="clearfix">&nbsp;</div>
-     		
-    <h2 id="projects">{{ 'His projects'|trans() }}</h2>    
-    {% if entity.projects|length > 0 %}   
-        {% for project in entity.projects %}
-            {% if project.photo %}
-                <img src="{{ asset(project.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
+            {% if entity.projects|length > 0 %}
+                <div class="article-header">
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" /> {{ 'His projects'|trans() }}</h2>
+                    <div class="separator"></div>
+                </div>
 
-            {% if project.brand.logo %}
-                <img src="{{ asset(project.brand.logo) }}" width="50" height="50">
-            {% endif %}
-
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a>
-            </h3>
-            {% if project.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-            {% endif %}
-
-            <p>{{ project.pitch }}</p>
-            <p>
-                <a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug': project.category.slug}) }}">{{ project.category }}</a>
-            </p>
-
-            {% if project.status == '1' %}
-                <p>
-                    <strong>{{ project.likesCount }}</strong> {{ 'likes'|trans() }} |
-                    {% if project.likesCount == 0 %}
-                        0
-                    {% elseif ((project.likesCount/project.likesRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((project.likesCount/project.likesRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} %
-                </p>
-            {% else %}
-                <p>
-                    {% if project.amountCount == 0 %}
-                        0
-                    {% elseif ((project.amountCount/project.amountRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((project.amountCount/project.amountRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} % |
-                    <strong>{{ project.amountCount }}</strong>{{ '€'|trans() }} |
-                    {{ project.endingAt|time_remaining }}
-                </p>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-    		<p>{{ 'There\'s no projects for the moment'|trans() }}</p>
-    {% endif %}
-    
-    <div class="clearfix">&nbsp;</div>
-    
-    <h2 id="projects_contributions">{{ 'Projects in which the user has participated'|trans() }}</h2>    
-    {% if distinctProjects|length > 0 %}  
-        {% for project in distinctProjects %}
-            {% if project.photo %}
-                <img src="{{ asset(project.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
+                {% for project in entity.projects %}
+                    <div class="list-container">
+                        {% set list_pres_vars = {'project': project} %}
+                        {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
+                    </div>
+                {% endfor %}
             {% endif %}
 
-            {% if project.brand.logo %}
-                <img src="{{ asset(project.brand.logo) }}" width="50" height="50">
-            {% endif %}
+            {% if distinctProjects|length > 0 %}
+                <div class="article-header">
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" /> {{ 'Projects in which the user has participated'|trans() }}</h2>
+                    <div class="separator"></div>
+                </div>
 
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a>
-            </h3>
-            {% if project.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
+                {% for distinctProject in distinctProjects %}
+                    <div class="list-container">
+                        {% set list_pres_vars = {'project': distinctProject} %}
+                        {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
+                    </div>
+                {% endfor %}
             {% endif %}
-
-            <p>{{ project.pitch }}</p>
-            <p>
-                <a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug': project.category.slug}) }}">{{ project.category }}</a>
-            </p>
-
-            {% if project.status == '1' %}
-                <p>
-                    <strong>{{ project.likesCount }}</strong> {{ 'likes'|trans() }} |
-                    {% if project.likesCount == 0 %}
-                        0
-                    {% elseif ((project.likesCount/project.likesRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((project.likesCount/project.likesRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} %
-                </p>
-            {% else %}
-                <p>
-                    {% if project.amountCount == 0 %}
-                        0
-                    {% elseif ((project.amountCount/project.amountRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((project.amountCount/project.amountRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} % |
-                    <strong>{{ project.amountCount }}</strong>{{ '€'|trans() }} |
-                    {{ project.endingAt|time_remaining }}
-                </p>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-    		<p>{{ 'There\'s no projects for the moment'|trans() }}</p>
-    {% endif %}
+            </div>
+        </article>
+    </section>
 {% endblock %}
 
 {% block footer_javascripts %}
 	{{ parent() }}
 	<script type="text/javascript">
 	    var currentUserId = {{ entity.id }};
+
 	    $(document).ready(function () {                
 	        // Follow request 
 	        $('#followUser').click(function (e) {
 	           $.post("{{ path('littlebigjoe_frontendbundle_ajax_follow_user') }}", { 'userId' : currentUserId })
 	           .done(function(data) { 
-	                   if (data.status == 'OK')
-	                   {
-	                           alert("{{ 'Thanks for follow this user !'|trans() }}");   
-	                           $('#followBox').hide();
-	                           $('#unfollowBox').show();
-	                   }
-	                   else if (data.status == 'KO USER')
-	                   {
-	                           window.location = "{{ path('fos_user_security_login') }}";
-	                   }
-	                   else if (data.status == 'KO FOLLOW')
-	                   {
-	                           alert("{{ 'You already have followed this user !'|trans() }}");     
-	                   }
-	                   else
-	                   {
-	                           alert("{{ 'An error has occured during user follow. Please try again'|trans() }}"); 
-	                   } 
+                   if (data.status == 'OK')
+                   {
+                           alert("{{ 'Thanks for follow this user !'|trans() }}");
+                           $('#followUser').hide();
+                           $('#unfollowUser').show();
+                   }
+                   else if (data.status == 'KO USER')
+                   {
+                           window.location = "{{ path('fos_user_security_login') }}";
+                   }
+                   else if (data.status == 'KO FOLLOW')
+                   {
+                           alert("{{ 'You already have followed this user !'|trans() }}");
+                   }
+                   else
+                   {
+                           alert("{{ 'An error has occured during user follow. Please try again'|trans() }}");
+                   }
 	           });
 	        });
-	        
-	        // Hover
-            $('#unfollowBox').hover(function(e){
-                $('#currentFollowUser').hide();
-                $('#unfollowUser').show();
-            }, function(e){
-                $('#unfollowUser').hide();
-                $('#currentFollowUser').show();
+
+            // Hover
+            $(".followed-style").hover(function(){
+                $(this).html("{{ 'Unfollow'|trans() }}");
+            }, function(){
+                $(this).html("{{ 'Followed'|trans() }}");
             });
 	        
 	        // Unfollow request 
-	           $('#unfollowUser').click(function (e) {
-	              $.post("{{ path('littlebigjoe_frontendbundle_ajax_unfollow_user') }}", { 'userId' : currentUserId })
-	              .done(function(data) { 
-	                      if (data.status == 'OK')
-	                      {
-	                              alert("{{ 'Thanks for unfollow this user !'|trans() }}");   
-	                              $('#unfollowBox').hide();
-	                              $('#followBox').show();
-	                      }
-	                      else if (data.status == 'KO USER')
-	                      {
-	                              window.location = "{{ path('fos_user_security_login') }}";
-	                      }
-	                      else if (data.status == 'KO UNFOLLOW')
-	                      {
-	                              alert("{{ 'You already have unfollowed this user !'|trans() }}");     
-	                      }
-	                      else
-	                      {
-	                              alert("{{ 'An error has occured during user unfollow. Please try again'|trans() }}"); 
-	                      } 
-	              });
-	           });
+            $('#unfollowUser').click(function (e) {
+                $.post("{{ path('littlebigjoe_frontendbundle_ajax_unfollow_user') }}", { 'userId' : currentUserId })
+                .done(function(data) {
+                    if (data.status == 'OK')
+                    {
+                          alert("{{ 'Thanks for unfollow this user !'|trans() }}");
+                          $('#unfollowUser').hide();
+                          $('#followUser').show();
+                    }
+                    else if (data.status == 'KO USER')
+                    {
+                          window.location = "{{ path('fos_user_security_login') }}";
+                    }
+                    else if (data.status == 'KO UNFOLLOW')
+                    {
+                          alert("{{ 'You already have unfollowed this user !'|trans() }}");
+                    }
+                    else
+                    {
+                          alert("{{ 'An error has occured during user unfollow. Please try again'|trans() }}");
+                    }
+                });
+            });
 	     });
 	</script>
 {% endblock %}

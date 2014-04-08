@@ -1,0 +1,217 @@
+
+<div class="outer-title">
+
+    <h1>{{ entity }}</h1>
+    {% if isPreview is not defined %}
+        {# Si l'utilisateur est un administrateur LBJ ou un administrateur de la marque #}
+        {% set canCreateProduct = false %}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            {% set canCreateProduct = true %}
+        {% elseif is_granted('ROLE_BRAND_ADMIN') %}
+            {% for brand in app.user.brands %}
+                {% if brand.id == entity.brand.id %}
+                    {% set canCreateProduct = true %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if canCreateProduct %}
+            <div class="clearfix"></div>
+            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Create product'|trans() }}</a></p>
+            <div class="clearfix"></div>
+        {% endif %}
+    {% endif %}
+
+    <div class="brand-location">
+        <img class="icon" src="{{ asset('static/img/icons/icon-location.png') }}" alt="alt-LBJ - location icon" /> <strong>{{ entity.user.city }}</strong> ({{ entity.user.country|country(app.request.locale) }})
+    </div>
+
+    <div class="keywords-container">
+        {% for category in entity.categories %}
+            <div class="keyword"><span>{{ category }}</span><img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" /></div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<div class="white-container">
+
+    <div class="tabs-container">
+        <div class="tab" id="tab_0"><img class="icon" src="{{ asset('static/img/icons/icon-projects-gray.png') }}" alt="alt-LBJ - projects icon" />{{ 'Project'|trans() }}</div>
+        <div class="tab" id="tab_1"><img class="icon" src="{{ asset('static/img/icons/icon-news.png') }}" alt="alt-LBJ - news icon" />{{ 'News'|trans() }}</div>
+        <div class="tab" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{{ 'Participants'|trans() }}</div>
+        <div class="tab" id="tab_3"><img class="icon" src="{{ asset('static/img/icons/icon-comment.png') }}" alt="alt-LBJ - comment icon" />{{ 'Comments'|trans() }}</div>
+    </div>
+
+    {# ----- TAB 'PROJET' ------ #}
+    <div class="tab-content-container" id="tabcont_0">
+        <div class="wContent-video-container">
+            {% if projectMedias is not defined %}
+                {% set projectMedias = entity.medias %}
+            {% endif %}
+
+            {% if projectMedias %}
+                {% set hasDefaultMedia = false %}
+                {% for projectMedia in projectMedias %}
+                    {% if projectMedia.highlighted %}
+                        <img src="{{ asset(projectMedia.image) }}" alt="alt-LBJ - brand" />
+                        {% set hasDefaultMedia = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if not hasDefaultMedia %}
+                    <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
+                {% endif %}
+            {% else %}
+                <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
+            {% endif %}
+        </div>
+
+        <div class="article-header">
+            <h2>{{ 'Learn more about our'|trans() }} <span class="grand-hotel">{{ 'wonderful project'|trans() }}</span></h2>
+        </div>
+
+        <div class="description-infos">
+            {{ entity.description|raw() }}
+
+            <div class="double-separator"></div>
+        </div>
+
+        {% if projectMedias %}
+        <div class="project-carousel carousel slide" id="project-carousel">
+            <div class="carousel-inner">
+                {% for projectMedia in projectMedias %}
+                    {% if loop.index0 == 0 %}
+                        <div class="item active">
+                    {% elseif loop.index0 % 3 == 0 %}
+                        </div>
+                        <div class="item">
+                    {% endif %}
+
+                    <div class="thumb-cont">
+                        <img class="carousel-thumbnail" src="{% if projectMedia.type == 'video' %}{{ projectMedia.image }}{% else %}{{ asset(projectMedia.image) }}{% endif %}" alt="alt-LBJ - project image" />
+                    </div>
+
+                    {% if loop.last %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <a class="left carousel-arrow" href="#project-carousel" data-slide="prev">
+                <img src="{{ asset('static/img/icons/icon-carousel-arrow-left.png') }}" alt="alt-LBJ - arrow left" />
+            </a>
+            <a class="right carousel-arrow" href="#project-carousel" data-slide="next">
+                <img src="{{ asset('static/img/icons/icon-carousel-arrow-right.png') }}" alt="alt-LBJ - arrow right" />
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+
+    {# ----- TAB 'NEWS' ------ #}
+    <div class="tab-content-container" id="tabcont_1">
+        <div class="article-header">
+            <h2><span class="grand-hotel">{{ 'News'|trans() }}</span> {{ 'about this project'|trans() }}</h2>
+        </div>
+        <div class="description-infos">
+            {% if is_granted('ROLE_USER') and app.user.id == entity.user.id and entry_form is defined %}
+                <div style="padding:20px;border:1px dotted black">
+                    <h4>{{ 'Add new entry'|trans() }}</h4>
+                    {{ form(entry_form, {attr:{id:'entryForm', role:'form'}}) }}
+                </div>
+            {% endif %}
+
+            {% if entity.entries and entity.entries|length() > 0 %}
+                <div id="entries_list">
+                {% for entry in entity.entries|reverse %}
+                    {% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
+                        <div class="entry">
+                            <strong>{{ entry }} {% if entry.isPublic %}{{ '(Public)'|trans() }}{% else %}{{ '(Private)'|trans() }}{% endif %}</strong><br />
+                            <small>{{ 'On'|trans() }} {{ entry.createdAt|localizeddate('short', 'short') }}</small><br />
+                            {{ entry.content|raw }}
+
+                            {% if entry.comments %}
+                                <ul id="entry_{{ entry.id }}_comment_list">
+                                    {% for comment in entry.comments|reverse %}
+                                        <li>
+                                            <strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
+                                            <small>{{ time_diff(comment.createdAt) }}</small><br />
+                                            {{ comment.content|raw }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+
+                <div class="double-separator"></div>
+
+                <div style="padding:20px;border:1px dotted black">
+                    <h4>{{ 'Add new entry comment'|trans() }}</h4>
+                    {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
+                </div>
+            {% else %}
+                <p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>
+            {% endif %}
+        </div>
+    </div>
+
+    {# ----- TAB 'PARTICIPANTS' ------ #}
+    <div class="tab-content-container" id="tabcont_2">
+        <div class="article-header">
+            <h2>{{ 'Other'|trans() }} <span class="grand-hotel">{{ 'participant(s)'|trans() }}</span> {{ 'to this project'|trans() }}</h2>
+        </div>
+        <div class="description-infos">
+            {% if entity.contributions and entity.contributions|length() > 0 %}
+                {% set already_shown_users_ids = [] %}
+                <ul>
+                    {% for contribution in entity.contributions %}
+                        {% if contribution.user.id not in already_shown_users_ids %}
+                            {% set already_shown_users_ids = already_shown_users_ids|merge([contribution.user.id]) %}
+                            <li>
+                                <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a>
+                                {% if usersAmounts[contribution.user.id] > 0 %}{{ 'gived'|trans() }} <strong>{{ usersAmounts[contribution.user.id] }} {{ '€'|trans() }}</strong>{% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p><strong>{{ 'There\'s no participants for the moment'|trans() }}</strong><p>
+            {% endif %}
+        </div>
+    </div>
+
+    {# ----- TAB 'COMMENTS' ------ #}
+    {% if comment_form is defined %}
+    <div class="tab-content-container" id="tabcont_3">
+        <div class="article-header">
+            <h2><span class="grand-hotel">{{ 'Comment(s)'|trans() }}</span> {{ 'regarding this project'|trans() }}</h2>
+        </div>
+        <div class="description-infos">
+            {% if entity.comments and entity.comments|length() > 0 %}
+                {% for comment in entity.comments|reverse %}
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
+                            <small>{{ 'On'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</small>
+                            <p>{{ comment.content|raw }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p><strong>{{ 'There\'s no comments for the moment'|trans() }}</strong><p>
+            {% endif %}
+
+            {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (app.user is null) %}
+                <div class="double-separator"></div>
+                <div>
+                    <h3>{{ 'Add new comment'|trans() }}</h3>
+                    {{ form(comment_form, {attr:{id:'commentForm', role:'form'}}) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>

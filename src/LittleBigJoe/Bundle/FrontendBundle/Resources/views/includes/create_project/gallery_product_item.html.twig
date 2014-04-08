@@ -1,0 +1,10 @@
+<div id="{{ productMedia.type }}_{{ productMedia.id }}" style="float:left; width:30%">
+    <img src="{{ productMedia.image }}" width="100" />
+    <input type="checkbox" checked="checked" class="mediaId" name="createProduct[{{ productMedia.type }}s][]" id="createProduct_{{ productMedia.type }}s_{{ productMedia.id }}" value="{{ productMedia.id }}" />
+    <input type="hidden" class="mediaType" name="createProduct_{{ productMedia.type }}_{{ productMedia.id }}_type" id="createProduct_{{ productMedia.type }}_{{ productMedia.id }}_type" value="{{ productMedia.type }}" />
+    <div class="clearfix"></div>
+    <p>
+        <span class="highlightGalleryItem">{% if productMedia.highlighted %}{{ 'Highlighted'|trans() }}{% else %}{{ 'Highlight'|trans() }}{% endif %}</span>
+        <span class="deleteGalleryItem">{{ 'Delete'|trans() }}</span>
+    </p>
+</div>

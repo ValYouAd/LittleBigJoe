@@ -1,0 +1,24 @@
+<label class="reward-container {% if reward.description %}{% else %}no-reward{% endif %} {% if reward.id in unavailableRewards %}out-of-stock{% endif %}">
+    <div class="select-container">
+        <input type="radio" name="rewards[]" value="{{ reward.id }}" id="reward_{{ reward.id }}" {% if reward.id in unavailableRewards %}disabled="disabled"{% elseif loop.index == '1' %}checked="checked"{% endif %} />
+        {% if reward.description %}
+            <span><strong>{{ reward.title }}</strong></span>
+        {% else %}
+            <span>{{ 'No rewards'|trans() }}</span>
+        {% endif %}
+    </div>
+    <div class="reward-description">
+        {% if reward.description %}
+            {{ reward.description }}
+            {% if reward.stock is not null %}
+                <div class="limited">{{ 'Limited'|trans() }} ({{ reward.stock }} {{ 'available'|trans() }})</div>
+            {% endif %}
+        {% else %}
+            {{ 'No thanks, I just want to help the project.'|trans() }}
+        {% endif %}
+    </div>
+
+    {% if reward.stock == 0 %}
+        <div class="ribbon"><span>{{ 'Out of stock'|trans() }}</span></div>
+    {% endif %}
+</label>

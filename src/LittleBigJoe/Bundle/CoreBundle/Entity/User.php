@@ -300,7 +300,13 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="ProjectHelp", mappedBy="project", cascade={"persist", "remove"})
      */
     protected $projectHelps;
-    
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Brand", cascade={"persist"}, inversedBy="administrators")
+     * @ORM\JoinTable(name="user_brands")
+     */
+    protected $brands;
+
     public function __construct()
     {
         parent::__construct();
@@ -318,6 +324,7 @@ class User extends BaseUser
         $this->followedBrands = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->projectHelps = new ArrayCollection();
+        $this->brands = new ArrayCollection();
     }
 
     public function __toString()
@@ -1310,5 +1317,38 @@ class User extends BaseUser
     public function getProjectHelps()
     {
         return $this->projectHelps;
+    }
+
+    /**
+     * Add brands
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Brand $brands
+     * @return User
+     */
+    public function addBrand(\LittleBigJoe\Bundle\CoreBundle\Entity\Brand $brands)
+    {
+        $this->brands[] = $brands;
+    
+        return $this;
+    }
+
+    /**
+     * Remove brands
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Brand $brands
+     */
+    public function removeBrand(\LittleBigJoe\Bundle\CoreBundle\Entity\Brand $brands)
+    {
+        $this->brands->removeElement($brands);
+    }
+
+    /**
+     * Get brands
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBrands()
+    {
+        return $this->brands;
     }
 }

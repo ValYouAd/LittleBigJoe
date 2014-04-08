@@ -20,7 +20,6 @@
             <th>{{ knp_pagination_sortable(pagination, 'backend.ID'|trans(), 'c.id') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'c.name') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.slug'|trans(), 'c.slug') }}</th>
-            <th>{{ 'backend.related_projects'|trans() }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.is_visible'|trans(), 'c.isVisible') }}</th>
             <th>{{ 'backend.actions'|trans() }}</th>
         </tr>
@@ -33,7 +32,6 @@
                 </td>
                 <td>{{ entity.name }}</td>
                 <td>{{ entity.slug }}</td>
-                <td>{{ entity.projects|length }}</td>
                 <td>
                     {% if entity.isVisible %}
                         <span class="label label-success">{{ 'backend.visible'|trans() }}</span>

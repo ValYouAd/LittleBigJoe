@@ -1,0 +1,16 @@
+{% if flow.getStepLabels() is not empty %}
+    <ul>
+        {% for stepLabel in flow.getStepLabels() %}
+            <li class="creation-step {% if loop.index == flow.getCurrentStepNumber() %}current{% elseif loop.index < flow.getCurrentStepNumber() %}validated{% endif %}">
+                <div class="rounded-num">
+                    {% if loop.index < flow.getCurrentStepNumber() %}
+                        <img class="icon" src="{{ asset('static/img/icons/icon-validate.png') }}" alt="alt-LBL - validate icon" />
+                    {% else %}
+                        {{ loop.index }}
+                    {% endif %}
+                </div>
+                {{ stepLabel|trans() }}
+            </li>
+        {% endfor %}
+    </ul>
+{%- endif %}

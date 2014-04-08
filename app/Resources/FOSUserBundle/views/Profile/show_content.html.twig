@@ -1,93 +1,83 @@
-{% trans_default_domain 'FOSUserBundle' %}
+{% block body %}
+    <section>
+        <div class="aside-part classic">
+            <div class="biography">
+                <h2>{{ 'My'|trans() }} <span class="grand-hotel">{{ 'biography'|trans() }}</span></h2>
+                <div class="clearfix"></div>
+                <p>{{ user.bio|default('N/A'|trans()) }}</p>
+            </div>
+        </div>
 
-{% if user.photo %}
-    <img src="{{ asset(user.photo) }}" width="150">
-{% else %}
-    <strong>{{ 'N/A'|trans() }}</strong>
-{% endif %}
+        <article class="wContent classic">
+            <div class="white-container">
 
-<h2>{{ user }}</h2>
-    
-<p><a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary">{{ 'Edit my profile' }}</a></p>
+                <div class="wContent-id-title">
+                    <h1>{{ user }} <a href="{{ path('fos_user_profile_edit') }}" class="btn classic-style">{{ 'Edit my profile'|trans() }}</a></h1>
+                    <div class="brand-location"><img class="icon" src="{{ asset('static/img/icons/icon-location.png') }}" alt="alt-LBJ - location icon" /> <strong>{{ user.city }}</strong> ({{ user.country|country(app.request.locale) }})</div>
+                </div>
 
-<div class="clearfix">&nbsp;</div>
+                <div class="wContent-id-img">
+                    {% if user.photo %}
+                        <img src="{{ asset(user.photo) }}" width="243" height="243" />
+                    {% else %}
+                        <img src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand" />
+                    {% endif %}
+                </div>
 
-<h2 id="projects">{{ 'My projects'|trans() }}</h2>
-{% if user.projects|length > 0 %}  
-    {% for project in user.projects %}
-        {% if project.photo %}
-            <img src="{{ asset(project.photo) }}" width="200" height="200">
-        {% else %}
-            <strong>{{ 'No image'|trans() }}</strong>
-        {% endif %}
+                <div class="wContent-id-infos">
+                    <div><span class="orange-text">{{ user.projects|length|default('0') }}</span> {{ 'projects' }}</div>
+                    <div>{{ 'Registered since' }} <strong>{{ user.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
+                    {% if user.websiteUrl %}<a href="{{ user.websiteUrl }}" target="_blank"><div class="orange-text"><strong>{{ user.websiteUrl }}</strong></div></a>{% endif %}
+                    <div class="social-links">
+                        {% if user.twitterUrl %}<a href="{{ user.twitterUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                        {% if user.facebookUrl %}<a href="{{ user.facebookUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                        {#<a href="#"><img class="icon" src="static/img/icons/icon-social-pinterest.png" alt="alt-LBJ - social" /></a>#}
+                        {% if user.googleUrl %}<a href="{{ user.googleUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                    </div>
+                </div>
 
-        {% if project.brand.logo %}
-            <img src="{{ asset(project.brand.logo) }}" width="50" height="50">
-        {% endif %}
+                <div class="article-header">
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" /> {{ 'My projects'|trans() }}</h2>
+                    <div class="separator"></div>
+                </div>
 
-        <h3>
-            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a>
-        </h3>
-        {% if project.status == '1' %}
-            <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-        {% else %}
-            <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-        {% endif %}
-
-        <p>{{ project.pitch }}</p>
-        <p>
-            <a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug': project.category.slug}) }}">{{ project.category }}</a>
-        </p>
-
-        {% if project.status == '1' %}
-            <p>
-                <strong>{{ project.likesCount }}</strong> {{ 'likes'|trans() }} |
-                {% if project.likesCount == 0 %}
-                    0
-                {% elseif ((project.likesCount/project.likesRequired) * 100) > 100 %}
-                    100
+                {% if user.projects|length > 0 %}
+                    {% for project in user.projects %}
+                        <div class="list-container">
+                            {% set list_pres_vars = {'project': project} %}
+                            {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
+                        </div>
+                    {% endfor %}
                 {% else %}
-                    {{ ((project.likesCount/project.likesRequired) * 100)|number_format(1, '.', ',') }}
-                {% endif %} %
-            </p>
-        {% else %}
-            <p>
-                {% if project.amountCount == 0 %}
-                    0
-                {% elseif ((project.amountCount/project.amountRequired) * 100) > 100 %}
-                    100
+                    <p>{{ 'There\'s no projects for the moment.'|trans() }}</p>
+                {% endif %}
+
+                <div class="article-header">
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-coins-blue.png') }}" alt="alt-LBJ - projects icon" /> {{ 'My contributions'|trans() }}</h2>
+                    <div class="separator"></div>
+                </div>
+
+                {% if user.contributions|length > 0 %}
+                    {% for contribution in user.contributions|reverse() %}
+                        <h3>
+                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': contribution.project.slug}) }}">{{ contribution.project.name }}</a>
+                        </h3>
+                        <h4>{{ contribution.mangopayAmount() }} {{ '€'|trans() }} {% if contribution.isAnonymous %}({{ 'Anonymous contribution'|trans() }}){% else %}({{ 'Public contribution'|trans() }}){% endif %}</h4>
+                        <p>{{ 'Made on'|trans() }} {{ contribution.createdAt|localizeddate('medium', 'medium') }}</p>
+                        {% if contribution.reward %}
+                            <p>
+                                {{ 'Associated reward'|trans() }} : {{ contribution.reward.title }}<br />
+                                <small>{{ contribution.reward.description }}</small>
+                            </p>
+                        {% endif %}
+                        {% if contribution.invoice %}
+                            <p><a href="{{ asset('uploads/pdfs/' ~ contribution.invoice) }}" target="_blank">{{ 'Download invoice'|trans() }}</a></p>
+                        {% endif %}
+                    {% endfor %}
                 {% else %}
-                    {{ ((project.amountCount/project.amountRequired) * 100)|number_format(1, '.', ',') }}
-                {% endif %} % |
-                <strong>{{ project.amountCount }}</strong>{{ '€'|trans() }} |
-                {{ project.endingAt|time_remaining }}
-            </p>
-        {% endif %}
-    {% endfor %} 
-{% else %}
-    <p>{{ 'There\'s no projects for the moment'|trans() }}</p>
-{% endif %}
-
-<div class="clearfix">&nbsp;</div>
-
-<h2 id="contributions">{{ 'My contributions'|trans() }}</h2>
-{% if user.contributions|length > 0 %}  
-    {% for contribution in user.contributions|reverse() %}
-    		<h3>
-            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': contribution.project.slug}) }}">{{ contribution.project.name }}</a>
-        </h3>
-        <h4>{{ contribution.mangopayAmount() }} {{ '€'|trans() }} {% if contribution.isAnonymous %}({{ 'Anonymous contribution'|trans() }}){% else %}({{ 'Public contribution'|trans() }}){% endif %}</h4>
-   			<p>{{ 'Made on'|trans() }} {{ contribution.createdAt|localizeddate('medium', 'medium') }}</p>
-   			{% if contribution.reward %}
-   					<p>
-   							{{ 'Associated reward'|trans() }} : {{ contribution.reward.title }}<br />
-   							<small>{{ contribution.reward.description }}</small>
-   					</p>
-   			{% endif %}   			
-   			{% if contribution.invoice %}
-   					<p><a href="{{ asset('uploads/pdfs/' ~ contribution.invoice) }}" target="_blank">{{ 'Download invoice'|trans() }}</a></p>
-   			{% endif %}
-   	{% endfor %}
-{% else %}
-    <p>{{ 'There\'s no projects for the moment'|trans() }}</p>
-{% endif %}
+                    <p>{{ 'There\'s no contributions for the moment.'|trans() }}</p>
+                {% endif %}
+            </div>
+        </article>
+    </section>
+{% endblock %}

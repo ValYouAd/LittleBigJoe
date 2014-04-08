@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}
+{% block meta_title %}
     {% if status == 'OK' %}
     		{{ 'Payment confirmation'|trans() }} | {{ parent() }}
     {% else %}
@@ -8,32 +8,31 @@
     {% endif %}
 {% endblock %}
 
-{% block sidebar %}
-{% endblock %}
-
 {% block body %}
-    <div class="page-header">
-        <h1><span class="glyphicon glyphicon-euro"></span> 
-        {% if status == 'OK' %}
-		    		{{ 'Payment confirmation'|trans() }}
-		    {% else %}
-		    		{{ 'Error during payment'|trans() }}
-		    {% endif %}
-		    </h1>
-    </div>
+    <section>
+    <article>
+        <div class="white-container">
+            <div class="article-header">
+                {% if status == 'OK' %}
+                    <h2>{{ 'Payment confirmation'|trans() }}</h2>
+                {% else %}
+                    <h2>{{ 'Error during payment'|trans() }}</h2>
+                {% endif %}
+            </div>
 
-		{% if status == 'OK' %}
-    		<div class="alert alert-success">
-    				<p>{{ 'Thanks for your payment'|trans() }}</p>
-    				<p>{{ 'You\'ll receive an confirmation email with your payment invoice'|trans() }}</p>
-    		</div>
-    {% else %}
-   			<div class="alert alert-danger">
-   					<p>{{ 'A problem has occured during your payment.'|trans() }}</p>
-   					<p>{{ 'Please try again.'|trans() }}</p>
-   			</div>
-   	{% endif %}
-   	
-   	<div class="clearfix">&nbsp;</div>
-   	<p><a href="{{ path('littlebigjoe_frontendbundle_home') }}">{{ 'Go back to homepage'|trans() }}</a></p>
+            <div class="description-infos">
+                {% if status == 'OK' %}
+                    <p>{{ 'Thanks for your payment.'|trans() }}</p>
+                    <p>{{ 'You\'ll receive an confirmation email with your payment invoice.'|trans() }}</p>
+                {% else %}
+                    <p>{{ 'A problem has occured during your payment.'|trans() }}</p>
+                    <p>{{ 'Please try again.'|trans() }}</p>
+                {% endif %}
+
+                <div class="clearfix">&nbsp;</div>
+                <p><a href="{{ path('littlebigjoe_frontendbundle_home') }}">{{ 'Go back to homepage'|trans() }}</a></p>
+            </div>
+        </div>
+    </article>
+</section>
 {% endblock %}

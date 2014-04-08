@@ -1,33 +1,21 @@
 {% extends '::base.html.twig' %}
 
 {% block title %}
-    {{ 'Page'|trans() }} {{ entity.title }} | {{ parent() }}
+    {{ entity.title }} | {{ parent() }}
 {% endblock %}
 
 {% block body %}
-    <div class="page-header">
-        <h1><span class="glyphicon glyphicon-search"></span> {{ 'Page'|trans() }} <span
-                    class="text-primary">{{ entity.title }}</span></h1>
-    </div>
+    <section>
+        <article>
+            <div class="white-container">
+                <div class="article-header">
+                    <h2>{{ entity.title }}</h2>
+                </div>
 
-    <div class="page-header">
-        <h3>{{ entity.title }}</h3>
-    </div>
-    {% if entity.isVisible %}
-        <span class="label label-success">{{ 'Visible'|trans() }}</span>
-    {% else %}
-        <span class="label label-default">{{ 'Not visible'|trans() }}</span>
-    {% endif %}
-    <div class="clearfix">&nbsp;</div>
-    {{ entity.content|raw }}
-
-    <div class="page-header">
-        <h3>{{ 'META infos'|trans() }}</h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">{{ 'META Title'|trans() }}
-            : {% if entity.metaTitle %}{{ entity.metaTitle }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
-        <li class="list-group-item">{{ 'META Description'|trans() }}
-            : {% if entity.metaDescription %}{{ entity.metaDescription }}{% else %}{{ 'N/A'|trans() }}{% endif %}</li>
-    </ul>
+                <div class="description-infos">
+                    {{ entity.content|raw }}
+                </div>
+            </div>
+        </article>
+    </section>
 {% endblock %}

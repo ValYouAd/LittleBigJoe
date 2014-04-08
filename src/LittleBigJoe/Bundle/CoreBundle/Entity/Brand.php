@@ -194,11 +194,17 @@ class Brand
      * @ORM\ManyToMany(targetEntity="User", mappedBy="followedBrands")
      */
     protected $followers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="brands")
+     */
+    private $administrators;
     
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->followers = new ArrayCollection();
+        $this->administrators = new ArrayCollection();
     }
 
     public function __toString()
@@ -579,5 +585,38 @@ class Brand
     public function getFollowers()
     {
         return $this->followers;
+    }
+
+    /**
+     * Add administrators
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $administrators
+     * @return Brand
+     */
+    public function addAdministrator(\LittleBigJoe\Bundle\CoreBundle\Entity\User $administrators)
+    {
+        $this->administrators[] = $administrators;
+    
+        return $this;
+    }
+
+    /**
+     * Remove administrators
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $administrators
+     */
+    public function removeAdministrator(\LittleBigJoe\Bundle\CoreBundle\Entity\User $administrators)
+    {
+        $this->administrators->removeElement($administrators);
+    }
+
+    /**
+     * Get administrators
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAdministrators()
+    {
+        return $this->administrators;
     }
 }

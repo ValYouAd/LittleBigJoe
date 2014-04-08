@@ -75,9 +75,17 @@ class UserType extends BaseType
             ))
             ->add('roles', 'choice', array(
                 'label' => 'backend.roles',
-                'choices' => array('ROLE_USER' => 'backend.user', 'ROLE_ADMIN' => 'backend.admin'),
+                'choices' => array('ROLE_USER' => 'backend.user', 'ROLE_BRAND_ADMIN' => 'backend.brand_admin', 'ROLE_SUPER_ADMIN' => 'backend.lbj_staff'),
                 'multiple' => true,
                 'expanded' => false,
+            ))
+            ->add('brands', 'entity', array(
+                'label' => 'backend.brands',
+                'class' => 'LittleBigJoeCoreBundle:Brand',
+                'property' => 'name',
+                'multiple' => true,
+                'expanded' => false,
+                'required' => false
             ))
             ->remove('username')
             ->remove('usernameCanonical')

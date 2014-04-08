@@ -3,7 +3,10 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
-    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+    <div class="default-empty">
+        <h1>{{ 'Congratulations %username%, your account is now activated'|trans({'%username%': user.username}) }}</h1>
+        <p>{{ 'You can fully enjoy Little Big Joe. You should start by going back to the'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_home') }}">{{ 'homepage'|trans() }}</a>.</p>
+    </div>
     {% if app.session is not empty %}
         {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
         {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}

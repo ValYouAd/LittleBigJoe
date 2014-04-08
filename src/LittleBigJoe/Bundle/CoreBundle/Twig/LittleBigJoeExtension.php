@@ -34,15 +34,15 @@ class LittleBigJoeExtension extends \Twig_Extension
         $interval = $endingDate->diff($nowDate);
 
         if ($interval->y >= 1)
-        	return $interval->format('%y year(s) remaining');
+        	return $interval->format('%y y');
         else if ($interval->m >= 1)
-        	return $interval->format('%m month(s) remaining');
+        	return $interval->format('%m m');
         else if ($interval->days >= 1)
-            return $interval->format('%d day(s) remaining');
+            return $interval->format('%d d');
         else if ($interval->days == 0 && $interval->h >= 1)
-            return $interval->format('%h hour(s) remaining');
+            return $interval->format('%h h');
         else
-            return $interval->format('%i minute(s) remaining');
+            return $interval->format('%i min');
     }
 
     /** 

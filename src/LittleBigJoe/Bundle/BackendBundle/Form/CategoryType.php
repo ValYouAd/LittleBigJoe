@@ -19,19 +19,19 @@ class CategoryType extends AbstractType
                 'translatable_class' => "LittleBigJoe\Bundle\CoreBundle\Entity\Category",
                 'fields' => array(
                     'name' => array(
-                        'type' => 'text',
+                        'field_type' => 'text',
                         'label' => 'backend.name'
                     ),
                     'slug' => array(
-                        'type' => 'text',
+                        'field_type' => 'text',
                         'label' => 'backend.slug'
                     ),
                     'metaTitle' => array(
-                        'type' => 'text',
+                        'field_type' => 'text',
                         'label' => 'backend.meta_title'
                     ),
                     'metaDescription' => array(
-                        'type' => 'textarea',
+                        'field_type' => 'textarea',
                         'label' => 'backend.meta_description'
                     )
                 )

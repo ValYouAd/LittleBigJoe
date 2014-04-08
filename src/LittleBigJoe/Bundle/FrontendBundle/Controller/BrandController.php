@@ -9,6 +9,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class BrandController extends Controller
 {
     /**
+     * Brands
+     *
+     * @Route("/brands", name="littlebigjoe_frontendbundle_brand")
+     * @Template("LittleBigJoeFrontendBundle:Brand:list.html.twig")
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Brand')->findAll();
+
+        $paginator = $this->get('knp_paginator');
+        $brands = $paginator->paginate(
+            $query,
+            $this->get('request')->query->get('page', 1),
+            $this->container->getParameter('nb_elements_by_page')
+        );
+
+        return array(
+            'title' => 'Brands',
+            'brands' => $brands
+        );
+    }
+
+    /**
      * Most desired brands
      *
      * @Route("/most-desired-brands", name="littlebigjoe_frontendbundle_brand_most_desired_projects")
@@ -49,7 +74,7 @@ class BrandController extends Controller
             throw $this->createNotFoundException('Unable to find Brand entity.');
         }
 
-        $currentProjectsCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, null, true, null, $entity->getId());
+        $currentProjectsCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, null, true, $entity->getId());
         $likesCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->countLikes($entity->getId());
         $endedProjectsCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, null, false, $entity->getId());
         $amountCount = $em->getRepository('LittleBigJoeCoreBundle:Project')->countAmount($entity->getId());

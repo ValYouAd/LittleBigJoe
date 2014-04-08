@@ -63,7 +63,8 @@ class EntryCommentType extends AbstractType
             ->add('content', 'ckeditor', array(
 			      		'label' => 'Comment content',
 			      		'data' => '',
-            		'language' => $ckeditorLanguage,
+                        'language' => $ckeditorLanguage,
+                        'width' => '100%',
 			      		'custom_config' => "toolbarGroups: [{ name: 'clipboard', groups: ['clipboard']}, { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] }, { name: 'links' }, { name: 'styles' }]"
     				))
     				->add('addEntryComment', 'button', array(

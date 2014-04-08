@@ -17,8 +17,12 @@ parameters:
     default_email_address: contact@littlebigjoe.com
     default_url: http://dev.littlebigjoe.com
     nb_elements_by_page: 20
-    howdoesitwork_page_id: ~ # Must be the ID of the "How does this website work" (use in Top menu)
+    howdoesitwork_page_id: 7 # Must be the ID of the "How does this website work" (use in Top menu)
+    cgu_page_id: 6 # Must be the ID of the "General conditions and terms" (use in payment tunnel)
+    footer_about_page_ids: [1,2,3,4] # Must be the ID's of the pages that should be visible in the footer about section
+    footer_utils_page_ids: [5,6] # Must be the ID's of the pages that should be visible in the footer utils section
     allowed_mime_types: ['application/pdf', 'application/xml', 'application/zip', 'text/csv', 'text/plain', 'application/msword', 'application/vnd.ms-excel', 'application/vnd.oasis.opendocument.text', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'] # MIME types that will be authorized (for file upload in "Launch my project" section")
+    allowed_image_mime_types: ['image/gif', 'image/jpeg', 'image/png'] # MIME types that will be authorized (for image file upload in "Launch my project" section")
     max_file_size: 20971520 # Size in bytes : 20Mo
     allowed_audio_mime_types: ['audio/mpeg', 'audio/mp3', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav'] # MIME types that will be authorized (for audio file upload in "Launch my project" section")
     max_audio_file_size: 20971520 # Size in bytes : 20Mo
@@ -38,3 +42,6 @@ parameters:
     api_twitter_key: 'm8z0OJ6k1LxTIjnp6ud8KQ'
     api_twitter_secret: 'OHyVibMQoTJGlg80DkckiNeMLVTljnu7CH4Pu1MDpHE'
     api_twitter_baseurl: https://api.twitter.com/1.1
+
+    # API Google Maps
+    api_google_key: AIzaSyALsP2Igt_YTEmtLg8QKgTJLMWyq65G7NA

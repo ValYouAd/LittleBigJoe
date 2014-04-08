@@ -29,9 +29,12 @@ class ProjectRepository extends EntityRepository
      * @param integer/null $brandId :
      *        if set to null, return all projects
      *        if set to integer, return all projects with brand id
+     * @param integer/null $categoryId :
+     *        if set to null, return all projects
+     *        if set to integer, return all projects with category id
      * @return int nbProjects
      */
-    public function count($deleted = null, $status = null, $current = null, $brandId = null)
+    public function count($deleted = null, $status = null, $current = null, $brandId = null, $categoryId = null)
     {
         $qb = $this->createQueryBuilder('p')
             ->select('COUNT(p)');
@@ -58,6 +61,13 @@ class ProjectRepository extends EntityRepository
         if (!empty($brandId)) {
             $qb = $qb->andWhere('p.brand = :brand')
                 ->setParameter('brand', $brandId);
+        }
+
+        if (!empty($categoryId)) {
+            $qb = $qb
+                ->leftJoin('p.categories', 'c')
+                ->andWhere('c = :category')
+                ->setParameter('category', $categoryId);
         }
 
         return $qb->getQuery()

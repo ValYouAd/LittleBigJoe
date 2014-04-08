@@ -2,27 +2,28 @@
 
 {% block title %}{{ title|trans() }} - {{ parent() }}{% endblock %}
 
-{% block sidebar %}{% endblock %}
-
 {% block body %}
-    <h2>{{ title|trans() }}</h2>
+    <section>
 
-    {% if brands %}
-        {% for brand in brands %}
-            {% if brand.logo %}
-                <img src="{{ asset(brand.logo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
+        <article class="fPage">
+
+            <div class="article-header">
+                <h2><img class="icon" src="{{ asset('static/img/icons/icon-brands.png') }}"alt="alt-LBJ - brands icon"> <span class="grand-hotel">{{ title|trans() }}</span></h2>
+            </div>
+
+            {% if brands %}
+                {% for brand in brands %}
+                    <div class="brand-mosaic-container">
+                        {% set brand_pres_vars = {'brand': brand} %}
+                        {% include "LittleBigJoeFrontendBundle:includes:pres/brand-pres.html.twig" with brand_pres_vars %}
+                    </div>
+                {% endfor %}
             {% endif %}
+        </article>
 
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': brand.slug}) }}">{{ brand.name }}</a>
-            </h3>
-            <p>{{ brand.projects|length }} {{ 'associated project(s)'|trans() }}</p>
-        {% endfor %}
-    {% endif %}
+        <div class="navigation">
+            {{ knp_pagination_render(brands) }}
+        </div>
 
-    <div class="navigation">
-        {{ knp_pagination_render(brands) }}
-    </div>
+    </section>
 {% endblock %}

@@ -18,7 +18,7 @@ use Symfony\Component\Validator\ExecutionContext;
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("name")
  * @UniqueEntity("slug")
- * @Assert\Callback(methods = {"isDateInFuture"}, groups = {"Default", "flow_createProject_step2"})
+ * @Assert\Callback(methods = {"isDateInFuture"}, groups = {"Default", "flow_createProject_step3", "flow_createProduct_step4"})
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Repository\ProjectRepository")
  * @Gedmo\Uploadable(filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true, allowedTypes="image/png,image/jpg,image/jpeg,image/gif")
  */
@@ -100,9 +100,16 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="pitch", type="string", length=255)
+     * @ORM\Column(name="pitch", type="text")
      *
      * @Assert\NotBlank(message = "You must enter the pitch", groups = {"Default", "flow_createProject_step1"})
+     * @Assert\Length(
+     *    min = "1",
+     *    max = "300",
+     *    minMessage = "Your pitch must contains at least {{ limit }} characters",
+     *    maxMessage = "Your pitch can't exceed {{ limit }} characters",
+     *    groups = {"Default", "flow_createProject_step1"}
+     * )
      * @Assert\Regex(
      *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!\']*$/i",
      *    message = "Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes",
@@ -123,20 +130,20 @@ class Project
      *
      * @ORM\Column(name="description", type="text")
      *
-     * @Assert\NotBlank(message = "You must enter the description", groups = {"Default", "flow_createProject_step3"})
+     * @Assert\NotBlank(message = "You must enter the description", groups = {"Default", "flow_createProject_step2"})
      */
     private $description;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="amount_required", type="decimal")
+     * @ORM\Column(name="amount_required", type="decimal", nullable=true)
      *
-     * @Assert\NotBlank(message = "You must enter the required amount", groups = {"Default", "flow_createProject_step2"})
+     * @Assert\NotBlank(message = "You must enter the required amount", groups = {"Default"})
      * @Assert\Regex(
      *    pattern = "/^[0-9\.\,]*$/",
      *    message = "Your required amount must only contains numbers, dots, or commas",
-     *    groups = {"Default", "flow_createProject_step2"}
+     *    groups = {"Default"}
      * )
      */
     private $amountRequired;
@@ -153,11 +160,11 @@ class Project
      *
      * @ORM\Column(name="likes_required", type="integer")
      *
-     * @Assert\NotBlank(message = "You must enter the required likes count", groups = {"Default", "flow_createProject_step2"})
+     * @Assert\NotBlank(message = "You must enter the required likes count", groups = {"Default", "flow_createProject_step3"})
      * @Assert\Regex(
      *    pattern = "/^[0-9]*$/",
      *    message = "Your required likes count must only contains numbers",
-     *    groups = {"Default", "flow_createProject_step2"}
+     *    groups = {"Default", "flow_createProject_step3"}
      * )
      */
     private $likesRequired;
@@ -230,8 +237,8 @@ class Project
      *
      * @ORM\Column(name="ending_at", type="datetime")
      *
-     * @Assert\NotBlank(message = "You must enter the project ending date", groups = {"Default", "flow_createProject_step2"})
-     * @Assert\DateTime(message = "Your project ending date format is incorrect", groups = {"Default", "flow_createProject_step2"})
+     * @Assert\NotBlank(message = "You must enter the project ending date", groups = {"Default", "flow_createProject_step3"})
+     * @Assert\Date(message = "Your project ending date format is incorrect", groups = {"Default", "flow_createProject_step3"})
      */
     private $endingAt;
 
@@ -263,10 +270,20 @@ class Project
     protected $brand;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="projects")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Category", cascade={"persist"}, inversedBy="projects")
+     * @ORM\JoinTable(name="project_categories")
+     *
+     * @Assert\NotBlank(message = "You must select at least one category", groups = {"Default", "flow_createProject_step1"})
      */
-    protected $category;
+    protected $categories;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ProductType", inversedBy="projects")
+     * @ORM\JoinColumn(name="product_type_id", referencedColumnName="id")
+     *
+     * @Assert\NotBlank(message = "You must select at least one category", groups = {"Default", "flow_createProject_step1"})
+     */
+    protected $productType;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="projects")
@@ -314,9 +331,31 @@ class Project
      * @ORM\OneToMany(targetEntity="ProjectHelp", mappedBy="project", cascade={"persist", "remove"})
      */
     protected $projectHelps;
-        
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProjectVideo", mappedBy="project", cascade={"persist", "remove"})
+     */
+    protected $videos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProjectImage", mappedBy="project", cascade={"persist", "remove"})
+     */
+    protected $images;
+
+    /**
+     * Used for easier access to medias
+     */
+    protected $medias;
+
+    /**
+     * @ORM\OneToOne(targetEntity="ProjectProduct")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     */
+    protected $product;
+
     public function __construct()
     {
+        $this->categories = new ArrayCollection();
         $this->entries = new ArrayCollection();
         $this->rewards = new ArrayCollection();
         $this->contributions = new ArrayCollection();
@@ -327,6 +366,9 @@ class Project
         $this->likesCount = 0;
         $this->notifications = new ArrayCollection();
         $this->projectHelps = new ArrayCollection();
+        $this->videos = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
     public function __toString()
@@ -878,29 +920,6 @@ class Project
     }
 
     /**
-     * Set category
-     *
-     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Category $category
-     * @return Project
-     */
-    public function setCategory(\LittleBigJoe\Bundle\CoreBundle\Entity\Category $category = null)
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\Category
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
      * Add entries
      *
      * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Entry $entries
@@ -1263,5 +1282,183 @@ class Project
     public function getProjectHelps()
     {
         return $this->projectHelps;
+    }
+
+    /**
+     * Set productType
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProductType $productType
+     * @return Project
+     */
+    public function setProductType(\LittleBigJoe\Bundle\CoreBundle\Entity\ProductType $productType = null)
+    {
+        $this->productType = $productType;
+    
+        return $this;
+    }
+
+    /**
+     * Get productType
+     *
+     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\ProductType 
+     */
+    public function getProductType()
+    {
+        return $this->productType;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Category $categories
+     * @return Project
+     */
+    public function addCategorie(\LittleBigJoe\Bundle\CoreBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+    
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Category $categories
+     */
+    public function removeCategorie(\LittleBigJoe\Bundle\CoreBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Add videos
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo $videos
+     * @return Project
+     */
+    public function addVideo(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo $videos)
+    {
+        $this->videos[] = $videos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove videos
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo $videos
+     */
+    public function removeVideo(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo $videos)
+    {
+        $this->videos->removeElement($videos);
+    }
+
+    /**
+     * Get videos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVideos()
+    {
+        return $this->videos;
+    }
+
+    /**
+     * Add images
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage $images
+     * @return Project
+     */
+    public function addImage(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage $images)
+    {
+        $this->images[] = $images;
+    
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage $images
+     */
+    public function removeImage(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Get medias
+     *
+     * @return array
+     */
+    public function getMedias()
+    {
+        $medias = array();
+        foreach ($this->images as $image)
+        {
+            $medias['image_'.$image->getId()] = array(
+                'type' => 'image',
+                'id' => $image->getId(),
+                'image' => '/'.$image->getPath(),
+                'highlighted' => $image->getHighlighted()
+            );
+        }
+
+        foreach ($this->videos as $video)
+        {
+            $medias['video_'.$video->getId()] = array(
+                'type' => 'video',
+                'id' => $video->getId(),
+                'image' => $video->getThumbUrl(),
+                'highlighted' => $video->getHighlighted()
+            );
+        }
+
+        ksort($medias);
+
+        return $medias;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProduct $product
+     * @return Project
+     */
+    public function setProduct(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProduct $product = null)
+    {
+        $this->product = $product;
+    
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProduct 
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }

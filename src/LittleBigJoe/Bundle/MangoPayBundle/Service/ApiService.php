@@ -579,7 +579,6 @@ class ApiService
 				
 				// Create contribution
 				$contribution = $this->request("contributions", "POST", $body);
-
 				if (!isset($contribution) || !isset($contribution->ID))
 				{
 						return null;

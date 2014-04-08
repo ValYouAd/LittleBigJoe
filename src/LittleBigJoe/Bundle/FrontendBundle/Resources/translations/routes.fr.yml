@@ -28,6 +28,9 @@ littlebigjoe_frontendbundle_brand_ended_projects: '/marque/{slug}/projets-termin
 # Desc: /most-desired-brands
 littlebigjoe_frontendbundle_brand_most_desired_projects: /les-plus-plebiscitees
 
+# Desc: /brands
+littlebigjoe_frontendbundle_brand: '/marques'
+
 # Desc: /brand/{slug}
 littlebigjoe_frontendbundle_brand_show: '/marque/{slug}'
 

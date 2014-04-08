@@ -1,0 +1,67 @@
+<div class="list-sheet">
+
+    <div class="img-container">
+
+        {% if project.photo %}
+            <img src="{{ asset(project.photo) }}" width="239" height="239">
+        {% else %}
+            <img class="pres-thumbnail" src="{{ asset('static/img/cc-logo-square.png') }}" alt="alt-LBJ - project image" />
+        {% endif %}
+
+        <div class="project-label">
+            {% if project.status != '1' %}
+                <span class="orange-text"><strong>{{ project.amountCount|default('0') }} &euro;</strong></span> {{ 'raised'|trans() }}
+                <img class="mosaic-project-type" src="{{ asset('static/img/icons/icon-mosaic-funded.png') }}" alt="alt-LBJ - project type" />
+            {% else %}
+                <img class="icon" src="{{ asset('static/img/icons/icon-heart-white.png') }}" alt="alt-LBJ - likes icon" />
+                <span class="orange-text"><strong>{{ project.likesCount|default('0') }}</strong></span> {{ 'likes'|trans() }}
+                <img class="mosaic-project-type" src="{{ asset('static/img/icons/icon-mosaic-indev.png') }}" alt="alt-LBJ - project type" />
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="list-infos-container">
+        <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a></h3>
+
+        <p class="project-description">{{ project.pitch }}</p>
+
+        <div class="stat">
+            <img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people" /> <span class="orange-text"><strong>{{ project.contributions|length|default('0') }}</strong></span> {{ 'participants'|trans() }}
+        </div>
+        <div class="stat">
+            <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock" /> <span class="orange-text"><strong>{{ project.endingAt|time_remaining }}</strong></span> {{ 'remaining'|trans() }}
+        </div>
+
+        <div class="status-bar-container">
+            <img src="{{ asset('static/img/bg/progress-bar.jpg') }}" alt="alt-LBJ - status bar" />
+
+            {% if project.status == '1' %}
+                {% if project.likesCount == 0 %}
+                    {% set project_status = 0 %}
+                {% elseif ((project.likesCount/project.likesRequired) * 100) > 100 %}
+                    {% set project_status = 100 %}
+                {% else %}
+                    {% set project_status = ((project.likesCount/project.likesRequired) * 100)|number_format(1, '.', ',') %}
+                {% endif %}
+            {% else %}
+                {% if project.amountCount == 0 %}
+                    {% set project_status = 0 %}
+                {% elseif ((project.amountCount/project.amountRequired) * 100) > 100 %}
+                    {% set project_status = 100 %}
+                {% else %}
+                    {% set project_status = ((project.amountCount/project.amountRequired) * 100)|number_format(1, '.', ',') %}
+                {% endif %}
+            {% endif %}
+
+            <div class="status-bar-overflowed" data-status-percent="{{ project_status }}"></div>
+        </div>
+
+        <div class="keywords-container">
+            {% for category in project.categories %}
+                <div class="keyword"><span>{{ category }}</span><img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" /></div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
