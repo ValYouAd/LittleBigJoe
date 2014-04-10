@@ -1,4 +1,3 @@
-
 <div class="outer-title">
 
     <h1>{{ entity }}</h1>
@@ -45,7 +44,7 @@
 
     <div class="tabs-container">
         <div class="tab" id="tab_0"><img class="icon" src="{{ asset('static/img/icons/icon-projects-gray.png') }}" alt="alt-LBJ - projects icon" />{{ 'Project'|trans() }}</div>
-        {% if entity.status == '2' and entity.product is defined and entity.product.validatedAt != null %}<div class="tab" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>{% endif %}
+        {% if entity.status == '2' and entity.product is defined and entity.product.validatedAt is defined %}<div class="tab" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>{% endif %}
         <div class="tab" id="tab_1"><img class="icon" src="{{ asset('static/img/icons/icon-news.png') }}" alt="alt-LBJ - news icon" />{{ 'News'|trans() }}</div>
         <div class="tab" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{{ 'Participants'|trans() }}</div>
         <div class="tab" id="tab_3"><img class="icon" src="{{ asset('static/img/icons/icon-comment.png') }}" alt="alt-LBJ - comment icon" />{{ 'Comments'|trans() }}</div>
@@ -116,7 +115,7 @@
         {% endif %}
     </div>
 
-    {% if entity.status == '2' and entity.product is defined and entity.product.validatedAt != null %}
+    {% if entity.status == '2' and entity.product is defined and entity.product.validatedAt is defined %}
     {# ----- TAB 'PRODUIT' ------ #}
     <div class="tab-content-container" id="tabcont_4">
         <div class="wContent-video-container">
