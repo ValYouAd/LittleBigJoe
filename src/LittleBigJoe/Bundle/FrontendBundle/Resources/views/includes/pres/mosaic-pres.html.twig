@@ -13,7 +13,7 @@
 
         <div class="project-label">
             {% if project.brand.logo %}
-                <img class="mosaic-brand-logo" src="{{ asset(project.brand.logo) }}">
+                <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': project.brand.slug}) }}"><img class="mosaic-brand-logo" src="{{ asset(project.brand.logo) }}"></a>
             {% endif %}
 
             {% if project.status != '1' %}
