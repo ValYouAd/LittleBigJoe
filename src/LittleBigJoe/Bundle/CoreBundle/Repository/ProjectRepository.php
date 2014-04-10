@@ -444,4 +444,23 @@ class ProjectRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Return projects for specific category
+     *
+     * @param integer $categoryId : category id
+     * @return array projects
+     */
+    public function findByCategory($categoryId)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.categories', 'c')
+            ->where('p.deletedAt IS NULL')
+            ->andWhere('c = :category')
+            ->setParameter('category', $categoryId);
+
+        return $qb->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

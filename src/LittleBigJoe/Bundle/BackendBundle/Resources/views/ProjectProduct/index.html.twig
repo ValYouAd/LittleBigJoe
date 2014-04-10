@@ -1,0 +1,56 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.project_products_list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.project_products_list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.project_products_list_resume'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.id'|trans(), 'p.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'p.name') }}</th>
+            <th>{{ 'backend.project'|trans() }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.ending_at'|trans(), 'p.endingAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.submitted_at'|trans(), 'p.deletedAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.validated_at'|trans(), 'p.validatedAt') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_project_products_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>{{ entity.name }}</td>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.project.id }) }}">{{ entity.project }}</a>
+                </td>
+                <td>{{ entity.endingAt|date('d/m/Y h:i') }}</td>
+                <td>{{ entity.submittedAt|date('d/m/Y h:i') }}</td>
+                <td>{{ entity.validatedAt|date('d/m/Y h:i') }}</td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_project_products_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_project_products_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

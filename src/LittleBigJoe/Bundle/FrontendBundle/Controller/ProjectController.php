@@ -775,6 +775,17 @@ class ProjectController extends Controller
             return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
         }
 
+        // If the product is already validated OR project already in "Funding phase"
+        if (($project->getProduct() != null && $project->getProduct()->getValidatedAt() != null) || $project->getStatus() == '2')
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'The product is already validated !'
+            );
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+        }
+
         // Make sure the private user dir is created
         $dirName = __DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
         if (!file_exists($dirName))

@@ -26,6 +26,23 @@
 
     <div class="mosaic-infos-container">
         <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a></h3>
+
+        {% set canCreateProduct = false %}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            {% set canCreateProduct = true %}
+        {% elseif is_granted('ROLE_BRAND_ADMIN') %}
+            {% for brand in app.user.brands %}
+                {% if brand.id == entity.brand.id %}
+                    {% set canCreateProduct = true %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if canCreateProduct and project.status == '1' and project.product and project.product.validatedAt is null %}
+            <div class="clearfix"></div>
+            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
+            <div class="clearfix"></div>
+        {% endif %}
+
         <p class="project-description">{{ project.pitch }}</p>
         <div class="author">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': project.user.id}) }}">

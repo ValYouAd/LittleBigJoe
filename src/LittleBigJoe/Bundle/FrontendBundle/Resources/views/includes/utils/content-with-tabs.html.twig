@@ -14,9 +14,9 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
-        {% if canCreateProduct %}
+        {% if canCreateProduct and entity.status == '1' and entity.product and entity.product.validatedAt is null %}
             <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Create product'|trans() }}</a></p>
+            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
             <div class="clearfix"></div>
         {% endif %}
     {% endif %}
