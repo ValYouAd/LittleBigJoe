@@ -1,9 +1,8 @@
-
 <div class="short-sheet">
 
     <div class="img-container">
         {% if type == 'brand' and item.logo %}
-            <img class="pres-thumbnail" src="{{ asset(item.logo) }}" />
+            <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': item.slug}) }}"><img class="pres-thumbnail" src="{{ asset(item.logo) }}" /></a>
         {% else %}
             <img class="pres-thumbnail" src="http://placehold.it/690x460" alt="alt-LBJ - project image" />
         {% endif %}
