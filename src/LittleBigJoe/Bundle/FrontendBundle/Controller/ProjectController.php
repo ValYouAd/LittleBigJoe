@@ -609,92 +609,13 @@ class ProjectController extends Controller
 
 		    		return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $entity->getSlug())));
 	    	}
-	    	
-	    	// Get the rewards ids that already have been "purchased"
-	    	$usedRewardsIds = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findUsed($entity->getId());
-				
-	    	// Create an array of existing rewards
-	    	$originalRewards = array();
-	    	foreach ($entity->getRewards() as $reward)
-	    	{
-	    			$originalRewards[] = $reward;
-	    	}	    	
-	    	
+
 	    	// Formulaire d'édition
-	    	$editForm = $this->createForm(new EditProjectType($usedRewardsIds), $entity);
+	    	$editForm = $this->createForm(new EditProjectType(), $entity);
 	    	$editForm->handleRequest($request);
 	    		    	
-	    	if ($editForm->isValid()) {		
-		    		$rewards = $entity->getRewards();
-		    		// Set default project for associated rewards
-		    		foreach ($rewards as $projectReward)
-		    		{
-		    				$projectReward->setProject($entity);
-		    		}
-		    				
-		    		// Move tmp file from server, to project directory
-		    		$matches = array();
-		    		preg_match_all('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $entity->getDescription(), $matches, PREG_PATTERN_ORDER);
-		    		foreach ($matches[0] as $key => $match)
-		    		{
-			    			if (@fopen($match, 'r'))
-			    			{
-				    				// Create project directory if it doesn't exist
-				    				if (!is_dir(__DIR__.'/../../../../../web/uploads/projects/'.$entity->getId()))
-				    				{
-				    					mkdir(__DIR__.'/../../../../../web/uploads/projects/'.$entity->getId(), 0777);
-				    				}
-				    		
-				    				// Move file
-				    				$filePath = preg_replace('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')/i', '', $match);
-				    				copy(__DIR__.'/../../../../../web'.$filePath, __DIR__.'/../../../../../web/uploads/projects/'.$entity->getId().'/'.basename($filePath));
-				    		
-				    				// Update description field
-				    				$description = preg_replace('#'.$filePath.'#', '/uploads/projects/'.$entity->getId().'/'.basename($filePath), $entity->getDescription());
-				    				$entity->setDescription($description);
-			    			}
-		    		}		
-		    		
-		    		// Retrieve rewards that can't be deleted
-		    		if (sizeof($rewards) < 1 && !empty($usedRewardsIds))
-		    		{
-		    				foreach ($usedRewardsIds as $key => $usedRewardId)
-		    				{	
-		    						$projectReward = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->find($usedRewardId);
-		    						if (!empty($projectReward))
-		    						{
-		    								$entity->addReward($projectReward);
-		    						}
-		    				}
-		    		}
-		    		
-		    		// Only retrieve rewards that are supposed to be deleted
-		    		foreach ($entity->getRewards() as $projectReward) 
-			    	{
-		    				foreach ($originalRewards as $key => $toDel) 
-			    			{
-			    					if ($toDel->getId() === $projectReward->getId()) 
-				    				{
-				    						unset($originalRewards[$key]);
-				    				}
-				    				elseif (!empty($usedRewardsIds) && in_array($toDel->getId(), $usedRewardsIds))
-				    				{
-				    						unset($originalRewards[$key]);
-				    				}
-			    			}
-			    	}
-		    		
-		    		// Delete relation between reward and project
-		    		if (!empty($originalRewards))
-		    		{
-		    				foreach ($originalRewards as $projectReward) 
-				    		{
-					    			$entity->removeReward($projectReward);
-					    			$em->persist($entity);
-					    			$em->remove($projectReward);
-				    		}
-		    		}
-		    				    				    		
+	    	if ($editForm->isValid()) {
+
 		    		// Persist form data and redirect user
 		    		$em->persist($entity);
 		    		$em->flush();

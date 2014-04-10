@@ -296,4 +296,21 @@ backend.create_product_type: 'Création d''un type de produit'
 backend.associated_categories: 'Catégories associées'
 backend.brand_admin: 'Administrateur marque(s)'
 backend.lbj_staff: 'Administrateur/Equipe LittleBigJoe'
-backend.product_type: 'Type de produit'
+backend.edit_project_product: 'Editer le produit'
+backend.images: Images
+backend.videos: Vidéos
+backend.delete_project_product: 'Suppression du produit'
+backend.delete_confirmation_project_product: 'En supprimant ce produit, vous supprimerez tous les projets associés, et vous ne pourrez plus le récupérer'
+backend.project_product: Produit
+backend.gift_product: 'Cadeau à offrir'
+backend.gift_percentage_funds_raised: Pourcentage
+backend.offer_product_to_project_owner: 'Offrir le produit au créateur du projet, si la somme à lever est atteinte'
+backend.offer_percentage: 'Offrir un pourcentage sur les fonds levés, au créateur du projet'
+backend.submitted_at: 'Soumis le'
+backend.validated_at: 'Validé le'
+backend.new_project_product: 'Nouveau produit'
+backend.project_products_list: 'Liste des produits'
+backend.project_products_list_resume: 'Ci-dessous, une liste de tous les produits créés sur le site :'
+backend.project_product_infos: 'Infos sur le produit'
+backend.medias: 'Médias'
+backend.product: 'Produit'

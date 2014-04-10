@@ -2,6 +2,8 @@
 
 namespace LittleBigJoe\Bundle\BackendBundle\Form;
 
+use LittleBigJoe\Bundle\BackendBundle\Form\ProjectImageType;
+use LittleBigJoe\Bundle\BackendBundle\Form\ProjectVideoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -25,6 +27,26 @@ class ProjectProductType extends AbstractType
             ))
             ->add('pitch', 'textarea', array(
                 'label' => 'backend.pitch'
+            ))
+            ->add('images', 'collection', array(
+                'label' => 'backend.images',
+                'type' => new ProjectImageType(),
+                'options'  => array(
+                    'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage',
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
+            ->add('videos', 'collection', array(
+                'label' => 'backend.videos',
+                'type' => new ProjectVideoType(),
+                'options'  => array(
+                    'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo',
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ))
             ->add('description', 'ckeditor', array(
                 'label' => 'backend.description',

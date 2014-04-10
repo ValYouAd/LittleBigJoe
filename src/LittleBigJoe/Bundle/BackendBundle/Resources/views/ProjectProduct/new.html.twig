@@ -10,7 +10,27 @@
     </div>
     <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
 
-    {{ form(form, {attr:{role:'form' }}) }}
+    {% do form.images.setRendered %}
+    {% do form.videos.setRendered %}
+
+    {{ form_start(form, {attr:{role:'form' }}) }}
+
+    <h4>{{ 'backend.images'|trans() }}</h4>
+    <ul class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}">
+        {% for image in form.images %}
+            <li>{{ form_widget(image) }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4>{{ 'backend.videos'|trans() }}</h4>
+    <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e }}">
+        {% for video in form.videos %}
+            <li>{{ form_widget(video) }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
 
     <div class="clearfix">&nbsp;</div>
     <p>
@@ -18,4 +38,75 @@
             {{ 'backend.back_to_list'|trans() }}
         </a>
     </p>
+{% endblock %}
+
+{% block footer_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var $collectionHolder;
+
+        var $addImageLink = $('<a href="#" class="add_image btn btn-xs btn-info">Add image</a>');
+        var $newLinkLi = $('<li></li>').append($addImageLink);
+        var $addVideoLink = $('<a href="#" class="add_video btn btn-xs btn-info">Add video</a>');
+        var $newLinkLiVideo = $('<li></li>').append($addVideoLink);
+
+        function addImageForm($collectionHolder, $newLinkLi) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            $collectionHolder.data('index', index + 1);
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+        function addVideoForm($collectionHolder, $newLinkLiVideo) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            $collectionHolder.data('index', index + 1);
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLiVideo.before($newFormLi);
+        }
+        function addImageFormDeleteLink($tagFormLi) {
+            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger">Delete this image</a>');
+            $tagFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                e.preventDefault();
+                $tagFormLi.remove();
+            });
+        }
+        function addVideoFormDeleteLink($tagFormLi) {
+            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger">Delete this video</a>');
+            $tagFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                e.preventDefault();
+                $tagFormLi.remove();
+            });
+        }
+
+        jQuery(document).ready(function() {
+            $collectionHolder = $('ul.images');
+            $collectionHolder.append($newLinkLi);
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+            $collectionHolderVideo = $('ul.videos');
+            $collectionHolderVideo.append($newLinkLiVideo);
+            $collectionHolderVideo.data('index', $collectionHolderVideo.find(':input').length);
+
+            $addImageLink.on('click', function(e) {
+                e.preventDefault();
+                addVideoForm($collectionHolder, $newLinkLi);
+            });
+            $collectionHolder.find('li').each(function() {
+                addImageFormDeleteLink($(this));
+            });
+            $addVideoLink.on('click', function(e) {
+                e.preventDefault();
+                addVideoForm($collectionHolderVideo, $newLinkLiVideo);
+            });
+            $collectionHolderVideo.find('li').each(function() {
+                addVideoFormDeleteLink($(this));
+            });
+        });
+    </script>
 {% endblock %}

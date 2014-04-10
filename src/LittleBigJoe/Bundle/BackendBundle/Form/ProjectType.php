@@ -85,6 +85,26 @@ class ProjectType extends AbstractType
             				'tools' => array('Maximize')
             		)
             ))
+            ->add('images', 'collection', array(
+                'label' => 'backend.images',
+                'type' => new ProjectImageType(),
+                'options'  => array(
+                    'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage',
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
+            ->add('videos', 'collection', array(
+                'label' => 'backend.videos',
+                'type' => new ProjectVideoType(),
+                'options'  => array(
+                    'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo',
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
             ->add('amountRequired', 'number', array(
                 'label' => 'backend.amount_to_raise'
             ))

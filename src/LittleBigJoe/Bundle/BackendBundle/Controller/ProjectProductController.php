@@ -2,6 +2,7 @@
 
 namespace LittleBigJoe\Bundle\BackendBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -54,11 +55,72 @@ class ProjectProductController extends Controller
     public function createAction(Request $request)
     {
         $entity = new ProjectProduct();
+
+        $originalImages = new ArrayCollection();
+        $originalImagesPath = array();
+        $originalVideos = new ArrayCollection();
+        foreach ($entity->getImages() as $key => $image) {
+            $originalImages->add($image);
+            $originalImagesPath[$key] = $image->getPath();
+        }
+        foreach ($entity->getVideos() as $video) {
+            $originalVideos->add($video);
+        }
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            // Check that items are not to delete
+            foreach ($originalImages as $image) {
+                if (false === $entity->getImages()->contains($image)) {
+                    $entity->removeImage($image);
+                    $image->setProduct(null);
+
+                    $em->persist($image);
+                }
+            }
+            // Parse images
+            foreach ($entity->getImages() as $key => $image)
+            {
+                if ($image->getPath() == null)
+                {
+                    $image->setPath($originalImagesPath[$key]);
+                }
+                else
+                {
+                    $tmpName = sha1($image->getPath()->getClientOriginalName().uniqid(mt_rand(), true));
+                    $dirName = 'uploads/projects/'.$entity->getProject()->getId().'/product';
+                    $image->getPath()->move($dirName, $tmpName);
+                    $image->setName($tmpName);
+                    $image->setPath($dirName.'/'.$tmpName);
+                }
+
+                $entity->addImage($image);
+                $image->setProduct($entity);
+
+                $em->persist($image);
+            }
+            // Check that items are not to delete
+            foreach ($originalVideos as $video) {
+                if (false === $entity->getVideos()->contains($video)) {
+                    $entity->removeVideo($video);
+                    $video->setProduct(null);
+
+                    $em->persist($video);
+                }
+            }
+            // Parse videos
+            foreach ($entity->getVideos() as $video)
+            {
+                $entity->addVideo($video);
+                $video->setProduct($entity);
+
+                $em->persist($video);
+            }
+
             $em->persist($entity);
             $em->flush();
 
@@ -195,11 +257,71 @@ class ProjectProductController extends Controller
             throw $this->createNotFoundException('Unable to find ProjectProduct entity.');
         }
 
+        $originalImages = new ArrayCollection();
+        $originalImagesPath = array();
+        $originalVideos = new ArrayCollection();
+        foreach ($entity->getImages() as $key => $image) {
+            $originalImages->add($image);
+            $originalImagesPath[$key] = $image->getPath();
+        }
+        foreach ($entity->getVideos() as $video) {
+            $originalVideos->add($video);
+        }
+
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            // Check that items are not to delete
+            foreach ($originalImages as $image) {
+                if (false === $entity->getImages()->contains($image)) {
+                    $entity->removeImage($image);
+                    $image->setProduct(null);
+
+                    $em->persist($image);
+                }
+            }
+            // Parse images
+            foreach ($entity->getImages() as $key => $image)
+            {
+                if ($image->getPath() == null)
+                {
+                    $image->setPath($originalImagesPath[$key]);
+                }
+                else
+                {
+                    $tmpName = sha1($image->getPath()->getClientOriginalName().uniqid(mt_rand(), true));
+                    $dirName = 'uploads/projects/'.$entity->getProject()->getId().'/product';
+                    $image->getPath()->move($dirName, $tmpName);
+                    $image->setName($tmpName);
+                    $image->setPath($dirName.'/'.$tmpName);
+                }
+
+                $entity->addImage($image);
+                $image->setProduct($entity);
+
+                $em->persist($image);
+            }
+            // Check that items are not to delete
+            foreach ($originalVideos as $video) {
+                if (false === $entity->getVideos()->contains($video)) {
+                    $entity->removeVideo($video);
+                    $video->setProduct(null);
+
+                    $em->persist($video);
+                }
+            }
+            // Parse videos
+            foreach ($entity->getVideos() as $video)
+            {
+                $entity->addVideo($video);
+                $video->setProduct($entity);
+
+                $em->persist($video);
+            }
+
+            $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_project_products_edit', array('id' => $id)));

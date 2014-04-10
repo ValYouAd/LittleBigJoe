@@ -7,4 +7,14 @@ var project_carousel = function(){
             interval: false
         });
     }
-}
+};
+
+var product_carousel = function(){
+    var $productCar = $(".product-carousel");
+
+    if($productCar.length>0){
+        $productCar.carousel({
+            interval: false
+        });
+    }
+};

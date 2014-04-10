@@ -1,32 +1,32 @@
 <?php
 
-namespace LittleBigJoe\Bundle\FrontendBundle\Form;
+namespace LittleBigJoe\Bundle\BackendBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\ORM\EntityRepository;
 
-class EditProjectType extends AbstractType
+class ProjectImageType extends AbstractType
 {
-    public function __construct($options = array())
-    {
-            $this->options = $options;
-    }
-	
-    /**
+        /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('endingAt', 'date', array(
-                'label' => 'Ending at',
+            ->add('name', 'text', array(
+                'label' => 'backend.name'
             ))
-            ->add('submit', 'submit', array(
-            'label' => 'Save modifications'
-                ))
+            ->add('path', 'file', array(
+                'label' => 'backend.file',
+                'data_class' => null,
+                'required' => false
+            ))
+            ->add('highlighted', 'checkbox', array(
+                'label' => 'backend.highlighted',
+                'required' => false
+            ))
         ;
     }
     
@@ -36,9 +36,7 @@ class EditProjectType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Project',
-        		'validation_groups' => array('Default'),
-        		'cascade_validation' => true,
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage'
         ));
     }
 
@@ -47,6 +45,6 @@ class EditProjectType extends AbstractType
      */
     public function getName()
     {
-        return 'editProject';
+        return 'littlebigjoe_bundle_backendbundle_projectimage';
     }
 }

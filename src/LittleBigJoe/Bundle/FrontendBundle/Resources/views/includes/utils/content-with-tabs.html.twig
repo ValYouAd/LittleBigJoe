@@ -3,8 +3,8 @@
 
     <h1>{{ entity }}</h1>
     {% if isPreview is not defined %}
-        {# Si l'utilisateur est un administrateur LBJ ou un administrateur de la marque #}
         {% set canCreateProduct = false %}
+        {% set canEditProduct = false %}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             {% set canCreateProduct = true %}
         {% elseif is_granted('ROLE_BRAND_ADMIN') %}
@@ -13,13 +13,21 @@
                     {% set canCreateProduct = true %}
                 {% endif %}
             {% endfor %}
+        {% elseif is_granted('ROLE_USER') and entity.user.id == app.user.id %}
+            {% set canEditProduct = true %}
         {% endif %}
         {% if canCreateProduct and entity.status == '1' and entity.product and entity.product.validatedAt is null %}
             <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
+            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
+            <div class="clearfix"></div>
+        {% endif %}
+        {% if canEditProduct %}
+            <div class="clearfix"></div>
+            <p><a href="{{ path('littlebigjoe_frontendbundle_project_edit', {'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Edit'|trans() }}</a></p>
             <div class="clearfix"></div>
         {% endif %}
     {% endif %}
+
 
     <div class="brand-location">
         <img class="icon" src="{{ asset('static/img/icons/icon-location.png') }}" alt="alt-LBJ - location icon" /> <strong>{{ entity.user.city }}</strong> ({{ entity.user.country|country(app.request.locale) }})
@@ -37,6 +45,7 @@
 
     <div class="tabs-container">
         <div class="tab" id="tab_0"><img class="icon" src="{{ asset('static/img/icons/icon-projects-gray.png') }}" alt="alt-LBJ - projects icon" />{{ 'Project'|trans() }}</div>
+        {% if entity.status == '2' and entity.product is defined and entity.product.validatedAt != null %}<div class="tab" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>{% endif %}
         <div class="tab" id="tab_1"><img class="icon" src="{{ asset('static/img/icons/icon-news.png') }}" alt="alt-LBJ - news icon" />{{ 'News'|trans() }}</div>
         <div class="tab" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{{ 'Participants'|trans() }}</div>
         <div class="tab" id="tab_3"><img class="icon" src="{{ asset('static/img/icons/icon-comment.png') }}" alt="alt-LBJ - comment icon" />{{ 'Comments'|trans() }}</div>
@@ -107,6 +116,72 @@
         {% endif %}
     </div>
 
+    {% if entity.status == '2' and entity.product is defined and entity.product.validatedAt != null %}
+    {# ----- TAB 'PRODUIT' ------ #}
+    <div class="tab-content-container" id="tabcont_4">
+        <div class="wContent-video-container">
+            {% if productMedias is not defined %}
+                {% set productMedias = entity.product.medias %}
+            {% endif %}
+
+            {% if productMedias %}
+                {% set hasDefaultMedia = false %}
+                {% for productMedia in productMedias %}
+                    {% if productMedia.highlighted %}
+                        <img src="{{ asset(productMedia.image) }}" alt="alt-LBJ - brand" />
+                        {% set hasDefaultMedia = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if not hasDefaultMedia %}
+                    <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
+                {% endif %}
+            {% else %}
+                <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
+            {% endif %}
+        </div>
+
+        <div class="article-header">
+            <h2>{{ entity.product }}</h2>
+        </div>
+
+        <div class="description-infos">
+            {{ entity.product.description|raw() }}
+
+            <div class="double-separator"></div>
+        </div>
+
+        {% if productMedias %}
+            <div class="product-carousel carousel slide" id="product-carousel">
+                <div class="carousel-inner">
+                    {% for productMedia in productMedias %}
+                        {% if loop.index0 == 0 %}
+                            <div class="item active">
+                        {% elseif loop.index0 % 3 == 0 %}
+                            </div>
+                            <div class="item">
+                        {% endif %}
+
+                        <div class="thumb-cont">
+                            <img class="carousel-thumbnail" src="{% if productMedia.type == 'video' %}{{ productMedia.image }}{% else %}{{ asset(productMedia.image) }}{% endif %}" alt="alt-LBJ - project image" />
+                        </div>
+
+                        {% if loop.last %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <a class="left carousel-arrow" href="#product-carousel" data-slide="prev">
+                    <img src="{{ asset('static/img/icons/icon-carousel-arrow-left.png') }}" alt="alt-LBJ - arrow left" />
+                </a>
+                <a class="right carousel-arrow" href="#product-carousel" data-slide="next">
+                    <img src="{{ asset('static/img/icons/icon-carousel-arrow-right.png') }}" alt="alt-LBJ - arrow right" />
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
 
     {# ----- TAB 'NEWS' ------ #}
     <div class="tab-content-container" id="tabcont_1">

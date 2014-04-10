@@ -54,11 +54,13 @@ class ProductTypeController extends Controller
     public function createAction(Request $request)
     {
         $entity = new ProductType();
+
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($entity);
             $em->flush();
 
