@@ -81,13 +81,13 @@
 {% if author %}
 <div class="side-infos-block small-resp-block">
     {% if entity.user.photo %}
-        <img class="author-thumbnail" src="{{ asset(entity.user.photo) }}" width="82" height="95" />
+        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="{{ asset(entity.user.photo) }}" width="82" height="95" /></a>
     {% else %}
-        <img class="author-thumbnail" src="http://placehold.it/230x268" alt="alt-LBJ - author" />
+        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="http://placehold.it/230x268" alt="alt-LBJ - author" /></a>
     {% endif %}
 
     <ul class="author-infos">
-        <li class="name">{{ entity.user }}</li>
+        <li class="name"><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}">{{ entity.user }}</a></li>
         <li class="links">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}">
                 <img class="icon" src="{{ asset('static/img/icons/icon-author-blue.png') }}" alt="alt-LBJ - author icon" />{{ 'See his profile'|trans() }}
