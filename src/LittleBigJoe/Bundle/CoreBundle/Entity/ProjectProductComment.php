@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ProjectProductComment
  *
  * @ORM\Table(name="project_product_comment")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Repository\ProjectProductCommentRepository")
  */
 class ProjectProductComment
@@ -40,6 +41,12 @@ class ProjectProductComment
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=true)
      */
     protected $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="productComments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
 
     public function __construct()
     {
@@ -128,5 +135,36 @@ class ProjectProductComment
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * Set user
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $user
+     * @return ProjectProductComment
+     */
+    public function setUser(\LittleBigJoe\Bundle\CoreBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

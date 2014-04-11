@@ -307,6 +307,11 @@ class User extends BaseUser
      */
     protected $brands;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ProjectProductComment", mappedBy="user", cascade={"persist", "remove"})
+     */
+    protected $productComments;
+
     public function __construct()
     {
         parent::__construct();
@@ -325,6 +330,7 @@ class User extends BaseUser
         $this->notifications = new ArrayCollection();
         $this->projectHelps = new ArrayCollection();
         $this->brands = new ArrayCollection();
+        $this->productComments = new ArrayCollection();
     }
 
     public function __toString()
@@ -1350,5 +1356,38 @@ class User extends BaseUser
     public function getBrands()
     {
         return $this->brands;
+    }
+
+    /**
+     * Add productComments
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComments $productComments
+     * @return User
+     */
+    public function addProductComment(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComments $productComments)
+    {
+        $this->productComments[] = $productComments;
+    
+        return $this;
+    }
+
+    /**
+     * Remove productComments
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComments $productComments
+     */
+    public function removeProductComment(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComments $productComments)
+    {
+        $this->productComments->removeElement($productComments);
+    }
+
+    /**
+     * Get productComments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductComments()
+    {
+        return $this->productComments;
     }
 }

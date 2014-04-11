@@ -3,6 +3,8 @@
 namespace LittleBigJoe\Bundle\FrontendBundle\Controller;
 
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProduct;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment;
+use LittleBigJoe\Bundle\FrontendBundle\Form\ProjectProductCommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -1172,30 +1174,80 @@ class ProjectController extends Controller
     }
 
     /**
-     * Project product comments
+     * Show project product comments
      *
-     * @Route("/project/preview", name="littlebigjoe_frontendbundle_project_preview")
-     * @Template("LittleBigJoeFrontendBundle:Project:preview.html.twig")
+     * @Route("/project/{slug}/feedbacks", name="littlebigjoe_frontendbundle_project_product_feedbacks")
+     * @Template("LittleBigJoeFrontendBundle:Project:Product/comments.html.twig")
      */
-    public function previewAction($entity, $isPreview = true)
+    public function showFeedbacksAction(Request $request, $slug)
     {
-        $photo = '';
-        // Get session vars
-        $projectMedias = $this->getRequest()->getSession()->get('projectMedias', array());
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
 
-        // Retrieve the uploaded photo, and associate it with project
-        if ($this->getRequest()->getSession()->get('tmpUploadedFile') != null && $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath') != null)
+        if (!$project) {
+            throw $this->createNotFoundException('Unable to find Project entity.');
+        }
+
+        if ($project->getProduct() == null)
         {
-            $photo = $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath').
-                $this->getRequest()->getSession()->get('tmpUploadedFile');
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'There\'s no product for this project'
+            );
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+        }
+
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to access to the product feedbacks'
+            );
+
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_product_feedbacks', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+
+        // If the current user is not an LBJ admin or brand admin or project owner
+        $brandIds = array();
+        foreach ($currentUser->getBrands() as $brand)
+        {
+            $brandIds[] = $brand->getId();
+        }
+        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
+            !in_array($project->getBrand()->getId(), $brandIds) && $project->getUser()->getId() != $currentUser->getId())
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be the owner or an administrator to access to the product feedbacks'
+            );
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+        }
+
+        $comment = new ProjectProductComment();
+        $comment->setUser($currentUser);
+        $comment->setProduct($project->getProduct());
+
+        $form = $this->createForm(new ProjectProductCommentType(), $comment);
+        $form->handleRequest($request);
+
+        if ($form->isValid())
+        {
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_product_feedbacks', array('slug' => $project->getSlug())));
         }
 
         return array(
-            'entity' => $entity,
-            'isPreview' => $isPreview,
-            'photo' => $photo,
-            'projectMedias' => $projectMedias,
-            'current_date' => new \Datetime()
+            'entity' => $project->getProduct(),
+            'form' => $form->createView()
         );
     }
 }
