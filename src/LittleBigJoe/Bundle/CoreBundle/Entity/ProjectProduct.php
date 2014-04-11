@@ -139,6 +139,11 @@ class ProjectProduct
      */
     protected $project;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ProjectProductComment", mappedBy="product", cascade={"persist", "remove"})
+     */
+    protected $comments;
+
     public function __construct()
     {
         $this->videos = new ArrayCollection();
@@ -146,6 +151,7 @@ class ProjectProduct
         $this->medias = new ArrayCollection();
         $this->giftProduct = true;
         $this->giftPercentageFundsRaised = 0;
+        $this->comments = new ArrayCollection();
     }
 
     public function __toString()
@@ -467,5 +473,38 @@ class ProjectProduct
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment $comments
+     * @return ProjectProduct
+     */
+    public function addComment(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment $comments)
+    {
+        $this->comments[] = $comments;
+    
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment $comments
+     */
+    public function removeComment(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

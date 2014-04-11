@@ -1170,4 +1170,32 @@ class ProjectController extends Controller
             'current_date' => new \Datetime()
         );
     }
+
+    /**
+     * Project product comments
+     *
+     * @Route("/project/preview", name="littlebigjoe_frontendbundle_project_preview")
+     * @Template("LittleBigJoeFrontendBundle:Project:preview.html.twig")
+     */
+    public function previewAction($entity, $isPreview = true)
+    {
+        $photo = '';
+        // Get session vars
+        $projectMedias = $this->getRequest()->getSession()->get('projectMedias', array());
+
+        // Retrieve the uploaded photo, and associate it with project
+        if ($this->getRequest()->getSession()->get('tmpUploadedFile') != null && $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath') != null)
+        {
+            $photo = $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath').
+                $this->getRequest()->getSession()->get('tmpUploadedFile');
+        }
+
+        return array(
+            'entity' => $entity,
+            'isPreview' => $isPreview,
+            'photo' => $photo,
+            'projectMedias' => $projectMedias,
+            'current_date' => new \Datetime()
+        );
+    }
 }
