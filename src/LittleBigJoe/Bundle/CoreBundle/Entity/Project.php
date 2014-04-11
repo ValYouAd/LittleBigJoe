@@ -237,7 +237,7 @@ class Project
      *
      * @ORM\Column(name="ending_at", type="datetime")
      *
-     * @Assert\NotBlank(message = "You must enter the project ending date", groups = {"Default", "flow_createProject_step3"})
+     * @Assert\NotBlank(message = "You must enter the project ending date", groups = {"Default", "flow_createProject_step3", "editProject"})
      * @Assert\Date(message = "Your project ending date format is incorrect", groups = {"Default", "flow_createProject_step3"})
      */
     protected $endingAt;

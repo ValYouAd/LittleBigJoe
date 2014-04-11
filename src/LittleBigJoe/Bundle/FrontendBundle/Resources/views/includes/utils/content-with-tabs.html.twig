@@ -3,7 +3,7 @@
     <h1>{{ entity }}</h1>
     {% if isPreview is not defined %}
         {% set canCreateProduct = false %}
-        {% set canEditProduct = false %}
+        {% set canEditProject = false %}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             {% set canCreateProduct = true %}
         {% elseif is_granted('ROLE_BRAND_ADMIN') %}
@@ -13,14 +13,14 @@
                 {% endif %}
             {% endfor %}
         {% elseif is_granted('ROLE_USER') and entity.user.id == app.user.id %}
-            {% set canEditProduct = true %}
+            {% set canEditProject = true %}
         {% endif %}
         {% if canCreateProduct and entity.status == '1' and entity.product and entity.product.validatedAt is null %}
             <div class="clearfix"></div>
             <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
             <div class="clearfix"></div>
         {% endif %}
-        {% if canEditProduct %}
+        {% if canEditProject %}
             <div class="clearfix"></div>
             <p><a href="{{ path('littlebigjoe_frontendbundle_project_edit', {'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Edit'|trans() }}</a></p>
             <div class="clearfix"></div>
@@ -44,7 +44,8 @@
 
     <div class="tabs-container">
         <div class="tab" id="tab_0"><img class="icon" src="{{ asset('static/img/icons/icon-projects-gray.png') }}" alt="alt-LBJ - projects icon" />{{ 'Project'|trans() }}</div>
-        {% if entity.status == '2' and entity.product is defined and entity.product.validatedAt is defined %}<div class="tab" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>{% endif %}
+        {# N'affiche l'onglet que si c'est le créateur du projet, un admin LBJ, un admin marque, ou que le produit est validé #}
+        {% if canCreateProduct or canEditProject or (entity.status == '2' and entity.product is defined and entity.product.validatedAt is defined) %}<div class="tab" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>{% endif %}
         <div class="tab" id="tab_1"><img class="icon" src="{{ asset('static/img/icons/icon-news.png') }}" alt="alt-LBJ - news icon" />{{ 'News'|trans() }}</div>
         <div class="tab" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{{ 'Participants'|trans() }}</div>
         <div class="tab" id="tab_3"><img class="icon" src="{{ asset('static/img/icons/icon-comment.png') }}" alt="alt-LBJ - comment icon" />{{ 'Comments'|trans() }}</div>
@@ -115,7 +116,8 @@
         {% endif %}
     </div>
 
-    {% if entity.status == '2' and entity.product is defined and entity.product.validatedAt is defined %}
+    {# N'affiche l'onglet que si c'est le créateur du projet, un admin LBJ, un admin marque, ou que le produit est validé #}
+    {% if canCreateProduct or canEditProject or (entity.status == '2' and entity.product is defined and entity.product.validatedAt is defined) %}
     {# ----- TAB 'PRODUIT' ------ #}
     <div class="tab-content-container" id="tabcont_4">
         <div class="wContent-video-container">

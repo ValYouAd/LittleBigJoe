@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ 'Edit project'|trans() }} {{ entity }} | {{ parent() }}
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
+
+{% block body %}
+    <h3>{{ 'Edit project'|trans() }} {{ entity }}</h3>
+
+    {{ form(form) }}
+
+    {{ form(deleteForm) }}
+{% endblock %}

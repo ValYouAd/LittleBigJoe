@@ -37,7 +37,7 @@ class EditProjectType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Project',
-        		'validation_groups' => array('Default'),
+        		'validation_groups' => array('editProject'),
         		'cascade_validation' => true,
         ));
     }

@@ -610,140 +610,179 @@ class ProjectController extends Controller
                 return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
         }
 
-        // Get session vars
-        $projectMedias = $this->getRequest()->getSession()->get('projectMedias', $project->getMedias());
-
-        // Create form flow
-        $flow = $this->get('littlebigjoefrontend.flow.project.editProject');
-        $flow->bind($project);
-        $form = $flow->createForm();
-
-        if ($flow->isValid($form))
+        // If the project is already ended, show a different form
+        if ($project->getEndedAt() != null)
         {
-            // Handle file upload in first step
-            $photo = $this->_fixUploadFile($project->getPhoto());
-            $flow->saveCurrentStepData($form);
+            $editForm = $this->createForm(new EditProjectType(), $project);
+            $editForm->handleRequest($request);
 
-            // If we're not on the final step
-            if ($flow->nextStep())
+            if ($editForm->isValid())
             {
-                // Create form for next step
-                $form = $flow->createForm();
-            }
-            else
-            {
-                // Remap entities
-                $productType = $em->getRepository('LittleBigJoeCoreBundle:ProductType')->find($project->getProductType()->getId());
-                $project->setProductType($productType);
-                $productType->addProject($project);
-
-                $projectImages = $project->getImages();
-                if (!empty($projectImages))
-                {
-                    foreach ($projectImages as $key => $projectImage)
-                    {
-                        $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
-                        $project->addImage($projectImage);
-                        $projectImage->setProject($project);
-                    }
-                }
-
-                $projectVideos = $project->getVideos();
-                if (!empty($projectVideos))
-                {
-                    foreach ($projectVideos as $key => $projectVideo)
-                    {
-                        $projectVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectVideo);
-                        $project->addVideo($projectVideo);
-                        $projectVideo->setProject($project);
-                    }
-                }
-
-                // Persist form data
                 $em->persist($project);
                 $em->flush();
-
-                // Create project directory if it doesn't exist
-                if (!is_dir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId()))
-                {
-                    mkdir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId(), 0777);
-                }
-
-                // Move tmp file from server, to project directory
-                $matches = array();
-                preg_match_all('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $project->getDescription(), $matches, PREG_PATTERN_ORDER);
-                foreach ($matches[0] as $key => $match)
-                {
-                    if (@fopen($match, 'r'))
-                    {
-                        // Move file
-                        $filePath = preg_replace('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')/i', '', $match);
-                        copy($this->get('kernel')->getRootDir().'/../web'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
-
-                        // Update description field
-                        $description = preg_replace('#'.$filePath.'#', '/uploads/projects/'.$project->getId().'/'.basename($filePath), $project->getDescription());
-                        $project->setDescription($description);
-                    }
-                }
-
-                // Retrieve the uploaded photo, and associate it with project
-                if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null)
-                {
-                    $fileInfo = new UploadedFile(
-                        $this->getRequest()->getSession()->get('tmpUploadedFilePath'),
-                        $this->getRequest()->getSession()->get('tmpUploadedFile'),
-                        MimeTypeGuesser::getInstance()->guess($this->getRequest()->getSession()->get('tmpUploadedFilePath')),
-                        filesize($this->getRequest()->getSession()->get('tmpUploadedFilePath'))
-                    );
-                    $project->setPhoto($fileInfo);
-
-                    $evm = $em->getEventManager();
-                    $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-                    $uploadableListener = $uploadableManager->getUploadableListener();
-                    $uploadableListener->setDefaultPath('uploads/projects/'.$project->getId());
-                    $evm->removeEventListener(array('postFlush'), $uploadableListener);
-                    $uploadableManager->markEntityToUpload($project, $project->getPhoto());
-                }
-
-                // Move tmp project medias from server, to project directory
-                if (!empty($projectMedias))
-                {
-                    foreach ($projectMedias as $projectMedia)
-                    {
-                        if ($projectMedia['type'] == 'image')
-                        {
-                            $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
-                            $filePath = $projectImage->getPath();
-
-                            copy($this->get('kernel')->getRootDir().'/../web/'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
-                            $path = preg_replace('#'.$filePath.'#', 'uploads/projects/'.$project->getId().'/'.basename($filePath), $projectImage->getPath());
-                            $projectImage->setPath($path);
-                        }
-                    }
-                }
-
-                // Persist form data and redirect user
-                $em->persist($project);
-                $em->flush();
-
-                // Delete session data
-                $this->getRequest()->getSession()->remove('tmpUploadedFile');
-                $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
-
-                // Reset flow data
-                $flow->reset();
-                $this->getRequest()->getSession()->set('projectMedias', null);
 
                 return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
             }
+
+            // Project deletion
+            $deleteForm = $this->createFormBuilder()
+                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('slug' => $project->getSlug())))
+                                ->setMethod('DELETE')
+                                ->add('submit', 'submit', array('label' => 'Delete this project', 'attr' => array('class' => 'btn btn-danger')))
+                                ->getForm();
+            $deleteForm->handleRequest($request);
+
+            if ($deleteForm->isValid()) {
+                $project->setDeletedAt(new \Datetime());
+                $em->persist($project);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+            }
+
+            return $this->render('LittleBigJoeFrontendBundle:Project:edit_ended.html.twig', array(
+                'entity' => $project,
+                'form' => $editForm->createView(),
+                'deleteForm' => $deleteForm->createView(),
+            ));
         }
+        // If the project is still available, show multi steps form (to edit all project datas)
+        else
+        {
+            // Get session vars
+            $projectMedias = $this->getRequest()->getSession()->get('projectMedias', $project->getMedias());
 
-        return $this->render('LittleBigJoeFrontendBundle:Project:edit.html.twig', array(
-            'form' => $form->createView(),
-            'flow' => $flow,
-            'projectMedias' => $projectMedias
-        ));
+            // Create form flow
+            $flow = $this->get('littlebigjoefrontend.flow.project.editProject');
+            $flow->bind($project);
+            $form = $flow->createForm();
 
+            if ($flow->isValid($form))
+            {
+                // Handle file upload in first step
+                $photo = $this->_fixUploadFile($project->getPhoto());
+                $flow->saveCurrentStepData($form);
+
+                // If we're not on the final step
+                if ($flow->nextStep())
+                {
+                    // Create form for next step
+                    $form = $flow->createForm();
+                }
+                else
+                {
+                    // Remap entities
+                    $productType = $em->getRepository('LittleBigJoeCoreBundle:ProductType')->find($project->getProductType()->getId());
+                    $project->setProductType($productType);
+                    $productType->addProject($project);
+
+                    $projectImages = $project->getImages();
+                    if (!empty($projectImages))
+                    {
+                        foreach ($projectImages as $key => $projectImage)
+                        {
+                            $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
+                            $project->addImage($projectImage);
+                            $projectImage->setProject($project);
+                        }
+                    }
+
+                    $projectVideos = $project->getVideos();
+                    if (!empty($projectVideos))
+                    {
+                        foreach ($projectVideos as $key => $projectVideo)
+                        {
+                            $projectVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectVideo);
+                            $project->addVideo($projectVideo);
+                            $projectVideo->setProject($project);
+                        }
+                    }
+
+                    // Persist form data
+                    $em->persist($project);
+                    $em->flush();
+
+                    // Create project directory if it doesn't exist
+                    if (!is_dir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId()))
+                    {
+                        mkdir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId(), 0777);
+                    }
+
+                    // Move tmp file from server, to project directory
+                    $matches = array();
+                    preg_match_all('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $project->getDescription(), $matches, PREG_PATTERN_ORDER);
+                    foreach ($matches[0] as $key => $match)
+                    {
+                        if (@fopen($match, 'r'))
+                        {
+                            // Move file
+                            $filePath = preg_replace('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')/i', '', $match);
+                            copy($this->get('kernel')->getRootDir().'/../web'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
+
+                            // Update description field
+                            $description = preg_replace('#'.$filePath.'#', '/uploads/projects/'.$project->getId().'/'.basename($filePath), $project->getDescription());
+                            $project->setDescription($description);
+                        }
+                    }
+
+                    // Retrieve the uploaded photo, and associate it with project
+                    if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null)
+                    {
+                        $fileInfo = new UploadedFile(
+                            $this->getRequest()->getSession()->get('tmpUploadedFilePath'),
+                            $this->getRequest()->getSession()->get('tmpUploadedFile'),
+                            MimeTypeGuesser::getInstance()->guess($this->getRequest()->getSession()->get('tmpUploadedFilePath')),
+                            filesize($this->getRequest()->getSession()->get('tmpUploadedFilePath'))
+                        );
+                        $project->setPhoto($fileInfo);
+
+                        $evm = $em->getEventManager();
+                        $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+                        $uploadableListener = $uploadableManager->getUploadableListener();
+                        $uploadableListener->setDefaultPath('uploads/projects/'.$project->getId());
+                        $evm->removeEventListener(array('postFlush'), $uploadableListener);
+                        $uploadableManager->markEntityToUpload($project, $project->getPhoto());
+                    }
+
+                    // Move tmp project medias from server, to project directory
+                    if (!empty($projectMedias))
+                    {
+                        foreach ($projectMedias as $projectMedia)
+                        {
+                            if ($projectMedia['type'] == 'image')
+                            {
+                                $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
+                                $filePath = $projectImage->getPath();
+
+                                copy($this->get('kernel')->getRootDir().'/../web/'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
+                                $path = preg_replace('#'.$filePath.'#', 'uploads/projects/'.$project->getId().'/'.basename($filePath), $projectImage->getPath());
+                                $projectImage->setPath($path);
+                            }
+                        }
+                    }
+
+                    // Persist form data and redirect user
+                    $em->persist($project);
+                    $em->flush();
+
+                    // Delete session data
+                    $this->getRequest()->getSession()->remove('tmpUploadedFile');
+                    $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
+
+                    // Reset flow data
+                    $flow->reset();
+                    $this->getRequest()->getSession()->set('projectMedias', null);
+
+                    return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                }
+            }
+
+            return $this->render('LittleBigJoeFrontendBundle:Project:edit.html.twig', array(
+                'form' => $form->createView(),
+                'flow' => $flow,
+                'projectMedias' => $projectMedias
+            ));
+        }
     }
 
     /**
