@@ -20,21 +20,21 @@ class ProjectLike
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var array
      *
      * @ORM\Column(name="answers", type="array", nullable=true)
      */
-    private $answers;
+    protected $answers;
     
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="likes")

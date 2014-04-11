@@ -20,98 +20,98 @@ class ProjectContribution
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="mangopay_contribution_id", type="integer")
      */
-    private $mangopayContributionId;
+    protected $mangopayContributionId;
 
     /**
      * @var float
      *
      * @ORM\Column(name="mangopay_amount", type="decimal")
      */
-    private $mangopayAmount;
+    protected $mangopayAmount;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="mangopay_is_succeeded", type="boolean")
      */
-    private $mangopayIsSucceeded;
+    protected $mangopayIsSucceeded;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="mangopay_is_completed", type="boolean")
      */
-    private $mangopayIsCompleted;
+    protected $mangopayIsCompleted;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangopay_error", type="string", length=255, nullable=true)
      */
-    private $mangopayError;
+    protected $mangopayError;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangopay_answer_code", type="string", length=255, nullable=true)
      */
-    private $mangopayAnswerCode;
+    protected $mangopayAnswerCode;
     
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_anonymous", type="boolean")
      */
-    private $isAnonymous;
+    protected $isAnonymous;
     
     /**
      * @var integer
      *
      * @ORM\Column(name="mangopay_refund_id", type="integer")
      */
-    private $mangopayRefundId;
+    protected $mangopayRefundId;
     
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_refunded", type="boolean")
      */
-    private $isRefunded;
+    protected $isRefunded;
     
     /**
      * @var string
      *
      * @ORM\Column(name="invoice", type="string", length=255, nullable=true)
      */
-    private $invoice;
+    protected $invoice;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="mangopay_created_at", type="datetime")
      */
-    private $mangopayCreatedAt;
+    protected $mangopayCreatedAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="mangopay_updated_at", type="datetime")
      */
-    private $mangopayUpdatedAt;   
+    protected $mangopayUpdatedAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="contributions")

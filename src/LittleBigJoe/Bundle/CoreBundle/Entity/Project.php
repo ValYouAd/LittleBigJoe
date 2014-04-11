@@ -31,7 +31,7 @@ class Project
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -52,7 +52,7 @@ class Project
      *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
@@ -66,7 +66,7 @@ class Project
      *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
-    private $slug;
+    protected $slug;
 
     /**
      * @var string
@@ -74,7 +74,7 @@ class Project
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
      * @Gedmo\UploadableFilePath
      */
-    private $photo;
+    protected $photo;
 
     /**
      * @var string
@@ -95,7 +95,7 @@ class Project
      *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
-    private $location;
+    protected $location;
 
     /**
      * @var string
@@ -116,14 +116,14 @@ class Project
      *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
-    private $pitch;
+    protected $pitch;
 
     /**
      * @var string
      *
      * @ORM\Column(name="language", type="string", length=45)
      */
-    private $language;
+    protected $language;
 
     /**
      * @var string
@@ -132,7 +132,7 @@ class Project
      *
      * @Assert\NotBlank(message = "You must enter the description", groups = {"Default", "flow_createProject_step2"})
      */
-    private $description;
+    protected $description;
 
     /**
      * @var float
@@ -146,14 +146,14 @@ class Project
      *    groups = {"Default"}
      * )
      */
-    private $amountRequired;
+    protected $amountRequired;
 
     /**
      * @var float
      *
      * @ORM\Column(name="amount_count", type="decimal", nullable=true)
      */
-    private $amountCount;
+    protected $amountCount;
 
     /**
      * @var integer
@@ -167,70 +167,70 @@ class Project
      *    groups = {"Default", "flow_createProject_step3"}
      * )
      */
-    private $likesRequired;
+    protected $likesRequired;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="likes_count", type="integer", nullable=true)
      */
-    private $likesCount;
+    protected $likesCount;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="mangopay_wallet_id", type="integer", nullable=true)
      */
-    private $mangopayWalletId;
+    protected $mangopayWalletId;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="mangopay_created_at", type="datetime", nullable=true)
      */
-    private $mangopayCreatedAt;
+    protected $mangopayCreatedAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="mangopay_updated_at", type="datetime", nullable=true)
      */
-    private $mangopayUpdatedAt;
+    protected $mangopayUpdatedAt;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="status", type="integer")
      */
-    private $status;
+    protected $status;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="status_updated_at", type="datetime", nullable=true)
      */
-    private $statusUpdatedAt;
+    protected $statusUpdatedAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="ended_at", type="datetime", nullable=true)
      */
-    private $endedAt;    
+    protected $endedAt;
     
     /**
      * @var \DateTime
@@ -240,28 +240,28 @@ class Project
      * @Assert\NotBlank(message = "You must enter the project ending date", groups = {"Default", "flow_createProject_step3"})
      * @Assert\Date(message = "Your project ending date format is incorrect", groups = {"Default", "flow_createProject_step3"})
      */
-    private $endingAt;
+    protected $endingAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
-    private $deletedAt;
+    protected $deletedAt;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_favorite", type="boolean")
      */
-    private $isFavorite;
+    protected $isFavorite;
     
     /**
      * @var boolean
      *
      * @ORM\Column(name="has_brand_representation", type="boolean")
      */
-    private $hasBrandRepresentation;
+    protected $hasBrandRepresentation;
     
     /**
      * @ORM\ManyToOne(targetEntity="Brand", inversedBy="projects")

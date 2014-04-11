@@ -20,56 +20,56 @@ class ProjectHelp
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var float
      *
      * @ORM\Column(name="price", type="decimal")
      */
-    private $price;
+    protected $price;
 
     /**
      * @var string
      *
      * @ORM\Column(name="currency", type="string", length=255)
      */
-    private $currency;
+    protected $currency;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="quantity", type="integer")
      */
-    private $quantity;
+    protected $quantity;
 
     /**
      * @var string
      *
      * @ORM\Column(name="reason", type="text")
      */
-    private $reason;
+    protected $reason;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="shared_facebook", type="boolean")
      */
-    private $sharedFacebook;
+    protected $sharedFacebook;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="shared_twitter", type="boolean")
      */
-    private $sharedTwitter;
+    protected $sharedTwitter;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="projectHelps")

@@ -1,18 +1,240 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}
-    {{ 'Edit project'|trans() }} {{ entity }} | {{ parent() }}
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/faq-display.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('static/js/modules/reward-select.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('static/js/lib/typeahead.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/select2/select2.js') }}"></script>
 {% endblock %}
 
-{% block sidebar %}{% endblock %}
+{% block header_css %}
+    {{ parent() }}
+    <style type="text/css">.twitter-typeahead{display:block!important}.tt-hint,.tt-query,.typeahead{width:396px;height:30px;padding:6px 12px;font-size:1px;line-height:26px;border:2px solid #ccc;-webkit-border-radius:8px;-moz-border-radius:8px;border-radius:8px;outline:0}.typeahead{background-color:#fff}.typeahead:focus{border:2px solid #0097cf}.tt-query{-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075)}.tt-hint{color:#999}.tt-dropdown-menu{width:422px;margin-top:12px;padding:8px 0;background-color:#fff;border:1px solid #ccc;border:1px solid rgba(0,0,0,.2);-webkit-border-radius:8px;-moz-border-radius:8px;border-radius:8px;-webkit-box-shadow:0 5px 10px rgba(0,0,0,.2);-moz-box-shadow:0 5px 10px rgba(0,0,0,.2);box-shadow:0 5px 10px rgba(0,0,0,.2)}.tt-suggestion{padding:3px 20px;font-size:18px;line-height:24px}.tt-suggestion.tt-cursor{color:#fff;background-color:#0097cf}.tt-suggestion p{margin:0}
+        #s2id_editProject_categories{padding:0px!important;}</style>
+{% endblock %}
 
 {% block body %}
-    <h3>{{ 'Edit project'|trans() }} {{ entity }}</h3>
-				  		
-		<form method="POST" {{ form_enctype(form) }}>
-		    {{ form_errors(form) }}
-		    {{ form_rest(form) }}		    
-		</form>
-		
-		{{ form(deleteForm) }}
+    <section>
+        <div class="aside-part classic stuck">
+            {% include "LittleBigJoeFrontendBundle:FormFlow:stepList.html.twig" %}
+        </div>
+
+        <article class="wContent classic stuck">
+            <div class="white-container">
+
+                <div class="inner-title">
+                    {% if app.session.get('tmpUploadedFileRelativePath') %}
+                        <img class="inner-thumbnail" src="{{ asset(app.session.get('tmpUploadedFileRelativePath') ~ app.session.get('tmpUploadedFile')) }}" width="92" height="92">
+                    {% else %}
+                        <img class="inner-thumbnail" src="http://placehold.it/690x690" alt="alt-LBJ - project thumbnail" />
+                    {% endif %}
+
+                    <h1>{{ 'Edit my' }} <span class="grand-hotel">{{ 'project'|trans() }}</span></h1>
+                    <div class="steps">
+                        {{ flow.getCurrentStepNumber() }}. {{ flow.getCurrentStepLabel()|trans() }}
+                    </div>
+                </div>
+
+                <form method="POST" {{ form_enctype(form) }}>
+                    {{ form_errors(form) }}
+
+                    {% if flow.getCurrentStepNumber() == 2 %}
+                        {% include "LittleBigJoeFrontendBundle:includes:edit_project/gallery.html.twig" with {'projectMedias': projectMedias, 'formType': 'editProject'} %}
+                        {% include "LittleBigJoeFrontendBundle:includes:edit_project/upload_modals.html.twig" %}
+                    {% elseif flow.getCurrentStepNumber() == 3 %}
+                        {{ form_row(form.likesRequired) }}
+                        <div class="clearfix"></div>
+                        {{ form_row(form.endingAt) }}
+                    {% elseif flow.getCurrentStepNumber() == 4 %}
+                        <p>{{ 'Please check below, if your data is correct. If so, please click on the "Finish" button to put your project online.'|trans() }}</p>
+                        <div class="clearfix"></div>
+                        {% render(controller('LittleBigJoeFrontendBundle:Project:preview', { 'entity':form.vars.value })) %}
+                    {% endif %}
+
+                    {{ form_rest(form) }}
+
+                    {% if flow.getCurrentStepNumber() == 2 %}
+                        <div class="clearfix">&nbsp;</div>
+                        <button id="addFile" class="btn btn-info" data-toggle="modal" data-target="#fileModal">{{ 'Add new file'|trans() }}</button>
+                        <button id="addAudioFile" class="btn btn-info" data-toggle="modal" data-target="#audioFileModal">{{ 'Add new audio file'|trans() }}</button>
+                    {% endif %}
+
+                    {% include "LittleBigJoeFrontendBundle:FormFlow:buttons.html.twig" %}
+                </form>
+            </div>
+        </article>
+    </section>
+{% endblock %}
+
+{% block footer_javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/littlebigjoefrontend/js/vendor/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('bundles/littlebigjoefrontend/js/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('bundles/littlebigjoefrontend/js/jquery.fileupload.js') }}"></script>
+    <script type="text/javascript">
+        var default_language_ckeditor = 'en';
+        var addRewardLabel = "{{ 'Add new reward'|trans() }}";
+        var deleteRewardLabel = "{{ 'Delete reward'|trans() }}";
+        var selectAFileLabel = "{{ 'Please select a file before submitting the form'|trans() }}";
+        var wrongFileTypeLabel = "{{ 'The file type is not authorized. Authorized types are : .pdf, .xml, .zip, .csv, .txt, .doc'|trans() }}";
+        var wrongAudioFileTypeLabel = "{{ 'The file type is not authorized. Authorized audio types are : .mpeg, .mp3, .mp4, .wma, .wav'|trans() }}";
+        var fileSizeLabel = "{{ 'The file size is too big. Please upload files that do not exceed 20Mo'|trans() }}";
+        var audioFileSizeLabel = "{{ 'The file size is too big. Please upload audio files that do not exceed 20Mo'|trans() }}";
+
+        $(document).ready(function ()
+        {
+            // STEP 1
+            $('#editProject_name').on('keyup', null, function () {
+                var rExps = [
+                    {re: /[\xC0-\xC6]/g, ch: 'A'},
+                    {re: /[\xE0-\xE6]/g, ch: 'a'},
+                    {re: /[\xC8-\xCB]/g, ch: 'E'},
+                    {re: /[\xE8-\xEB]/g, ch: 'e'},
+                    {re: /[\xCC-\xCF]/g, ch: 'I'},
+                    {re: /[\xEC-\xEF]/g, ch: 'i'},
+                    {re: /[\xD2-\xD6]/g, ch: 'O'},
+                    {re: /[\xF2-\xF6]/g, ch: 'o'},
+                    {re: /[\xD9-\xDC]/g, ch: 'U'},
+                    {re: /[\xF9-\xFC]/g, ch: 'u'},
+                    {re: /[\xC7-\xE7]/g, ch: 'c'},
+                    {re: /[\xD1]/g, ch: 'N'},
+                    {re: /[\xF1]/g, ch: 'n'}
+                ];
+                var title_value = $(this).val();
+
+                for (var i = 0, len = rExps.length; i < len; i++)
+                    title_value = title_value.replace(rExps[i].re, rExps[i].ch);
+
+                title_value = title_value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/\-{2,}/g, '-');
+                $('#editProject_slug').val(title_value);
+            });
+
+            var productTypes = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: '',
+                remote: '{{ path('littlebigjoe_frontendbundle_ajax_search_product_type') }}?productType=%QUERY'
+            });
+            productTypes.initialize();
+            $('#editProject_productType').typeahead(null, {
+                name: 'product-types',
+                displayKey: 'value',
+                source: productTypes.ttAdapter()
+            });
+
+            var locations = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: '',
+                remote: '{{ path('littlebigjoe_frontendbundle_ajax_search_location') }}?location=%QUERY'
+            });
+            locations.initialize();
+            $('#editProject_location').typeahead(null, {
+                name: 'locations',
+                displayKey: 'value',
+                source: locations.ttAdapter()
+            });
+
+            $('#editProject_categories').select2({ maximumSelectionSize: 4 });
+
+            // STEP 3             
+            // Add buttons to download files
+            $('#addFile').click(function(){
+                $('#fileModal').modal({'backdrop': false});
+            });
+            $('#addAudioFile').click(function(){
+                $('#audioFileModal').modal({'backdrop': false});
+            });
+
+            $('#fileName').fileupload({
+                dataType: 'json',
+                url: "{{ path('littlebigjoe_frontendbundle_ajax_upload_file') }}",
+                progress: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#fileProgress .progress-bar').css('width', progress + '%');
+                    $('#fileProgress .progress-bar').attr('aria-valuenow', progress);
+                },
+                done: function (e, data) {
+                    console.log(data.result);
+                    if (data.result.status == 'OK' && data.result.html != '')
+                    {
+                        $('#fileProgress .progress-bar').css('width', '100%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '100');
+                        $('#fileModal').modal('hide');
+                        CKEDITOR.instances['editProject_description'].insertHtml(data.result.html);
+                        $('#fileName').val('');
+                        $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                    }
+                    else if (data.result.status == 'KO USER')
+                    {
+                        window.location = "{{ path('fos_user_security_login') }}";
+                    }
+                    else if (data.result.status == 'KO FILE')
+                    {
+                        $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                        alert(selectAFileLabel);
+                    }
+                    else if (data.result.status == 'KO SIZE')
+                    {
+                        $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                        alert(fileSizeLabel);
+                    }
+                    else if (data.result.status == 'KO TYPE')
+                    {
+                        $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                        alert(wrongFileTypeLabel);
+                    }
+                }
+            });
+            $('#audioFileName').fileupload({
+                dataType: 'json',
+                url: "{{ path('littlebigjoe_frontendbundle_ajax_upload_audio_file') }}",
+                progress: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#audioFileProgress .progress-bar').css('width', progress + '%');
+                    $('#audioFileProgress .progress-bar').attr('aria-valuenow', progress);
+                },
+                done: function (e, data) {
+                    console.log(data.result);
+                    if (data.result.status == 'OK' && data.result.html != '')
+                    {
+                        $('#audioFileProgress .progress-bar').css('width', '100%');
+                        $('#audioFileProgress .progress-bar').attr('aria-valuenow', '100');
+                        $('#audioFileModal').modal('hide');
+                        CKEDITOR.instances['editProject_description'].insertHtml('<div>' + data.result.html + '</div>', 'unfiltered_html');
+                        $('#audioFileName').val('');
+                        $('#audioFileProgress .progress-bar').css('width', '0%');
+                        $('#audioFileProgress .progress-bar').attr('aria-valuenow', '0');
+                    }
+                    else if (data.result.status == 'KO USER')
+                    {
+                        window.location = "{{ path('fos_user_security_login') }}";
+                    }
+                    else if (data.result.status == 'KO FILE')
+                    {
+                        $('#audioFileProgress .progress-bar').css('width', '0%');
+                        $('#audioFileProgress .progress-bar').attr('aria-valuenow', '0');
+                        alert(selectAFileLabel);
+                    }
+                    else if (data.result.status == 'KO SIZE')
+                    {
+                        $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                        alert(audioFileSizeLabel);
+                    }
+                    else if (data.result.status == 'KO TYPE')
+                    {
+                        $('#audioFileProgress .progress-bar').css('width', '0%');
+                        $('#audioFileProgress .progress-bar').attr('aria-valuenow', '0');
+                        alert(wrongAudioFileTypeLabel);
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}

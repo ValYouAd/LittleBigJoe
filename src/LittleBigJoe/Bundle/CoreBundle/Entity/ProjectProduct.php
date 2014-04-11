@@ -28,7 +28,7 @@ class ProjectProduct
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -49,7 +49,7 @@ class ProjectProduct
      *    groups = {"Default", "flow_createProduct_step1"}
      * )
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
@@ -70,7 +70,7 @@ class ProjectProduct
      *    groups = {"Default", "flow_createProduct_step1"}
      * )
      */
-    private $pitch;
+    protected $pitch;
 
     /**
      * @var string
@@ -79,7 +79,7 @@ class ProjectProduct
      *
      * @Assert\NotBlank(message = "You must enter the product description", groups = {"Default", "flow_createProduct_step2"})
      */
-    private $description;
+    protected $description;
 
     /**
      * @var \DateTime
@@ -89,7 +89,7 @@ class ProjectProduct
      * @Assert\NotBlank(message = "You must enter the product ending date", groups = {"Default", "flow_createProduct_step3"})
      * @Assert\Date(message = "Your product ending date format is incorrect", groups = {"Default", "flow_createProduct_step3"})
      */
-    private $endingAt;
+    protected $endingAt;
 
     /**
      * @ORM\OneToMany(targetEntity="ProjectVideo", mappedBy="product", cascade={"persist", "remove"})
@@ -111,33 +111,33 @@ class ProjectProduct
      *
      * @ORM\Column(name="gift_product", type="boolean", nullable=true)
      */
-    private $giftProduct;
+    protected $giftProduct;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="gift_percentage_funds_raised", type="integer", nullable=true)
      */
-    private $giftPercentageFundsRaised;
+    protected $giftPercentageFundsRaised;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="submitted_at", type="datetime", nullable=true)
      */
-    private $submittedAt;
+    protected $submittedAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="validated_at", type="datetime", nullable=true)
      */
-    private $validatedAt;
+    protected $validatedAt;
 
     /**
      * @ORM\OneToOne(targetEntity="Project", mappedBy="product")
      */
-    private $project;
+    protected $project;
 
     public function __construct()
     {

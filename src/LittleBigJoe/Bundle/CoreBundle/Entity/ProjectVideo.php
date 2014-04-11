@@ -20,124 +20,124 @@ class ProjectVideo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string
      *
      * @ORM\Column(name="provider_name", type="string", length=255)
      */
-    private $providerName;
+    protected $providerName;
 
     /**
      * @var array
      *
      * @ORM\Column(name="provider_metadata", type="array")
      */
-    private $providerMetadata;
+    protected $providerMetadata;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="provider_video_id", type="string", length=255)
      */
-    private $providerVideoId;
+    protected $providerVideoId;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="width", type="integer", nullable=true)
      */
-    private $width;
+    protected $width;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="height", type="integer", nullable=true)
      */
-    private $height;
+    protected $height;
 
     /**
      * @var float
      *
      * @ORM\Column(name="length", type="decimal", nullable=true)
      */
-    private $length;
+    protected $length;
 
     /**
      * @var string $embed_player_code
      *
      * @ORM\Column(name="embed_player_code", type="text", nullable=true)
      */
-    private $embedPlayerCode;
+    protected $embedPlayerCode;
 
     /**
      * @var bigint $views
      *
      * @ORM\Column(name="views", type="bigint")
      */
-    private $views = 0;
+    protected $views = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="thumb_width", type="integer")
      */
-    private $thumbWidth;
+    protected $thumbWidth;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="thumb_height", type="integer")
      */
-    private $thumbHeight;
+    protected $thumbHeight;
 
     /**
      * @ORM\Column(name="thumb_url", type="string", length=255)
      */
-    private $thumbUrl;
+    protected $thumbUrl;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="visibible", type="boolean")
      */
-    private $visible = true;
+    protected $visible = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="hide", type="boolean")
      */
-    private $hide = false;
+    protected $hide = false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="highlighted", type="boolean")
      */
-    private $highlighted = false;
+    protected $highlighted = false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="waiting_validation", type="boolean")
      */
-    private $waitingValidation = false;
+    protected $waitingValidation = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="videos")

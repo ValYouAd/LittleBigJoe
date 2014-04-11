@@ -26,7 +26,7 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -46,7 +46,7 @@ class Category
      *    message = "Your category name must only contains letters, spaces, or dashes"
      * )
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
@@ -60,7 +60,7 @@ class Category
      *    message = "Your category slug must only contains letters, or dashes"
      * )
      */
-    private $slug;
+    protected $slug;
 
     /**
      * @var string
@@ -80,7 +80,7 @@ class Category
      *    message = "Your META category title must only contains letters, spaces, or dashes"
      * )
      */
-    private $metaTitle;
+    protected $metaTitle;
 
     /**
      * @var string
@@ -90,14 +90,14 @@ class Category
      *
      * @Assert\NotBlank(message = "You must enter your META category description")
      */
-    private $metaDescription;
+    protected $metaDescription;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_visible", type="boolean")
      */
-    private $isVisible;
+    protected $isVisible;
 
     /**
      * @ORM\OneToMany(
@@ -106,12 +106,12 @@ class Category
      *  cascade={"persist", "remove"}
      * )
      */
-    private $translations;
+    protected $translations;
 
     /**
      * @ORM\ManyToMany(targetEntity="Project", mappedBy="categories")
      */
-    private $projects;
+    protected $projects;
 
     public function __construct()
     {

@@ -25,7 +25,7 @@ class ProductType
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -45,21 +45,21 @@ class ProductType
      *    message = "Your product type name must only contains letters, spaces, or dashes"
      * )
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="language", type="string", length=45)
      */
-    private $language;
+    protected $language;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_visible", type="boolean")
      */
-    private $isVisible;
+    protected $isVisible;
 
     /**
      * @ORM\OneToMany(targetEntity="Project", mappedBy="productType", cascade={"persist", "remove"})

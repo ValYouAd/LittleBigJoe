@@ -59,6 +59,18 @@
             </call>
     	</service>
 
+        <service id="littlebigjoefrontend.project.editProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\EditProjectFormType">
+            <tag name="form.type" alias="editProject" />
+        </service>
+        <service id="littlebigjoefrontend.flow.project.editProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\EditProjectFlow" parent="craue.form.flow" scope="request">
+            <call method="setFormType">
+                <argument type="service" id="littlebigjoefrontend.project.editProject" />
+            </call>
+            <call method="setEntityManager">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
+            </call>
+        </service>
+
         <service id="littlebigjoefrontend.project.createProduct" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProductFormType">
             <tag name="form.type" alias="createProduct" />
         </service>
