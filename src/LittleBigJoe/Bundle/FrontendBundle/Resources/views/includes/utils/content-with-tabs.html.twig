@@ -181,6 +181,10 @@
                 </a>
             </div>
         {% endif %}
+
+        {{ form(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
+        <p><span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span></p>
+        <div class="clearfix">&nbsp;</div>
     </div>
     {% endif %}
 

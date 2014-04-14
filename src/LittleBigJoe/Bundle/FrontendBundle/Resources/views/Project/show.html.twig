@@ -86,6 +86,24 @@
             </div>
         </div>
 
+        <div class="modal fade" id="declineProduct" tabindex="-1" role="dialog" aria-labelledby="declineProductLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="declineProductLabel">{{ 'Decline the product'|trans() }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ form(decline_form, {attr:{id:'declineForm', role:'form'}}) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Previous'|trans() }}</button>
+                        <button type="button" id="saveDeclineProduct" class="btn btn-primary">{{ 'Submit'|trans() }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 {% endblock %}
 
@@ -320,7 +338,7 @@
             });
 
             // Funding request
-            $('#form_submit').click(function (e) {
+            $('#fundingForm .btn').click(function (e) {
                 e.preventDefault();
                 $.post("{{ path('littlebigjoe_frontendbundle_ajax_fund_project') }}", { 'projectId' : currentProjectId })
                 .done(function(data) {
@@ -441,6 +459,14 @@
                         alert("{{ 'An error has occured during comment saving. Please try again'|trans() }}");
                     }
                 });
+            });
+
+            // Decline product form
+            $('#showDeclineForm').click(function (e) {
+                $('#declineProduct').modal({'backdrop': false});
+                $('#saveDeclineProduct').click(function(e){
+                    $('#declineForm').submit();
+                })
             });
         });
     </script>

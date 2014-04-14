@@ -1,0 +1,30 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.project_product_comment'|trans() }} {{ entity.product|striptags }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="project_product_comment-header">
+    <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.project_product_comment'|trans() }} <span
+                class="text-primary">{{ entity.product|striptags }}</span></h1>
+</div>
+<p class="lead">{{ 'backend.project_product_comment_infos'|trans() }}</p>
+
+<h3 class="media-heading">{{ entity.product|striptags }}</h4>
+
+    <p>{{ 'backend.content'|trans() }} : {{ entity.content }}</p>
+    <p>{{ 'backend.product'|trans() }} : <a href="{{ path('littlebigjoe_backendbundle_project_products_show', {'id':entity.product.id}) }}">{{ entity.product }}</a></p>
+    <p>{{ 'backend.user'|trans() }} : <a href="{{ path('littlebigjoe_backendbundle_users_show', {'id':entity.user.id}) }}">{{ entity.user }}</a></p>
+    <p>{{ 'backend.created_at'|trans() }} : {{ entity.createdAt|localizeddate('medium', 'medium') }}</p>
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_project_product_comments') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_project_product_comments_edit', { 'id': entity.id }) }}">
+            {{ 'backend.edit'|trans() }}
+        </a>
+    </p>
+    {% endblock %}

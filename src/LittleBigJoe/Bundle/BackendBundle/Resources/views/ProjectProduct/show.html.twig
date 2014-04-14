@@ -18,14 +18,14 @@
     <p>{{ 'backend.pitch'|trans() }} : {{ entity.pitch }}</p>
     <p>{{ 'backend.description'|trans() }} : {{ entity.description|raw() }}</p>
     <p>{{ 'backend.ending_at'|trans() }} : {{ entity.endingAt|localizeddate('medium', 'medium') }}</p>
-    <p>{{ 'backend.gift_product'|trans() }} : {{ entity.giftProduct|trans() }}</p>
-    <p>{{ 'backend.gift_percentage_funds_raised'|trans() }} :
+    <p>{{ 'backend.gift_product'|trans() }} :
         {% if entity.giftPercentageFundsRaised == '1' %}
             {{ 'backend.offer_product_to_project_owner'|trans() }}
         {% else %}
             {{ 'backend.offer_percentage'|trans() }}
         {% endif %}
     </p>
+    <p>{{ 'backend.gift_percentage_funds_raised'|trans() }} : {{ entity.giftPercentageFundsRaised }} %</p>
     <p>{{ 'backend.medias'|trans() }}</p>
     {% for productMedia in entity.medias %}
         <div class="item">
@@ -37,6 +37,14 @@
     <p>{{ 'backend.submitted_at'|trans() }} : {{ entity.submittedAt|localizeddate('medium', 'medium') }}</p>
     <p>{{ 'backend.validated_at'|trans() }} : {{ entity.validatedAt|localizeddate('medium', 'medium') }}</p>
 
+    <div>
+        <h3>{{ 'backend.product_comments' }}</h3>
+        {% if entity.comments %}
+            {% for comment in entity.comments %}
+                <p><a href="{{ path('littlebigjoe_backendbundle_project_product_comments_show', {'id':comment.id}) }}">#{{ comment.id }}</a> // <strong>{{ comment.content }}</strong> {{ 'backend.by' }} {{ comment.user }} {{ 'backend.on'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
     <div class="clearfix">&nbsp;</div>
     <p>
         <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_project_products') }}">

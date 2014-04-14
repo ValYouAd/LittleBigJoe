@@ -1361,10 +1361,10 @@ class User extends BaseUser
     /**
      * Add productComments
      *
-     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComments $productComments
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment $productComments
      * @return User
      */
-    public function addProductComment(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComments $productComments)
+    public function addProductComment(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment $productComments)
     {
         $this->productComments[] = $productComments;
     
@@ -1374,9 +1374,9 @@ class User extends BaseUser
     /**
      * Remove productComments
      *
-     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComments $productComments
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment $productComments
      */
-    public function removeProductComment(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComments $productComments)
+    public function removeProductComment(\LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment $productComments)
     {
         $this->productComments->removeElement($productComments);
     }

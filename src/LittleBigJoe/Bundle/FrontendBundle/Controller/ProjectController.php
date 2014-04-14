@@ -7,6 +7,7 @@ use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProductComment;
 use LittleBigJoe\Bundle\FrontendBundle\Form\ProjectProductCommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -1106,7 +1107,35 @@ class ProjectController extends Controller
                                     )
                             ))
                             ->getForm();
-        
+
+
+        // Create the product validation form
+        $validationForm = $this->createFormBuilder()
+                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('slug' => $slug)))
+                                ->setMethod('POST')
+                                ->add('projectId', 'hidden', array(
+                                    'data' => $entity->getId()
+                                ))
+                                ->add('submitValidate', 'submit', array(
+                                    'label' => 'Validate',
+                                    'attr' => array(
+                                        'class' => 'btn btn-success'
+                                    )
+                                ))
+                                ->getForm();
+
+        // Create the product decline form
+        $declineForm = $this->createFormBuilder()
+                            ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('slug' => $slug)))
+                            ->setMethod('POST')
+                            ->add('projectId', 'hidden', array(
+                                'data' => $entity->getId()
+                            ))
+                            ->add('declineMessage', 'textarea', array(
+                                'label' => 'Decline message'
+                            ))
+                            ->getForm();
+
         // Set some vars used in the template to filter data
         $contributions = $entity->getContributions();
         $usersIds = array();
@@ -1141,6 +1170,8 @@ class ProjectController extends Controller
     		'comment_form' => $commentForm->createView(),
     		'funding_form' => $fundingForm->createView(),
             'report_form' => $reportForm->createView(),
+            'validation_form' => $validationForm->createView(),
+            'decline_form' => $declineForm->createView(),
             'current_date' => new \Datetime()
         );
     }
@@ -1249,5 +1280,109 @@ class ProjectController extends Controller
             'entity' => $project->getProduct(),
             'form' => $form->createView()
         );
+    }
+
+    /**
+     * Change status of product
+     *
+     * @Route("/project/{slug}/change-status", name="littlebigjoe_frontendbundle_project_product_change_status")
+     * @Method("POST")
+     */
+    public function changeStatusAction(Request $request, $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
+
+        if (!$project) {
+            throw $this->createNotFoundException('Unable to find Project entity.');
+        }
+
+        if ($project->getProduct() == null)
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'There\'s no product for this project'
+            );
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+        }
+
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to change the status of a product'
+            );
+
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+
+        // If the current user is not an LBJ admin or project owner
+        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && $project->getUser()->getId() != $currentUser->getId())
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be the owner or an administrator to change the status of the product'
+            );
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+        }
+
+        $formData = $request->request->get('form');
+
+        // If the product sheet is validated, change project status
+        if (isset($formData['submitValidate']) && $project->getId() == $formData['projectId'])
+        {
+            $project->setStatus(2);
+            $project->getProduct()->setValidatedAt(new \DateTime());
+
+            $em->persist($project);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+        }
+        // If the product sheet is declined, notify brand admin
+        elseif (!empty($formData['declineMessage']) && $project->getId() == $formData['projectId'])
+        {
+            $productComment = new ProjectProductComment();
+            $productComment->setContent(strip_tags($formData['declineMessage']));
+            $productComment->setProduct($project->getProduct());
+            $productComment->setUser($currentUser);
+
+            $project->getProduct()->addComment($productComment);
+            $em->persist($project);
+            $em->flush();
+
+            // Notify brand admins
+            $brandAdmins = $em->getRepository('LittleBigJoeCoreBundle:User')->findByRoleAndBrand('ROLE_BRAND_ADMIN', $project->getBrand());
+            if (!empty($brandAdmins))
+            {
+                foreach ($brandAdmins as $brandAdmin)
+                {
+                    $email = \Swift_Message::newInstance()
+                        ->setContentType('text/html')
+                        ->setSubject($this->container->get('translator')->trans($currentUser.' has declined the product '.$project->getProduct()))
+                        ->setFrom($this->container->getParameter('default_email_address'))
+                        ->setTo(array($brandAdmin->getEmail() => $brandAdmin))
+                        ->setBody(
+                            $this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:decline_product.html.twig', array(
+                                'projectOwner' => $currentUser,
+                                'admin' => $brandAdmin,
+                                'project' => $project,
+                                'declineReason' => strip_tags($formData['declineMessage']),
+                                'url' => $this->container->get('request')->getSchemeAndHttpHost()
+                        ), 'text/html')
+                    );
+                $this->container->get('mailer')->send($email);
+                }
+            }
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+        }
     }
 }
