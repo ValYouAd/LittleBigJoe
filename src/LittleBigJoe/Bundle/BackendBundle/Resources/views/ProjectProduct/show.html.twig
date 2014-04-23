@@ -38,7 +38,7 @@
     <p>{{ 'backend.validated_at'|trans() }} : {{ entity.validatedAt|localizeddate('medium', 'medium') }}</p>
 
     <div>
-        <h3>{{ 'backend.product_comments' }}</h3>
+        <h3>{{ 'backend.product_comments'|trans() }}</h3>
         {% if entity.comments %}
             {% for comment in entity.comments %}
                 <p><a href="{{ path('littlebigjoe_backendbundle_project_product_comments_show', {'id':comment.id}) }}">#{{ comment.id }}</a> // <strong>{{ comment.content }}</strong> {{ 'backend.by' }} {{ comment.user }} {{ 'backend.on'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</p>

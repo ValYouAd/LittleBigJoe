@@ -71,7 +71,7 @@ class ProjectProductType extends AbstractType
                 'choices' => array('1' => 'backend.offer_product_to_owner', '0' => 'backend.offer_percentage_raised_funds')
             ))
             ->add('giftPercentageFundsRaised', 'integer', array(
-                'label' => '',
+                'label' => 'backend.gift_percentage_funds_raised',
                 'required' => false
             ))
             ->add('submittedAt', 'datetime', array(

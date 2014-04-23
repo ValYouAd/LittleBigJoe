@@ -55,9 +55,9 @@
     <script type="text/javascript">
         var $collectionHolder;
 
-        var $addImageLink = $('<a href="#" class="add_image btn btn-xs btn-info">Add image</a>');
+        var $addImageLink = $('<a href="#" class="add_image btn btn-xs btn-info">{{ 'backend.add_image'|trans() }}</a>');
         var $newLinkLi = $('<li></li>').append($addImageLink);
-        var $addVideoLink = $('<a href="#" class="add_video btn btn-xs btn-info">Add video</a>');
+        var $addVideoLink = $('<a href="#" class="add_video btn btn-xs btn-info">{{ 'backend.add_video'|trans() }}</a>');
         var $newLinkLiVideo = $('<li></li>').append($addVideoLink);
 
         function addImageForm($collectionHolder, $newLinkLi) {
@@ -77,7 +77,7 @@
             $newLinkLiVideo.before($newFormLi);
         }
         function addImageFormDeleteLink($tagFormLi) {
-            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger">Delete this image</a>');
+            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger">{{ 'backend.delete_image'|trans() }}</a>');
             $tagFormLi.append($removeFormA);
 
             $removeFormA.on('click', function(e) {
@@ -86,7 +86,7 @@
             });
         }
         function addVideoFormDeleteLink($tagFormLi) {
-            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger">Delete this video</a>');
+            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger">{{ 'backend.delete_video'|trans() }}</a>');
             $tagFormLi.append($removeFormA);
 
             $removeFormA.on('click', function(e) {
