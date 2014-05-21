@@ -241,10 +241,11 @@ class ProjectRepository extends EntityRepository
      */
     public function findPopular($limit = 4, $period = null)
     {
+        $sub_query = '(SELECT COUNT(pl.id) FROM LittleBigJoeCoreBundle:ProjectLike pl WHERE pl.project = p.id)';
+        $sub_query2 = '(SELECT COUNT(pc.id) FROM LittleBigJoeCoreBundle:ProjectContribution pc WHERE pc.project = p.id)';
+
         $qb = $this->createQueryBuilder('p')
-            ->addSelect('COUNT(pl) AS HIDDEN nbLikes, COUNT(pc) AS HIDDEN nbContributions')
-            ->leftJoin('p.likes', 'pl')
-            ->leftJoin('p.contributions', 'pc')
+            ->addSelect($sub_query.' AS HIDDEN nbLikes, '.$sub_query2.' AS HIDDEN nbContributions')
             ->where('p.deletedAt IS NULL');
 
         if (!empty($period)) {
@@ -253,8 +254,7 @@ class ProjectRepository extends EntityRepository
                 ->setParameter('createdAt', new \DateTime($period));
         }
 
-        return $qb->groupBy('pl.project')
-            ->addGroupBy('pc.project')
+        return $qb
             ->orderBy('nbLikes', 'DESC')
             ->addOrderBy('nbContributions', 'ASC')
             ->getQuery()

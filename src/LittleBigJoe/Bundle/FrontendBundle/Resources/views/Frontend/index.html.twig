@@ -65,11 +65,15 @@
 
                 {% for popularProject in popularProjects %}
                     {% if loop.index >= 2 and loop.index < 4 %}
-                        {% if popularProject.photo %}
-                            <div class="top-secondary-project"><img class="top-thumbnail" src="{{ asset(popularProject.photo) }}|apply_filter('346x215')" width="346" height="215" alt="alt-LBJ" /></div>
-                        {% else %}
-                            <div class="top-secondary-project"><img class="top-thumbnail" src="http://placehold.it/346x215" alt="alt-LBJ" /></div>
-                        {% endif %}
+                        <div class="top-secondary-project">
+                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': popularProject.slug}) }}">
+                            {% if popularProject.photo %}
+                                <img class="top-thumbnail" src="{{ asset(popularProject.photo) }}|apply_filter('346x215')" width="346" height="215" alt="alt-LBJ" />
+                            {% else %}
+                                <img class="top-thumbnail" src="http://placehold.it/346x215" alt="alt-LBJ" />
+                            {% endif %}
+                            </a>
+                        </div>
                     {% endif %}
                 {% endfor %}
 

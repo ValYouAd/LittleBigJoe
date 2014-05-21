@@ -18,7 +18,7 @@ class FrontendController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
        
-				$api = $this->get('little_big_joe_mango_pay.api');
+        $api = $this->get('little_big_joe_mango_pay.api');
 				
         $latestProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findLatest();
         $popularProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findPopular();
