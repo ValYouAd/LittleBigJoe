@@ -1,9 +1,10 @@
 <div class="outer-title">
 
     <h1>{{ entity }}</h1>
+    {% set canCreateProduct = false %}
+    {% set canEditProject = false %}
+
     {% if isPreview is not defined %}
-        {% set canCreateProduct = false %}
-        {% set canEditProject = false %}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             {% set canCreateProduct = true %}
         {% elseif is_granted('ROLE_BRAND_ADMIN') %}
