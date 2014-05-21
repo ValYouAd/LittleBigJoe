@@ -18,9 +18,7 @@
                 <h1>{{ 'Login'|trans() }}</h1>
 
                 <p>
-                    <div class="btn btn-block btn-social btn-facebook">
-                        <i class="fa fa-facebook"></i>&nbsp;{{ facebook_login_button({'autologoutlink': false, 'label': 'Login via Facebook'|trans() }) }}
-                    </div>
+                    {{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
                     <a href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
                         <i class="fa fa-twitter"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
                     </a>
