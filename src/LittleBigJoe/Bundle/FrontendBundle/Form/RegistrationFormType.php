@@ -62,9 +62,10 @@ class RegistrationFormType extends BaseType
                 'label' => 'Lastname',
             		'data' => $lastname
             ))
-            ->add('birthday', 'birthday', array(
+            ->add('birthday', 'date', array(
                 'label' => 'Birthday date',
-                'years' => range(date('Y') - 100, date('Y'))
+                'widget' => 'single_text',
+                'attr' => array('class' => 'form-control datepicker')
             ))
             ->add('facebookUrl', 'url', array(
                 'label' => 'Facebook URL',

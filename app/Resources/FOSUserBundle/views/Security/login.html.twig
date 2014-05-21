@@ -2,21 +2,37 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% block header_css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('static/font-awesome/css/font-awesome.min.css') }}">
+{% endblock %}
+
 {% block fos_user_content %}
-		{% for notice in app.session.flashbag.get('notice') %}
-		    <div class="alert alert-warning">{{ notice }}</div>
-		{% endfor %}		
+    {% for notice in app.session.flashbag.get('notice') %}
+        <div class="alert alert-warning">{{ notice }}</div>
+    {% endfor %}
 
     <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
-        <div class="default-empty">
+
+        <section style="float:left;width:40%">
             <h1>{{ 'Login'|trans() }}</h1>
+
+            <p>
+                <div class="btn btn-block btn-social btn-facebook">
+                    <i class="fa fa-facebook"></i>&nbsp;{{ facebook_login_button({'autologoutlink': false, 'label': 'Login via Facebook'|trans() }) }}
+                </div>
+                <a href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
+                    <i class="fa fa-twitter"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
+                </a>
+            </p>
+        </section>
+        <section style="float:right;width:40%">
+            <h1>{{ 'You can also log yourself with :'|trans() }}</h1>
 
             {% if error %}
                 <div class="alert alert-danger">{{ error|trans }}</div>
             {% endif %}
-
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
-
             <p>
                 <label for="username">{{ 'Your email : '|trans }}</label>
                 <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}"
@@ -32,19 +48,10 @@
                            value="on"/> {{ 'Remember me'|trans }}
                 </label>
             </p>
-
             <p>
                 <button class="btn validate-style">{{ 'Login'|trans }}</button>
                 <a href="{{ path('fos_user_resetting_request') }}">{{ 'Forgot password ?'|trans() }}</a>
             </p>
-
-            <h1>{{ 'You can also log yourself with :'|trans() }}</h1>
-
-            <p>
-                {{ facebook_login_button({'autologoutlink': false, 'label': 'Login via Facebook'|trans() }) }}
-                <a href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn">{{ 'Login via Twitter'|trans() }}</a>
-            </p>
-
-        </div>
+        </section>
     </form>
 {% endblock fos_user_content %}
