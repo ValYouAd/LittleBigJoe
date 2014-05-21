@@ -7,7 +7,7 @@
             </div>
             <div class="days">
                 <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />
-                <span class="orange-text"><strong>{{ entity.endingAt|time_remaining }}</strong></span> {{ 'remaining' }}
+                <span class="orange-text"><strong>{{ entity.endingAt|time_remaining }}</strong></span> {{ 'remaining'|trans() }}
             </div>
         </div>
 
@@ -41,7 +41,7 @@
             </div>
             <div class="days">
                 <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />
-                <span class="orange-text"><strong>{{ entity.endingAt|time_remaining }}</strong></span> {{ 'remaining' }}
+                <span class="orange-text"><strong>{{ entity.endingAt|time_remaining }}</strong></span> {{ 'remaining'|trans() }}
             </div>
         </div>
 
@@ -100,7 +100,7 @@
         </li>
         <li class="links">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}#projects">
-                <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" />{{ 'His projects' }}
+                <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" />{{ 'His projects'|trans() }}
                 ( <span class="orange-text">5</span> )
             </a>
         </li>
