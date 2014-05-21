@@ -6,7 +6,7 @@
         {% endif %}
 
         {% if project.photo %}
-            <img class="pres-thumbnail" src="{{ asset(project.photo) }}" style="width:260px; height:174px">
+            <img class="pres-thumbnail" src="{{ asset(project.photo) }}|apply_filter('750x500')" style="width:260px; height:174px">
         {% else %}
             <img class="pres-thumbnail" src="{{ asset('static/img/mosaic-test.jpg') }}" alt="alt-LBJ - project image" />
         {% endif %}

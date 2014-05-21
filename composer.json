@@ -35,7 +35,8 @@
         "ensepar/html2pdf" : "1.0.1",
         "ensepar/html2pdf-bundle" : "dev-master",
         "knplabs/knp-time-bundle" : "dev-master",
-        "guzzle/guzzle" : "dev-master"
+        "guzzle/guzzle" : "dev-master",
+        "avalanche123/imagine-bundle": "v2.1"
     },
     "scripts": {
         "post-install-cmd": [

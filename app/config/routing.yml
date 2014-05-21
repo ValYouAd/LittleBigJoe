@@ -53,7 +53,12 @@ twitter_login:
 elfinder:
     resource: "@FMElfinderBundle/Resources/config/routing.yml"
     options: { i18n: false }
- 
+
+# AvalancheImagineBundle routing
+_imagine:
+    resource: .
+    type:     imagine
+
 # LittleBigJoe routing
 little_big_joe_frontend:
     resource: "@LittleBigJoeFrontendBundle/Controller/"

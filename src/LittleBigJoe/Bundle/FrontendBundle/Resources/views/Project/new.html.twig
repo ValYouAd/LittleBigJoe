@@ -25,7 +25,7 @@
 
                 <div class="inner-title">
                     {% if app.session.get('tmpUploadedFileRelativePath') %}
-                        <img class="inner-thumbnail" src="{{ asset(app.session.get('tmpUploadedFileRelativePath') ~ app.session.get('tmpUploadedFile')) }}" width="92" height="92">
+                        <img class="inner-thumbnail" src="{{ asset(app.session.get('tmpUploadedFileRelativePath') ~ app.session.get('tmpUploadedFile'))|apply_filter('690x690') }}" width="92" height="92">
                     {% else %}
                         <img class="inner-thumbnail" src="http://placehold.it/690x690" alt="alt-LBJ - project thumbnail" />
                     {% endif %}

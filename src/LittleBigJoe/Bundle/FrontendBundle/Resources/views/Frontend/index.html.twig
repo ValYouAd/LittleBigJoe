@@ -24,7 +24,7 @@
                 <div class="top-main-project">
                     <div class="top-thumbnail-cont">
                         {% if popularProjects.0.photo %}
-                            <img src="{{ asset(popularProjects.0.photo) }}" width="534" height="329">
+                            <img src="{{ asset(popularProjects.0.photo)|apply_filter('722x445') }}" width="534" height="329">
                         {% else %}
                             <img class="top-thumbnail" src="http://placehold.it/722x445" alt="alt-LBJ" />
                         {% endif %}
@@ -66,7 +66,7 @@
                 {% for popularProject in popularProjects %}
                     {% if loop.index >= 2 and loop.index < 4 %}
                         {% if popularProject.photo %}
-                            <div class="top-secondary-project"><img class="top-thumbnail" src="{{ asset(popularProject.photo) }}" width="346" height="215" alt="alt-LBJ" /></div>
+                            <div class="top-secondary-project"><img class="top-thumbnail" src="{{ asset(popularProject.photo) }}|apply_filter('346x215')" width="346" height="215" alt="alt-LBJ" /></div>
                         {% else %}
                             <div class="top-secondary-project"><img class="top-thumbnail" src="http://placehold.it/346x215" alt="alt-LBJ" /></div>
                         {% endif %}

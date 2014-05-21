@@ -81,7 +81,7 @@
 {% if author %}
 <div class="side-infos-block small-resp-block">
     {% if entity.user.photo %}
-        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="{{ asset(entity.user.photo) }}" width="82" height="95" /></a>
+        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="{{ asset(entity.user.photo) }}|apply_filter('230x268')" width="82" height="95" /></a>
     {% else %}
         <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="http://placehold.it/230x268" alt="alt-LBJ - author" /></a>
     {% endif %}
@@ -125,7 +125,7 @@
 <div class="side-infos-block small-resp-block">
     <div class="brand-thumbnail-cont">
         {% if entity.brand.logo %}
-            <img class="brand-thumbnail" src="{{ asset(entity.brand.logo) }}" width="80" height="93" />
+            <img class="brand-thumbnail" src="{{ asset(entity.brand.logo)|apply_filter('230x268') }}" width="80" height="93" />
         {% else %}
             <img class="brand-thumbnail" src="http://placehold.it/230x268" alt="alt-LBJ - author" />
         {% endif %}

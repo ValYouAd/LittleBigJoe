@@ -136,8 +136,15 @@ class AjaxController extends Controller
             return new JsonResponse(array('status' => 'KO SIZE'));
         }
 
+        switch ($file['type'])
+        {
+            case 'image/jpeg': $extension = '.jpg'; break;
+            case 'image/png': $extension = '.png'; break;
+            default: $extension = '.jpg'; break;
+        }
+
         // Move file to tmp folder
-        $tmpName = sha1($file['name'].uniqid(mt_rand(), true));
+        $tmpName = sha1($file['name'].uniqid(mt_rand(), true)).$extension;
         $webDir = $this->get('kernel')->getRootDir().'/../web/';
         $dirName = 'uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
         if (!file_exists($dirName))
@@ -145,7 +152,6 @@ class AjaxController extends Controller
             mkdir($dirName, 0755);
         }
         $absolutePath = $webDir.$dirName.'/';
-        $relativePath = $this->getRequest()->getSchemeAndHttpHost().'/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail()).'/';
         @move_uploaded_file($file['tmp_name'], $absolutePath.$tmpName);
 
         $image = new ProjectImage();
@@ -155,9 +161,19 @@ class AjaxController extends Controller
         $em->persist($image);
         $em->flush();
 
+        // Generate thumb
+        $imagine = $this->container->get('imagine');
+        $imagineFilterManager = $this->container->get('imagine.filter.manager');
+        $imagineFilterManager->get('230x268')
+            ->apply($imagine->open($image->getPath()))
+            ->save($image->getPath());
+
+        $avalancheService = $this->get('imagine.cache.path.resolver');
+        $imagePath = $this->container->getParameter('default_url').$avalancheService->getBrowserPath($image->getPath(), '230x268');
+
         $imageData = array(
             'id' => $image->getId(),
-            'image' => '/'.$image->getPath(),
+            'image' => $imagePath,
             'highlighted' => $image->getHighlighted(),
             'status' => 'OK'
         );
@@ -166,7 +182,7 @@ class AjaxController extends Controller
         $projectMedias['image_'.$image->getId()] = array(
             'type' => 'image',
             'id' => $image->getId(),
-            'image' => '/'.$image->getPath(),
+            'image' => $imagePath,
             'highlighted' => $image->getHighlighted()
         );
         $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
