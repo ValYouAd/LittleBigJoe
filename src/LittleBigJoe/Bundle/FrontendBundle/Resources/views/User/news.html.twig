@@ -18,7 +18,7 @@
 	                {% endif %}
 	            
 		            {% if notification.project.photo %}
-		                <img src="{{ asset(notification.project.photo) }}" width="200" height="200">
+		                <img src="{{ asset(notification.project.photo)|apply_filter('239x239') }}">
 		            {% else %}
 		                <strong>{{ 'No image'|trans() }}</strong>
 		            {% endif %}

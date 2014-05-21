@@ -245,6 +245,9 @@ avalanche_imagine:
         230x268:
             type:    thumbnail
             options: { size: [230, 268], mode: inset }
+        239x239:
+            type:    thumbnail
+            options: { size: [239, 239], mode: inset }
 
 # LittleBigJoeBundle Configuration
 little_big_joe_mango_pay: 

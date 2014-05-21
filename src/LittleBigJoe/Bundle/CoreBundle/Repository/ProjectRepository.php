@@ -241,20 +241,22 @@ class ProjectRepository extends EntityRepository
      */
     public function findPopular($limit = 4, $period = null)
     {
-        $sub_query = '(SELECT COUNT(pl.id) FROM LittleBigJoeCoreBundle:ProjectLike pl WHERE pl.project = p.id)';
-        $sub_query2 = '(SELECT COUNT(pc.id) FROM LittleBigJoeCoreBundle:ProjectContribution pc WHERE pc.project = p.id)';
+        $qb = $this->createQueryBuilder('p');
 
-        $qb = $this->createQueryBuilder('p')
-            ->addSelect($sub_query.' AS HIDDEN nbLikes, '.$sub_query2.' AS HIDDEN nbContributions')
-            ->where('p.deletedAt IS NULL');
-
-        if (!empty($period)) {
-            $qb = $qb->andWhere('pl.createdAt > :createdAt')
-                ->orWhere('pc.createdAt > :createdAt')
-                ->setParameter('createdAt', new \DateTime($period));
+        if (!empty($period))
+        {
+            $date = new \DateTime($period);
+            $sub_query = '(SELECT COUNT(pl.id) FROM LittleBigJoeCoreBundle:ProjectLike pl WHERE pl.project = p.id AND pl.createdAt > '.$date->format('d/m/Y').')';
+            $sub_query2 = '(SELECT COUNT(pc.id) FROM LittleBigJoeCoreBundle:ProjectContribution pc WHERE pc.project = p.id AND pc.createdAt > '.$date->format('d/m/Y').')';
+        }
+        else
+        {
+            $sub_query = '(SELECT COUNT(pl.id) FROM LittleBigJoeCoreBundle:ProjectLike pl WHERE pl.project = p.id)';
+            $sub_query2 = '(SELECT COUNT(pc.id) FROM LittleBigJoeCoreBundle:ProjectContribution pc WHERE pc.project = p.id)';
         }
 
-        return $qb
+        return $qb->addSelect($sub_query.' AS HIDDEN nbLikes, '.$sub_query2.' AS HIDDEN nbContributions')
+            ->where('p.deletedAt IS NULL')
             ->orderBy('nbLikes', 'DESC')
             ->addOrderBy('nbContributions', 'ASC')
             ->getQuery()
