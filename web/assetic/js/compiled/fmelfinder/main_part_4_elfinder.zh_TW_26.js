@@ -11,7 +11,7 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 		dateFormat : 'M d, Y h:i A', // Mar 13, 2012 05:27 PM
 		fancyDateFormat : '$1 H:i',
 		messages   : {
-			
+
 			/********************************** errors **********************************/
 			'error'                : '錯誤',
 			'errUnknown'           : '未知的錯誤.',
@@ -56,7 +56,7 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 			'errUploadTotalSize'   : '資料超過了最大允許大小.',
 			'errUploadFileSize'    : '檔案超過了最大允許大小.',
 			'errUploadMime'        : '不允許的檔案類型.',
-			'errUploadTransfer'    : '"$1" 傳輸錯誤.', 
+			'errUploadTransfer'    : '"$1" 傳輸錯誤.',
 			'errNotReplace'        : '"$1" 已經存在此位置, 不能被其他的替换.', // new
 			'errReplace'           : '無法替换 "$1".',
 			'errSave'              : '無法保存 "$1".',
@@ -109,8 +109,8 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 			'cmdresize'    : '重新調整大小',
 			'cmdsort'      : '排序',
 			'cmdnetmount'  : '掛載 net volume', // added 18.04.2012
-			
-			/*********************************** buttons ***********************************/ 
+
+			/*********************************** buttons ***********************************/
 			'btnClose'  : '關閉',
 			'btnSave'   : '儲存',
 			'btnRm'     : '删除',
@@ -139,8 +139,8 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 			'ntfresize'   : '正在更改尺寸',
 			'ntfsmth'     : '正在忙 >_<',
 			'ntfloadimg'  : '正在讀取圖片',
-      		'ntfnetmount' : '正在掛載 net volume', // added 18.04.2012
-			
+		'ntfnetmount' : '正在掛載 net volume', // added 18.04.2012
+
 			/************************************ dates **********************************/
 			'dateUnknown' : '未知',
 			'Today'       : '今天',
@@ -176,20 +176,20 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 			'Thursday'    : '星期四',
 			'Friday'      : '星期五',
 			'Saturday'    : '星期六',
-			'Sun'         : '周日', 
-			'Mon'         : '周一', 
-			'Tue'         : '周二', 
-			'Wed'         : '周三', 
-			'Thu'         : '周四', 
-			'Fri'         : '周五', 
+			'Sun'         : '周日',
+			'Mon'         : '周一',
+			'Tue'         : '周二',
+			'Wed'         : '周三',
+			'Thu'         : '周四',
+			'Fri'         : '周五',
 			'Sat'         : '周六',
 			/******************************** sort variants ********************************/
-			'sortnameDirsFirst' : '按名稱 (資料夾在最前)', 
-			'sortkindDirsFirst' : '按類型 (資料夾在最前)', 
-			'sortsizeDirsFirst' : '按大小 (資料夾在最前)', 
-			'sortdateDirsFirst' : '按日期 (資料夾在最前)', 
-			'sortname'          : '按名稱', 
-			'sortkind'          : '按類型', 
+			'sortnameDirsFirst' : '按名稱 (資料夾在最前)',
+			'sortkindDirsFirst' : '按類型 (資料夾在最前)',
+			'sortsizeDirsFirst' : '按大小 (資料夾在最前)',
+			'sortdateDirsFirst' : '按日期 (資料夾在最前)',
+			'sortname'          : '按名稱',
+			'sortkind'          : '按類型',
 			'sortsize'          : '按大小',
 			'sortdate'          : '按日期',
 
@@ -215,7 +215,7 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 			'viewlist'        : '列表檢視',
 			'viewicons'       : '圖示檢視',
 			'places'          : '位置',
-			'calc'            : '計算', 
+			'calc'            : '計算',
 			'path'            : '路徑',
 			'aliasfor'        : '别名',
 			'locked'          : '鎖定',
@@ -226,7 +226,7 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 			'yes'             : '是',
 			'no'              : '否',
 			'link'            : '連結',
-			'searcresult'     : '搜尋结果',  
+			'searcresult'     : '搜尋结果',
 			'selected'        : '選取的項目',
 			'about'           : '關於',
 			'shortcuts'       : '快捷鍵',
@@ -270,7 +270,7 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
 			'port'            : '接口', // added 18.04.2012
 			'user'            : '使用者', // added 18.04.2012
 			'pass'            : '密碼', // added 18.04.2012
-			
+
 			/********************************** mimetypes **********************************/
 			'kindUnknown'     : '未知',
 			'kindFolder'      : '資料夾',
