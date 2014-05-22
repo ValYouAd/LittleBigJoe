@@ -3,16 +3,17 @@
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="form-signin">
     <h1>{{ 'Register'|trans() }}</h1>
 
+    {{ form_errors(form) }}
     <div class="row">
         <section class="col-md-5">
             {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword) }}
             {{ form_row(form.firstname) }}
             {{ form_row(form.lastname) }}
             {{ form_row(form.birthday) }}
             {{ form_row(form.city) }}
             {{ form_row(form.country) }}
             {{ form_row(form.defaultLanguage) }}
-
             <div>
                 <button class="btn validate-style">{{ 'Register'|trans }}</button>
             </div>
@@ -25,6 +26,7 @@
             {{ form_row(form.websiteUrl) }}
             {{ form_row(form.photo) }}
             {{ form_row(form.bio) }}
+            {{ form_rest(form) }}
         </section>
     </div>
 </form>

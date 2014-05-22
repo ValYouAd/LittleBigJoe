@@ -74,7 +74,6 @@ class User extends BaseUser
      * @ORM\Column(name="birthday", type="datetime")
      *
      * @Assert\NotBlank(message = "You must enter your lastname")
-     * @Assert\DateTime(message = "Your birthday date format is incorrect")
      */
     private $birthday;
 

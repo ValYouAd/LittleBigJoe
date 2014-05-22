@@ -9,6 +9,13 @@ use Doctrine\ORM\EntityRepository;
 
 class CreateProductFormType extends AbstractType
 {
+    private $options;
+
+    public function __construct($options = array())
+    {
+        $this->options = $options;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -23,11 +30,11 @@ class CreateProductFormType extends AbstractType
         // Define default language for CKEditor interface
         switch ($ckeditorLanguage)
         {
-            case 'en': $ckeditorLanguage = 'en-US';
+            case 'en': $ckeditorLanguage = 'en-US'; $format = 'MM/dd/yyyy';
                 break;
-            case 'fr': $ckeditorLanguage = 'fr-FR';
+            case 'fr': $ckeditorLanguage = 'fr-FR'; $format = 'dd/MM/yyyy';
                 break;
-            default: 	 $ckeditorLanguage = 'en-US';
+            default: 	 $ckeditorLanguage = 'en-US'; $format = 'MM/dd/yyyy';
             break;
         }
 
@@ -73,7 +80,9 @@ class CreateProductFormType extends AbstractType
                 ))
                 ->add('endingAt', 'date', array(
                     'label' => 'Product ending at',
-                    'data'  => date_create()
+                    'widget' => 'single_text',
+                    'format' => $format,
+                    'attr' => array('class' => 'form-control datepicker'),
                 ));
                 break;
 

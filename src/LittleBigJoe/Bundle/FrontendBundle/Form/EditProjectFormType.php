@@ -28,11 +28,11 @@ class EditProjectFormType extends AbstractType
         // Define default language for CKEditor interface
         switch ($ckeditorLanguage)
         {
-            case 'en': $ckeditorLanguage = 'en-US';
+            case 'en': $ckeditorLanguage = 'en-US'; $format = 'MM/dd/yyyy';
                 break;
-            case 'fr': $ckeditorLanguage = 'fr-FR';
+            case 'fr': $ckeditorLanguage = 'fr-FR'; $format = 'dd/MM/yyyy';
                 break;
-            default: 	 $ckeditorLanguage = 'en-US';
+            default: 	 $ckeditorLanguage = 'en-US'; $format = 'MM/dd/yyyy';
             break;
         }
 
@@ -110,7 +110,10 @@ class EditProjectFormType extends AbstractType
                         'label' => 'Likes to get'
                     ))
                     ->add('endingAt', 'date', array(
-                        'label' => 'Project ending at'
+                        'label' => 'Project ending at',
+                        'widget' => 'single_text',
+                        'format' => $format,
+                        'attr' => array('class' => 'form-control datepicker'),
                     ));
                 break;
 

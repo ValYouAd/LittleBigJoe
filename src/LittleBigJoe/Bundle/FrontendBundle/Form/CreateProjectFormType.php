@@ -26,15 +26,17 @@ class CreateProjectFormType extends AbstractType
                 $productType = '';
             }
     		// Define default language for CKEditor interface
-    		switch ($ckeditorLanguage)
-    		{
-	    			case 'en': $ckeditorLanguage = 'en-US'; 
-	    								 break;
-	    			case 'fr': $ckeditorLanguage = 'fr-FR';
-	    								 break;
-	    			default: 	 $ckeditorLanguage = 'en-US';
-	    								 break;
-    		}
+            switch ($ckeditorLanguage)
+            {
+                case 'en': $ckeditorLanguage = 'en-US'; $format = 'MM/dd/yyyy';
+                    break;
+                case 'fr': $ckeditorLanguage = 'fr-FR'; $format = 'dd/MM/yyyy';
+                    break;
+                default: 	 $ckeditorLanguage = 'en-US'; $format = 'MM/dd/yyyy';
+                break;
+            }
+
+            var_dump($ckeditorLanguage, $format);
 
     		switch ($options['flow_step']) 
     		{
@@ -119,7 +121,9 @@ class CreateProjectFormType extends AbstractType
                     ))
                     ->add('endingAt', 'date', array(
                         'label' => 'Project ending at',
-                        'data'  => date_create()
+                        'widget' => 'single_text',
+                        'format' => $format,
+                        'attr' => array('class' => 'form-control datepicker'),
                     ));
                     break;
 

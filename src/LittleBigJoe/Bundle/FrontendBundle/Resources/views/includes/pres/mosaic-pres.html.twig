@@ -32,7 +32,7 @@
             {% set canCreateProduct = true %}
         {% elseif is_granted('ROLE_BRAND_ADMIN') %}
             {% for brand in app.user.brands %}
-                {% if brand.id == entity.brand.id %}
+                {% if brand.id == project.brand.id %}
                     {% set canCreateProduct = true %}
                 {% endif %}
             {% endfor %}

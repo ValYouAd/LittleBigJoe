@@ -1,9 +1,16 @@
 {% extends '::base.html.twig' %}
 
+{% block header_css %}
+    {{ parent() }}
+    <link href="{{ asset('js/datepicker/less/datepicker.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
 {% block header_javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('static/js/modules/faq-display.js') }}"></script>
     <script type="text/javascript" src="{{ asset('static/js/modules/reward-select.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datepicker/js/locales/bootstrap-datepicker.' ~ app.request.locale ~ '.js') }}" charset="UTF-8"></script>
 {% endblock %}
 
 {% block body %}
@@ -168,6 +175,10 @@
                             alert(wrongAudioFileTypeLabel);
                     }
                 }
+            });
+
+            $('.datepicker').datepicker({
+                language: '{{ app.request.locale }}'
             });
 
             // STEP 4

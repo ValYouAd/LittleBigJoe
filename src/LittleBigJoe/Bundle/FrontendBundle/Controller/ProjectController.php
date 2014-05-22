@@ -616,7 +616,7 @@ class ProjectController extends Controller
         // If the project is already ended, show a different form
         if ($project->getEndedAt() != null)
         {
-            $editForm = $this->createForm(new EditProjectType(), $project);
+            $editForm = $this->createForm(new EditProjectType(array('locale' => $request->getLocale())), $project);
             $editForm->handleRequest($request);
 
             if ($editForm->isValid())
