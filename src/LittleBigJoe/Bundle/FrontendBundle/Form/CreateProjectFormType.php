@@ -36,8 +36,6 @@ class CreateProjectFormType extends AbstractType
                 break;
             }
 
-            var_dump($ckeditorLanguage, $format);
-
     		switch ($options['flow_step']) 
     		{
     				// Step 1 : Create my project
