@@ -134,7 +134,7 @@
     <ul class="brand-infos">
         <li class="name">{{ entity.brand }}</li>
         {% for project in entity.brand.projects|reverse|slice(0, 4) %}
-            <li><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name|e }}</a></li>
+            <li><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.name|e }}</a></li>
         {% endfor %}
     </ul>
 

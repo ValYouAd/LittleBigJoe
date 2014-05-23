@@ -19,7 +19,7 @@ littlebigjoe_frontendbundle_payment_project: /paiement/
 littlebigjoe_frontendbundle_project: /projets
 littlebigjoe_frontendbundle_project_almost_ending_projects: /projets-bientot-termines
 littlebigjoe_frontendbundle_project_create_project: /lancer-mon-projet
-littlebigjoe_frontendbundle_project_edit: '/projet/{slug}/edition'
+littlebigjoe_frontendbundle_project_edit: '/projet/{id}-{slug}/edition'
 littlebigjoe_frontendbundle_project_favorite_projects: /coups-de-coeur
 littlebigjoe_frontendbundle_project_funding_projects: /projets-a-financer
 littlebigjoe_frontendbundle_project_latest_projects: /derniers-projets
@@ -27,7 +27,7 @@ littlebigjoe_frontendbundle_project_popular_projects: /projets-populaires
 littlebigjoe_frontendbundle_project_popular_week_projects: /projets-populaires-cette-semaine
 littlebigjoe_frontendbundle_project_preview: /projet/prévisualisation
 littlebigjoe_frontendbundle_project_recently_updated_projects: /projets-recemment-mis-a-jour
-littlebigjoe_frontendbundle_project_show: '/projet/{slug}'
+littlebigjoe_frontendbundle_project_show: '/projet/{id}-{slug}'
 littlebigjoe_frontendbundle_project_top_funded_projects: /projets-les-mieux-finances
 littlebigjoe_frontendbundle_search: /recherche
 littlebigjoe_frontendbundle_user_show: '/utilisateur/{id}'

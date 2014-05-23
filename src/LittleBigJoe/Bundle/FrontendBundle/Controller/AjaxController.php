@@ -537,7 +537,7 @@ class AjaxController extends Controller
     	$projectHelp->setReason($formData[3]['value']);
     	
     	// Generate social network message
-    	$projectUrl = $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug()), true);
+    	$projectUrl = $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug()), true);
     	$brandUrl = '';
     	$status = $project->getStatus();
     	if ($status == '1')
@@ -921,7 +921,7 @@ class AjaxController extends Controller
 						
 						// Force base url to make sure environment is not specified in the URL
 						$this->get('router')->getContext()->setBaseUrl('');
-						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())).'?likePopup=true');												
+						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())).'?likePopup=true');
 						return new JsonResponse(array('status' => 'KO USER'));
 				}
     		
@@ -986,7 +986,7 @@ class AjaxController extends Controller
     
             // Force base url to make sure environment is not specified in the URL
             $this->get('router')->getContext()->setBaseUrl('');
-            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())).'?fundingPopup=true');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())).'?fundingPopup=true');
             return new JsonResponse(array('status' => 'KO USER'));
         }
     
@@ -1026,7 +1026,7 @@ class AjaxController extends Controller
 		    	
 		    		// Force base url to make sure environment is not specified in the URL
 		    		$this->get('router')->getContext()->setBaseUrl('');
-		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
 		    		return new JsonResponse(array('status' => 'KO USER'));
 	    	}
 	    		
@@ -1090,7 +1090,7 @@ class AjaxController extends Controller
 		    		 
 		    		// Force base url to make sure environment is not specified in the URL
 		    		$this->get('router')->getContext()->setBaseUrl('');
-		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
 		    		return new JsonResponse(array('status' => 'KO USER'));
 	    	}
 	    	 
@@ -1153,7 +1153,7 @@ class AjaxController extends Controller
 		    		 
 		    		// Force base url to make sure environment is not specified in the URL
 		    		$this->get('router')->getContext()->setBaseUrl('');
-		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
 		    		return new JsonResponse(array('status' => 'KO USER'));
 	    	}
 	    	 

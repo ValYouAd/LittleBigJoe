@@ -575,14 +575,14 @@ class ProjectController extends Controller
     /**
      * Edit specific project
      *
-     * @Route("/project/{slug}/edit", name="littlebigjoe_frontendbundle_project_edit")
+     * @Route("/project/{id}-{slug}/edit", name="littlebigjoe_frontendbundle_project_edit")
      * @Template("LittleBigJoeFrontendBundle:Project:edit.html.twig")
      */
-    public function editProjectAction(Request $request, $slug)
+    public function editProjectAction(Request $request, $id, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         $currentUser = $this->get('security.context')->getToken()->getUser();
-        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($id, $slug);
 
         if (!$project) {
                 throw $this->createNotFoundException('Unable to find Project entity.');
@@ -598,7 +598,7 @@ class ProjectController extends Controller
 
                 // Force base url to make sure environment is not specified in the URL
                     $this->get('router')->getContext()->setBaseUrl('');
-                    $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('slug' => $project->getSlug())));
+                    $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())));
                 return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
@@ -610,7 +610,7 @@ class ProjectController extends Controller
                         'You must be the project owner to edit the project'
                 );
 
-                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         // If the project is already ended, show a different form
@@ -629,7 +629,7 @@ class ProjectController extends Controller
 
             // Project deletion
             $deleteForm = $this->createFormBuilder()
-                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('slug' => $project->getSlug())))
+                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())))
                                 ->setMethod('DELETE')
                                 ->add('submit', 'submit', array('label' => 'Delete this project', 'attr' => array('class' => 'btn btn-danger')))
                                 ->getForm();
@@ -791,14 +791,14 @@ class ProjectController extends Controller
     /**
      * Create product associated to specific project
      *
-     * @Route("/project/{slug}/create-product", name="littlebigjoe_frontendbundle_project_create_product")
+     * @Route("/project/{id}-{slug}/create-product", name="littlebigjoe_frontendbundle_project_create_product")
      * @Template("LittleBigJoeFrontendBundle:Project:Product/new.html.twig")
      */
-    public function createProductAction(Request $request, $slug)
+    public function createProductAction(Request $request, $id, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         $currentUser = $this->get('security.context')->getToken()->getUser();
-        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($id, $slug);
 
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -814,7 +814,7 @@ class ProjectController extends Controller
 
             // Force base url to make sure environment is not specified in the URL
             $this->get('router')->getContext()->setBaseUrl('');
-            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('slug' => $project->getSlug())));
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())));
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
@@ -832,7 +832,7 @@ class ProjectController extends Controller
                 'You must be an administrator to create a product'
             );
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         // If the product is already validated OR project already in "Funding phase"
@@ -843,7 +843,7 @@ class ProjectController extends Controller
                 'The product is already validated !'
             );
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         // Make sure the private user dir is created
@@ -1029,17 +1029,17 @@ class ProjectController extends Controller
     /**
      * Specific project
      *
-     * @Route("/project/{slug}", name="littlebigjoe_frontendbundle_project_show")
+     * @Route("/project/{id}-{slug}", name="littlebigjoe_frontendbundle_project_show")
      * @Template()
      */
-    public function showAction(Request $request, $slug)
+    public function showAction(Request $request, $id, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         
         $showLikePopup = $request->query->get('likePopup', false);
         $showFundingPopup = $request->query->get('fundingPopup', false);
         $currentUser = $this->get('security.context')->getToken()->getUser();
-        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
+        $entity = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($id, $slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -1111,7 +1111,7 @@ class ProjectController extends Controller
 
         // Create the product validation form
         $validationForm = $this->createFormBuilder()
-                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('slug' => $slug)))
+                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('id' => $id, 'slug' => $slug)))
                                 ->setMethod('POST')
                                 ->add('projectId', 'hidden', array(
                                     'data' => $entity->getId()
@@ -1126,7 +1126,7 @@ class ProjectController extends Controller
 
         // Create the product decline form
         $declineForm = $this->createFormBuilder()
-                            ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('slug' => $slug)))
+                            ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('id' => $id, 'slug' => $slug)))
                             ->setMethod('POST')
                             ->add('projectId', 'hidden', array(
                                 'data' => $entity->getId()
@@ -1207,14 +1207,14 @@ class ProjectController extends Controller
     /**
      * Show project product comments
      *
-     * @Route("/project/{slug}/feedbacks", name="littlebigjoe_frontendbundle_project_product_feedbacks")
+     * @Route("/project/{id}-{slug}/feedbacks", name="littlebigjoe_frontendbundle_project_product_feedbacks")
      * @Template("LittleBigJoeFrontendBundle:Project:Product/comments.html.twig")
      */
-    public function showFeedbacksAction(Request $request, $slug)
+    public function showFeedbacksAction(Request $request, $id, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         $currentUser = $this->get('security.context')->getToken()->getUser();
-        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($id, $slug);
 
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -1227,7 +1227,7 @@ class ProjectController extends Controller
                 'There\'s no product for this project'
             );
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         // If the current user is not logged, redirect him to login page
@@ -1240,7 +1240,7 @@ class ProjectController extends Controller
 
             // Force base url to make sure environment is not specified in the URL
             $this->get('router')->getContext()->setBaseUrl('');
-            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_product_feedbacks', array('slug' => $project->getSlug())));
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_product_feedbacks', array('id' => $project->getId(), 'slug' => $project->getSlug())));
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
@@ -1258,7 +1258,7 @@ class ProjectController extends Controller
                 'You must be the owner or an administrator to access to the product feedbacks'
             );
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         $comment = new ProjectProductComment();
@@ -1273,7 +1273,7 @@ class ProjectController extends Controller
             $em->persist($comment);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_product_feedbacks', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_product_feedbacks', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         return array(
@@ -1285,14 +1285,14 @@ class ProjectController extends Controller
     /**
      * Change status of product
      *
-     * @Route("/project/{slug}/change-status", name="littlebigjoe_frontendbundle_project_product_change_status")
+     * @Route("/project/{id}-{slug}/change-status", name="littlebigjoe_frontendbundle_project_product_change_status")
      * @Method("POST")
      */
-    public function changeStatusAction(Request $request, $slug)
+    public function changeStatusAction(Request $request, $id, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         $currentUser = $this->get('security.context')->getToken()->getUser();
-        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($slug);
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($id, $slug);
 
         if (!$project) {
             throw $this->createNotFoundException('Unable to find Project entity.');
@@ -1305,7 +1305,7 @@ class ProjectController extends Controller
                 'There\'s no product for this project'
             );
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         // If the current user is not logged, redirect him to login page
@@ -1318,7 +1318,7 @@ class ProjectController extends Controller
 
             // Force base url to make sure environment is not specified in the URL
             $this->get('router')->getContext()->setBaseUrl('');
-            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('slug' => $project->getSlug())));
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('id' => $project->getId(), 'slug' => $project->getSlug())));
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
@@ -1330,7 +1330,7 @@ class ProjectController extends Controller
                 'You must be the owner or an administrator to change the status of the product'
             );
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         $formData = $request->request->get('form');
@@ -1344,7 +1344,7 @@ class ProjectController extends Controller
             $em->persist($project);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
         // If the product sheet is declined, notify brand admin
         elseif (!empty($formData['declineMessage']) && $project->getId() == $formData['projectId'])
@@ -1382,7 +1382,7 @@ class ProjectController extends Controller
                 }
             }
 
-            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
     }
 }

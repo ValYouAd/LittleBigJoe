@@ -13,7 +13,7 @@
 	<p>{{ 'Here\'s the important data regarding this contribution'|trans() }}</p>
 	
 	<ul>
-			<li>{{ 'Related project'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_project_show', {slug: project.slug}) }}"><strong>{{ project }}<strong></a></li>
+			<li>{{ 'Related project'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_project_show', {id: project.id, slug: project.slug}) }}"><strong>{{ project }}<strong></a></li>
 			<li>{{ 'Contribution ID'|trans() }} : <strong>#{{ contribution.id }}</strong></li>
 			<li>{{ 'Contribution amount'|trans() }} : <strong>{{ contribution.mangopayAmount }} {{ '€'|trans() }}</strong></li>
 			<li>{{ 'Contributor'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_user_show', {id: contributor.id}) }}"><strong>{{ contributor }}<strong></a></li>

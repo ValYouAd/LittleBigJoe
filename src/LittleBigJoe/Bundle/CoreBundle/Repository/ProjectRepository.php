@@ -126,15 +126,17 @@ class ProjectRepository extends EntityRepository
      * @param string $slug : contains slug
      * @return object entity
      */
-    public function findBySlugI18n($slug)
+    public function findBySlugI18n($id, $slug)
     {
         return $this->getEntityManager()
             ->createQuery('
                         SELECT p
                         FROM LittleBigJoeCoreBundle:Project p
                         WHERE p.deletedAt IS NULL
+                        AND p.id = :id
                         AND p.slug LIKE :slug
                     ')
+            ->setParameter('id', $id)
             ->setParameter('slug', '%' . $slug . '%')
             ->setHint(
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,

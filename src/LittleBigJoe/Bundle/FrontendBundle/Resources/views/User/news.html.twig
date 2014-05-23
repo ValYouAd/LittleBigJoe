@@ -24,11 +24,11 @@
 		            {% endif %}
 		            
 		            {% if notification.type == '0' %}
-		                {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'got'|trans() }} <strong>{{ notification.data.step }}</strong> {{ 'supporters'|trans() }}.
+		                {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': notification.project.id, 'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'got'|trans() }} <strong>{{ notification.data.step }}</strong> {{ 'supporters'|trans() }}.
 		            {% elseif notification.type == '1' %}
-                        {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'got'|trans() }} <strong>{{ notification.data.step }}</strong> {{ 'participants'|trans() }}.
+                        {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': notification.project.id, 'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'got'|trans() }} <strong>{{ notification.data.step }}</strong> {{ 'participants'|trans() }}.
                     {% elseif notification.type == '2' %}
-                        {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'posted a new entry'|trans() }} : <strong>{{ notification.entry }}</strong>.
+                        {{ 'The project'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': notification.project.id, 'slug': notification.project.slug}) }}"><strong>{{ notification.project }}</strong></a> {{ 'posted a new entry'|trans() }} : <strong>{{ notification.entry }}</strong>.
                     {% endif %}
 		        </p> 
             </div>            

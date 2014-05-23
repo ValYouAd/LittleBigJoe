@@ -10,7 +10,7 @@
 <body bgcolor="#FFFFFF">
 <p>{{ 'Hello'|trans() }} <strong>{{ user }}</strong> !</p>
 <p>{{ 'This is the second revival. The'|trans() }} {{ project.brand }} {{ 'brand wants to create an product for your project :'|trans() }} {{ project }}</p>
-<p>{{ 'You can directly access to the product details at'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_project_show', {slug: project.slug}) }}#tab_4">{{ project.name }}</a>
+<p>{{ 'You can directly access to the product details at'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_project_show', {id: project.id, slug: project.slug}) }}#tab_4">{{ project.name }}</a>
 
 <p>{{ 'We hope to see you soon in'|trans() }} <a href="{{ url }}">{{ url }}</a></p>
 </body>

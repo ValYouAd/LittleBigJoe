@@ -57,7 +57,7 @@
 
                         <div class="article-footer">
                             <button class="validate-style next" type="submit" name="validate" value="validate">{{ 'Continue'|trans() }}</button>
-                            <a class="back-link" href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">&lsaquo;&lsaquo; {{ 'Return to the project page'|trans() }}</a>
+                            <a class="back-link" href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">&lsaquo;&lsaquo; {{ 'Return to the project page'|trans() }}</a>
                         </div>
                     {% endif %}
                 </form>

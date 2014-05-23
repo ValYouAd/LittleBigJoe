@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="top-infos">
-                        <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': popularProjects.0.slug}) }}">{{ popularProjects.0.name }}</a></h3>
+                        <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProjects.0.id, 'slug': popularProjects.0.slug}) }}">{{ popularProjects.0.name }}</a></h3>
 
                         <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': popularProjects.0.user.id}) }}" class="author">{{ 'By'|trans() }} {{ popularProjects.0.user }}</a>
 
@@ -66,7 +66,7 @@
                 {% for popularProject in popularProjects %}
                     {% if loop.index >= 2 and loop.index < 4 %}
                         <div class="top-secondary-project">
-                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': popularProject.slug}) }}">
+                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProject.id, 'slug': popularProject.slug}) }}">
                             {% if popularProject.photo %}
                                 <img class="top-thumbnail" src="{{ asset(popularProject.photo) }}|apply_filter('346x215')" width="346" height="215" alt="alt-LBJ" />
                             {% else %}

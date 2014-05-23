@@ -12,7 +12,7 @@
                     <h2>{{ 'Feedbacks regarding'|trans() }} "{{ entity }}" {{ "product" }}</h2>
                 </div>
 
-                <p>"{{ entity }}" {{ 'product is related to the following project'|trans() }} : <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': entity.project.slug}) }}">{{ entity.project }}</a></p>
+                <p>"{{ entity }}" {{ 'product is related to the following project'|trans() }} : <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': entity.project.id, 'slug': entity.project.slug}) }}">{{ entity.project }}</a></p>
 
                 <div class="description-infos">
                     {% if entity.comments|length > 0 %}

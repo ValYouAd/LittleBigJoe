@@ -21,7 +21,7 @@
     </div>
 
     <div class="list-infos-container">
-        <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': project.slug}) }}">{{ project.name }}</a></h3>
+        <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.name }}</a></h3>
 
         {% set canCreateProduct = false %}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -35,7 +35,7 @@
         {% endif %}
         {% if canCreateProduct and project.status == '1' and project.product and project.product.validatedAt is null %}
             <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
+            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': project.id, 'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
             <div class="clearfix"></div>
         {% endif %}
 

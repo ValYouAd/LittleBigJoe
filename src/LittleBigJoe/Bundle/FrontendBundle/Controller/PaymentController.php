@@ -68,7 +68,7 @@ class PaymentController extends Controller
 
                     // Force base url to make sure environment is not specified in the URL
                     $this->get('router')->getContext()->setBaseUrl('');
-                    $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+                    $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
                     return $this->redirect($this->generateUrl('fos_user_security_login'));
             }
 
