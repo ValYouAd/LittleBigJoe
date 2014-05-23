@@ -44,12 +44,17 @@
 <div class="white-container">
 
     <div class="tabs-container">
-        <div class="tab" id="tab_0"><img class="icon" src="{{ asset('static/img/icons/icon-projects-gray.png') }}" alt="alt-LBJ - projects icon" />{{ 'Project'|trans() }}</div>
+        {% set allTabs = false %}
         {# N'affiche l'onglet que si c'est le créateur du projet, un admin LBJ, un admin marque, ou que le produit est validé #}
-        {% if canCreateProduct or canEditProject or (entity.status == '2' and entity.product is defined and entity.product.validatedAt is defined) %}<div class="tab" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>{% endif %}
-        <div class="tab" id="tab_1"><img class="icon" src="{{ asset('static/img/icons/icon-news.png') }}" alt="alt-LBJ - news icon" />{{ 'News'|trans() }}</div>
-        <div class="tab" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{{ 'Participants'|trans() }}</div>
-        <div class="tab" id="tab_3"><img class="icon" src="{{ asset('static/img/icons/icon-comment.png') }}" alt="alt-LBJ - comment icon" />{{ 'Comments'|trans() }}</div>
+        {% if entity.product and (canCreateProduct or canEditProject or (entity.status == '2' and entity.product.validatedAt is defined)) %}
+            {% set allTabs = true %}
+        {% endif %}
+
+        <div class="tab tabSmall" id="tab_0"><img class="icon" src="{{ asset('static/img/icons/icon-projects-gray.png') }}" alt="alt-LBJ - projects icon" />{{ 'Project'|trans() }}</div>
+        {% if allTabs %}<div class="tab tabSmall" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>{% endif %}
+        <div class="tab tabSmall" id="tab_1"><img class="icon" src="{{ asset('static/img/icons/icon-news.png') }}" alt="alt-LBJ - news icon" />{{ 'News'|trans() }}</div>
+        <div class="tab tabSmall" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{{ 'Participants'|trans() }}</div>
+        <div class="tab tabSmall" id="tab_3"><img class="icon" src="{{ asset('static/img/icons/icon-comment.png') }}" alt="alt-LBJ - comment icon" />{{ 'Comments'|trans() }}</div>
     </div>
 
     {# ----- TAB 'PROJET' ------ #}
