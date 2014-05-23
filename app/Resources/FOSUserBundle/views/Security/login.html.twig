@@ -17,17 +17,22 @@
             <section class="col-md-5">
                 <h1>{{ 'Login'|trans() }}</h1>
 
-                <p>
-                    {{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
-                    <a href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
-                        <i class="fa fa-twitter"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
-                    </a>
-                </p>
+		<p>&nbsp;</p>
+		<div class="row text-center">
+		    <div class="col-sm-6">
+			{{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
+		    </div>
+		    <div class="col-sm-6">
+			<a style="font-size: 12px;padding: 5px 0px 5px 38px;" href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
+			    <i class="fa fa-twitter" style="line-height: 28px;"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
+			</a>
+		    </div>
+		</div>
             </section>
             <section class="col-md-2"></section>
             <section class="col-md-5">
                 <h1>{{ 'You can also log yourself with :'|trans() }}</h1>
-
+		<p>&nbsp;</p>
                 {% if error %}
                     <div class="alert alert-danger">{{ error|trans }}</div>
                 {% endif %}
