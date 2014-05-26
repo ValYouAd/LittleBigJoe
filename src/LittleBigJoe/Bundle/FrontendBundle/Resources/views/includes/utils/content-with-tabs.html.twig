@@ -72,12 +72,6 @@
                         {% set hasDefaultMedia = true %}
                     {% endif %}
                 {% endfor %}
-
-                {% if not hasDefaultMedia %}
-                    <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
-                {% endif %}
-            {% else %}
-                <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
             {% endif %}
         </div>
 
