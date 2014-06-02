@@ -90,7 +90,13 @@ Email : **admin@littlebigjoe.com**
 
 Password : **admin**
 
-### Step 7 : Start using the app !
+### Step 7 : permissions
+``` bash
+chmod 777 -R media/
+chmod 777 -R uploads/
+```
+
+### Step 8 : Start using the app !
 Enjoy !
 
 ## Configuration
