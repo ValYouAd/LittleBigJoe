@@ -25,9 +25,5 @@
             <tag name="doctrine.event_listener" event="onFlush" />
             <argument type="service" id="service_container"/>
         </service>
-        <!--<service id="littlebigjoefrontend.subscriber.tableprefix" class="LittleBigJoe\Bundle\CoreBundle\Subscriber\TablePrefixSubscriber">
-            <tag name="doctrine.event_subscriber" />
-            <argument>%table_prefix%</argument>
-        </service>-->
     </services>
 </container>
