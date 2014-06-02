@@ -11,6 +11,7 @@ parameters:
     mailer_password:   ~
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+    table_prefix:      'littlebigjoe_'
 
     # LittleBigJoe Specific Configuration
     locales: [en, fr]

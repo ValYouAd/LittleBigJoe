@@ -180,6 +180,11 @@ services:
         class: Twig_Extensions_Extension_Text
         tags:
             - name: twig.extension
+    littlebigjoecorebundle.tblprefix_subscriber:
+        class: LittleBigJoe\Bundle\CoreBundle\Subscriber\TablePrefixSubscriber
+        arguments: [%table_prefix%]
+        tags:
+            - { name: doctrine.event_subscriber }
     
 # TrsteelCkeditorBundle Configuration
 trsteel_ckeditor:
