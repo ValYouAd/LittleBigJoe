@@ -19,65 +19,65 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class PaymentController extends Controller
 {
-		/**
-		 * Check if all necessary data are set
-		 */		
-		public function preCheck(Request $request)
-		{
-				$em = $this->getDoctrine()->getManager();
-				$formData = $this->get('request')->request->all();
-				
-				// Retrieve the project id that was sent previously
-				if (!empty($formData['form']['projectId']))
-				{
-						$projectId = $formData['form']['projectId'];
-						$this->get('session')->set('projectId', $projectId);
-				}
-				// If project id is in session
-				else if ($this->get('session')->get('projectId') != null)
-				{
-						$projectId = $this->get('session')->get('projectId');
-				}
-				else
-				{
-						$projectId = 0;
-				}
-				
-				// If it's not a correct project id
-				if (empty($projectId))
-				{
-						return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
-				}
-				
-				$project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($projectId);
-				
-				// If the project doesn't exist
-				if (empty($project))
-				{
-						return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
-				}
-				
-				$currentUser = $this->get('security.context')->getToken()->getUser();
-				// If the current user is not logged, redirect him to login page
-				if (!is_object($currentUser))
-				{
-						$this->get('session')->getFlashBag()->add(
-								'notice',
-								'You must be logged in to contribute to this project'
-						);
-					
-						// Force base url to make sure environment is not specified in the URL
-						$this->get('router')->getContext()->setBaseUrl('');
-						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));												
-						return $this->redirect($this->generateUrl('fos_user_security_login')); 
-				}
-								
-				return array(
-						'project' => $project,
-						'user' => $currentUser,
-						'form' => $formData
-				);
-		}
+    /**
+     * Check if all necessary data are set
+     */
+    public function preCheck(Request $request)
+    {
+            $em = $this->getDoctrine()->getManager();
+            $formData = $this->get('request')->request->all();
+
+            // Retrieve the project id that was sent previously
+            if (!empty($formData['form']['projectId']))
+            {
+                    $projectId = $formData['form']['projectId'];
+                    $this->get('session')->set('projectId', $projectId);
+            }
+            // If project id is in session
+            else if ($this->get('session')->get('projectId') != null)
+            {
+                    $projectId = $this->get('session')->get('projectId');
+            }
+            else
+            {
+                    $projectId = 0;
+            }
+
+            // If it's not a correct project id
+            if (empty($projectId))
+            {
+                    return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+            }
+
+            $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($projectId);
+
+            // If the project doesn't exist
+            if (empty($project))
+            {
+                    return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+            }
+
+            $currentUser = $this->get('security.context')->getToken()->getUser();
+            // If the current user is not logged, redirect him to login page
+            if (!is_object($currentUser))
+            {
+                    $this->get('session')->getFlashBag()->add(
+                            'notice',
+                            'You must be logged in to contribute to this project'
+                    );
+
+                    // Force base url to make sure environment is not specified in the URL
+                    $this->get('router')->getContext()->setBaseUrl('');
+                    $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+                    return $this->redirect($this->generateUrl('fos_user_security_login'));
+            }
+
+            return array(
+                    'project' => $project,
+                    'user' => $currentUser,
+                    'form' => $formData
+            );
+    }
 		
 		
     /**
@@ -101,7 +101,9 @@ class PaymentController extends Controller
     		$rewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findAvailable($data['project']->getId());
     		$unavailableRewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findUnavailable($data['project']->getId(), $data['user']->getId());
     		$faqs = $em->getRepository('LittleBigJoeCoreBundle:Faq')->findBy(array('isVisible' => true));
-    		    		
+            $generalConditionsPageId = $this->container->getParameter('cgu_page_id');
+            $generalConditionsPage = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($generalConditionsPageId);
+
     		// If there's no project rewards
     		if (empty($rewards))
     		{
@@ -110,6 +112,7 @@ class PaymentController extends Controller
     		
 				return array(
 						'project' => $data['project'],
+                        'generalConditionsPage' => $generalConditionsPage,
 						'faqs' => $faqs,
 						'rewards' => $rewards,
 						'unavailableRewards' => $unavailableRewards
@@ -132,47 +135,56 @@ class PaymentController extends Controller
 	    	// Redirect eventually
 	    	if (is_object($data) && $data instanceof RedirectResponse)
 	    	{
-	    			return $data;
+                return $data;
 	    	}
-	    				    	
-	    	// If user has enterd a specific amount
-	    	if (!empty($data['form']['amount']))
-	    	{
-	    			$rewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findAvailable($data['project']->getId());
-	    			$unavailableRewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findUnavailable($data['project']->getId(), $data['user']->getId());
-    				
-    				// Retrieve the reward that is associated to the amount
-    				foreach ($rewards as $reward)
-	    			{
-	    					if ($reward->getAmount() <= $data['form']['amount'] && !in_array($reward->getId(), $unavailableRewards))    		
-	    					{
-	    							// Get the associated reward id
-	    							$rewardId = $reward->getId();
-	    					}		
-	    			}
 
-	    			// Override default reward amount
-	    			$amountToPay = (float)$data['form']['amount'];
+            // Cast the entered amount
+            $data['form']['amount'] = (int)$data['form']['amount'];
+
+	    	// If user has enterd a specific amount
+	    	if (!empty($data['form']['amount']) && $data['form']['amount'] >= 1)
+	    	{
+                $rewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findAvailable($data['project']->getId());
+                $unavailableRewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findUnavailable($data['project']->getId(), $data['user']->getId());
+
+                // Retrieve the reward that is associated to the amount
+                foreach ($rewards as $reward)
+                {
+                    if ($reward->getAmount() <= $data['form']['amount'] && !in_array($reward->getId(), $unavailableRewards))
+                    {
+                        // Get the associated reward id
+                        $rewardId = $reward->getId();
+                    }
+                }
+
+                // If no rewards has been found
+                if (empty($rewardId))
+                {
+                    $rewardId = $rewards[0]->getId();
+                }
+
+                // Override default reward amount
+                $amountToPay = (float)$data['form']['amount'];
 	    	}
 	    	else if (!empty($data['form']['rewards'][0]))
 	    	{
-	    			$rewardId = $data['form']['rewards'][0];	    				    			
+	    		$rewardId = $data['form']['rewards'][0];
 	    	}
 	    	// If user has not selected a reward, and not entered specific amount
 	    	else
 	    	{
-	    			return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+	    		return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
 	    	}	
-	    	
+
 	    	// Make sure the reward id we get is correct
 	    	$reward = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findOneBy(array('project' => $data['project'], 'id' => $rewardId));
-	    		    		    	
+
 	    	// If the reward doesn't exist and amount not specified
 	    	if (empty($reward) && $amountToPay == 0)
 	    	{
-	    			return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
 	    	}
-	    	
+
 	    	// Create contribution
 	    	$contribution = new ProjectContribution();
 	    	$contribution->setProject($data['project']);
@@ -181,7 +193,7 @@ class PaymentController extends Controller
 	    	// Only set reward, if there's one selected previously
 	    	if (!empty($reward))
 	    	{
-	    			$contribution->setReward($reward);
+	    	    $contribution->setReward($reward);
 	    	}   		
 	    	$em->persist($contribution);
 	    	$em->flush();
@@ -193,47 +205,48 @@ class PaymentController extends Controller
 	    	// If we must use the default reward amount
 	    	if (empty($amountToPay))
 	    	{
-	    			$amountToPay = $reward->getAmount();
+                $amountToPay = $reward->getAmount();
 	    	}
-	    		    	
-	    	$mangopayContribution = $api->createContribution($data['project']->getMangopayWalletId(), $data['user']->getMangopayUserId(),	$amountToPay*100, $returnUrl, $contribution->getId(), null, null, null, null, $data['user']->getDefaultLanguage(), null, null);
-	    	if (!empty($mangopayContribution))
+
+	    	$mangopayContribution = $api->createContribution($data['project']->getMangopayWalletId(), $data['user']->getMangopayUserId(), $amountToPay*100, $returnUrl, $contribution->getId(), null, null, null, null, $data['user']->getDefaultLanguage(), null, null);
+            //var_dump($mangopayContribution);die('**');
+            if (!empty($mangopayContribution))
 	    	{
-		    		if (!empty($mangopayContribution->ID))
-		    		{
-		    				$contribution->setMangopayContributionId($mangopayContribution->ID);
-		    				$this->get('session')->set('contributionId', $mangopayContribution->ID);
-		    		}
-		    		if (!empty($mangopayContribution->Amount))
-		    		{
-		    				$contribution->setMangopayAmount($mangopayContribution->Amount/100);
-		    		}
-	    			if (!empty($mangopayContribution->IsSucceeded))
-		    		{
-		    				$contribution->setMangopayIsSucceeded($mangopayContribution->IsSucceeded);
-		    		}
-		    		if (!empty($mangopayContribution->IsCompleted))
-		    		{
-		    				$contribution->setMangopayIsCompleted($mangopayContribution->IsCompleted);
-		    		}
-	    			if (!empty($mangopayContribution->CreationDate))
-		    		{
-		    				$contribution->setMangopayCreatedAt(new \DateTime('@'.$mangopayContribution->CreationDate));
-		    		}
-		    		if (!empty($mangopayContribution->UpdateDate))
-		    		{
-		    				$contribution->setMangopayUpdatedAt(new \DateTime('@'.$mangopayContribution->UpdateDate));
-		    		}
-		    		$em->persist($contribution);
-		    		$em->flush();
-	    		
-	    			// Redirect user to payment page	    		
-		    		return $this->redirect($mangopayContribution->PaymentURL);
+                if (!empty($mangopayContribution->ID))
+                {
+                    $contribution->setMangopayContributionId($mangopayContribution->ID);
+                    $this->get('session')->set('contributionId', $mangopayContribution->ID);
+                }
+                if (!empty($mangopayContribution->Amount))
+                {
+                    $contribution->setMangopayAmount($mangopayContribution->Amount/100);
+                }
+                if (!empty($mangopayContribution->IsSucceeded))
+                {
+                    $contribution->setMangopayIsSucceeded($mangopayContribution->IsSucceeded);
+                }
+                if (!empty($mangopayContribution->IsCompleted))
+                {
+                    $contribution->setMangopayIsCompleted($mangopayContribution->IsCompleted);
+                }
+                if (!empty($mangopayContribution->CreationDate))
+                {
+                    $contribution->setMangopayCreatedAt(new \DateTime('@'.$mangopayContribution->CreationDate));
+                }
+                if (!empty($mangopayContribution->UpdateDate))
+                {
+                    $contribution->setMangopayUpdatedAt(new \DateTime('@'.$mangopayContribution->UpdateDate));
+                }
+                $em->persist($contribution);
+                $em->flush();
+
+                // Redirect user to payment page
+                return $this->redirect($mangopayContribution->PaymentURL);
 	    	}
 	    	else
     		{
-    				return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
-    		}
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+            }
     }
     
     /**

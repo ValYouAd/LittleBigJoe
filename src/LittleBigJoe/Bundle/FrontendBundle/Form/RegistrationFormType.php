@@ -2,19 +2,24 @@
 
 namespace LittleBigJoe\Bundle\FrontendBundle\Form;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Validator\Constraints\Date;
 
 class RegistrationFormType extends BaseType
 {
 		private $session;
+        private $container;
 		
-		public function __construct($session, $class)
+		public function __construct($session, $class, ContainerInterface $container)
 		{
-				$this->session = $session;
-				parent::__construct($class);
+            $this->session = $session;
+            parent::__construct($class);
+            $this->container = $container;
 		}
 	
     /**
@@ -30,7 +35,7 @@ class RegistrationFormType extends BaseType
         $lastname = $this->session->get('oauth_lastname', '');
         $email = $this->session->get('oauth_email', '');
         $location = $this->session->get('oauth_location', '');
-        $lang = $this->session->get('oauth_lang', '');
+        $lang = $this->session->get('oauth_lang', $this->container->get('request')->getLocale());
         $bio = $this->session->get('oauth_bio', '');
         $twitterUrl = $this->session->get('oauth_twitterUrl', '');
         $websiteUrl = $this->session->get('oauth_websiteUrl', '');
@@ -45,6 +50,12 @@ class RegistrationFormType extends BaseType
         if (!array_key_exists($lang, $langs))
         {
         		$lang = 'en';
+        }
+        switch ($lang)
+        {
+            case 'en': $format = 'MM/dd/yyyy'; break;
+            case 'fr': $format = 'dd/MM/yyyy'; break;
+            default: $format = 'MM/dd/yyyy'; break;
         }
 
         $builder
@@ -62,9 +73,11 @@ class RegistrationFormType extends BaseType
                 'label' => 'Lastname',
             		'data' => $lastname
             ))
-            ->add('birthday', 'birthday', array(
+            ->add('birthday', 'date', array(
                 'label' => 'Birthday date',
-                'years' => range(date('Y') - 100, date('Y'))
+                'widget' => 'single_text',
+                'format' => $format,
+                'attr' => array('class' => 'form-control datepicker'),
             ))
             ->add('facebookUrl', 'url', array(
                 'label' => 'Facebook URL',

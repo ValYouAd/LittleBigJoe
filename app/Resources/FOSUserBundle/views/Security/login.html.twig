@@ -2,39 +2,61 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% block header_css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('static/font-awesome/css/font-awesome.min.css') }}">
+{% endblock %}
+
 {% block fos_user_content %}
-		{% for notice in app.session.flashbag.get('notice') %}
-		    <div class="alert alert-warning">{{ notice }}</div>
-		{% endfor %}		
+    {% for notice in app.session.flashbag.get('notice') %}
+        <div class="alert alert-warning">{{ notice }}</div>
+    {% endfor %}
 
     <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
-        <h2 class="form-signin-heading">{{ 'Login'|trans() }}</h2>
+        <div class="row">
+            <section class="col-md-5">
+                <h1>{{ 'Login'|trans() }}</h1>
 
-        {% if error %}
-            <div class="alert alert-danger">{{ error|trans }}</div>
-        {% endif %}
-
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
-
-        <label for="username">{{ 'security.login.username'|trans }}</label>
-        <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}"
-               required="required"/>
-
-        <label for="password">{{ 'security.login.password'|trans }}</label>
-        <input type="password" id="password" name="_password" class="form-control" required="required"/>
-
-        <label for="remember_me" class="checkbox">
-            <input type="checkbox" id="remember_me" name="_remember_me"
-                   value="on"/> {{ 'security.login.remember_me'|trans }}
-        </label>
-
-        <input type="submit" id="_submit" name="_submit" class="btn btn-lg btn-primary btn-block"
-               value="{{ 'security.login.submit'|trans }}"/>
-               
-        <a href="{{ path('fos_user_resetting_request') }}">{{ 'Forgot password ?'|trans() }}</a>
-               
-        <h2 class="form-signin-heading">{{ 'You can also log yourself with :'|trans() }}</h2>        
-        {{ facebook_login_button({'autologoutlink': false, 'label': 'Login via Facebook'|trans() }) }}
-        <a href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}">{{ 'Login via Twitter'|trans() }}</a>        
+		<p>&nbsp;</p>
+		<div class="row text-center">
+		    <div class="col-sm-6">
+			{{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
+		    </div>
+		    <div class="col-sm-6">
+			<a style="font-size: 12px;padding: 5px 0px 5px 38px;" href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
+			    <i class="fa fa-twitter" style="line-height: 28px;"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
+			</a>
+		    </div>
+		</div>
+            </section>
+            <section class="col-md-2"></section>
+            <section class="col-md-5">
+                <h1>{{ 'You can also log yourself with :'|trans() }}</h1>
+		<p>&nbsp;</p>
+                {% if error %}
+                    <div class="alert alert-danger">{{ error|trans }}</div>
+                {% endif %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                <p>
+                    <label for="username">{{ 'Your email : '|trans }}</label>
+                    <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}"
+                           required="required"/>
+                </p>
+                <p>
+                    <label for="password">{{ 'Your password :'|trans }}</label>
+                    <input type="password" id="password" name="_password" class="form-control" required="required"/>
+                </p>
+                <p>
+                    <label for="remember_me" class="checkbox">
+                        <input type="checkbox" id="remember_me" name="_remember_me"
+                               value="on"/> {{ 'Remember me'|trans }}
+                    </label>
+                </p>
+                <p>
+                    <button class="btn validate-style">{{ 'Login'|trans }}</button>
+                    <a href="{{ path('fos_user_resetting_request') }}">{{ 'Forgot password ?'|trans() }}</a>
+                </p>
+            </section>
+        </div>
     </form>
 {% endblock fos_user_content %}

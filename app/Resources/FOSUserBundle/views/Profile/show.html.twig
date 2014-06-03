@@ -1,5 +1,14 @@
 {% extends "::base.html.twig" %}
 
+{% block meta_title %}
+    {{ user }} | {{ parent() }}
+{% endblock %}
+
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/progress-bars.js') }}" ></script>
+{% endblock %}
+
 {% block fos_user_content %}
     {% include "FOSUserBundle:Profile:show_content.html.twig" %}
 {% endblock fos_user_content %}

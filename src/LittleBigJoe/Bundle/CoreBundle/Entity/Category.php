@@ -26,7 +26,7 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -42,11 +42,11 @@ class Category
      *    maxMessage = "Your category name can't exceed {{ limit }} characters"
      * )
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -\'\?\&]*$/",
      *    message = "Your category name must only contains letters, spaces, or dashes"
      * )
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
@@ -60,7 +60,7 @@ class Category
      *    message = "Your category slug must only contains letters, or dashes"
      * )
      */
-    private $slug;
+    protected $slug;
 
     /**
      * @var string
@@ -76,11 +76,11 @@ class Category
      *    maxMessage = "Your META category title can't exceed {{ limit }} characters"
      * )
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -]*$/",
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -\'\?\&]*$/",
      *    message = "Your META category title must only contains letters, spaces, or dashes"
      * )
      */
-    private $metaTitle;
+    protected $metaTitle;
 
     /**
      * @var string
@@ -90,14 +90,14 @@ class Category
      *
      * @Assert\NotBlank(message = "You must enter your META category description")
      */
-    private $metaDescription;
+    protected $metaDescription;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_visible", type="boolean")
      */
-    private $isVisible;
+    protected $isVisible;
 
     /**
      * @ORM\OneToMany(
@@ -106,17 +106,17 @@ class Category
      *  cascade={"persist", "remove"}
      * )
      */
-    private $translations;
+    protected $translations;
 
     /**
-     * @ORM\OneToMany(targetEntity="Project", mappedBy="category", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="categories")
      */
     protected $projects;
 
     public function __construct()
     {
-        $this->projects = new ArrayCollection();
         $this->translations = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function __toString()
@@ -227,39 +227,6 @@ class Category
     }
 
     /**
-     * Add projects
-     *
-     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Project $projects
-     * @return Category
-     */
-    public function addProject(\LittleBigJoe\Bundle\CoreBundle\Entity\Project $projects)
-    {
-        $this->projects[] = $projects;
-
-        return $this;
-    }
-
-    /**
-     * Remove projects
-     *
-     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Project $projects
-     */
-    public function removeProject(\LittleBigJoe\Bundle\CoreBundle\Entity\Project $projects)
-    {
-        $this->projects->removeElement($projects);
-    }
-
-    /**
-     * Get projects
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProjects()
-    {
-        return $this->projects;
-    }
-
-    /**
      * Set slug
      *
      * @param string $slug
@@ -316,5 +283,38 @@ class Category
     public function getTranslations()
     {
         return $this->translations;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Project $projects
+     * @return Category
+     */
+    public function addProject(\LittleBigJoe\Bundle\CoreBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+    
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Project $projects
+     */
+    public function removeProject(\LittleBigJoe\Bundle\CoreBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

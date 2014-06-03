@@ -24,7 +24,7 @@ class CategoryController extends Controller
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
-        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBy(array('category' => $entity->getId(), 'deletedAt' => null), array('id' => 'DESC'));
+        $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findByCategory($entity->getId());
 
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(

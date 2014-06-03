@@ -11,17 +11,23 @@
         <parameter key="class.guzzle.response">Guzzle\Http\Message\Response</parameter>
         <parameter key="class.guzzle.client">Guzzle\Http\Client</parameter>
         <parameter key="class.guzzle.oauthplugin">Guzzle\Plugin\Oauth\OauthPlugin</parameter>
+        <parameter key="littlebigjoe.media.provider.dailymotion.class">LittleBigJoe\Bundle\FrontendBundle\Provider\DailymotionProvider</parameter>
+        <parameter key="littlebigjoe.media.provider.youtube.class">LittleBigJoe\Bundle\FrontendBundle\Provider\YoutubeProvider</parameter>
+        <parameter key="littlebigjoe.media.provider.vimeo.class">LittleBigJoe\Bundle\FrontendBundle\Provider\VimeoProvider</parameter>
+        <parameter key="littlebigjoe.media.provider.factory.class">LittleBigJoe\Bundle\FrontendBundle\Provider\ProviderFactory</parameter>
     </parameters>		
 		
     <services>
-        <service id="littlebigjoefrontend.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormType">
+        <service id="littlebigjoefrontend.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormType" scope="request">
             <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_registration"/>
             <argument type="service" id="session" />
             <argument>%fos_user.model.user.class%</argument>
+            <argument type="service" id="service_container" />
         </service>
-        <service id="littlebigjoefrontend.user.profile" class="LittleBigJoe\Bundle\FrontendBundle\Form\ProfileFormType">
+        <service id="littlebigjoefrontend.user.profile" class="LittleBigJoe\Bundle\FrontendBundle\Form\ProfileFormType" scope="request">
             <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_profile"/>
             <argument>%fos_user.model.user.class%</argument>
+            <argument type="service" id="service_container" />
         </service>
         <service id="littlebigjoefrontend.user.facebook_provider" class="LittleBigJoe\Bundle\FrontendBundle\Security\Provider\FacebookProvider">
             <argument type="service" id="fos_facebook.api" />
@@ -50,6 +56,57 @@
         	<call method="setFormType">
             	<argument type="service" id="littlebigjoefrontend.project.createProject" />
         	</call>
-    	</service>  
+            <call method="setEntityManager">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
+            </call>
+    	</service>
+
+        <service id="littlebigjoefrontend.project.editProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\EditProjectFormType">
+            <tag name="form.type" alias="editProject" />
+        </service>
+        <service id="littlebigjoefrontend.flow.project.editProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\EditProjectFlow" parent="craue.form.flow" scope="request">
+            <call method="setFormType">
+                <argument type="service" id="littlebigjoefrontend.project.editProject" />
+            </call>
+            <call method="setEntityManager">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
+            </call>
+        </service>
+
+        <service id="littlebigjoefrontend.project.createProduct" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProductFormType">
+            <tag name="form.type" alias="createProduct" />
+        </service>
+        <service id="littlebigjoefrontend.flow.project.createProduct" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProductFlow" parent="craue.form.flow" scope="request">
+            <call method="setFormType">
+                <argument type="service" id="littlebigjoefrontend.project.createProduct" />
+            </call>
+            <call method="setEntityManager">
+                <argument type="service" id="doctrine.orm.entity_manager"/>
+            </call>
+        </service>
+
+        <service id="littlebigjoe.media.provider.dailymotion" class="%littlebigjoe.media.provider.dailymotion.class%">
+            <argument type="service" id="littlebigjoe.media.buzz.browser" />
+            <argument type="service" id="templating" />
+        </service>
+
+        <service id="littlebigjoe.media.provider.youtube" class="%littlebigjoe.media.provider.youtube.class%">
+            <argument type="service" id="littlebigjoe.media.buzz.browser" />
+            <argument type="service" id="templating" />
+        </service>
+
+        <service id="littlebigjoe.media.provider.vimeo" class="%littlebigjoe.media.provider.vimeo.class%">
+            <argument type="service" id="littlebigjoe.media.buzz.browser" />
+            <argument type="service" id="templating" />
+        </service>
+
+        <service id="littlebigjoe.media.buzz.browser" class="Buzz\Browser">
+        </service>
+
+        <service id="littlebigjoe.media.provider.factory" class="%littlebigjoe.media.provider.factory.class%">
+            <argument type="service" id="littlebigjoe.media.provider.dailymotion" />
+            <argument type="service" id="littlebigjoe.media.provider.youtube" />
+            <argument type="service" id="littlebigjoe.media.provider.vimeo" />
+        </service>
     </services>
 </container>

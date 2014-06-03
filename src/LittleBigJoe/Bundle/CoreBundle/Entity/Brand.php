@@ -26,7 +26,7 @@ class Brand
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -45,7 +45,7 @@ class Brand
      *    message = "Your brand name must only contains letters, spaces, or dashes"
      * )
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class Brand
      *    message = "Your brand slug must only contains letters, or dashes"
      * )
      */
-    private $slug;
+    protected $slug;
 
     /**
      * @var string
@@ -66,7 +66,7 @@ class Brand
      * @ORM\Column(name="logo", type="string", length=255, nullable=true)
      * @Gedmo\UploadableFilePath
      */
-    private $logo;
+    protected $logo;
 
     /**
      * @var string
@@ -75,7 +75,7 @@ class Brand
      *
      * @Assert\NotBlank(message = "You must enter the description")
      */
-    private $description;
+    protected $description;
 
     /**
      * @var string
@@ -84,7 +84,7 @@ class Brand
      *
      * @Assert\Url(message = "Your Facebook URL is invalid")
      */
-    private $facebookUrl;
+    protected $facebookUrl;
 
     /**
      * @var string
@@ -93,7 +93,7 @@ class Brand
      *
      * @Assert\Url(message = "Your Twitter URL is invalid")
      */
-    private $twitterUrl;
+    protected $twitterUrl;
 
     /**
      * @var string
@@ -102,7 +102,7 @@ class Brand
      *
      * @Assert\Url(message = "Your Google+ URL is invalid")
      */
-    private $googleUrl;
+    protected $googleUrl;
 
     /**
      * @var string
@@ -111,7 +111,7 @@ class Brand
      *
      * @Assert\Url(message = "Your website URL is invalid")
      */
-    private $websiteUrl;
+    protected $websiteUrl;
 
     /**
      * @var string
@@ -129,7 +129,7 @@ class Brand
      *    message = "Your contact name must only contains letters, spaces, or dashes"
      * )
      */
-    private $contactName;
+    protected $contactName;
 
     /**
      * @var string
@@ -147,7 +147,7 @@ class Brand
      *    message = "Your contact status must only contains letters, spaces, or dashes"
      * )
      */
-    private $contactStatus;
+    protected $contactStatus;
 
     /**
      * @var string
@@ -159,7 +159,7 @@ class Brand
      *    message = "Your contact phone must only contains numbers, dots, or commas"
      * )
      */
-    private $contactPhone;
+    protected $contactPhone;
 
     /**
      * @var string
@@ -170,7 +170,7 @@ class Brand
      *     message = "Your contact email '{{ value }}' is not a valid email."
      * )
      */
-    private $contactEmail;
+    protected $contactEmail;
     
     /**
      * @var integer
@@ -183,7 +183,7 @@ class Brand
      *    message = "Your minimum required likes count must only contains numbers"
      * )
      */
-    private $minimumLikesRequired;
+    protected $minimumLikesRequired;
 
     /**
      * @ORM\OneToMany(targetEntity="Project", mappedBy="brand", cascade={"persist", "remove"})
@@ -194,11 +194,17 @@ class Brand
      * @ORM\ManyToMany(targetEntity="User", mappedBy="followedBrands")
      */
     protected $followers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="brands")
+     */
+    protected $administrators;
     
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->followers = new ArrayCollection();
+        $this->administrators = new ArrayCollection();
     }
 
     public function __toString()
@@ -579,5 +585,38 @@ class Brand
     public function getFollowers()
     {
         return $this->followers;
+    }
+
+    /**
+     * Add administrators
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $administrators
+     * @return Brand
+     */
+    public function addAdministrator(\LittleBigJoe\Bundle\CoreBundle\Entity\User $administrators)
+    {
+        $this->administrators[] = $administrators;
+    
+        return $this;
+    }
+
+    /**
+     * Remove administrators
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $administrators
+     */
+    public function removeAdministrator(\LittleBigJoe\Bundle\CoreBundle\Entity\User $administrators)
+    {
+        $this->administrators->removeElement($administrators);
+    }
+
+    /**
+     * Get administrators
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAdministrators()
+    {
+        return $this->administrators;
     }
 }

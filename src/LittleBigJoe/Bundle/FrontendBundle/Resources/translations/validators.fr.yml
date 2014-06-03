@@ -1,129 +1,117 @@
-'Choose a valid language':
-    '': 'Choose a valid language.'   # FIXME
-
-'The language is incorrect': 'The language is incorrect'   # FIXME
-'You must enter the description': 'You must enter the description'   # FIXME
-'You must enter the max quantity by user': 'You must enter the max quantity by user'   # FIXME
-'You must enter the pitch': 'You must enter the pitch'   # FIXME
-'You must enter the project ending date': 'You must enter the project ending date'   # FIXME
-'You must enter the required amount': 'You must enter the required amount'   # FIXME
-'You must enter the required likes count': 'You must enter the required likes count'   # FIXME
-'You must enter the reward': 'You must enter the reward'   # FIXME
-'You must enter the reward description': 'You must enter the reward description'   # FIXME
-'You must enter the reward title': 'You must enter the reward title'   # FIXME
-'You must enter the stock': 'You must enter the stock'   # FIXME
-'You must enter your META category description': 'You must enter your META category description'   # FIXME
-'You must enter your META category title': 'You must enter your META category title'   # FIXME
-'You must enter your META page description': 'You must enter your META page description'   # FIXME
-'You must enter your META page title': 'You must enter your META page title'   # FIXME
-'You must enter your answer': 'You must enter your answer'   # FIXME
-'You must enter your brand name': 'You must enter your brand name'   # FIXME
-'You must enter your brand slug': 'You must enter your brand slug'   # FIXME
-'You must enter your category name': 'You must enter your category name'   # FIXME
-'You must enter your category slug': 'You must enter your category slug'   # FIXME
-'You must enter your city': 'You must enter your city'   # FIXME
-'You must enter your comment content': 'You must enter your comment content'   # FIXME
-'You must enter your contact email': 'You must enter your contact email'   # FIXME
-'You must enter your contact name': 'You must enter your contact name'   # FIXME
-'You must enter your contact phone': 'You must enter your contact phone'   # FIXME
-'You must enter your contact status': 'You must enter your contact status'   # FIXME
-'You must enter your country': 'You must enter your country'   # FIXME
-'You must enter your entry content': 'You must enter your entry content'   # FIXME
-'You must enter your entry title': 'You must enter your entry title'   # FIXME
-'You must enter your firstname': 'You must enter your firstname'   # FIXME
-'You must enter your lastname': 'You must enter your lastname'   # FIXME
-'You must enter your location': 'You must enter your location'   # FIXME
-'You must enter your page content': 'You must enter your page content'   # FIXME
-'You must enter your page slug': 'You must enter your page slug'   # FIXME
-'You must enter your page title': 'You must enter your page title'   # FIXME
-'You must enter your project name': 'You must enter your project name'   # FIXME
-'You must enter your project slug': 'You must enter your project slug'   # FIXME
-'You must enter your question': 'You must enter your question'   # FIXME
-'Your Facebook URL is invalid': 'Your Facebook URL is invalid'   # FIXME
-'Your Google+ URL is invalid': 'Your Google+ URL is invalid'   # FIXME
-'Your META category description must only contains letters, or dashes': 'Your META category description must only contains letters, or dashes'   # FIXME
-'Your META category title can''t exceed {{ limit }} characters': 'Your META category title can''t exceed {{ limit }} characters'   # FIXME
-'Your META category title must contains at least {{ limit }} characters': 'Your META category title must contains at least {{ limit }} characters'   # FIXME
-'Your META category title must only contains letters, spaces, or dashes': 'Your META category title must only contains letters, spaces, or dashes'   # FIXME
-'Your META page description must only contains letters, or dashes': 'Your META page description must only contains letters, or dashes'   # FIXME
-'Your META page title can''t exceed {{ limit }} characters': 'Your META page title can''t exceed {{ limit }} characters'   # FIXME
-'Your META page title must contains at least {{ limit }} characters': 'Your META page title must contains at least {{ limit }} characters'   # FIXME
-'Your META page title must only contains letters, spaces, or dashes': 'Your META page title must only contains letters, spaces, or dashes'   # FIXME
-'Your Twitter URL is invalid': 'Your Twitter URL is invalid'   # FIXME
-'Your bio must only contains numbers, letters, spaces, commas or dashes': 'Your bio must only contains numbers, letters, spaces, commas or dashes'   # FIXME
-'Your bio must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your bio must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'   # FIXME
-'Your birthday date format is incorrect': 'Your birthday date format is incorrect'   # FIXME
-'Your brand name can''t exceed {{ limit }} characters': 'Your brand name can''t exceed {{ limit }} characters'   # FIXME
-'Your brand name must contains at least {{ limit }} characters': 'Your brand name must contains at least {{ limit }} characters'   # FIXME
-'Your brand name must only contains letters, spaces, or dashes': 'Your brand name must only contains letters, spaces, or dashes'   # FIXME
-'Your brand slug must only contains letters, or dashes': 'Your brand slug must only contains letters, or dashes'   # FIXME
-'Your category name can''t exceed {{ limit }} characters': 'Your category name can''t exceed {{ limit }} characters'   # FIXME
-'Your category name must contains at least {{ limit }} characters': 'Your category name must contains at least {{ limit }} characters'   # FIXME
-'Your category name must only contains letters, spaces, or dashes': 'Your category name must only contains letters, spaces, or dashes'   # FIXME
-'Your category slug must only contains letters, or dashes': 'Your category slug must only contains letters, or dashes'   # FIXME
-'Your city can''t exceed {{ limit }} characters': 'Your city can''t exceed {{ limit }} characters'   # FIXME
-'Your city must contains at least {{ limit }} characters': 'Your city must contains at least {{ limit }} characters'   # FIXME
-'Your city must only contains letters, spaces, or dashes': 'Your city must only contains letters, spaces, or dashes'   # FIXME
-'Your comment content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your comment content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'   # FIXME
-
-'Your contact email ''{{ value }}'' is not a valid email':
-    '': 'Your contact email ''{{ value }}'' is not a valid email.'   # FIXME
-
-'Your contact name can''t exceed {{ limit }} characters': 'Your contact name can''t exceed {{ limit }} characters'   # FIXME
-'Your contact name must contains at least {{ limit }} characters': 'Your contact name must contains at least {{ limit }} characters'   # FIXME
-'Your contact name must only contains letters, spaces, or dashes': 'Your contact name must only contains letters, spaces, or dashes'   # FIXME
-'Your contact phone must only contains numbers, dots, or commas': 'Your contact phone must only contains numbers, dots, or commas'   # FIXME
-'Your contact status can''t exceed {{ limit }} characters': 'Your contact status can''t exceed {{ limit }} characters'   # FIXME
-'Your contact status must contains at least {{ limit }} characters': 'Your contact status must contains at least {{ limit }} characters'   # FIXME
-'Your contact status must only contains letters, spaces, or dashes': 'Your contact status must only contains letters, spaces, or dashes'   # FIXME
-'Your country name is invalid': 'Your country name is invalid'   # FIXME
-'Your description must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your description must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'   # FIXME
-'Your entry content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your entry content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'   # FIXME
-'Your entry title can''t exceed {{ limit }} characters': 'Your entry title can''t exceed {{ limit }} characters'   # FIXME
-'Your entry title must contains at least {{ limit }} characters': 'Your entry title must contains at least {{ limit }} characters'   # FIXME
-'Your entry title must only contains letters, spaces, or dashes': 'Your entry title must only contains letters, spaces, or dashes'   # FIXME
-'Your firstname can''t exceed {{ limit }} characters': 'Your firstname can''t exceed {{ limit }} characters'   # FIXME
-'Your firstname must contains at least {{ limit }} characters': 'Your firstname must contains at least {{ limit }} characters'   # FIXME
-'Your firstname must only contains letters, spaces, or dashes': 'Your firstname must only contains letters, spaces, or dashes'   # FIXME
-'Your lastname can''t exceed {{ limit }} characters': 'Your lastname can''t exceed {{ limit }} characters'   # FIXME
-'Your lastname must contains at least {{ limit }} characters': 'Your lastname must contains at least {{ limit }} characters'   # FIXME
-'Your lastname must only contains letters, spaces, or dashes': 'Your lastname must only contains letters, spaces, or dashes'   # FIXME
-'Your location can''t exceed {{ limit }} characters': 'Your location can''t exceed {{ limit }} characters'   # FIXME
-'Your location must contains at least {{ limit }} characters': 'Your location must contains at least {{ limit }} characters'   # FIXME
-'Your max quantity by user must only contains numbers': 'Your max quantity by user must only contains numbers'   # FIXME
-'Your page slug must only contains letters, or dashes': 'Your page slug must only contains letters, or dashes'   # FIXME
-'Your page title can''t exceed {{ limit }} characters': 'Your page title can''t exceed {{ limit }} characters'   # FIXME
-'Your page title must contains at least {{ limit }} characters': 'Your page title must contains at least {{ limit }} characters'   # FIXME
-'Your page title must only contains letters, spaces, or dashes': 'Your page title must only contains letters, spaces, or dashes'   # FIXME
-'Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'   # FIXME
-'Your project ending date format is incorrect': 'Your project ending date format is incorrect'   # FIXME
-'Your project name can''t exceed {{ limit }} characters': 'Your project name can''t exceed {{ limit }} characters'   # FIXME
-'Your project name must contains at least {{ limit }} characters': 'Your project name must contains at least {{ limit }} characters'   # FIXME
-'Your project name must only contains letters, spaces, or dashes': 'Your project name must only contains letters, spaces, or dashes'   # FIXME
-'Your project slug must only contains letters, or dashes': 'Your project slug must only contains letters, or dashes'   # FIXME
-'Your required amount must only contains numbers, dots, or commas': 'Your required amount must only contains numbers, dots, or commas'   # FIXME
-'Your required likes count must only contains numbers': 'Your required likes count must only contains numbers'   # FIXME
-'Your reward amount must only contains numbers, dots, or commas': 'Your reward amount must only contains numbers, dots, or commas'   # FIXME
-'Your reward title can''t exceed {{ limit }} characters': 'Your reward title can''t exceed {{ limit }} characters'   # FIXME
-'Your reward title must contains at least {{ limit }} characters': 'Your reward title must contains at least {{ limit }} characters'   # FIXME
-'Your reward title must only contains letters, spaces, or dashes': 'Your reward title must only contains letters, spaces, or dashes'   # FIXME
-'Your stock must only contains numbers': 'Your stock must only contains numbers'   # FIXME
-'Your website URL is invalid': 'Your website URL is invalid'   # FIXME
-
-fos_user:
-    email:
-        already_used: fos_user.email.already_used
-        blank: fos_user.email.blank
-        invalid: fos_user.email.invalid
-        long: fos_user.email.long
-        short: fos_user.email.short
-
-    password:
-        blank: fos_user.password.blank
-        short: fos_user.password.short
-
-    username:
-        already_used: fos_user.username.already_used
-        blank: fos_user.username.blank
-        long: fos_user.username.long
-        short: fos_user.username.short
+'The language is incorrect': 'The language is incorrect'
+'You must enter the description': 'You must enter the description'
+'You must enter the max quantity by user': 'You must enter the max quantity by user'
+'You must enter the pitch': 'You must enter the pitch'
+'You must enter the project ending date': 'You must enter the project ending date'
+'You must enter the required amount': 'You must enter the required amount'
+'You must enter the required likes count': 'You must enter the required likes count'
+'You must enter the reward': 'You must enter the reward'
+'You must enter the reward description': 'You must enter the reward description'
+'You must enter the reward title': 'You must enter the reward title'
+'You must enter the stock': 'You must enter the stock'
+'You must enter your META category description': 'You must enter your META category description'
+'You must enter your META category title': 'You must enter your META category title'
+'You must enter your META page description': 'You must enter your META page description'
+'You must enter your META page title': 'You must enter your META page title'
+'You must enter your answer': 'You must enter your answer'
+'You must enter your brand name': 'You must enter your brand name'
+'You must enter your brand slug': 'You must enter your brand slug'
+'You must enter your category name': 'You must enter your category name'
+'You must enter your category slug': 'You must enter your category slug'
+'You must enter your city': 'You must enter your city'
+'You must enter your comment content': 'You must enter your comment content'
+'You must enter your contact email': 'You must enter your contact email'
+'You must enter your contact name': 'You must enter your contact name'
+'You must enter your contact phone': 'You must enter your contact phone'
+'You must enter your contact status': 'You must enter your contact status'
+'You must enter your country': 'You must enter your country'
+'You must enter your entry content': 'You must enter your entry content'
+'You must enter your entry title': 'You must enter your entry title'
+'You must enter your firstname': 'You must enter your firstname'
+'You must enter your lastname': 'You must enter your lastname'
+'You must enter your location': 'You must enter your location'
+'You must enter your page content': 'You must enter your page content'
+'You must enter your page slug': 'You must enter your page slug'
+'You must enter your page title': 'You must enter your page title'
+'You must enter your project name': 'You must enter your project name'
+'You must enter your project slug': 'You must enter your project slug'
+'You must enter your question': 'You must enter your question'
+'Your Facebook URL is invalid': 'Your Facebook URL is invalid'
+'Your Google+ URL is invalid': 'Your Google+ URL is invalid'
+'Your META category description must only contains letters, or dashes': 'Your META category description must only contains letters, or dashes'
+'Your META category title can''t exceed {{ limit }} characters': 'Your META category title can''t exceed {{ limit }} characters'
+'Your META category title must contains at least {{ limit }} characters': 'Your META category title must contains at least {{ limit }} characters'
+'Your META category title must only contains letters, spaces, or dashes': 'Your META category title must only contains letters, spaces, or dashes'
+'Your META page description must only contains letters, or dashes': 'Your META page description must only contains letters, or dashes'
+'Your META page title can''t exceed {{ limit }} characters': 'Your META page title can''t exceed {{ limit }} characters'
+'Your META page title must contains at least {{ limit }} characters': 'Your META page title must contains at least {{ limit }} characters'
+'Your META page title must only contains letters, spaces, or dashes': 'Your META page title must only contains letters, spaces, or dashes'
+'Your Twitter URL is invalid': 'Your Twitter URL is invalid'
+'Your bio must only contains numbers, letters, spaces, commas or dashes': 'Your bio must only contains numbers, letters, spaces, commas or dashes'
+'Your bio must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your bio must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'
+'Your birthday date format is incorrect': 'Your birthday date format is incorrect'
+'Your brand name can''t exceed {{ limit }} characters': 'Your brand name can''t exceed {{ limit }} characters'
+'Your brand name must contains at least {{ limit }} characters': 'Your brand name must contains at least {{ limit }} characters'
+'Your brand name must only contains letters, spaces, or dashes': 'Your brand name must only contains letters, spaces, or dashes'
+'Your brand slug must only contains letters, or dashes': 'Your brand slug must only contains letters, or dashes'
+'Your category name can''t exceed {{ limit }} characters': 'Your category name can''t exceed {{ limit }} characters'
+'Your category name must contains at least {{ limit }} characters': 'Your category name must contains at least {{ limit }} characters'
+'Your category name must only contains letters, spaces, or dashes': 'Your category name must only contains letters, spaces, or dashes'
+'Your category slug must only contains letters, or dashes': 'Your category slug must only contains letters, or dashes'
+'Your city can''t exceed {{ limit }} characters': 'Your city can''t exceed {{ limit }} characters'
+'Your city must contains at least {{ limit }} characters': 'Your city must contains at least {{ limit }} characters'
+'Your city must only contains letters, spaces, or dashes': 'Your city must only contains letters, spaces, or dashes'
+'Your comment content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your comment content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'
+'Your contact name can''t exceed {{ limit }} characters': 'Your contact name can''t exceed {{ limit }} characters'
+'Your contact name must contains at least {{ limit }} characters': 'Your contact name must contains at least {{ limit }} characters'
+'Your contact name must only contains letters, spaces, or dashes': 'Your contact name must only contains letters, spaces, or dashes'
+'Your contact phone must only contains numbers, dots, or commas': 'Your contact phone must only contains numbers, dots, or commas'
+'Your contact status can''t exceed {{ limit }} characters': 'Your contact status can''t exceed {{ limit }} characters'
+'Your contact status must contains at least {{ limit }} characters': 'Your contact status must contains at least {{ limit }} characters'
+'Your contact status must only contains letters, spaces, or dashes': 'Your contact status must only contains letters, spaces, or dashes'
+'Your country name is invalid': 'Your country name is invalid'
+'Your description must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your description must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'
+'Your entry content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your entry content must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'
+'Your entry title can''t exceed {{ limit }} characters': 'Your entry title can''t exceed {{ limit }} characters'
+'Your entry title must contains at least {{ limit }} characters': 'Your entry title must contains at least {{ limit }} characters'
+'Your entry title must only contains letters, spaces, or dashes': 'Your entry title must only contains letters, spaces, or dashes'
+'Your firstname can''t exceed {{ limit }} characters': 'Your firstname can''t exceed {{ limit }} characters'
+'Your firstname must contains at least {{ limit }} characters': 'Your firstname must contains at least {{ limit }} characters'
+'Your firstname must only contains letters, spaces, or dashes': 'Your firstname must only contains letters, spaces, or dashes'
+'Your lastname can''t exceed {{ limit }} characters': 'Your lastname can''t exceed {{ limit }} characters'
+'Your lastname must contains at least {{ limit }} characters': 'Your lastname must contains at least {{ limit }} characters'
+'Your lastname must only contains letters, spaces, or dashes': 'Your lastname must only contains letters, spaces, or dashes'
+'Your location can''t exceed {{ limit }} characters': 'Your location can''t exceed {{ limit }} characters'
+'Your location must contains at least {{ limit }} characters': 'Your location must contains at least {{ limit }} characters'
+'Your max quantity by user must only contains numbers': 'Your max quantity by user must only contains numbers'
+'Your page slug must only contains letters, or dashes': 'Your page slug must only contains letters, or dashes'
+'Your page title can''t exceed {{ limit }} characters': 'Your page title can''t exceed {{ limit }} characters'
+'Your page title must contains at least {{ limit }} characters': 'Your page title must contains at least {{ limit }} characters'
+'Your page title must only contains letters, spaces, or dashes': 'Your page title must only contains letters, spaces, or dashes'
+'Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes': 'Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes'
+'Your project ending date format is incorrect': 'Your project ending date format is incorrect'
+'Your project name can''t exceed {{ limit }} characters': 'Your project name can''t exceed {{ limit }} characters'
+'Your project name must contains at least {{ limit }} characters': 'Your project name must contains at least {{ limit }} characters'
+'Your project name must only contains letters, spaces, or dashes': 'Your project name must only contains letters, spaces, or dashes'
+'Your project slug must only contains letters, or dashes': 'Your project slug must only contains letters, or dashes'
+'Your required amount must only contains numbers, dots, or commas': 'Your required amount must only contains numbers, dots, or commas'
+'Your required likes count must only contains numbers': 'Your required likes count must only contains numbers'
+'Your reward amount must only contains numbers, dots, or commas': 'Your reward amount must only contains numbers, dots, or commas'
+'Your reward title can''t exceed {{ limit }} characters': 'Your reward title can''t exceed {{ limit }} characters'
+'Your reward title must contains at least {{ limit }} characters': 'Your reward title must contains at least {{ limit }} characters'
+'Your reward title must only contains letters, spaces, or dashes': 'Your reward title must only contains letters, spaces, or dashes'
+'Your stock must only contains numbers': 'Your stock must only contains numbers'
+'Your website URL is invalid': 'Your website URL is invalid'
+'Choose a valid language.': 'Choose a valid language.'
+'Your contact email ''{{ value }}'' is not a valid email.': 'Your contact email ''{{ value }}'' is not a valid email.'
+fos_user.email.already_used: fos_user.email.already_used
+fos_user.email.blank: fos_user.email.blank
+fos_user.email.invalid: fos_user.email.invalid
+fos_user.email.long: fos_user.email.long
+fos_user.email.short: fos_user.email.short
+fos_user.password.blank: fos_user.password.blank
+fos_user.password.short: fos_user.password.short
+fos_user.username.already_used: fos_user.username.already_used
+fos_user.username.blank: fos_user.username.blank
+fos_user.username.long: fos_user.username.long
+fos_user.username.short: fos_user.username.short

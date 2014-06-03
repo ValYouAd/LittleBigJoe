@@ -2,6 +2,8 @@
 
 namespace LittleBigJoe\Bundle\FrontendBundle\Controller;
 
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,6 +23,366 @@ use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectHelp;
  */
 class AjaxController extends Controller
 {
+    /**
+     * Set media as default project media
+     *
+     * @Route("/highlight-product-item", name="littlebigjoe_frontendbundle_ajax_highlight_product_gallery_item")
+     * @Method("POST")
+     * @Template()
+     */
+    public function highlightProductItemAction(Request $request)
+    {
+        return $this->highlightItemAction($request, 'productMedias');
+    }
+
+    /**
+     * Set media as default project media
+     *
+     * @Route("/highlight-item", name="littlebigjoe_frontendbundle_ajax_highlight_gallery_item")
+     * @Method("POST")
+     * @Template()
+     */
+    public function highlightItemAction(Request $request, $sessionKey = 'projectMedias')
+    {
+        $em = $this->getDoctrine()->getManager();
+        $projectMedias = $this->getRequest()->getSession()->get($sessionKey, array());
+        $mediaType = $this->get('request')->request->get('type');
+        $mediaId = $this->get('request')->request->get('id');
+        $return = array('status' => 'KO');
+
+        if (!empty($mediaType) && !empty($mediaId))
+        {
+            foreach ($projectMedias as $key => $projectMedia)
+            {
+                if ($projectMedia['id'] == $mediaId && $projectMedia['type'] == $mediaType)
+                {
+                    if ($projectMedias[$key]['highlighted'])
+                    {
+                        $projectMedias[$key]['highlighted'] = false;
+                    }
+                    else
+                    {
+                        $projectMedias[$key]['highlighted'] = true;
+                    }
+
+                    $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
+                    $return = array('status' => 'OK', 'toHighlight' => $projectMedias[$key]['highlighted']);
+                }
+                else
+                {
+                    $projectMedias[$key]['highlighted'] = false;
+                }
+            }
+        }
+
+        // Make sure no code is executed after it
+        return new JsonResponse($return);
+        exit;
+    }
+
+    /**
+     * Insert image
+     *
+     * @Route("/add-product-image", name="littlebigjoe_frontendbundle_ajax_insert_product_image")
+     * @Method("POST")
+     * @Template()
+     */
+    public function addProductImageAction(Request $request)
+    {
+        return $this->addImageAction($request, 'productMedias');
+    }
+
+    /**
+     * Insert image
+     *
+     * @Route("/add-image", name="littlebigjoe_frontendbundle_ajax_insert_image")
+     * @Method("POST")
+     * @Template()
+     */
+    public function addImageAction(Request $request, $sessionKey = 'projectMedias')
+    {
+        $em = $this->getDoctrine()->getManager();
+        $projectMedias = $this->getRequest()->getSession()->get($sessionKey, array());
+        $file = $_FILES['selectGalleryImages'];
+        $imageData = array('status' => 'KO');
+
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to create a project'
+            );
+
+            return new JsonResponse(array('status' => 'KO USER'));
+        }
+
+        // If it's not a correct file object
+        if (empty($file) && !is_array($file))
+        {
+            return new JsonResponse(array('status' => 'KO FILE'));
+        }
+
+        // If it's not an allowed MIME type
+        if (!in_array($file['type'], $this->container->getParameter('allowed_image_mime_types')))
+        {
+            return new JsonResponse(array('status' => 'KO TYPE'));
+        }
+
+        // If file size is too big
+        if ($file['size'] > $this->container->getParameter('max_file_size'))
+        {
+            return new JsonResponse(array('status' => 'KO SIZE'));
+        }
+
+        switch ($file['type'])
+        {
+            case 'image/jpeg': $extension = '.jpg'; break;
+            case 'image/png': $extension = '.png'; break;
+            default: $extension = '.jpg'; break;
+        }
+
+        // Move file to tmp folder
+        $tmpName = sha1($file['name'].uniqid(mt_rand(), true)).$extension;
+        $webDir = $this->get('kernel')->getRootDir().'/../web/';
+        $dirName = 'uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+        if (!file_exists($dirName))
+        {
+            mkdir($dirName, 0755);
+        }
+        $absolutePath = $webDir.$dirName.'/';
+        @move_uploaded_file($file['tmp_name'], $absolutePath.$tmpName);
+
+        $image = new ProjectImage();
+        $image->setName($tmpName);
+        $image->setPath($dirName.'/'.$tmpName);
+        $image->setHighlighted(false);
+        $em->persist($image);
+        $em->flush();
+
+        // Generate thumb
+        $imagine = $this->container->get('imagine');
+        $imagineFilterManager = $this->container->get('imagine.filter.manager');
+        $imagineFilterManager->get('230x268')
+            ->apply($imagine->open($image->getPath()))
+            ->save($image->getPath());
+
+        $avalancheService = $this->get('imagine.cache.path.resolver');
+        $imagePath = $this->container->getParameter('default_url').$avalancheService->getBrowserPath($image->getPath(), '230x268');
+
+        $imageData = array(
+            'id' => $image->getId(),
+            'image' => $imagePath,
+            'highlighted' => $image->getHighlighted(),
+            'status' => 'OK'
+        );
+
+        // Store the media ID in session for easier access
+        $projectMedias['image_'.$image->getId()] = array(
+            'type' => 'image',
+            'id' => $image->getId(),
+            'image' => $imagePath,
+            'highlighted' => $image->getHighlighted()
+        );
+        $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
+
+        // Make sure no code is executed after it
+        return new JsonResponse($imageData);
+        exit;
+    }
+
+    /**
+     * Insert video
+     *
+     * @Route("/add-product-video", name="littlebigjoe_frontendbundle_ajax_insert_product_video")
+     * @Method("POST")
+     * @Template()
+     */
+    public function addProductVideoAction(Request $request)
+    {
+        return $this->addVideoAction($request, 'productMedias');
+    }
+
+    /**
+     * Insert video
+     *
+     * @Route("/add-video", name="littlebigjoe_frontendbundle_ajax_insert_video")
+     * @Method("POST")
+     * @Template()
+     */
+    public function addVideoAction(Request $request, $sessionKey = 'projectMedias')
+    {
+        $em = $this->getDoctrine()->getManager();
+        $projectMedias = $this->getRequest()->getSession()->get($sessionKey, array());
+        $videoUrl = $this->get('request')->request->get('videoUrl');
+        $videoData = array('status' => 'KO');
+
+        $provider = $this->get('littlebigjoe.media.provider.factory')->getProviderByUrl($videoUrl);
+
+        if (!empty($provider))
+        {
+            $video = $provider->getVideo($videoUrl);
+            $em->persist($video);
+            $em->flush();
+
+            $videoData = array(
+                'id' => $video->getId(),
+                'image' => $video->getThumbUrl(),
+                'highlighted' => $video->getHighlighted(),
+                'status' => 'OK'
+            );
+
+            // Store the media ID in session for easier access
+            $projectMedias['video_'.$video->getId()] = array(
+                'type' => 'video',
+                'id' => $video->getId(),
+                'image' => $video->getThumbUrl(),
+                'highlighted' => $video->getHighlighted()
+            );
+            $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
+        }
+
+        // Make sure no code is executed after it
+        return new JsonResponse($videoData);
+        exit;
+    }
+
+    /**
+     * Remove gallery item
+     *
+     * @Route("/remove-product-gallery-item", name="littlebigjoe_frontendbundle_ajax_remove_product_gallery_item")
+     * @Method("POST")
+     * @Template()
+     */
+    public function removeProductGalleryItemAction(Request $request)
+    {
+        return $this->removeGalleryItemAction($request, 'productMedias');
+    }
+
+    /**
+     * Remove gallery item
+     *
+     * @Route("/remove-gallery-item", name="littlebigjoe_frontendbundle_ajax_remove_gallery_item")
+     * @Method("POST")
+     * @Template()
+     */
+    public function removeGalleryItemAction(Request $request, $sessionKey = 'projectMedias')
+    {
+        $em = $this->getDoctrine()->getManager();
+        $projectMedias = $this->getRequest()->getSession()->get($sessionKey, array());
+        $mediaType = $this->get('request')->request->get('type');
+        $mediaId = $this->get('request')->request->get('id');
+        $return = array('status' => 'KO');
+
+        if (!empty($mediaType) && !empty($mediaId))
+        {
+            if ($mediaType == 'video')
+            {
+                $video = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($mediaId);
+                if ($video instanceof ProjectVideo)
+                {
+                    // Remove the media ID in session
+                    unset($projectMedias['video_'.$video->getId()]);
+                    $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
+
+                    $em->remove($video);
+                    $em->flush();
+
+                    $return = array('status' => 'OK');
+                }
+            }
+            else if ($mediaType == 'image')
+            {
+                $image = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($mediaId);
+                if ($image instanceof ProjectImage)
+                {
+                    // Remove the media ID in session
+                    unset($projectMedias['image_'.$image->getId()]);
+                    $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
+
+                    $em->remove($image);
+                    $em->flush();
+
+                    $return = array('status' => 'OK');
+                }
+            }
+        }
+
+        // Make sure no code is executed after it
+        return new JsonResponse($return);
+        exit;
+    }
+
+    /**
+     * Search product type
+     *
+     * @Route("/search-product-type", name="littlebigjoe_frontendbundle_ajax_search_product_type")
+     * @Method("GET")
+     * @Template()
+     */
+    public function searchProductTypeAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $productType = strtolower($this->get('request')->query->get('productType'));
+        $predictions = array();
+
+        $productTypes = $em->getRepository('LittleBigJoeCoreBundle:ProductType')->findEquivalents($productType, $request->getLocale());
+        if (!empty($productTypes))
+        {
+            foreach ($productTypes as $productType)
+                array_push($predictions, array('value' => $productType['name']));
+        }
+
+        // Make sure no code is executed after it
+        return new JsonResponse($predictions);
+        exit;
+    }
+
+    /**
+     * Search location
+     *
+     * @Route("/search-location", name="littlebigjoe_frontendbundle_ajax_search_location")
+     * @Method("GET")
+     * @Template()
+     */
+    public function searchLocationAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $location = strtolower($this->get('request')->query->get('location'));
+        $predictions = array();
+
+        $ch = curl_init();
+        $url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input='.htmlspecialchars($location).
+               '&types=geocode&language='.$request->getLocale().'&sensor=true&key='.$this->container->getParameter('api_google_key');
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $data = curl_exec($ch);
+        $data = json_decode($data);
+        curl_close($ch);
+
+        if (!empty($data->predictions))
+        {
+            foreach ($data->predictions as $prediction)
+            {
+                $terms = array();
+                foreach ($prediction->terms as $term)
+                    array_push($terms, $term->value);
+
+                array_push($predictions, array(
+                    'year' => '1950',
+                    'value' => $prediction->description,
+                    'tokens' => $terms
+                ));
+            }
+        }
+
+        // Make sure no code is executed after it
+        return new JsonResponse($predictions);
+        exit;
+    }
+
     /**
      * Get user notifications
      *
@@ -175,7 +537,7 @@ class AjaxController extends Controller
     	$projectHelp->setReason($formData[3]['value']);
     	
     	// Generate social network message
-    	$projectUrl = $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug()), true);
+    	$projectUrl = $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug()), true);
     	$brandUrl = '';
     	$status = $project->getStatus();
     	if ($status == '1')
@@ -559,7 +921,7 @@ class AjaxController extends Controller
 						
 						// Force base url to make sure environment is not specified in the URL
 						$this->get('router')->getContext()->setBaseUrl('');
-						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())).'?likePopup=true');												
+						$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())).'?likePopup=true');
 						return new JsonResponse(array('status' => 'KO USER'));
 				}
     		
@@ -624,7 +986,7 @@ class AjaxController extends Controller
     
             // Force base url to make sure environment is not specified in the URL
             $this->get('router')->getContext()->setBaseUrl('');
-            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())).'?fundingPopup=true');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())).'?fundingPopup=true');
             return new JsonResponse(array('status' => 'KO USER'));
         }
     
@@ -664,7 +1026,7 @@ class AjaxController extends Controller
 		    	
 		    		// Force base url to make sure environment is not specified in the URL
 		    		$this->get('router')->getContext()->setBaseUrl('');
-		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
 		    		return new JsonResponse(array('status' => 'KO USER'));
 	    	}
 	    		
@@ -728,7 +1090,7 @@ class AjaxController extends Controller
 		    		 
 		    		// Force base url to make sure environment is not specified in the URL
 		    		$this->get('router')->getContext()->setBaseUrl('');
-		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
 		    		return new JsonResponse(array('status' => 'KO USER'));
 	    	}
 	    	 
@@ -791,7 +1153,7 @@ class AjaxController extends Controller
 		    		 
 		    		// Force base url to make sure environment is not specified in the URL
 		    		$this->get('router')->getContext()->setBaseUrl('');
-		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('slug' => $project->getSlug())));
+		    		$request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
 		    		return new JsonResponse(array('status' => 'KO USER'));
 	    	}
 	    	 
@@ -867,7 +1229,7 @@ class AjaxController extends Controller
     		    		
     		// Move file to tmp folder
     		$tmpName = sha1($file['name'].uniqid(mt_rand(), true));
-    		$dirName = __DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+    		$dirName = $this->get('kernel')->getRootDir().'/../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
     		if (!file_exists($dirName))
     		{
     				mkdir($dirName, 0755);
@@ -928,7 +1290,7 @@ class AjaxController extends Controller
     		
     		// Move file to tmp folder
     		$tmpName = sha1($file['name'].uniqid(mt_rand(), true));
-    		$dirName = __DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+    		$dirName = $this->get('kernel')->getRootDir().'/../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
     		if (!file_exists($dirName))
     		{
     				mkdir($dirName, 0755);

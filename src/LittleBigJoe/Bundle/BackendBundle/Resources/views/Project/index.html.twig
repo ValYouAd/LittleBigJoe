@@ -19,7 +19,7 @@
         <tr>
             <th>{{ knp_pagination_sortable(pagination, 'backend.id'|trans(), 'p.id') }}</th>
             <th>{{ 'backend.brand'|trans() }}</th>
-            <th>{{ 'backend.category'|trans() }}</th>
+            <th>{{ 'backend.categories'|trans() }}</th>
             <th>{{ 'backend.creator'|trans() }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'p.name') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'backend.slug'|trans(), 'p.slug') }}</th>
@@ -41,7 +41,9 @@
                     <a href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}">{{ entity.brand }}</a>
                 </td>
                 <td>
-                    <a href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}">{{ entity.category }}</a>
+                    {% for category in entity.categories %}
+                        <a href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': category.id }) }}">{{ category }}</a>
+                    {% endfor %}
                 </td>
                 <td>
                     <a href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}">{{ entity.user }}</a>

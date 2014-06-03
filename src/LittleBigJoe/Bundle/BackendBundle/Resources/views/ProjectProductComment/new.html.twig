@@ -1,0 +1,21 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.new_project_product_comment'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="project_product_comment-header">
+        <h1><span class="glyphicon glyphicon-plus"></span> {{ 'backend.new_project_product_comment'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
+
+    {{ form(form, {attr:{role:'form' }}) }}
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_project_product_comments') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+    </p>
+{% endblock %}

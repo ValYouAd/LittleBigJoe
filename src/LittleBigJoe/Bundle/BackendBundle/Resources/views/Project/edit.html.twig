@@ -11,7 +11,27 @@
     </div>
     <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
 
-    {{ form(edit_form, {attr:{role:'form' }}) }}
+    {% do edit_form.images.setRendered %}
+    {% do edit_form.videos.setRendered %}
+
+    {{ form_start(edit_form, {attr:{role:'form' }}) }}
+
+    <h4>{{ 'backend.images'|trans() }}</h4>
+    <ul class="images" data-prototype="{{ form_widget(edit_form.images.vars.prototype)|e }}">
+        {% for image in edit_form.images %}
+            <li>{{ form_widget(image) }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4>{{ 'backend.videos'|trans() }}</h4>
+    <ul class="videos" data-prototype="{{ form_widget(edit_form.videos.vars.prototype)|e }}">
+        {% for video in edit_form.videos %}
+            <li>{{ form_widget(video) }}</li>
+        {% endfor %}
+    </ul>
+
+    {{ form_rest(edit_form) }}
+    {{ form_end(edit_form) }}
 
     <div class="clearfix">&nbsp;</div>
     <p>
@@ -33,6 +53,48 @@
 {% block footer_javascripts %}
     {{ parent() }}
     <script type="text/javascript">
+        var $collectionHolder;
+
+        var $addImageLink = $('<a href="#" class="add_image btn btn-xs btn-info">Add image</a>');
+        var $newLinkLi = $('<li></li>').append($addImageLink);
+        var $addVideoLink = $('<a href="#" class="add_video btn btn-xs btn-info">Add video</a>');
+        var $newLinkLiVideo = $('<li></li>').append($addVideoLink);
+
+        function addImageForm($collectionHolder, $newLinkLi) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            $collectionHolder.data('index', index + 1);
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+        function addVideoForm($collectionHolder, $newLinkLiVideo) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            $collectionHolder.data('index', index + 1);
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLiVideo.before($newFormLi);
+        }
+        function addImageFormDeleteLink($tagFormLi) {
+            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger">Delete this image</a>');
+            $tagFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                e.preventDefault();
+                $tagFormLi.remove();
+            });
+        }
+        function addVideoFormDeleteLink($tagFormLi) {
+            var $removeFormA = $('<a href="#" class="btn btn-xs btn-danger">Delete this video</a>');
+            $tagFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                e.preventDefault();
+                $tagFormLi.remove();
+            });
+        }
+
         $(document).ready(function () {
             $('#littlebigjoe_bundle_frontendbundle_project_name').on('keyup', null, function () {
                 var rExps = [
@@ -57,6 +119,28 @@
 
                 title_value = title_value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/\-{2,}/g, '-');
                 $('#littlebigjoe_bundle_frontendbundle_project_slug').val(title_value);
+            });
+
+            $collectionHolder = $('ul.images');
+            $collectionHolder.append($newLinkLi);
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+            $collectionHolderVideo = $('ul.videos');
+            $collectionHolderVideo.append($newLinkLiVideo);
+            $collectionHolderVideo.data('index', $collectionHolderVideo.find(':input').length);
+
+            $addImageLink.on('click', function(e) {
+                e.preventDefault();
+                addVideoForm($collectionHolder, $newLinkLi);
+            });
+            $collectionHolder.find('li').each(function() {
+                addImageFormDeleteLink($(this));
+            });
+            $addVideoLink.on('click', function(e) {
+                e.preventDefault();
+                addVideoForm($collectionHolderVideo, $newLinkLiVideo);
+            });
+            $collectionHolderVideo.find('li').each(function() {
+                addVideoFormDeleteLink($(this));
             });
         });
     </script>

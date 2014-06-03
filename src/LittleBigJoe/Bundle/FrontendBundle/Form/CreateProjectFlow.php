@@ -3,18 +3,29 @@
 namespace LittleBigJoe\Bundle\FrontendBundle\Form;
 
 use Craue\FormFlowBundle\Form\FormFlow;
-use Craue\FormFlowBundle\Form\FormFlowInterface;
+use Doctrine\ORM\EntityManager;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProductType;
 use Symfony\Component\Form\FormTypeInterface;
+use Craue\FormFlowBundle\Event\PostBindFlowEvent;
+use Craue\FormFlowBundle\Form\FormFlowEvents;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class CreateProjectFlow extends FormFlow 
+class CreateProjectFlow extends FormFlow implements EventSubscriberInterface
 {
 		/**
 		 * @var FormTypeInterface
 		 */
 		protected $formType;
+        protected $entityManager;
 		
 		protected $allowDynamicStepNavigation = true;	
-	
+
+        public function setEntityManager(EntityManager $entityManager)
+        {
+            $this->entityManager = $entityManager;
+        }
+
 		public function setFormType(FormTypeInterface $formType) 
 		{
 				$this->formType = $formType;
@@ -33,17 +44,13 @@ class CreateProjectFlow extends FormFlow
 								'type' => $this->formType,
 						),
 						array(
-								'label' => 'Define my goals',
-								'type' => $this->formType,
-						),
-						array(
 								'label' => 'Present my project',
 								'type' => $this->formType,
 						),
-						array(
-								'label' => 'Choose awards',
-								'type' => $this->formType,
-						),
+                        array(
+                            'label' => 'Define my goals',
+                            'type' => $this->formType,
+                        ),
 						array(
 								'label' => 'Getting online',
 								'type' => $this->formType,
@@ -63,4 +70,50 @@ class CreateProjectFlow extends FormFlow
 			
 				return $options;
 		}
+
+    public function setEventDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        parent::setEventDispatcher($dispatcher);
+        $dispatcher->addSubscriber($this);
+    }
+
+    public static function getSubscribedEvents() {
+        return array(
+            FormFlowEvents::POST_BIND_FLOW => 'onPostBindFlow'
+        );
+    }
+
+    public function onPostBindFlow(PostBindFlowEvent $event) {
+        $formData = $this->getRequest()->request->get('createProject', null);
+
+        // Create or load product type entity dynamically, after step change
+        if (!empty($formData['productType']))
+        {
+            $productTypeEntity = $this->entityManager->getRepository('LittleBigJoeCoreBundle:ProductType')->findOneBy(array(
+                'name' => $formData['productType'],
+                'language' => $this->getRequest()->getLocale()
+            ));
+
+            if (!($productTypeEntity instanceof ProductType))
+            {
+                $productTypeEntity = new ProductType();
+                $productTypeEntity->setName(ucwords($formData['productType']));
+                $productTypeEntity->setIsVisible(true);
+                $productTypeEntity->setLanguage($this->getRequest()->getLocale());
+
+                $this->entityManager->persist($productTypeEntity);
+                $this->entityManager->flush();
+            }
+
+            $formData['productType'] = $productTypeEntity;
+            $this->getRequest()->request->set('createProject', $formData);
+        }
+
+        // Add target="blank" attribute to all links, after step change
+        if (!empty($formData['description']))
+        {
+            $formData['description'] = preg_replace("/<a(.*?)>/", "<a$1 target=\"_blank\">", $formData['description']);
+            $this->getRequest()->request->set('createProject', $formData);
+        }
+    }
 }

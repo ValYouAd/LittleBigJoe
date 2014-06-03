@@ -162,8 +162,8 @@ knp_menu:
     twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
         template: knp_menu.html.twig
     templating: false # if true, enables the helper for PHP templates
-    default_renderer: twig 
-    
+    default_renderer: twig
+
 # JMSI18NRoutingBundle Configuration
 jms_i18n_routing:
     default_locale: %locale%
@@ -190,8 +190,8 @@ trsteel_ckeditor:
     width: 800 #Integer or %
     height: 300 #Integer or %    
     language: 'en-US'
-    # Used to aovid some problems regarding iframes/embed placeholders (check template override in /app folder)
-    custom_config: "toolbarGroups: [{ name: 'clipboard', groups: ['clipboard']}, { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] }, { name: 'links' }, { name: 'others' }, { name: 'insert', groups: ['image', 'flash', 'table'] },'/', { name: 'styles' }]"
+    # Used to avoid some problems regarding iframes/embed placeholders (check template override in /app folder)
+    custom_config: "toolbar: [{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord' ] }, { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] }, { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }, { name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] }, '/', { name: 'document', items: [ 'Source' ]}, { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] }]"
     external_plugins:
         oembed:
             path: js/ckeditor/plugins/oembed
@@ -213,8 +213,42 @@ fm_elfinder:
                 upload_max_size: 10M
 
 # KNPTimeBundle Configuration
-knp_time: ~ 
-      
+knp_time: ~
+
+# AvalancheImagineBundle Configuration
+avalanche_imagine:
+    filters:
+        780x495:
+            type:    thumbnail
+            options: { size: [780, 495], mode: inset }
+        750x500:
+            type:    thumbnail
+            options: { size: [750, 500], mode: inset }
+        722x445:
+            type:    thumbnail
+            options: { size: [722, 445], mode: inset }
+        690x690:
+            type:    thumbnail
+            options: { size: [690, 690], mode: inset }
+        690x500:
+            type:    thumbnail
+            options: { size: [690, 500], mode: inset }
+        690x460:
+            type:    thumbnail
+            options: { size: [690, 460], mode: inset }
+        581x581:
+            type:    thumbnail
+            options: { size: [581, 581], mode: inset }
+        346x215:
+            type:    thumbnail
+            options: { size: [346, 215], mode: inset }
+        230x268:
+            type:    thumbnail
+            options: { size: [230, 268], mode: inset }
+        239x239:
+            type:    thumbnail
+            options: { size: [239, 239], mode: inset }
+
 # LittleBigJoeBundle Configuration
 little_big_joe_mango_pay: 
     leetchi_base_url: '%leetchi_base_url_prod%'

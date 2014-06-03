@@ -1,0 +1,57 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.project_product'|trans() }} {{ entity }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="page-header">
+    <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.project_product'|trans() }} <span
+                class="text-primary">{{ entity.name }}</span></h1>
+</div>
+<p class="lead">{{ 'backend.project_product_infos'|trans() }}</p>
+
+<h3 class="media-heading">{{ entity.name }}</h4>
+    <p>{{ 'backend.project'|trans() }} : <a
+            href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.project.id }) }}"><strong>{{ entity.project }}</strong></a>
+    </p>
+    <p>{{ 'backend.pitch'|trans() }} : {{ entity.pitch }}</p>
+    <p>{{ 'backend.description'|trans() }} : {{ entity.description|raw() }}</p>
+    <p>{{ 'backend.ending_at'|trans() }} : {{ entity.endingAt|localizeddate('medium', 'medium') }}</p>
+    <p>{{ 'backend.gift_product'|trans() }} :
+        {% if entity.giftPercentageFundsRaised == '1' %}
+            {{ 'backend.offer_product_to_project_owner'|trans() }}
+        {% else %}
+            {{ 'backend.offer_percentage'|trans() }}
+        {% endif %}
+    </p>
+    <p>{{ 'backend.gift_percentage_funds_raised'|trans() }} : {{ entity.giftPercentageFundsRaised }} %</p>
+    <p>{{ 'backend.medias'|trans() }}</p>
+    {% for productMedia in entity.medias %}
+        <div class="item">
+            <div class="thumb-cont">
+                <img class="carousel-thumbnail" style="width:100px" src="{% if productMedia.type == 'video' %}{{ productMedia.image }}{% else %}{{ asset(productMedia.image) }}{% endif %}" alt="alt-LBJ - project image" />
+            </div>
+        </div>
+    {% endfor %}
+    <p>{{ 'backend.submitted_at'|trans() }} : {{ entity.submittedAt|localizeddate('medium', 'medium') }}</p>
+    <p>{{ 'backend.validated_at'|trans() }} : {{ entity.validatedAt|localizeddate('medium', 'medium') }}</p>
+
+    <div>
+        <h3>{{ 'backend.product_comments'|trans() }}</h3>
+        {% if entity.comments %}
+            {% for comment in entity.comments %}
+                <p><a href="{{ path('littlebigjoe_backendbundle_project_product_comments_show', {'id':comment.id}) }}">#{{ comment.id }}</a> // <strong>{{ comment.content }}</strong> {{ 'backend.by' }} {{ comment.user }} {{ 'backend.on'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_project_products') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_project_products_edit', { 'id': entity.id }) }}">
+            {{ 'backend.edit'|trans() }}
+        </a>
+    </p>
+{% endblock %}

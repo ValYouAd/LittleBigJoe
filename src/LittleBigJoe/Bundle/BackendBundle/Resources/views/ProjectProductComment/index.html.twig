@@ -1,0 +1,54 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.project_product_comments_list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="project_product_comment-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.project_product_comments_list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.project_product_comments_list_resume'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.ID'|trans(), 'f.id') }}</th>
+            <th>{{ 'backend.product'|trans() }}</th>
+            <th>{{ 'backend.user'|trans() }}</th></th>
+            <th>{{ 'backend.actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_project_product_comments_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>{{ entity.product }}</td>
+                <td>{{ entity.user }}</td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_project_product_comments_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_project_product_comments_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_project_product_comments_new') }}">
+            {{ 'backend.create_project_product_comment'|trans() }}
+        </a>
+    </p>
+{% endblock %}

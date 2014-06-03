@@ -1,0 +1,44 @@
+<div class="short-sheet">
+
+    <div class="img-container">
+        {% if type == 'brand' and item.logo %}
+            <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': item.slug}) }}"><img class="pres-thumbnail" src="{{ asset(item.logo)|apply_filter('690x460') }}" /></a>
+        {% else %}
+            <img class="pres-thumbnail" src="http://placehold.it/690x460" alt="alt-LBJ - project image" />
+        {% endif %}
+    </div>
+
+    <div class="short-infos-container">
+        {% if type == 'brand' %}
+            <h3><a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': item.slug}) }}">{{ item.name }}</a></h3>
+            <div class="project-name">{{ item.projects.0.name }}</div>
+            <div class="author"><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': item.projects.0.user.id}) }}">
+                <img class="icon" src="{{ asset('static/img/icons/icon-author.png') }}" alt="alt-LBJ - author" /> {{ item.projects.0.user }}</a>
+            </div>
+        {% else %}
+            <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': item.project.id, 'slug': item.project.slug}) }}">{{ item.project.name }}</a></h3>
+
+            {% set canCreateProduct = false %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% set canCreateProduct = true %}
+            {% elseif is_granted('ROLE_BRAND_ADMIN') %}
+                {% for brand in app.user.brands %}
+                    {% if brand.id == entity.brand.id %}
+                        {% set canCreateProduct = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if canCreateProduct and project.status == '1' and project.product and project.product.validatedAt is null %}
+                <div class="clearfix"></div>
+                <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': project.id, 'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
+                <div class="clearfix"></div>
+            {% endif %}
+
+            <div class="edit-time"><img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock" /> {{ item.createdAt|ago }}</div>
+            <div class="author"><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': item.project.user.id}) }}">
+                <img class="icon" src="{{ asset('static/img/icons/icon-author.png') }}" alt="alt-LBJ - author" /> {{ item.project.user }}</a>
+            </div>
+        {% endif %}
+    </div>
+
+</div>

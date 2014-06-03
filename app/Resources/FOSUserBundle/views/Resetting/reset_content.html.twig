@@ -2,10 +2,14 @@
 
 <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST"
       class="form-signin">
-    <h2 class="form-signin-heading">{{ 'New password'|trans() }}</h2>
+    <div class="default-empty">
+        <h1>{{ 'New password'|trans() }}</h1>
+        <p>{{ 'Please enter the new password to access your account : ' }}</p>
 
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" class="btn btn-lg btn-primary btn-block" value="{{ 'resetting.reset.submit'|trans }}"/>
+        {{ form_widget(form) }}
+
+        <div>
+            <button class="btn validate-style">{{ 'Change password'|trans }}</button>
+        </div>
     </div>
 </form>

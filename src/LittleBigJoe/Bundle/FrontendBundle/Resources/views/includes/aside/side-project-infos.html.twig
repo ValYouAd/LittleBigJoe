@@ -1,0 +1,170 @@
+{% if like %}
+    <div class="side-infos-block">
+        <div class="project-stats">
+            <div class="likes">
+                <img class="icon" src="{{ asset('static/img/icons/icon-like-it.png') }}" alt="alt-LBJ - like icon" />
+                <span class="orange-text"><strong>{{ entity.likesCount|default('0') }}</strong></span> {{ 'likes'|trans() }}
+            </div>
+            <div class="days">
+                <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />
+                <span class="orange-text"><strong>{{ entity.endingAt|time_remaining }}</strong></span> {{ 'remaining'|trans() }}
+            </div>
+        </div>
+
+        <div class="status-bar-container">
+            <img src="{{ asset('static/img/bg/progress-bar.jpg') }}" alt="alt-LBJ - status bar" />
+
+            {% if entity.likesCount == 0 %}
+                {% set project_status = 0 %}
+            {% elseif ((entity.likesCount/entity.likesRequired) * 100) > 100 %}
+                {% set project_status = 100 %}
+            {% else %}
+                {% set project_status = ((entity.likesCount/entity.likesRequired) * 100)|number_format(1, '.', ',') %}
+            {% endif %}
+
+            <div class="status-bar-overflowed" data-status-percent="{{ project_status }}"></div>
+        </div>
+
+        {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+            <button id="likeProject" class="btn validate-style">{{ 'I like this project'|trans() }}</button>
+        {% endif %}
+        <p><a id="reportProjectButton" class="btn mosaic-style" href="#">{{ 'Report this project'|trans() }}</a></p>
+    </div>
+{% endif %}
+
+{% if finance %}
+    <div class="side-infos-block">
+        <div class="project-stats">
+            <div class="likes">
+                <img class="icon" src="{{ asset('static/img/icons/icon-author.png') }}" alt="alt-LBJ - author icon" />
+                <span class="orange-text"><strong>{{ usersIds|length }}</strong></span> {{ 'participant(s)'|trans() }}
+            </div>
+            <div class="days">
+                <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />
+                <span class="orange-text"><strong>{{ entity.endingAt|time_remaining }}</strong></span> {{ 'remaining'|trans() }}
+            </div>
+        </div>
+
+        <div class="funds">
+            <div class="funds-num">{{ entity.amountCount }}&euro;</div>
+            <div>{{ 'collected from a total of' }} <strong>{{ entity.amountRequired }}&euro;</strong></div>
+        </div>
+
+        <div class="status-bar-container">
+            <img src="{{ asset('static/img/bg/progress-bar.jpg') }}" alt="alt-LBJ - status bar" />
+
+            {% if entity.amountCount == 0 %}
+                {% set project_status = 0 %}
+            {% elseif ((entity.amountCount/entity.amountRequired) * 100) > 100 %}
+                {% set project_status = 100 %}
+            {% else %}
+                {% set project_status = ((entity.amountCount/entity.amountRequired) * 100)|number_format(1, '.', ',') %}
+            {% endif %}
+
+            <div class="status-bar-overflowed" data-status-percent="{{ project_status }}"></div>
+        </div>
+
+        {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+            {{ form(funding_form, {attr:{id:'fundingForm', role:'form'}}) }}
+        {% endif %}
+        <p><a id="reportProjectButton" class="btn classic-style" href="#">{{ 'Report this project'|trans() }}</a></p>
+    </div>
+{% endif %}
+
+{% if involve %}
+    <div class="side-infos-block">
+        <div class="legend">{{ 'Engagement'|trans() }} <span class="grand-hotel">{{ 'evolution'|trans() }}</span></div>
+        <div id="involve-graph" data-values-array="{{ likesStats|raw|replace({'[':'', ']':''}) }}"></div>
+    </div>
+{% endif %}
+
+{% if author %}
+<div class="side-infos-block small-resp-block">
+    {% if entity.user.photo %}
+        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="{{ asset(entity.user.photo)|apply_filter('230x268') }}" width="82" height="95" /></a>
+    {% else %}
+        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="http://placehold.it/230x268" alt="alt-LBJ - author" /></a>
+    {% endif %}
+
+    <ul class="author-infos">
+        <li class="name"><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}">{{ entity.user }}</a></li>
+        <li class="links">
+            <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}">
+                <img class="icon" src="{{ asset('static/img/icons/icon-author-blue.png') }}" alt="alt-LBJ - author icon" />{{ 'See his profile'|trans() }}
+            </a>
+        </li>
+        <li class="links">
+            <a href="mailto:{{ entity.user.email }}">
+                <img class="icon" src="{{ asset('static/img/icons/icon-contact-blue.png') }}" alt="alt-LBJ - contact icon" />{{ 'Contact'|trans() }}
+            </a>
+        </li>
+        <li class="links">
+            <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}#projects">
+                <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" />{{ 'His projects'|trans() }}
+                ( <span class="orange-text">5</span> )
+            </a>
+        </li>
+    </ul>
+
+    {% set status = 'follow' %}
+    {% if is_granted('ROLE_USER') %}
+        {% for follower in entity.user.followers %}
+            {% if app.user.id == follower.id %}
+                {% set status = 'followed' %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
+        {% include "LittleBigJoeFrontendBundle:includes:utils/follow-button.html.twig" with {'status': status, 'type': 'user'} %}
+    {% endif %}
+</div>
+{% endif %}
+
+{% if brand %}
+<div class="side-infos-block small-resp-block">
+    <div class="brand-thumbnail-cont">
+        {% if entity.brand.logo %}
+            <img class="brand-thumbnail" src="{{ asset(entity.brand.logo)|apply_filter('230x268') }}" width="80" height="93" />
+        {% else %}
+            <img class="brand-thumbnail" src="http://placehold.it/230x268" alt="alt-LBJ - author" />
+        {% endif %}
+    </div>
+
+    <ul class="brand-infos">
+        <li class="name">{{ entity.brand }}</li>
+        {% for project in entity.brand.projects|reverse|slice(0, 4) %}
+            <li><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.name|e }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {% set status = 'follow' %}
+    {% if is_granted('ROLE_USER') %}
+        {% for follower in entity.brand.followers %}
+            {% if app.user.id == follower.id %}
+                {% set status = 'followed' %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {% include "LittleBigJoeFrontendBundle:includes:utils/follow-button.html.twig" with {'status': status, 'type': 'brand'} %}
+</div>
+{% endif %}
+
+{% if rewards %}
+    <div class="side-infos-block rewards">
+        {% for reward in entity.rewards %}
+            {% set participants_reward_ids = [] %}
+            {% if entity.contributions %}
+                {% for contribution in entity.contributions %}
+                    {% if contribution.user.id not in participants_reward_ids and contribution.reward and contribution.reward.id == reward.id %}
+                        {% set participants_reward_ids = participants_reward_ids|merge([contribution.user.id]) %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            {% set reward_vars = { 'reward': reward, 'nb_participants': participants_reward_ids|length() } %}
+            {% include "LittleBigJoeFrontendBundle:includes:utils/aside-rewards.html.twig" with reward_vars %}
+        {% endfor %}
+    </div>
+{% endif %}

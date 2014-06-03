@@ -2,6 +2,7 @@
 
 namespace LittleBigJoe\Bundle\FrontendBundle\Form;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -9,6 +10,14 @@ use FOS\UserBundle\Form\Type\ProfileFormType as BaseType;
 
 class ProfileFormType extends BaseType
 {
+    private $container;
+
+    public function __construct($class, ContainerInterface $container)
+    {
+        parent::__construct($class);
+        $this->container = $container;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -16,6 +25,18 @@ class ProfileFormType extends BaseType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
+
+        $lang = $this->container->get('request')->getLocale();
+        if (empty($lang))
+        {
+            $lang = 'en';
+        }
+        switch ($lang)
+        {
+            case 'en': $format = 'MM/dd/yyyy'; break;
+            case 'fr': $format = 'dd/MM/yyyy'; break;
+            default: $format = 'MM/dd/yyyy'; break;
+        }
 
         $builder
             ->remove('username')
@@ -28,7 +49,9 @@ class ProfileFormType extends BaseType
             ))
             ->add('birthday', 'birthday', array(
                 'label' => 'Birthday date',
-                'years' => range(date('Y') - 100, date('Y'))
+                'widget' => 'single_text',
+                'format' => $format,
+                'attr' => array('class' => 'form-control datepicker'),
             ))
             ->add('facebookUrl', 'url', array(
                 'label' => 'Facebook URL',

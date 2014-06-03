@@ -1,0 +1,28 @@
+<div class="brand-sheet">
+
+    <div class="img-container">
+        <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': brand.slug}) }}">
+        <img class="pres-thumbnail" src="{{ asset(brand.logo) }}" style="width:255px; height:255px" alt="alt-LBJ - project image" />
+        </a>
+    </div>
+
+    <div class="brand-infos-container">
+
+        <div class="projects-nb">
+            {{ brand.projects|length }} {{ 'project'|trans() }}{% if brand.projects|length > 1 %}s{% endif %}
+        </div>
+
+        <div class="social-links">
+            {% if brand.facebookUrl %}
+                <a href="{{ brand.facebookUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="alt-LBJ - social" /></a>
+            {% endif %}
+            {% if brand.twitterUrl %}
+                <a href="{{ brand.twitterUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>
+            {% endif %}
+            {% if brand.googleUrl %}
+                <a href="{{ brand.googleUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="alt-LBJ - social" /></a>
+            {% endif %}
+        </div>
+    </div>
+
+</div>

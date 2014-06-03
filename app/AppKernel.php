@@ -20,16 +20,17 @@ class AppKernel extends Kernel
             new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(), // Used to create multilingual forms/fields
             new FOS\UserBundle\FOSUserBundle(), // Used to handle user management
             new FOS\FacebookBundle\FOSFacebookBundle(), // Used to handle Facebook connect
-        		new HWI\Bundle\OAuthBundle\HWIOAuthBundle(), // Used to handle OAuth connect (Twitter)
-        		new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(), // Used to paginate results
+        	new HWI\Bundle\OAuthBundle\HWIOAuthBundle(), // Used to handle OAuth connect (Twitter)
+        	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(), // Used to paginate results
             new Knp\Bundle\MenuBundle\KnpMenuBundle(), // Used to generate menus dynamically
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(), // Used to translate routes
             new JMS\TranslationBundle\JMSTranslationBundle(), // Used to handle some translations
             new Craue\FormFlowBundle\CraueFormFlowBundle(), // Used for multi steps form
-        		new Trsteel\CkeditorBundle\TrsteelCkeditorBundle(), // Used to handle CKeditor
-        		new FM\ElfinderBundle\FMElfinderBundle(), // Used to handle file upload via CKeditor
-        		new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(), // Used to generate PDF file
-        		new Knp\Bundle\TimeBundle\KnpTimeBundle(), // Used for "time ago" date
+        	new Trsteel\CkeditorBundle\TrsteelCkeditorBundle(), // Used to handle CKeditor
+        	new FM\ElfinderBundle\FMElfinderBundle(), // Used to handle file upload via CKeditor
+        	new Ensepar\Html2pdfBundle\EnseparHtml2pdfBundle(), // Used to generate PDF file
+        	new Knp\Bundle\TimeBundle\KnpTimeBundle(), // Used for "time ago" date
+            new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(), // Used for thumbnails generation
             new LittleBigJoe\Bundle\BackendBundle\LittleBigJoeBackendBundle(),
             new LittleBigJoe\Bundle\FrontendBundle\LittleBigJoeFrontendBundle(),
             new LittleBigJoe\Bundle\CoreBundle\LittleBigJoeCoreBundle(),

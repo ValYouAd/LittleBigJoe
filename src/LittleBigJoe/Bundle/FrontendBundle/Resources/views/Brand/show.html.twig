@@ -1,227 +1,140 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}
-    {{ 'Brand'|trans() }} {{ entity.name }} | {{ parent() }}
+{% block meta_title %}
+    {{ entity.name }} | {{ parent() }}
 {% endblock %}
 
-{% block sidebar %}
-    {% if entity.logo %}
-        <img src="{{ asset(entity.logo) }}" width="150" height="120">
-    {% else %}
-        <strong>{{ 'N/A'|trans() }}</strong>
-    {% endif %}
-    
-    {% set show_follow_button = true %}
-            
-    {% if is_granted('ROLE_USER') %}            
-        {% for follower in entity.followers %}
-            {% if app.user.id == follower.id %}
-                {% set show_follow_button = false %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}    
-
-    <div id="followBox" {% if show_follow_button != true %}style="display:none"{% endif %}>
-        <a id="followBrand" class="btn btn btn-success" href="#">{{ 'Follow'|trans() }}</a>            
-    </div>
-    
-    <div id="unfollowBox" {% if show_follow_button %}style="display:none"{% endif %}>
-        <a id="currentFollowBrand" class="btn btn btn-info" href="#">{{ 'Followed'|trans() }}</a>
-        <a id="unfollowBrand" class="btn btn btn-danger" href="#" style="display:none">{{ 'Unfollow'|trans() }}</a>            
-    </div>    
-
-    <p><strong>{{ currentProjectsCount|default('0') }} {{ 'current projects'|trans() }}</strong></p>
-    <p><strong>{{ likesCount|default('0')  }} {{ 'likes in total'|trans() }}</strong></p>
-    <p><strong>{{ endedProjectsCount|default('0')  }} {{ 'ended projects'|trans() }}</strong></p>
-    <p><strong>{{ amountCount|default('0')  }} {{ '€ raised in total'|trans() }}</strong></p>
-
-    {% if favoriteProjects %}
-        <h3>{{ 'Favorites'|trans() }}</h3>
-
-        {% for favoriteProject in favoriteProjects %}
-            {% if favoriteProject.photo %}
-                <img src="{{ asset(favoriteProject.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
-
-            {% if favoriteProject.brand.logo %}
-                <img src="{{ asset(favoriteProject.brand.logo) }}" width="50" height="50">
-            {% endif %}
-
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': favoriteProject.slug}) }}">{{ favoriteProject.name }}</a>
-            </h3>
-            {% if favoriteProject.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-            {% endif %}
-
-            <p>{{ favoriteProject.pitch }}</p>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': favoriteProject.user.id}) }}">{{ favoriteProject.user }}</a>
-            </p>
-
-            {% if favoriteProject.status == '1' %}
-                <p>
-                    <strong>{{ favoriteProject.likesCount }}</strong> {{ 'likes'|trans() }} |
-                    {% if favoriteProject.likesCount == 0 %}
-                        0
-                    {% elseif ((favoriteProject.likesCount/favoriteProject.likesRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((favoriteProject.likesCount/favoriteProject.likesRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} %
-                </p>
-            {% else %}
-                <p>
-                    {% if favoriteProject.amountCount == 0 %}
-                        0
-                    {% elseif ((favoriteProject.amountCount/favoriteProject.amountRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((favoriteProject.amountCount/favoriteProject.amountRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} % |
-                    <strong>{{ favoriteProject.amountCount }}</strong>{{ '€'|trans() }} |
-                    {{ favoriteProject.endingAt|time_remaining }}
-                </p>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/progress-bars.js') }}" ></script>
 {% endblock %}
 
 {% block body %}
-    <h2>{{ entity.name }}</h2>
-    {% if entity.facebookUrl %}<a href="{{ entity.facebookUrl }}">{{ 'Facebook URL'|trans() }}</a>{% endif %}
-    {% if entity.twitterUrl %}<a href="{{ entity.twitterUrl }}">{{ 'Twitter URL'|trans() }}</a>{% endif %}
-    {% if entity.googleUrl %}<a href="{{ entity.googleUrl }}">{{ 'Google URL'|trans() }}</a>{% endif %}
+    <section>
+        <article class="wContent wMosaic">
+            <div class="white-container">
 
-    <div class="clearfix">&nbsp;</div>
-    {{ entity.description|raw() }}
+                <div class="wContent-id-title">
+                    <h1>{{ entity.name }}</h1>
+                    <div class="social-links">
+                        {% if entity.twitterUrl %}<a href="{{ entity.twitterUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                        {% if entity.facebookUrl %}<a href="{{ entity.facebookUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                        {#<a href="#"><img class="icon" src="static/img/icons/icon-social-pinterest.png" alt="alt-LBJ - social" /></a>#}
+                        {% if entity.googleUrl %}<a href="{{ entity.googleUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
+                    </div>
+                    {% if entity.websiteUrl %}<a class="brand-website" href="{{ entity.websiteUrl }}" target="_blank">{{ entity.websiteUrl }}</a>{% endif %}
 
-    <div class="clearfix">&nbsp;</div>
-    {% if entity.websiteUrl %}<a href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% endif %}
+                    {% set status = 'follow' %}
+                    {% if is_granted('ROLE_USER') %}
+                        {% for follower in entity.followers %}
+                            {% if app.user.id == follower.id %}
+                                {% set status = 'followed' %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
 
-    {% if currentProjects %}
-    		<h2>{{ 'Current projects'|trans() }}</h2>
-		    <p><a href="{{ path('littlebigjoe_frontendbundle_brand_current_projects', {'slug': entity.slug }) }}"
-		          class="btn btn-primary">{{ 'See all current projects'|trans() }}</a></p>
+                    {% include "LittleBigJoeFrontendBundle:includes:utils/follow-button.html.twig" with {'status': status, 'type': 'brand'} %}
+                </div>
 
-        {% for currentProject in currentProjects %}
-            {% if currentProject.photo %}
-                <img src="{{ asset(currentProject.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
-
-            {% if currentProject.brand.logo %}
-                <img src="{{ asset(currentProject.brand.logo) }}" width="50" height="50">
-            {% endif %}
-
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': currentProject.slug}) }}">{{ currentProject.name }}</a>
-            </h3>
-            {% if currentProject.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-            {% endif %}
-
-            <p>{{ currentProject.pitch }}</p>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': currentProject.user.id}) }}">{{ currentProject.user }}</a>
-            </p>
-
-            {% if currentProject.status == '1' %}
-                <p>
-                    <strong>{{ currentProject.likesCount }}</strong> {{ 'likes'|trans() }} |
-                    {% if currentProject.likesCount == 0 %}
-                        0
-                    {% elseif ((currentProject.likesCount/currentProject.likesRequired) * 100) > 100 %}
-                        100
+                <div class="wContent-id-img">
+                    {% if entity.logo %}
+                        <img src="{{ asset(entity.logo) }}" width="243" height="243">
                     {% else %}
-                        {{ ((currentProject.likesCount/currentProject.likesRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} %
-                </p>
-            {% else %}
-                <p>
-                    {% if currentProject.amountCount == 0 %}
-                        0
-                    {% elseif ((currentProject.amountCount/currentProject.amountRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((currentProject.amountCount/currentProject.amountRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} % |
-                    <strong>{{ currentProject.amountCount }}</strong>{{ '€'|trans() }} |
-                    {{ currentProject.endingAt|time_remaining }}
-                </p>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+                        <img src="{{ asset('static/img/cc-logo-square.png') }}" alt="alt-LBJ - brand" />
+                    {% endif %}
+                </div>
 
-    {% if endedProjects %}
-		    <h2>{{ 'Ended projects'|trans() }}</h2>
-		    <p><a href="{{ path('littlebigjoe_frontendbundle_brand_ended_projects', {'slug': entity.slug }) }}"
-		          class="btn btn-primary">{{ 'See all ended projects'|trans() }}</a></p>
+                <div class="wContent-id-infos">
+                    {{ entity.description|raw() }}
+                </div>
 
-        {% for endedProject in endedProjects %}
-            {% if endedProject.photo %}
-                <img src="{{ asset(endedProject.photo) }}" width="200" height="200">
-            {% else %}
-                <strong>{{ 'No image'|trans() }}</strong>
-            {% endif %}
+            </div>
+        </article>
 
-            {% if endedProject.brand.logo %}
-                <img src="{{ asset(endedProject.brand.logo) }}" width="50" height="50">
-            {% endif %}
+        <div class="aside-part wMosaic">
+            <div class="brand-briefly">
+                <ul>
+                    <li>
+                        <img class="icon" src="{{ asset('static/img/icons/icon-brand-current.png') }}" alt="alt-LBJ - current icon" />
+                        <div class="brief-label">{{ 'Current projects'|trans() }}</div>
+                        <div class="brief-result">{{ currentProjectsCount|default('0') }}</div>
+                    </li>
 
-            <h3>
-                <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': endedProject.slug}) }}">{{ endedProject.name }}</a>
-            </h3>
-            {% if endedProject.status == '1' %}
-                <span class="label label-primary">{{ 'Engagement phase'|trans() }}</span>
-            {% else %}
-                <span class="label label-success">{{ 'Funding phase'|trans() }}</span>
-            {% endif %}
+                    <li>
+                        <img class="icon" src="{{ asset('static/img/icons/icon-brand-ended.png') }}" alt="alt-LBJ - current icon" />
+                        <div class="brief-label">{{ 'Ended projects'|trans() }}</div>
+                        <div class="brief-result">{{ endedProjectsCount|default('0') }}</div>
+                    </li>
 
-            <p>{{ endedProject.pitch }}</p>
-            <p>{{ 'By'|trans() }} <a
-                        href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': endedProject.user.id}) }}">{{ endedProject.user }}</a>
-            </p>
+                    <li>
+                        <img class="icon" src="{{ asset('static/img/icons/icon-brand-like.png') }}" alt="alt-LBJ - current icon" />
+                        <div class="brief-label">{{ 'Total likes'|trans() }}</div>
+                        <div class="brief-result">{{ likesCount|default('0') }}</div>
+                    </li>
 
-            {% if endedProject.status == '1' %}
-                <p>
-                    <strong>{{ endedProject.likesCount }}</strong> {{ 'likes'|trans() }} |
-                    {% if endedProject.likesCount == 0 %}
-                        0
-                    {% elseif ((endedProject.likesCount/endedProject.likesRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((endedProject.likesCount/endedProject.likesRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} %
-                </p>
-            {% else %}
-                <p>
-                    {% if endedProject.amountCount == 0 %}
-                        0
-                    {% elseif ((endedProject.amountCount/endedProject.amountRequired) * 100) > 100 %}
-                        100
-                    {% else %}
-                        {{ ((endedProject.amountCount/endedProject.amountRequired) * 100)|number_format(1, '.', ',') }}
-                    {% endif %} % |
-                    <strong>{{ endedProject.amountCount }}</strong>{{ '€'|trans() }} |
-                    {{ endedProject.endingAt|time_remaining }}
-                </p>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+                    <li>
+                        <img class="icon" src="{{ asset('static/img/icons/icon-brand-funds.png') }}" alt="alt-LBJ - current icon" />
+                        <div class="brief-label">{{ 'Euros raised in total'|trans() }}</div>
+                        <div class="brief-result">{{ amountCount|default('0') }} &euro;</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+
+        {% if favoriteProjects %}
+        <div class="aside-part wMosaic">
+            {% for favoriteProject in favoriteProjects %}
+                <div class="mosaic-container">
+                    {% set mosaic_pres_vars = {'project': favoriteProject} %}
+                    {% include "LittleBigJoeFrontendBundle:includes:pres/mosaic-pres.html.twig" with mosaic_pres_vars %}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if currentProjects %}
+        <article class="wMosaic">
+            <div class="article-header">
+                <h2>{{ 'Current'|trans() }} <span class="grand-hotel">{{ 'projects'|trans() }}</span></h2>
+                <a href="{{ path('littlebigjoe_frontendbundle_brand_current_projects', {'slug': entity.slug }) }}" class="btn mosaic-style">{{ 'See all current projects'|trans() }}</a>
+            </div>
+
+            {% for currentProject in currentProjects %}
+                <div class="mosaic-container">
+                    {% set mosaic_pres_vars = {'project': currentProject} %}
+                    {% include "LittleBigJoeFrontendBundle:includes:pres/mosaic-pres.html.twig" with mosaic_pres_vars %}
+                </div>
+            {% endfor %}
+        </article>
+        {% endif %}
+
+        {% if endedProjects %}
+        <article class="wMosaic">
+            <div class="article-header">
+                <h2>{{ 'Ended'|trans() }} <span class="grand-hotel">{{ 'projects'|trans() }}</span></h2>
+                <a href="{{ path('littlebigjoe_frontendbundle_brand_ended_projects', {'slug': entity.slug }) }}" class="btn mosaic-style">{{ 'See all ended projects'|trans() }}</a>
+            </div>
+
+            {% for endedProject in endedProjects %}
+                <div class="mosaic-container">
+                    {% set mosaic_pres_vars = {'project': endedProject} %}
+                    {% include "LittleBigJoeFrontendBundle:includes:pres/mosaic-pres.html.twig" with mosaic_pres_vars %}
+                </div>
+            {% endfor %}
+        </article>
+        {% endif %}
+
+    </section>
 {% endblock %}
 
 {% block footer_javascripts %}
 	{{ parent() }}
 	<script type="text/javascript">
 	    var currentBrandId = {{ entity.id }};
+
 	    $(document).ready(function () {                
 	        // Follow request 
 	        $('#followBrand').click(function (e) {
@@ -230,8 +143,8 @@
 	                   if (data.status == 'OK')
 	                   {
 	                           alert("{{ 'Thanks for follow this brand !'|trans() }}");   
-	                           $('#followBox').hide();
-	                           $('#unfollowBox').show();
+	                           $('#followBrand').hide();
+	                           $('#unfollowBrand').show();
 	                   }
 	                   else if (data.status == 'KO BRAND')
 	                   {
@@ -247,16 +160,14 @@
 	                   } 
 	           });
 	        });
-	        
-	        // Hover
-	        $('#unfollowBox').hover(function(e){
-	        	$('#currentFollowBrand').hide();
-	        	$('#unfollowBrand').show();
-	        }, function(e){
-	        	$('#unfollowBrand').hide();
-	        	$('#currentFollowBrand').show();
+
+            // Hover
+            $(".followed-style").hover(function(){
+                $(this).html("{{ 'Unfollow'|trans() }}");
+            }, function(){
+                $(this).html("{{ 'Followed'|trans() }}");
             });
-	        
+
 	        // Unfollow request 
 	        $('#unfollowBrand').click(function (e) {
 	           $.post("{{ path('littlebigjoe_frontendbundle_ajax_unfollow_brand') }}", { 'brandId' : currentBrandId })
@@ -264,8 +175,8 @@
 	                   if (data.status == 'OK')
 	                   {
 	                           alert("{{ 'Thanks for unfollow this brand !'|trans() }}");   
-	                           $('#unfollowBox').hide();
-	                           $('#followBox').show();
+	                           $('#unfollowBrand').hide();
+	                           $('#followBrand').show();
 	                   }
 	                   else if (data.status == 'KO BRAND')
 	                   {

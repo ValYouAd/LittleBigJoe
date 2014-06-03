@@ -243,12 +243,19 @@
 			    <p>{{ 'backend.associated_brand'|trans() }} : <a
 			                href="{{ path('littlebigjoe_backendbundle_brands_show', { 'id': entity.brand.id }) }}"><strong>{{ entity.brand }}</strong></a>
 			    </p>
-			    <p>{{ 'backend.associated_category'|trans() }} : <a
-			                href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': entity.category.id }) }}"><strong>{{ entity.category }}</strong></a>
+			    <p>{{ 'backend.associated_categories'|trans() }} :
+                    {% for category in entity.categories %}
+                    <a href="{{ path('littlebigjoe_backendbundle_categories_show', { 'id': category.id }) }}"><strong>{{ category }}</strong></a>
+                    {% endfor %}
 			    </p>
 			    <p>{{ 'backend.creator'|trans() }} : <a
 			                href="{{ path('littlebigjoe_backendbundle_users_show', { 'id': entity.user.id }) }}"><strong>{{ entity.user }}</strong></a>
 			    </p>
+                {% if entity.product %}
+                <p>{{ 'backend.product'|trans() }} : <a
+                            href="{{ path('littlebigjoe_backendbundle_project_products_show', { 'id': entity.product.id }) }}"><strong>{{ entity.product }}</strong></a>
+                </p>
+                {% endif %}
 			    <p>{{ 'backend.status'|trans() }} :
 			        {% if entity.status == '1' %}
 			            <span class="label label-primary">{{ 'backend.engagement_phase'|trans() }}</span>
@@ -297,6 +304,15 @@
 			<div class="tab-pane" id="description">
   				<div class="clearfix">&nbsp;</div>
   				{{ entity.description|raw() }}
+
+                <p>{{ 'backend.medias'|trans() }}</p>
+                {% for productMedia in entity.medias %}
+                    <div class="item">
+                        <div class="thumb-cont">
+                            <img class="carousel-thumbnail" style="width:100px" src="{% if productMedia.type == 'video' %}{{ productMedia.image }}{% else %}{{ asset(productMedia.image) }}{% endif %}" alt="alt-LBJ - project image" />
+                        </div>
+                    </div>
+                {% endfor %}
   		</div>
   		
   		<div class="tab-pane" id="project">

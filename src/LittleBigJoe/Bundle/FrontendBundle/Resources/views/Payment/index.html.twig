@@ -1,73 +1,93 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}
+{% block meta_title %}
     {{ 'Payment for'|trans() }} {{ project.name }} | {{ parent() }}
 {% endblock %}
 
-{% block sidebar %}
-		<h3>{{ 'CGV'|trans() }}</h3>
-		<p>{% block trans %}Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-		Donec ornare id augue in tempor. Mauris vulputate nisi at quam aliquam, in ullamcorper libero posuere. 
-		Suspendisse tempus, nisl vel consequat lacinia, libero turpis venenatis nunc, vitae dapibus purus mauris non nibh.{% endblock %}</p>
-
-		{% if faqs %}
-				<h3>{{ 'FAQ'|trans() }}</h3>
-				<div class="panel-group" id="accordion">
-						{% for faq in faqs %}
-							  <div class="panel panel-default">
-								    <div class="panel-heading">
-								      <h4 class="panel-title">
-								        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ faq.id }}">
-								          {{ faq.question|raw }}
-								        </a>
-								      </h4>
-								    </div>
-								    <div id="collapse_{{ faq.id }}" class="panel-collapse collapse">
-								      <div class="panel-body">
-								      		{{ faq.answer|raw }}
-								      </div>
-								    </div>
-							  </div>
-					  {% endfor%}
-				</div>
-		{% endif %}
-  
-		<h3>{{ 'Payment methods'|trans() }}</h3>
-		<p>{{ 'Any method you want'|trans() }}</p>
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/faq-display.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('static/js/modules/reward-select.js') }}" ></script>
 {% endblock %}
 
 {% block body %}
-    <div class="page-header">
-        <h1><span class="glyphicon glyphicon-euro"></span> {{ 'Payment for'|trans() }} <span
-                    class="text-primary">{{ project.name }}</span></h1>
-    </div>
+    <section>
+        <article class="wContent classic">
+            <div class="white-container">
 
-    <p>{{ 'Please enter the amount you would like to pay, or select a defined amount :'|trans() }}</p>
-    
-    {% if rewards %}
-    		<form method="POST" action="{{ path('littlebigjoe_frontendbundle_payment_process') }}">
-    				<h3>{{ 'Amount'|trans() }}</h3>
-    				<p>
-    						<div class="input-group">
-									  <input type="text" id="amount" name="amount" class="form-control" placeholder="Amount">
-									  <span class="input-group-addon">{{ '€'|trans() }}</span>								  
-								</div>
-    				</p>
-    				<h3>{{ 'Rewards'|trans() }}</h3>
-    				{% for reward in rewards %}
-		    				<p>
-		    						<input type="radio" name="rewards[]" id="reward_{{ reward.id }}" value="{{ reward.id }}" {% if reward.id in unavailableRewards %}disabled="disabled"{% elseif loop.index == '1' %}checked="checked"{% endif %} />
-		    						<label for="reward_{{ reward.id }}">{{ reward.title }}</label>
-		    						<small>{{ reward.description }}</small>
-		    				</p>
-		    		{% endfor %}
-		    		
-		    		<p>
-				    		<input type="checkbox" id="anonymous" name="anonymous" value="1" />
-				    		<label for="anonymous">{{ 'I would like to keep this contribution anonymous' }}</label>				    		
-		    		</p>
-		    		
-		    		<input type="submit" class="btn btn-primary" value="{{ 'Continue'|trans() }}" />
-				</form>
-    {% endif %}
+                <div class="inner-title">
+                    <img class="inner-thumbnail" src="http://placehold.it/690x690" alt="alt-LBJ - project thumbnail" />
+                    <h1>{{ project.name }}</h1>
+                    <div class="steps">{{ 'by'|trans() }} <strong>{{ project.user }}</strong></div>
+                </div>
+
+
+                <div class="article-header">
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-coins-blue.png') }}" alt="alt-LBJ - projects icon" /> {{ 'Amount'|trans() }}</h2>
+                    <div class="separator"></div>
+                </div>
+
+                <form method="POST" action="{{ path('littlebigjoe_frontendbundle_payment_process') }}" name="reward-select-form" id="reward-select-form">
+                    <div class="amount-container">
+                        <div class="form-label">
+                            <div class="grand-hotel">{{ 'It is up to you!'|trans() }}</div>
+                            <div>{{ 'Any amount of'|trans() }} <strong>{{ '1€ and more'|trans() }}</strong></div>
+                        </div>
+
+                        <div class="form-label">
+                            <input type="text" value="1" name="amount" id="amount"/>
+                        </div>
+                    </div>
+
+                    <div class="article-header">
+                        <h2><img class="icon" src="{{ asset('static/img/icons/icon-coins-blue.png') }}" alt="alt-LBJ - projects icon" /> {{ 'Rewards'|trans() }}</h2>
+                        <div class="separator"></div>
+                    </div>
+
+                    {% if rewards %}
+                        {% for reward in rewards %}
+                            {% set reward_var = {'reward': reward} %}
+                            {% include "LittleBigJoeFrontendBundle:includes:utils/content-rewards.html.twig" with reward_var %}
+                        {% endfor %}
+
+                        <div class="form-label">
+                            <input type="checkbox" id="anonymous" name="anonymous" value="1" />
+                            <label for="anonymous">{{ 'I would like to keep this contribution anonymous'|trans() }}</label>
+                        </div>
+
+                        <div class="article-footer">
+                            <button class="validate-style next" type="submit" name="validate" value="validate">{{ 'Continue'|trans() }}</button>
+                            <a class="back-link" href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">&lsaquo;&lsaquo; {{ 'Return to the project page'|trans() }}</a>
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </article>
+
+        <div class="aside-part classic">
+            <div class="side-infos-block cgv">
+                <div class="title">{{ 'General conditions'|trans() }}</div>
+                <p>Hinc ille commotus ut iniusta perferens et indigna praefecti custodiam protectoribus mandaverat fidis. quo conperto Montius <strong>tunc quaestor acer quidem</strong> sed ad lenitatem propensior, <span class="blue-text">consulens in commune advocatos palatinarum</span> primos scholarum adlocutus est.</p>
+                <p>Hinc ille commotus ut iniusta perferens et indigna praefecti custodiam protectoribus mandaverat fidis. quo conperto Montius <strong>tunc quaestor acer quidem</strong> sed ad lenitatem propensior, consulens in commune advocatos palatinarum primos scholarum adlocutus est.</p>
+
+                <a href="{{ path('littlebigjoe_frontendbundle_page_show', {'slug': generalConditionsPage.slug}) }}" class="btn mosaic-style prev">{{ 'Read the terms'|trans() }}</a>
+            </div>
+
+            {% if faqs %}
+            <div class="side-infos-block faq">
+                <div class="title">{{ 'FAQ'|trans() }}</div>
+
+                {% for faq in faqs %}
+                    {% set faq_var = {'faq': faq} %}
+                    {% include "LittleBigJoeFrontendBundle:includes:utils/aside-faq.html.twig" with faq_var %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="side-infos-block modes">
+                <div class="title">{{ 'Payment methods'|trans() }}</div>
+                <img src="{{ asset('static/img/icons/icon-payment-modes.png') }}" alt="alt-LBJ - payment modes" />
+            </div>
+        </div>
+    </section>
 {% endblock %}

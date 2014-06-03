@@ -19,7 +19,7 @@ class FaqType extends AbstractType
                 'translatable_class' => "LittleBigJoe\Bundle\CoreBundle\Entity\Faq",
                 'fields' => array(
                     'question' => array(
-                        'type' => 'ckeditor',
+                        'field_type' => 'ckeditor',
                         'label' => 'backend.question',
                     		'required' => false,
 				                'label' => 'backend.description',
@@ -37,7 +37,7 @@ class FaqType extends AbstractType
 				                )
 				            ),
                     'answer' => array(
-                        'type' => 'ckeditor',
+                        'field_type' => 'ckeditor',
                         'label' => 'backend.answer',
                     		'required' => false,
                     		'toolbar' => array('document', 'clipboard', 'paragraph', '/', 'basicstyles', 'links', 'insert', 'styles', 'tools'),

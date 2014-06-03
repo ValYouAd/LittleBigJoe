@@ -27,15 +27,22 @@ class ProjectType extends AbstractType
                 'class' => 'LittleBigJoeCoreBundle:Brand',
                 'property' => 'name'
             ))
-            ->add('category', 'entity', array(
-                'label' => 'backend.associated_category',
+            ->add('productType', 'entity', array(
+                'label' => 'backend.product_type',
+                'class' => 'LittleBigJoeCoreBundle:ProductType',
+                'property' => 'name'
+            ))
+            ->add('categories', 'entity', array(
+                'label' => 'backend.associated_categories',
                 'class' => 'LittleBigJoeCoreBundle:Category',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                     		->where('c.isVisible = :isVisible')
                     		->setParameter('isVisible', true)
                         ->orderBy('c.name', 'ASC');
-                }
+                },
+                'multiple' => true,
+                'expanded' => true
             ))
             ->add('user', 'entity', array(
                 'label' => 'backend.creator',
@@ -77,6 +84,26 @@ class ProjectType extends AbstractType
             				'styles' => array('Styles','Format'),
             				'tools' => array('Maximize')
             		)
+            ))
+            ->add('images', 'collection', array(
+                'label' => 'backend.images',
+                'type' => new ProjectImageType(),
+                'options'  => array(
+                    'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage',
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
+            ->add('videos', 'collection', array(
+                'label' => 'backend.videos',
+                'type' => new ProjectVideoType(),
+                'options'  => array(
+                    'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo',
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ))
             ->add('amountRequired', 'number', array(
                 'label' => 'backend.amount_to_raise'

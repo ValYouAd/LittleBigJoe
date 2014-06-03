@@ -1,10 +1,44 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="form-signin">
-    <h2 class="form-signin-heading">{{ 'Register'|trans() }}</h2>
+    <h1>{{ 'Register'|trans() }}</h1>
 
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" class="btn btn-lg btn-primary btn-block" value="{{ 'registration.submit'|trans }}"/>
+    {{ form_errors(form) }}
+    
+    	<div class="row text-center">
+<div class="col-sm-6">
+{{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
+</div>
+<div class="col-sm-6">
+<a style="font-size: 12px;padding: 5px 0px 5px 38px;" href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
+<i class="fa fa-twitter" style="line-height: 28px;"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
+</a>
+</div>
+</div>
+
+    <div class="row">
+        <section class="col-md-5">
+            {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword) }}
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.lastname) }}
+            {{ form_row(form.birthday) }}
+            {{ form_row(form.city) }}
+            {{ form_row(form.country) }}
+            {{ form_row(form.defaultLanguage) }}
+            <div>
+                <button class="btn validate-style">{{ 'Register'|trans }}</button>
+            </div>
+        </section>
+        <section class="col-md-2"></section>
+        <section class="col-md-5">
+            {{ form_row(form.facebookUrl) }}
+            {{ form_row(form.twitterUrl) }}
+            {{ form_row(form.googleUrl) }}
+            {{ form_row(form.websiteUrl) }}
+            {{ form_row(form.photo) }}
+            {{ form_row(form.bio) }}
+            {{ form_rest(form) }}
+        </section>
     </div>
 </form>

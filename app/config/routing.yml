@@ -21,6 +21,9 @@ fos_user_change_password:
     prefix: /profile
 
 # FOSFacebookBundle routing
+_security_login:
+    pattern: /login_facebook
+
 _security_check:
     pattern:  /login_facebook_check
     options: { i18n: false }
@@ -53,7 +56,12 @@ twitter_login:
 elfinder:
     resource: "@FMElfinderBundle/Resources/config/routing.yml"
     options: { i18n: false }
- 
+
+# AvalancheImagineBundle routing
+_imagine:
+    resource: .
+    type:     imagine
+
 # LittleBigJoe routing
 little_big_joe_frontend:
     resource: "@LittleBigJoeFrontendBundle/Controller/"

@@ -1,0 +1,33 @@
+<div class="side-menu">
+
+    {% if brands is defined and brands %}
+        <div class="subdivision">
+            <div class="side-menu-title">
+                <img class="icon" src="{{ asset('static/img/icons/icon-star-blue.png') }}" alt="alt-LBJ - star icon" /> <span>{{ 'Brands'|trans() }}</span>
+            </div>
+
+            {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:brandMenu', {'currentClass': 'active', 'allow_safe_labels': true}) }}
+        </div>
+    {% endif %}
+
+    {% if categories is defined and categories %}
+        <div class="subdivision categories">
+            <div class="side-menu-title">
+                <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" /> <span>{{ 'Categories'|trans() }}</span>
+            </div>
+
+            {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:categoryMenu', {'currentClass': 'active', 'allow_safe_labels': true}) }}
+        </div>
+    {% endif %}
+
+    {% if kinds is defined and kinds %}
+        <div class="subdivision">
+            <div class="side-menu-title">
+                <img class="icon" src="{{ asset('static/img/icons/icon-list-blue.png') }}" alt="alt-LBJ - list icon" /> <span>{{ 'Types'|trans() }}</span>
+            </div>
+
+            {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:typeMenu', {'currentClass': 'active', 'allow_safe_labels': true}) }}
+        </div>
+    {% endif %}
+
+</div>

@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block meta_title %}
+    {{ 'Product'|trans() }} {{ entity }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <section>
+        <article>
+            <div class="white-container">
+                <div class="article-header">
+                    <h2>{{ 'Feedbacks regarding'|trans() }} "{{ entity }}" {{ "product" }}</h2>
+                </div>
+
+                <p>"{{ entity }}" {{ 'product is related to the following project'|trans() }} : <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': entity.project.id, 'slug': entity.project.slug}) }}">{{ entity.project }}</a></p>
+
+                <div class="description-infos">
+                    {% if entity.comments|length > 0 %}
+                        {% for comment in entity.comments %}
+                            <div>
+                                <p>{{ comment }}</p>
+                                <p><small>{{ 'Posted by'|trans() }} {{ comment.user }} {{ 'on'|trans() }} {{ comment.createdAt|localizeddate('medium', 'medium') }}</small></p>
+                            </div>
+                            <div class="separator"></div>
+                        {% endfor %}
+                    {% else %}
+                        <p><strong>{{ 'There\'s no feedbacks for the moment'|trans() }}</strong></p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    {{ form(form) }}
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock %}

@@ -1,0 +1,9 @@
+<div class="faq-container" id="faq_{{ faq.id }}">
+    <div class="faq-question">
+        <span>{{ faq.question|raw() }}</span>
+        <img src="{{ asset('static/img/icons/icon-arrow-bottom.png') }}" alt="alt-LBJ - arrow" />
+    </div>
+    <div class="faq-answer">
+        {{ faq.answer|raw() }}
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- If you delete this meta tag, Half Life 3 will never be released. -->
+    <meta name="viewport" content="width=device-width" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{{ 'Decline product'|trans() }}</title>
+</head>
+<body bgcolor="#FFFFFF">
+<p>{{ 'Hello'|trans() }} <strong>{{ admin }}</strong> !</p>
+<p>{{ projectOwner }} {{ 'has declined your product '|trans() }} : {{ project.product }} {{ 'related to the project'|trans() }} <strong>{{ project }}</strong></p>
+<p>{{ 'Here\'s the reason' }} : {{ declineReason }}</p>
+<p>{{ 'You can directly access to the product details at'|trans() }} : <a href="{{ url }}{{ path('littlebigjoe_frontendbundle_project_product_feedbacks', {id: project.id, slug: project.slug}) }}">{{ project.name }}</a>
+
+<p>{{ 'We hope to see you soon in'|trans() }} <a href="{{ url }}">{{ url }}</a></p>
+</body>
+</html>

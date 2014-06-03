@@ -1,21 +1,31 @@
 {# default Sliding pagination control implementation #}
 
 {% if pageCount > 1 %}
-    <ul class="pagination">
-        {% if first is defined and current != first %}
-            <li><a href="{{ path(route, query|merge({(pageParameterName): first})) }}">&laquo;</a></li>
-        {% endif %}
 
-        {% for page in pagesInRange %}
-            {% if page != current %}
-                <li><a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a></li>
-            {% else %}
-                <li class="active"><a href="#">{{ page }}</a></li>
+    {% if app.request.get('_template') starts with 'LittleBigJoeFrontendBundle' %}
+        {% if previous is defined %}
+            <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" class="btn mosaic-style prev">{{ 'Previous page'|trans() }}</a>
+        {% endif %}
+        {% if next is defined %}
+            <a href="{{ path(route, query|merge({(pageParameterName): next})) }}" class="btn mosaic-style next">{{ 'Next page'|trans() }}</a>
+        {% endif %}
+    {% else %}
+        <ul class="pagination">
+            {% if first is defined and current != first %}
+                <li><a href="{{ path(route, query|merge({(pageParameterName): first})) }}">&laquo;</a></li>
             {% endif %}
-        {% endfor %}
 
-        {% if last is defined and current != last %}
-            <li><a href="{{ path(route, query|merge({(pageParameterName): last})) }}">&raquo;</a></li>
-        {% endif %}
-    </ul>
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <li><a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a></li>
+                {% else %}
+                    <li class="active"><a href="#">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if last is defined and current != last %}
+                <li><a href="{{ path(route, query|merge({(pageParameterName): last})) }}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
 {% endif %}

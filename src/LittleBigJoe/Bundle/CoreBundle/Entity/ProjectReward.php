@@ -21,7 +21,7 @@ class ProjectReward
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -42,7 +42,7 @@ class ProjectReward
      *    groups = {"Default", "flow_createProject_step4"}
      * )
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
@@ -56,7 +56,7 @@ class ProjectReward
      *    groups = {"Default", "flow_createProject_step4"}
      * )
      */
-    private $description;
+    protected $description;
 
     /**
      * @var float
@@ -70,21 +70,21 @@ class ProjectReward
      *    groups = {"Default", "flow_createProject_step4"}
      * )
      */
-    private $amount;
+    protected $amount;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="stock", type="integer", nullable=true)
      */
-    private $stock;
+    protected $stock;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="max_quantity_by_user", type="integer", nullable=true)
      */
-    private $maxQuantityByUser;
+    protected $maxQuantityByUser;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="rewards", cascade={"persist"})

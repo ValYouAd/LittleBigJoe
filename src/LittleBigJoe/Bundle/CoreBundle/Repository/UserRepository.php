@@ -50,4 +50,40 @@ class UserRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Return users for specific role
+     *
+     * @param string $role : role
+     * @return array users
+     */
+    public function findByRole($role)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%"' . $role . '"%');
+
+        return $qb->getQuery()
+                  ->getResult();
+    }
+
+    /**
+     * Return users for specific role and brand
+     *
+     * @param string $role : role
+     * @param string $brand : brand
+     * @return array users
+     */
+    public function findByRoleAndBrand($role, $brand)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->leftJoin('u.brands', 'b')
+            ->where('u.roles LIKE :role')
+            ->andWhere('b.id = :brand')
+            ->setParameter('role', '%"' . $role . '"%')
+            ->setParameter('brand', $brand->getId());
+
+        return $qb->getQuery()
+                  ->getResult();
+    }
 }

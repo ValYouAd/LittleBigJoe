@@ -29,9 +29,12 @@ class ProjectRepository extends EntityRepository
      * @param integer/null $brandId :
      *        if set to null, return all projects
      *        if set to integer, return all projects with brand id
+     * @param integer/null $categoryId :
+     *        if set to null, return all projects
+     *        if set to integer, return all projects with category id
      * @return int nbProjects
      */
-    public function count($deleted = null, $status = null, $current = null, $brandId = null)
+    public function count($deleted = null, $status = null, $current = null, $brandId = null, $categoryId = null)
     {
         $qb = $this->createQueryBuilder('p')
             ->select('COUNT(p)');
@@ -58,6 +61,13 @@ class ProjectRepository extends EntityRepository
         if (!empty($brandId)) {
             $qb = $qb->andWhere('p.brand = :brand')
                 ->setParameter('brand', $brandId);
+        }
+
+        if (!empty($categoryId)) {
+            $qb = $qb
+                ->leftJoin('p.categories', 'c')
+                ->andWhere('c = :category')
+                ->setParameter('category', $categoryId);
         }
 
         return $qb->getQuery()
@@ -116,15 +126,17 @@ class ProjectRepository extends EntityRepository
      * @param string $slug : contains slug
      * @return object entity
      */
-    public function findBySlugI18n($slug)
+    public function findBySlugI18n($id, $slug)
     {
         return $this->getEntityManager()
             ->createQuery('
                         SELECT p
                         FROM LittleBigJoeCoreBundle:Project p
                         WHERE p.deletedAt IS NULL
+                        AND p.id = :id
                         AND p.slug LIKE :slug
                     ')
+            ->setParameter('id', $id)
             ->setParameter('slug', '%' . $slug . '%')
             ->setHint(
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
@@ -231,20 +243,22 @@ class ProjectRepository extends EntityRepository
      */
     public function findPopular($limit = 4, $period = null)
     {
-        $qb = $this->createQueryBuilder('p')
-            ->addSelect('COUNT(pl) AS HIDDEN nbLikes, COUNT(pc) AS HIDDEN nbContributions')
-            ->leftJoin('p.likes', 'pl')
-            ->leftJoin('p.contributions', 'pc')
-            ->where('p.deletedAt IS NULL');
+        $qb = $this->createQueryBuilder('p');
 
-        if (!empty($period)) {
-            $qb = $qb->andWhere('pl.createdAt > :createdAt')
-                ->orWhere('pc.createdAt > :createdAt')
-                ->setParameter('createdAt', new \DateTime($period));
+        if (!empty($period))
+        {
+            $date = new \DateTime($period);
+            $sub_query = '(SELECT COUNT(pl.id) FROM LittleBigJoeCoreBundle:ProjectLike pl WHERE pl.project = p.id AND pl.createdAt > '.$date->format('d/m/Y').')';
+            $sub_query2 = '(SELECT COUNT(pc.id) FROM LittleBigJoeCoreBundle:ProjectContribution pc WHERE pc.project = p.id AND pc.createdAt > '.$date->format('d/m/Y').')';
+        }
+        else
+        {
+            $sub_query = '(SELECT COUNT(pl.id) FROM LittleBigJoeCoreBundle:ProjectLike pl WHERE pl.project = p.id)';
+            $sub_query2 = '(SELECT COUNT(pc.id) FROM LittleBigJoeCoreBundle:ProjectContribution pc WHERE pc.project = p.id)';
         }
 
-        return $qb->groupBy('pl.project')
-            ->addGroupBy('pc.project')
+        return $qb->addSelect($sub_query.' AS HIDDEN nbLikes, '.$sub_query2.' AS HIDDEN nbContributions')
+            ->where('p.deletedAt IS NULL')
             ->orderBy('nbLikes', 'DESC')
             ->addOrderBy('nbContributions', 'ASC')
             ->getQuery()
@@ -429,6 +443,25 @@ class ProjectRepository extends EntityRepository
             ->where('p.deletedAt IS NULL')
             ->andWhere('p.name LIKE :search')
             ->setParameter('search', '%' . $search . '%');
+
+        return $qb->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Return projects for specific category
+     *
+     * @param integer $categoryId : category id
+     * @return array projects
+     */
+    public function findByCategory($categoryId)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.categories', 'c')
+            ->where('p.deletedAt IS NULL')
+            ->andWhere('c = :category')
+            ->setParameter('category', $categoryId);
 
         return $qb->orderBy('p.id', 'DESC')
             ->getQuery()
