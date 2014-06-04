@@ -220,34 +220,34 @@ avalanche_imagine:
     filters:
         780x495:
             type:    thumbnail
-            options: { size: [780, 495], mode: inset }
+            options: { size: [780, 495], mode: inset, quality: 95, format: jpeg }
         750x500:
             type:    thumbnail
-            options: { size: [750, 500], mode: inset }
+            options: { size: [750, 500], mode: inset, quality: 95, format: jpeg }
         722x445:
             type:    thumbnail
-            options: { size: [722, 445], mode: inset }
+            options: { size: [722, 445], mode: inset, quality: 95, format: jpeg }
         690x690:
             type:    thumbnail
-            options: { size: [690, 690], mode: inset }
+            options: { size: [690, 690], mode: inset, quality: 95, format: jpeg }
         690x500:
             type:    thumbnail
-            options: { size: [690, 500], mode: inset }
+            options: { size: [690, 500], mode: inset, quality: 95, format: jpeg }
         690x460:
             type:    thumbnail
-            options: { size: [690, 460], mode: inset }
+            options: { size: [690, 460], mode: inset, quality: 95, format: jpeg }
         581x581:
             type:    thumbnail
-            options: { size: [581, 581], mode: inset }
+            options: { size: [581, 581], mode: inset, quality: 95, format: jpeg }
         346x215:
             type:    thumbnail
-            options: { size: [346, 215], mode: inset }
+            options: { size: [346, 215], mode: inset, quality: 95, format: jpeg }
         230x268:
             type:    thumbnail
-            options: { size: [230, 268], mode: inset }
+            options: { size: [230, 268], mode: inset, quality: 95, format: jpeg }
         239x239:
             type:    thumbnail
-            options: { size: [239, 239], mode: inset }
+            options: { size: [239, 239], mode: inset, quality: 95, format: jpeg }
 
 # LittleBigJoeBundle Configuration
 little_big_joe_mango_pay: 
