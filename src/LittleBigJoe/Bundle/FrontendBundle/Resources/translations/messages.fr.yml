@@ -1,4 +1,5 @@
-'': ''   # FIXME
+'': ''
+'%currentUser% has declined the product %product%': '%currentUser% a refusé le produit %product%'
 (Private): (Privé)
 (Public): (Public)
 
@@ -19,7 +20,7 @@
     '': 'Un problème est survenu durant votre paiement.'
 
 'A project has been reported': 'Un projet a été signalé'
-'A user has reported the following project : ': 'A user has reported the following project : '   # FIXME
+'A user has reported the following project : ': 'Un utilisateur a rapporté le projet suivant : '
 About: 'A propos'
 'Add entry to this project': 'Ajouter un article au projet'
 'Add images': 'Ajouter des images'
@@ -30,8 +31,8 @@ About: 'A propos'
 'Add new entry comment': 'Ajouter un nouveau commentaire sur l''article'
 'Add new file': 'Ajouter un nouveau fichier'
 'Add new reward': 'Ajouter une nouvelle récompense'
-'All brands': 'All brands'   # FIXME
-'All projects': 'All projects'   # FIXME
+'All brands': 'Toutes les marques'
+'All projects': 'Tous les projets'
 Amount: Montant
 'Amount to raise': 'Montant à lever'
 
@@ -73,7 +74,7 @@ Amount: Montant
 
 'Any amount of': 'N''importe quel montant'
 'Associated brand': 'Marque associée'
-'Associated categories': 'Associated categories'   # FIXME
+'Associated categories': 'Catégories associées'
 'Associated entry': 'Article associé'
 Bio: Bio
 'Biography of': 'Biographie de'
@@ -98,34 +99,34 @@ Continue: Continuer
 Contributor: Contributeur
 Country: Pays
 'Create my project': 'Créer mon projet'
-'Create the product': 'Create the product'   # FIXME
-Currency: Currency   # FIXME
+'Create the product': 'Créer le produit'
+Currency: Devise
 Current: 'En cours'
 'Current projects': 'Projets en cours'
 Date: Date
 Decline: Décliner
-'Decline message': 'Decline message'   # FIXME
+'Decline message': 'Décliner le message'
 'Decline product': 'Décliner la fiche produit'
 'Decline the product': 'Décliner cette offre de produit'
 'Default language': 'Langue par défaut'
 'Define my goals': 'Définir mes objectifs'
-'Define the goals': 'Define the goals'   # FIXME
+'Define the goals': 'Définir les objectifs'
 Delete: Supprimer
 'Delete reward': 'Supprimer la récompense'
-'Delete this project': 'Delete this project'   # FIXME
+'Delete this project': 'Supprimer le projet'
 Description: Description
 Details: Détails
 Discovering: Découvrir
-'Does the project contains a visual or written representation of the brand ?': 'Does the project contains a visual or written representation of the brand ?'   # FIXME
+'Does the project contains a visual or written representation of the brand ?': 'Est-ce que le projet contient une représentation visuelle ou écrite d''une marque ?'
 'Don''t hesitate to contribute to others projects to help creators !': 'N''hésitez pas à contributer à d''autres projets pour aider les créateurs !'
-EUR: EUR   # FIXME
+EUR: EUR
 Edit: Editer
-'Edit my project': 'Edit my project'   # FIXME
+'Edit my project': 'Editer mon projet'
 'Edit project': 'Editer le projet'
 'Email address': 'Adresse email'
 Ended: Terminés
 'Ended projects': 'Projets terminés'
-'Ending at': 'Ending at'   # FIXME
+'Ending at': 'Se termine le'
 Engagement: Engagement
 English: Anglais
 'Entry title': 'Titre de l''article'
@@ -135,7 +136,7 @@ FAQ: FAQ
 Facebook: Facebook
 'Facebook URL': 'URL Facebook'
 Favorites: Favoris
-'Feedback text': 'Feedback text'   # FIXME
+'Feedback text': 'Texte du retour'
 'Feedbacks regarding': 'Retours concernant'
 Finish: Terminer
 'First revival': 'Première relance'
@@ -145,7 +146,7 @@ Follow: Suivre
 Followed: Suivi
 French: Français
 'Fund this project': 'Financer ce projet'
-GBP: GBP   # FIXME
+GBP: GBP
 'General conditions': 'Conditions générales d''utilisation'
 'Get the video': 'Récupérer la vidéo'
 'Getting online': 'Passer en ligne'
@@ -153,7 +154,7 @@ GBP: GBP   # FIXME
 'Google+ URL': 'URL Google+'
 Hello: Bonjour
 'Help us to realize this project': 'Aidez-nous à réaliser le projet'
-'Here''s some details regarding this report : ': 'Here''s some details regarding this report : '   # FIXME
+'Here''s some details regarding this report : ': 'Voici quelques détails concernant ce rapport : '
 'Here''s some infos regarding your contribution :': 'Voici des informations concernant votre contributions :'
 'Here''s the important data regarding this contribution': 'Voici des informations importantes concernant votre contribution'
 'Here''s the important data regarding your account': 'Voici des informations importantes concernant votre compte'
@@ -161,23 +162,23 @@ Highlight: 'Mettre en avant'
 Highlighted: 'Mis en avant'
 'His projects': 'Ses projets'
 'How does': Comment
-'I just financed project %project%': 'I just financed project %project%'   # FIXME
-'I just voted for project %project%': 'I just voted for project %project%'   # FIXME
+'I just financed project %project%': 'J''ai financé le projet %project%'
+'I just voted for project %project%': 'Je viens de voter pour le projet %project%'
 'I like this project': 'J''aime ce projet'
-'I think this project should not be on LittleBigJoe': 'I think this project should not be on LittleBigJoe'   # FIXME
+'I think this project should not be on LittleBigJoe': 'Je pense que ce projet ne devrait pas être sur LittleBigJoe'
 'I would like to keep this contribution anonymous': 'Je souhaite que cette contribution reste anonyme'
 Images: Images
-'Intellectual property infringement': 'Intellectual property infringement'   # FIXME
+'Intellectual property infringement': 'Violation de propriété intellectuelle'
 'Invoice for contribution': 'Facture pour la contribution'
 'It is up to you!': 'C''est à vous!'
-JPY: JPY   # FIXME
+JPY: JPY
 Lastname: Nom
 Latest: Derniers
 'Latest projects': 'Derniers projects'
 Launch: Lancer
 'Launch my project': 'Lancer mon projet'
 'Learn more about our': 'Apprenez en plus sur notre'
-'Likes to get': 'Likes to get'   # FIXME
+'Likes to get': 'Likes à obtenir'
 Limited: Limité
 'Little Big Joe': 'Little Big Joe'
 Location: Localisation
@@ -203,8 +204,8 @@ No: Non
 'No thanks, I just want to help the project':
     '': 'Non merci, je veux simplement aider le projet.'
 
-'Offer an percentage of raised funds to the project owner': 'Offer an percentage of raised funds to the project owner'   # FIXME
-'Offer the product to the project owner if the amount to raise is reached': 'Offer the product to the project owner if the amount to raise is reached'   # FIXME
+'Offer an percentage of raised funds to the project owner': 'Offrir un pourcentage du montant levé au créateur du projet'
+'Offer the product to the project owner if the amount to raise is reached': 'Offrir le produit au créateur du projet, si le montant à lever est atteint'
 On: Le
 Other: Autre
 'Out of stock': 'Plus de stock'
@@ -230,33 +231,33 @@ Popular: Populaires
 'Popular projects': 'Projets populaires'
 'Posted by': 'Posté par'
 'Present my project': 'Présenter mon projet'
-'Present the product': 'Present the product'   # FIXME
-Preview: Preview   # FIXME
+'Present the product': 'Présenter le produit'
+Preview: Prévisualiser
 Previous: Précédent
 'Previous step': 'Etape précédente'
-Price: Price   # FIXME
+Price: Prix
 Product: Produit
-'Product ending at': 'Product ending at'   # FIXME
-'Product type': 'Product type'   # FIXME
+'Product ending at': 'Produit se termine le'
+'Product type': 'Type de produit'
 Project: Projet
 'Project ending at': 'Le projet se termine le'
-'Project owner gift': 'Project owner gift'   # FIXME
+'Project owner gift': 'Cadeau au créateur du projet'
 Projects: Projets
-'Projects I''m supporting': 'Projects I''m supporting'   # FIXME
+'Projects I''m supporting': 'Projets que je soutiens'
 'Projects in which the user has participated': 'Projets dans lesquels l''utilisateur a participé'
 'Projects nearing completion': 'Projets bientôt terminés'
-'Projects of brands I follow': 'Projects of brands I follow'   # FIXME
-'Projects of users I follow': 'Projects of users I follow'   # FIXME
+'Projects of brands I follow': 'Projets des marques suivies'
+'Projects of users I follow': 'Projets des utilisateurs suivis'
 Quantity: Quantité
 'Read the terms': 'Lire les CGU'
-Reason: Reason   # FIXME
+Reason: Motif
 'Recently updated': 'Récemment mis à jour'
 Registration: Inscription
 'Related project': 'Projet lié'
 Report: Signaler
-'Report details : ': 'Report details : '   # FIXME
-'Report reason': 'Report reason'   # FIXME
-'Report reason : ': 'Report reason : '   # FIXME
+'Report details : ': 'Détails du rapport : '
+'Report reason': 'Motif du rapport'
+'Report reason : ': 'Motif du rapport : '
 'Report this project': 'Signaler ce projet'
 'Required amount': 'Montant requis'
 'Return to the project page': 'Retourner sur la page du projet'
@@ -264,8 +265,8 @@ Report: Signaler
 'Reward title': 'Titre de la récompense'
 Rewards: Récompenses
 Save: Sauvegarder
-'Save feedback': 'Save feedback'   # FIXME
-'Save modifications': 'Save modifications'   # FIXME
+'Save feedback': 'Sauvegarder le retour'
+'Save modifications': 'Sauvegarder les modifications'
 Search: Rechercher
 'Search for ': 'Recherche pour '
 'Second revival': 'Seconde relance'
@@ -275,8 +276,8 @@ Search: Rechercher
 'See all ended projects': 'Voir tous les projets terminés'
 'See all projects': 'Voir tous les projets'
 'See his profile': 'Voir son profil'
-'Share my support on Facebook': 'Share my support on Facebook'   # FIXME
-'Share my support on Twitter': 'Share my support on Twitter'   # FIXME
+'Share my support on Facebook': 'Partager mon soutien sur Facebook'
+'Share my support on Twitter': 'Partager mon soutien sur Twitter'
 Slug: 'URL raccourcie'
 
 'Some fields are required':
@@ -335,7 +336,7 @@ Submit: Soumettre
 'There''s no participants for the moment': 'Il n''y a aucun participant pour le moment'
 'There''s no projects for the moment': 'Il n''y a aucun projet pour le moment'
 'There''s no results for your search': 'Il n''y a aucun résultat pour votre recherche'
-'This is spam': 'This is spam'   # FIXME
+'This is spam': 'Ceci est du spam'
 
 'This is the second revival':
     ' The': 'Il s''agit de la seconde relance. Le'
@@ -349,13 +350,13 @@ Total: Total
 Twitter: Twitter
 'Twitter URL': 'URL de la page Twitter'
 Types: Types
-USD: USD   # FIXME
+USD: USD
 Unfollow: 'Non suivi'
 'Unit Price': 'Prix unitaire'
 'Upload new audio file': 'Télécharger un nouveau fichier audio'
 'Upload new file': 'Télécharger un nouveau fichier'
-'User : ': 'User : '   # FIXME
-'User IP address : ': 'User IP address : '   # FIXME
+'User : ': 'Utilisateur : '
+'User IP address : ': 'Adresse IP de l''utilisateur : '
 Validate: Valider
 Videos: Vidéos
 'Visible to non participants ?': 'Visible aux non-participants ?'
@@ -393,14 +394,14 @@ by: par
 contributions: contributions
 element(s): élément(s)
 evolution: évolution
-'for %brand%%url%': 'for %brand%%url%'   # FIXME
+'for %brand%%url%': 'pour %brand%%url%'
 'for contributing to the': 'pour votre contrbution au'
 'for free': gratuitement
 'for registering in Little Big Joe website': 'pour votre inscription sur le site de Little Big Joe'
 funded: financés
 gived: donné(s)
 got: a
-'has declined your product ': 'has declined your product '   # FIXME
+'has declined your product ': 'a refusé votre produit '
 'in projects right now, by': 'aux projets, en'
 'it work ?': 'ca marche ?'
 likes: '"J''aime"'
@@ -413,7 +414,7 @@ max:
 
 'my project': 'mon projet'
 on: le
-'on @LittleBigJoe %url%': 'on @LittleBigJoe %url%'   # FIXME
+'on @LittleBigJoe %url%': 'sur @LittleBigJoe %url%'
 participant(s): participant(s)
 participants: participants
 'posted a new entry': 'a posté un nouvel article'

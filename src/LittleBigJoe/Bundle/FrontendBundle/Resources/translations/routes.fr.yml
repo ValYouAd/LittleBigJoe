@@ -59,10 +59,10 @@ littlebigjoe_frontendbundle_project: /projets
 littlebigjoe_frontendbundle_project_almost_ending_projects: /projets-bientot-termines
 
 # Desc: /projects-of-followed-brands
-littlebigjoe_frontendbundle_project_brands_followed_projects: /projects-of-followed-brands   # FIXME
+littlebigjoe_frontendbundle_project_brands_followed_projects: /projets-des-marques-suivies
 
 # Desc: /project/{id}-{slug}/create-product
-littlebigjoe_frontendbundle_project_create_product: '/project/{id}-{slug}/create-product'   # FIXME
+littlebigjoe_frontendbundle_project_create_product: '/projet/{id}-{slug}/creer-un-produit'
 
 # Desc: /launch-my-project
 littlebigjoe_frontendbundle_project_create_project: /lancer-mon-projet
@@ -89,10 +89,10 @@ littlebigjoe_frontendbundle_project_popular_week_projects: /projets-populaires-c
 littlebigjoe_frontendbundle_project_preview: /projet/prévisualisation
 
 # Desc: /project/{id}-{slug}/change-status
-littlebigjoe_frontendbundle_project_product_change_status: '/project/{id}-{slug}/change-status'   # FIXME
+littlebigjoe_frontendbundle_project_product_change_status: '/projet/{id}-{slug}/changer-le-status'
 
 # Desc: /project/{id}-{slug}/feedbacks
-littlebigjoe_frontendbundle_project_product_feedbacks: '/project/{id}-{slug}/feedbacks'   # FIXME
+littlebigjoe_frontendbundle_project_product_feedbacks: '/projet/{id}-{slug}/retours'
 
 # Desc: /recently-updated-projects
 littlebigjoe_frontendbundle_project_recently_updated_projects: /projets-recemment-mis-a-jour
@@ -101,19 +101,19 @@ littlebigjoe_frontendbundle_project_recently_updated_projects: /projets-recemmen
 littlebigjoe_frontendbundle_project_show: '/projet/{id}-{slug}'
 
 # Desc: /projects-supported
-littlebigjoe_frontendbundle_project_supported_projects: /projects-supported   # FIXME
+littlebigjoe_frontendbundle_project_supported_projects: /projets-supportes
 
 # Desc: /top-funded-projects
 littlebigjoe_frontendbundle_project_top_funded_projects: /projets-les-mieux-finances
 
 # Desc: /projects-of-followed-users
-littlebigjoe_frontendbundle_project_users_followed_projects: /projects-of-followed-users   # FIXME
+littlebigjoe_frontendbundle_project_users_followed_projects: /projets-des-utilisateurs-suivis
 
 # Desc: /search
 littlebigjoe_frontendbundle_search: /recherche
 
 # Desc: /my-news
-littlebigjoe_frontendbundle_user_news: /my-news   # FIXME
+littlebigjoe_frontendbundle_user_news: /mon-actualite
 
 # Desc: /user/{id}
 littlebigjoe_frontendbundle_user_show: '/utilisateur/{id}'

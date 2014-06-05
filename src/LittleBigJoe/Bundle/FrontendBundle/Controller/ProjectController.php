@@ -1366,7 +1366,7 @@ class ProjectController extends Controller
                 {
                     $email = \Swift_Message::newInstance()
                         ->setContentType('text/html')
-                        ->setSubject($this->container->get('translator')->trans($currentUser.' has declined the product '.$project->getProduct()))
+                        ->setSubject($this->container->get('translator')->trans('%currentUser% has declined the product %product%', array('%currentUser%' => $currentUser, '%product%' => $project->getProduct())))
                         ->setFrom($this->container->getParameter('default_email_address'))
                         ->setTo(array($brandAdmin->getEmail() => $brandAdmin))
                         ->setBody(

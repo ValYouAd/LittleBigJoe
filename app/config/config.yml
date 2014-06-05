@@ -170,6 +170,17 @@ jms_i18n_routing:
     locales: %locales%
     strategy: prefix_except_default
 
+# JMSTranslationBundle Configuration
+jms_translation:
+    configs:
+        app:
+            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
+            output_dir: %kernel.root_dir%/Resources/translations
+            ignored_domains: []
+            excluded_names: [*TestCase.php, *Test.php]
+            excluded_dirs: [cache, data, logs]
+            output_format: xliff
+
 # JMSTranslationBundle Configuration   
 services:
     twig.extension.intl:
