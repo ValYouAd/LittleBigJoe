@@ -118,7 +118,7 @@
 		UserVoice.push(['identify', {
 		    {% if app.user %}
 		    email:      '{{ app.user.email }}', // User’s email address
-		    name:       '{{ app.user.fullname }}', // User’s real name
+		    name:       '{{ app.user.firstname }} {{ app.user.lastname }}', // User’s real name
 		    id:         {{ app.user.id }} // Optional: Unique id of the user (if set, this should not change)
 		    {% endif %}
 		}]);
