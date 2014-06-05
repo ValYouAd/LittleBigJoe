@@ -4,7 +4,7 @@
     <input type="hidden" class="mediaType" name="createProject_{{ projectMedia.type }}_{{ projectMedia.id }}_type" id="createProject_{{ projectMedia.type }}_{{ projectMedia.id }}_type" value="{{ projectMedia.type }}" />
     <div class="clearfix"></div>
     <p>
-        <span class="highlightGalleryItem">{% if projectMedia.highlighted %}{{ 'Highlighted'|trans() }}{% else %}{{ 'Highlight'|trans() }}{% endif %}</span>
-        <span class="deleteGalleryItem">{{ 'Delete'|trans() }}</span>
+        <span class="highlightGalleryItem">{% if projectMedia.highlighted %}<i class="fa fa-star"></i>{% else %}<i class="fa fa-star-o"></i>{% endif %}</span>
+        <span class="deleteGalleryItem"><i class="fa fa-trash-o"></i></span>
     </p>
 </div>

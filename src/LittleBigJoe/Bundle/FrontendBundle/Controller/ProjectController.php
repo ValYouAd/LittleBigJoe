@@ -460,6 +460,10 @@ class ProjectController extends Controller
 		        else 
 		        {
                     // Remap entities
+                    $brand = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($project->getBrand()->getId());
+                    $project->setBrand($brand);
+                    $brand->addProject($project);
+
                     $productType = $em->getRepository('LittleBigJoeCoreBundle:ProductType')->find($project->getProductType()->getId());
                     $project->setProductType($productType);
                     $productType->addProject($project);

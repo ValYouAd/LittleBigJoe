@@ -104,6 +104,7 @@ stof_doctrine_extensions:
         default:
             uploadable: true
             translatable: true
+            sluggable: true
     mongodb: ~
     
 # A2lixTranslationFormBundle Configuration

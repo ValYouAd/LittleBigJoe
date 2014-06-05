@@ -114,6 +114,22 @@
                 $('#createProject_slug').val(title_value);
             });
 
+
+            var brands = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: '',
+                remote: '{{ path('littlebigjoe_frontendbundle_ajax_search_brand') }}?brand=%QUERY'
+            });
+            brands.initialize();
+            $('#createProject_brand').typeahead(null, {
+                name: 'brand',
+                displayKey: 'value',
+                maxLength: 1,
+                source: brands.ttAdapter()
+            });
+
+
             var productTypes = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,

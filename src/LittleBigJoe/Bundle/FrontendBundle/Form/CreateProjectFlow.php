@@ -4,6 +4,7 @@ namespace LittleBigJoe\Bundle\FrontendBundle\Form;
 
 use Craue\FormFlowBundle\Form\FormFlow;
 use Doctrine\ORM\EntityManager;
+use LittleBigJoe\Bundle\CoreBundle\Entity\Brand;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProductType;
 use Symfony\Component\Form\FormTypeInterface;
 use Craue\FormFlowBundle\Event\PostBindFlowEvent;
@@ -85,6 +86,26 @@ class CreateProjectFlow extends FormFlow implements EventSubscriberInterface
 
     public function onPostBindFlow(PostBindFlowEvent $event) {
         $formData = $this->getRequest()->request->get('createProject', null);
+
+        // Create or load brand entity dynamically, after step change
+        if (!empty($formData['brand']))
+        {
+            $brandEntity = $this->entityManager->getRepository('LittleBigJoeCoreBundle:Brand')->findOneBy(array(
+                'name' => $formData['brand'],
+            ));
+
+            if (!($brandEntity instanceof Brand))
+            {
+                $brandEntity = new Brand();
+                $brandEntity->setName(ucwords($formData['brand']));
+
+                $this->entityManager->persist($brandEntity);
+                $this->entityManager->flush();
+            }
+
+            $formData['brand'] = $brandEntity;
+            $this->getRequest()->request->set('createProject', $formData);
+        }
 
         // Create or load product type entity dynamically, after step change
         if (!empty($formData['productType']))
