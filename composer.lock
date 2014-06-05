@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "1549f59ab257d18297047c976d635856",
+    "hash": "f66b7d77bc4aaa6ae2e495b9dcbc0ce9",
     "packages": [
         {
             "name": "a2lix/translation-form-bundle",
@@ -102,58 +103,51 @@
             "time": "2013-09-23 07:20:29"
         },
         {
-            "name": "avocode/form-extensions-bundle",
-            "version": "dev-master",
-            "target-dir": "Avocode/FormExtensionsBundle",
+            "name": "avalanche123/imagine-bundle",
+            "version": "v2.1",
+            "target-dir": "Avalanche/Bundle/ImagineBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/avocode/FormExtensions.git",
-                "reference": "06bc81d4618f89a5c800b659f4764a5e51154695"
+                "url": "https://github.com/avalanche123/AvalancheImagineBundle.git",
+                "reference": "59a2735d409596ccfbb0bd652954821bacd80066"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avocode/FormExtensions/zipball/06bc81d4618f89a5c800b659f4764a5e51154695",
-                "reference": "06bc81d4618f89a5c800b659f4764a5e51154695",
+                "url": "https://api.github.com/repos/avalanche123/AvalancheImagineBundle/zipball/59a2735d409596ccfbb0bd652954821bacd80066",
+                "reference": "59a2735d409596ccfbb0bd652954821bacd80066",
                 "shasum": ""
             },
             "require": {
-                "afarkas/html5shiv": "~3.7",
-                "components/bootstrap": ">= 2.3.1",
-                "components/font-awesome": ">= 3.2.0",
-                "components/jquery": ">= 1.9.0, < 2.0.0",
-                "components/jqueryui": ">= 1.9.0",
-                "robloach/component-installer": ">= 0.0.11",
-                "symfony/symfony": ">= 2.2.0",
-                "twig/extensions": "1.0.*",
-                "twig/twig": ">= 1.9.0"
+                "imagine/imagine": "v0.3.0",
+                "symfony/framework-bundle": "2.*"
             },
             "suggest": {
-                "cedriclombardot/admingenerator-generator-bundle": "The missing symfony2 admin generator",
-                "liip/imagine-bundle": "Apply filters on preview images"
+                "symfony/twig-bundle": "2.*"
             },
             "type": "symfony-bundle",
             "autoload": {
                 "psr-0": {
-                    "Avocode\\FormExtensionsBundle": ""
+                    "Avalanche\\Bundle\\ImagineBundle": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT and Apache-2.0"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Piotr Gołębiewski",
-                    "email": "loostro@gmail.com",
-                    "role": "Symfony2 bundle author"
-                },
-                {
-                    "name": "Symfony community",
-                    "homepage": "https://github.com/avocode/FormExtensions/graphs/contributors"
+                    "name": "Bulat Shakirzyanov",
+                    "email": "mallluhuct@gmail.com",
+                    "homepage": "http://avalanche123.com"
                 }
             ],
-            "description": "Add additional form types to symfony2",
-            "time": "2014-02-18 17:36:33"
+            "description": "Image manipulation using Imagine and Twig Filters.",
+            "homepage": "https://github.com/avalanche123/AvalancheImagineBundle",
+            "keywords": [
+                "image manipulation",
+                "imagine"
+            ],
+            "time": "2012-11-15 18:54:56"
         },
         {
             "name": "components/bootstrap",
@@ -1746,6 +1740,53 @@
                 "yandex"
             ],
             "time": "2014-01-17 17:22:09"
+        },
+        {
+            "name": "imagine/imagine",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalanche123/Imagine.git",
+                "reference": "90206e28755357b06ff95c0f487cc3f647d46d61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/90206e28755357b06ff95c0f487cc3f647d46d61",
+                "reference": "90206e28755357b06ff95c0f487cc3f647d46d61",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "sami/sami": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Imagine": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bulat Shakirzyanov",
+                    "email": "mallluhuct@gmail.com",
+                    "homepage": "http://avalanche123.com"
+                }
+            ],
+            "description": "Image processing for PHP 5.3",
+            "homepage": "http://imagine.readthedocs.org/",
+            "keywords": [
+                "drawing",
+                "graphics",
+                "image manipulation",
+                "image processing"
+            ],
+            "time": "2012-07-29 00:35:18"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -3344,8 +3385,7 @@
         "jms/i18n-routing-bundle": 20,
         "ensepar/html2pdf-bundle": 20,
         "knplabs/knp-time-bundle": 20,
-        "guzzle/guzzle": 20,
-        "avocode/form-extensions-bundle": 20
+        "guzzle/guzzle": 20
     },
     "platform": {
         "php": ">=5.3.3"
