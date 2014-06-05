@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Brand
 {
+
     /**
      * @var integer
      *
