@@ -154,7 +154,7 @@ class User extends BaseUser
      *    maxMessage = "Your city can't exceed {{ limit }} characters"
      * )
      * @Assert\Regex(
-     *        pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -]*$/",
+     *        pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -,]*$/",
      *    message = "Your city must only contains letters, spaces, or dashes"
      * )
      */
