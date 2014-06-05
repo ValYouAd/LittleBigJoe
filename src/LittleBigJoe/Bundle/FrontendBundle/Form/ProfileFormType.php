@@ -24,7 +24,7 @@ class ProfileFormType extends BaseType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
+        //parent::buildForm($builder, $options);
 
         $lang = $this->container->get('request')->getLocale();
         if (empty($lang))
@@ -41,6 +41,9 @@ class ProfileFormType extends BaseType
         $builder
             ->remove('username')
             ->remove('username_canonical')
+            ->add('email', 'email', array(
+                'label' => 'Email'
+            ))
             ->add('firstname', 'text', array(
                 'label' => 'Firstname'
             ))
