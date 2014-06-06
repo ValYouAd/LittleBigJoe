@@ -2,7 +2,11 @@
 
     <div class="img-container">
         <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': brand.slug}) }}">
-        <img class="pres-thumbnail" src="{{ asset(brand.logo) }}" style="width:255px; height:255px" alt="alt-LBJ - project image" />
+            {% if brand.logo %}
+                <img class="pres-thumbnail" src="{{ asset(brand.logo)|apply_filter('255x255') }}" alt="{{ brand.name }}" />
+            {% else %}
+                {{ brand.name }}
+            {% endif %}
         </a>
     </div>
 
@@ -14,13 +18,13 @@
 
         <div class="social-links">
             {% if brand.facebookUrl %}
-                <a href="{{ brand.facebookUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="alt-LBJ - social" /></a>
+                <a href="{{ brand.facebookUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="Facebook {{ brand.name }}" /></a>
             {% endif %}
             {% if brand.twitterUrl %}
-                <a href="{{ brand.twitterUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>
+                <a href="{{ brand.twitterUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="Twitter {{ brand.name }}" /></a>
             {% endif %}
             {% if brand.googleUrl %}
-                <a href="{{ brand.googleUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="alt-LBJ - social" /></a>
+                <a href="{{ brand.googleUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="Google {{ brand.name }}" /></a>
             {% endif %}
         </div>
     </div>
