@@ -48,9 +48,6 @@ class CreateProjectFormType extends AbstractType
                     ->add('name', 'text', array(
                         'label' => 'Name'
                     ))
-                    ->add('slug', 'text', array(
-                        'label' => 'Slug'
-                    ))
                     ->add('photo', 'file', array(
                             'label' => 'Logo',
                             'attr' => array(

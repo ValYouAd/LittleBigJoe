@@ -40,9 +40,6 @@ class EditProjectFormType extends AbstractType
         {
             // Step 1 : Edit my project
             case 1: $builder
-                ->add('slug', 'text', array(
-                    'label' => 'Slug'
-                ))
                 ->add('photo', 'file', array(
                     'label' => 'Logo',
                     'attr' => array(

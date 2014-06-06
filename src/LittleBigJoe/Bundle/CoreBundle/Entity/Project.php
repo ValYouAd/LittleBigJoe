@@ -58,13 +58,7 @@ class Project
      * @var string
      *
      * @ORM\Column(name="slug", type="string", length=255)
-     *
-     * @Assert\NotBlank(message = "You must enter your project slug", groups = {"Default", "flow_createProject_step1"})
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ0-9a-zA-Z\-]*$/i",
-     *    message = "Your project slug must only contains letters, or dashes",
-     *    groups = {"Default", "flow_createProject_step1"}
-     * )
+     * @Gedmo\Slug(fields={"name"})
      */
     protected $slug;
 
