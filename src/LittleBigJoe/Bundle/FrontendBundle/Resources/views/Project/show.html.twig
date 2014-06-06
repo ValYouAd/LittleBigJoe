@@ -121,7 +121,7 @@
 
         $(document).ready(function () {
             {% if showLikePopup == 'true' %}
-                $('#helpProject').modal({'backdrop': false});
+                $('#helpProject').modal();
                 $('#helpProject').on('hidden.bs.modal', function (e) {
                     $.post("{{ path('littlebigjoe_frontendbundle_ajax_like_project') }}", { 'projectId' : currentProjectId })
                             .done(function(data) {
@@ -149,7 +149,7 @@
             {% endif %}
 
             {% if showFundingPopup == 'true' %}
-                $('#helpProject').modal({'backdrop': false});
+                $('#helpProject').modal();
                 $('#helpProject').on('hidden.bs.modal', function (e) {
                     $('#fundingForm').submit();
                 });
@@ -256,7 +256,7 @@
 
             // Show report form
             $('#reportProjectButton').click(function(e) {
-                $('#reportProject').modal({'backdrop': false});
+                $('#reportProject').modal();
             });
 
             // Report project request
@@ -309,7 +309,7 @@
                     }
                     else if (data.status == 'KO VOTE')
                     {
-                        $('#helpProject').modal({'backdrop': false});
+                        $('#helpProject').modal();
                         $('#helpProject').on('hidden.bs.modal', function (e) {
                             alert("{{ 'You already have liked this project !'|trans() }}");
                         });
@@ -328,7 +328,7 @@
                 .done(function(data) {
                     if (data.status == 'OK')
                     {
-                        $('#helpProject').modal({'backdrop': false});
+                        $('#helpProject').modal();
                         $('#helpProject').on('hidden.bs.modal', function (e) {
                             $('#fundingForm').submit();
                         });
@@ -447,7 +447,7 @@
 
             // Decline product form
             $('#showDeclineForm').click(function (e) {
-                $('#declineProduct').modal({'backdrop': false});
+                $('#declineProduct').modal();
                 $('#saveDeclineProduct').click(function(e){
                     $('#declineForm').submit();
                 })
