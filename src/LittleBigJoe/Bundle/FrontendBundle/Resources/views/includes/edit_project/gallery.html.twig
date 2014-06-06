@@ -104,6 +104,7 @@
                     $('#gallery').append('<div id="image_' + data.id + '" style="float:left; width:30%"><img src="' + data.image + '" width="100" /><input type="checkbox" class="mediaId" name="editProject[images][]" id="editProject_images_' + data.id + '" value="' + data.id + '" checked="checked" /><input type="hidden" class="mediaType" name="editProject_image_' + data.id + '_type" id="editProject_image_' + data.id + '_type" value="image" /><div class="clearfix"></div><p><span class="highlightGalleryItem">' + ((data.highlighted == true) ? '<i class="fa fa-star"></i>' : '<i class="fa fa-star-o"></i>') + '</span><span class="deleteGalleryItem"><i class="fa fa-trash-o"></i></span></p></div>');
                     nbItems++;
                     $(".nbGalleryElements").text(nbItems);
+                    $('div.noData').hide();
                 }
                 else if (data.status == 'KO USER')
                 {
@@ -139,6 +140,7 @@
                             $('#gallery').append('<div id="video_' + data.id + '" style="float:left; width:30%"><img src="' + data.image + '" width="100" /><input type="checkbox" checked="checked" class="mediaId" name="editProject[videos][]" id="editProject_videos_' + data.id + '" value="' + data.id + '" /><input class="mediaType" name="editProject_video_' + data.id + '_type" id="editProject_video_' + data.id + '_type" value="video" /><div class="clearfix"></div><p><span class="highlightGalleryItem">' + ((data.highlighted == true) ? '<i class="fa fa-star"></i>' : '<i class="fa fa-star-o"></i>') + '</span><span class="deleteGalleryItem"><i class="fa fa-trash-o"></i></span></p></div>');
                             nbItems++;
                             $(".nbGalleryElements").text(nbItems);
+                            $('div.noData').hide();
                         }
                         else
                         {
