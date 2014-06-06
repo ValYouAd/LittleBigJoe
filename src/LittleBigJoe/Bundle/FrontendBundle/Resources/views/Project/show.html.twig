@@ -50,61 +50,63 @@
             {% include "LittleBigJoeFrontendBundle:includes:aside/side-project-infos.html.twig" with side_menu_vars %}
         </div>
 
-        <div class="modal fade" id="helpProject" tabindex="-1" role="dialog" aria-labelledby="helpProjectLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="helpProjectLabel">{{ 'Help us to realize this project'|trans() }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        {{ form(help_project_form) }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Cancel'|trans() }}</button>
-                        <button type="button" id="saveHelpProject" class="btn btn-primary">{{ 'Save'|trans() }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="reportProject" tabindex="-1" role="dialog" aria-labelledby="reportProjectLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="reportProjectLabel">{{ 'Report this project'|trans() }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        {{ form(report_form, {attr:{id:'reportForm', role:'form'}}) }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Cancel'|trans() }}</button>
-                        <button type="button" id="saveReportProject" class="btn btn-primary">{{ 'Report'|trans() }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="declineProduct" tabindex="-1" role="dialog" aria-labelledby="declineProductLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="declineProductLabel">{{ 'Decline the product'|trans() }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        {{ form(decline_form, {attr:{id:'declineForm', role:'form'}}) }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Previous'|trans() }}</button>
-                        <button type="button" id="saveDeclineProduct" class="btn btn-primary">{{ 'Submit'|trans() }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </section>
+{% endblock %}
+
+{% block modal %}
+    <div class="modal fade" id="helpProject" tabindex="-1" role="dialog" aria-labelledby="helpProjectLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="helpProjectLabel">{{ 'Help us to realize this project'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form(help_project_form) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Cancel'|trans() }}</button>
+                    <button type="button" id="saveHelpProject" class="btn btn-primary">{{ 'Save'|trans() }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reportProject" tabindex="-1" role="dialog" aria-labelledby="reportProjectLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="reportProjectLabel">{{ 'Report this project'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form(report_form, {attr:{id:'reportForm', role:'form'}}) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Cancel'|trans() }}</button>
+                    <button type="button" id="saveReportProject" class="btn btn-primary">{{ 'Report'|trans() }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="declineProduct" tabindex="-1" role="dialog" aria-labelledby="declineProductLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="declineProductLabel">{{ 'Decline the product'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form(decline_form, {attr:{id:'declineForm', role:'form'}}) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Previous'|trans() }}</button>
+                    <button type="button" id="saveDeclineProduct" class="btn btn-primary">{{ 'Submit'|trans() }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block footer_javascripts %}
@@ -294,7 +296,7 @@
                 .done(function(data) {
                     if (data.status == 'OK')
                     {
-                        $('#helpProject').modal({'backdrop': false});
+                        $('#helpProject').modal({'backdrop': true});
                         $('#helpProject').on('hidden.bs.modal', function (e) {
                             alert("{{ 'Thanks for liking the project !'|trans() }}");
                             var likes = parseInt($('.likes_count').text()) + 1;
