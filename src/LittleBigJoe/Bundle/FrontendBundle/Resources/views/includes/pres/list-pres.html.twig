@@ -3,7 +3,7 @@
     <div class="img-container">
 
         {% if project.photo %}
-            <img src="{{ asset(project.photo)|apply_filter('239x239') }}" width="239" height="239">
+            <img src="{{ asset(project.photo)|apply_filter('239x239') }}" width="239">
         {% else %}
             <img class="pres-thumbnail" src="{{ asset('static/img/cc-logo-square.png') }}" alt="alt-LBJ - project image" />
         {% endif %}
