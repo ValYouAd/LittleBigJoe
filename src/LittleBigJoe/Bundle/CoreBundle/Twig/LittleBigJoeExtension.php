@@ -32,17 +32,18 @@ class LittleBigJoeExtension extends \Twig_Extension
     {
         $nowDate = new \DateTime();
         $interval = $endingDate->diff($nowDate);
+        $translator = $this->container->get('translator');
 
         if ($interval->y >= 1)
-        	return $interval->format('%y y');
+        	return $translator->trans('%years% year(s)', array('%years%' => $interval->format('%y')));
         else if ($interval->m >= 1)
-        	return $interval->format('%m m');
+            return $translator->trans('%months% month(s)', array('%months%' => $interval->format('%m')));
         else if ($interval->days >= 1)
-            return $interval->format('%d d');
+            return $translator->trans('%days% day(s)', array('%days%' => $interval->format('%d')));
         else if ($interval->days == 0 && $interval->h >= 1)
-            return $interval->format('%h h');
+            return $translator->trans('%hours% hour(s)', array('%hours%' => $interval->format('%h')));
         else
-            return $interval->format('%i min');
+            return $translator->trans('%minutes% minutes(s)', array('%minutes%' => $interval->format('%i')));
     }
 
     /** 
