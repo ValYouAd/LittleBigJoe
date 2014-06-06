@@ -35,15 +35,15 @@ class LittleBigJoeExtension extends \Twig_Extension
         $translator = $this->container->get('translator');
 
         if ($interval->y >= 1)
-        	return $translator->trans('%years% year(s)', array('%years%' => $interval->format('%y')));
+        	return $translator->transchoice('%years% year|%years% years', $interval->format('%y'), array('%years%' => $interval->format('%y')));
         else if ($interval->m >= 1)
-            return $translator->trans('%months% month(s)', array('%months%' => $interval->format('%m')));
+            return $translator->transchoice('%months% month|%months% months', $interval->format('%m'), array('%months%' => $interval->format('%m')));
         else if ($interval->days >= 1)
-            return $translator->trans('%days% day(s)', array('%days%' => $interval->format('%d')));
+            return $translator->transchoice('%days% day|%days% days', $interval->format('%d'), array('%days%' => $interval->format('%d')));
         else if ($interval->days == 0 && $interval->h >= 1)
-            return $translator->trans('%hours% hour(s)', array('%hours%' => $interval->format('%h')));
+            return $translator->transchoice('%hours% hour|%hours% hours', $interval->format('%h'), array('%hours%' => $interval->format('%h')));
         else
-            return $translator->trans('%minutes% minutes(s)', array('%minutes%' => $interval->format('%i')));
+            return $translator->transchoice('%minutes% minutes|%minutes% minutes', $interval->format('%i'), array('%minutes%' => $interval->format('%i')));
     }
 
     /** 
