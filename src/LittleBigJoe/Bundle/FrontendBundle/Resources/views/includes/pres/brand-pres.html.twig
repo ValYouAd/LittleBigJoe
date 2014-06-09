@@ -5,7 +5,7 @@
             {% if brand.logo %}
                 <img class="pres-thumbnail" src="{{ asset(brand.logo)|apply_filter('255x255') }}" alt="{{ brand.name }}" />
             {% else %}
-                {{ brand.name }}
+		<img class="pres-thumbnail" src="{{ asset('static/img/mascot.png')|apply_filter('255x255') }}" alt="{{ brand.name }}" />
             {% endif %}
         </a>
     </div>

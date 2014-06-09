@@ -248,7 +248,7 @@ avalanche_imagine:
             options: { size: [690, 500], mode: inset, quality: 95, format: jpeg }
         690x460:
             type:    thumbnail
-            options: { size: [690, 460], mode: inset, quality: 95, format: jpeg }
+	    options: { size: [690, 460], mode: inset, quality: 95, format: png }
         581x581:
             type:    thumbnail
             options: { size: [581, 581], mode: inset, quality: 95, format: jpeg }
@@ -263,7 +263,7 @@ avalanche_imagine:
             options: { size: [260, 174], mode: outbound, quality: 95, format: jpeg }
         255x255:
             type:    thumbnail
-            options: { size: [255, 255], mode: inset, quality: 95, format: jpeg }
+	    options: { size: [255, 255], mode: inset, quality: 95, format: png }
         230x268:
             type:    thumbnail
             options: { size: [230, 268], mode: inset, quality: 95, format: jpeg }
