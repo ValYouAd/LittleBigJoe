@@ -30,7 +30,7 @@
                     {% if app.session.get('tmpUploadedFileRelativePath') %}
                         <img class="inner-thumbnail" src="{{ asset(app.session.get('tmpUploadedFileRelativePath') ~ app.session.get('tmpUploadedFile'))|apply_filter('690x690') }}" width="92" height="92">
                     {% else %}
-                        <img class="inner-thumbnail" src="http://placehold.it/690x690" alt="alt-LBJ - project thumbnail" />
+                        <img class="inner-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x690') }}" width="92" height="92" alt="alt-LBJ - project thumbnail" />
                     {% endif %}
 
                     <h1>{{ 'Launch my' }} <span class="grand-hotel">{{ 'project'|trans() }}</span></h1>

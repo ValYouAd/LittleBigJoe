@@ -26,7 +26,7 @@
                         {% if popularProjects.0.photo %}
                             <img src="{{ asset(popularProjects.0.photo)|apply_filter('534x329') }}" alt="{{ popularProjects.0.name }}">
                         {% else %}
-                            <img class="top-thumbnail" src="http://placehold.it/722x445" alt="{{ popularProjects.0.name }}" />
+                            <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('534x329')  }}" alt="{{ popularProjects.0.name }}"/>
                         {% endif %}
                     </div>
 
@@ -70,7 +70,7 @@
                             {% if popularProject.photo %}
                                 <img class="top-thumbnail" src="{{ asset(popularProject.photo)|apply_filter('346x215') }}" alt="{{ popularProject.name }}" />
                             {% else %}
-                                <img class="top-thumbnail" src="http://placehold.it/346x215" alt="{{ popularProject.name }}" />
+                                <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('346x215') }}" alt="{{ popularProject.name }}" />
                             {% endif %}
                             </a>
                         </div>
