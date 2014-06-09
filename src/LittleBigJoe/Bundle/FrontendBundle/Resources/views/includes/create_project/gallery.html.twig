@@ -37,48 +37,6 @@
 </div>
 <div class="clearfix">&nbsp;</div>
 
-<div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Media gallery'|trans() }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{ 'Media gallery'|trans() }} - <span class="nbGalleryElements">{{ projectMedias|length() }}</span> {{ 'element(s)'|trans() }}</h4>
-            </div>
-            <div class="modal-body">
-                <div style="width:50%;float:left">
-                    <h5>{{ 'Images'|trans() }}</h5>
-                    <input type="file" class="btn btn-info btn-xs" id="selectGalleryImages" name="selectGalleryImages" style="padding:0;font-size:10px" value="{{ 'Add images'|trans() }}" multiple />
-                </div>
-                <div style="width:50%;float:left">
-                    <h5>{{ 'Videos'|trans() }}</h5>
-                    <p>{{ 'Paste your Youtube/Dailymotion/Vimeo video url'|trans() }}</p>
-                    <p>
-                        <input type="text" id="videoUrl" name="videoUrl" value="" size="15" />
-                        <span id="getVideoBtn" class="btn btn-info btn-xs" style="padding:0;font-size:10px">{{ 'Get the video'|trans() }}</span>
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="double-separator"></div>
-                <div id="gallery_container">
-                    <h5>{{ 'Your project medias'|trans() }}</h5>
-                    <div id="gallery">
-                        {% if projectMedias %}
-                            {% for projectMedia in projectMedias %}
-                                {% include "LittleBigJoeFrontendBundle:includes:create_project/gallery_item.html.twig" with {'projectMedia': projectMedia} %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-
 <script type="text/javascript">
     $(document).ready(function(){
         var nbItems = {{ projectMedias|length() }};

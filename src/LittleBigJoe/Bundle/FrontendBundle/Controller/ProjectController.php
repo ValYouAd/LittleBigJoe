@@ -560,6 +560,7 @@ class ProjectController extends Controller
 					// Delete session data
 		            $this->getRequest()->getSession()->remove('tmpUploadedFile');
 		            $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
+                    $this->getRequest()->getSession()->remove('tmpUploadedFileRelativePath');
 
 		            // Reset flow data
 		            $flow->reset();
@@ -785,6 +786,7 @@ class ProjectController extends Controller
             }
 
             return $this->render('LittleBigJoeFrontendBundle:Project:edit.html.twig', array(
+                'project' => $project,
                 'form' => $form->createView(),
                 'flow' => $flow,
                 'projectMedias' => $projectMedias
