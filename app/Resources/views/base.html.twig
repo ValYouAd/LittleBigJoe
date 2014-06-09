@@ -109,6 +109,16 @@
                     }
 
                     getNotifications();
+
+                    // Like request
+                    $('.heartIt').click(function (e) {
+                        var heartItContainer = $(this);
+
+                        $.post("{{ path('littlebigjoe_frontendbundle_ajax_like_project') }}", { 'projectId' : $(this).attr('rel') })
+                        .done(function(data) {
+                            $(heartItContainer).attr('src', "{{ asset('static/img/icons/icon-heart-blue.png') }}");
+                        });
+                    });
                 });
             </script>
 	    <script>

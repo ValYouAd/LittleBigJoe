@@ -84,7 +84,12 @@
         {% else %}
             <div class="stats-followed mos-bottom">
                 <div class="center">
-                    <img class="icon" src="{{ asset('static/img/icons/icon-heart.png') }}" alt="alt-LBJ - likes" />
+                    {% for like in app.user.likes if like.project.id == project.id %}
+                        <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart-blue.png') }}" alt="alt-LBJ - likes" />
+                    {% else %}
+                        <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart.png') }}" alt="alt-LBJ - likes" />
+                    {% endfor %}
+
                     <div class="likes-label">
                         <div class="nb-likes">{{ project.likesCount }}</div>
                         <div class="likes">{{ 'likes'|trans() }}</div>
@@ -96,3 +101,4 @@
     </div>
 
 </div>
+
