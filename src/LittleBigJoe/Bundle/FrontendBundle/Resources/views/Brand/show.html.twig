@@ -12,7 +12,7 @@
 {% block body %}
     <section>
         <article class="wContent wMosaic">
-            <div class="white-container">
+            <div class="white-container wBrandInfo">
 
                 <div class="wContent-id-title">
                     <h1>{{ entity.name }}</h1>
@@ -22,7 +22,11 @@
                         {#<a href="#"><img class="icon" src="static/img/icons/icon-social-pinterest.png" alt="alt-LBJ - social" /></a>#}
                         {% if entity.googleUrl %}<a href="{{ entity.googleUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
                     </div>
-                    {% if entity.websiteUrl %}<a class="brand-website" href="{{ entity.websiteUrl }}" target="_blank">{{ entity.websiteUrl }}</a>{% endif %}
+                    {% if entity.websiteUrl %}
+                        <a class="brand-website" href="{{ entity.websiteUrl }}" target="_blank">{{ entity.websiteUrl }}</a>
+                    {% else %}
+                        <div class="clearfix">&nbsp;</div>
+                    {% endif %}
 
                     {% set status = 'follow' %}
                     {% if is_granted('ROLE_USER') %}
@@ -40,7 +44,7 @@
                     {% if entity.logo %}
                         <img src="{{ asset(entity.logo) }}" width="243" height="243">
                     {% else %}
-                        <img src="{{ asset('static/img/cc-logo-square.png') }}" alt="alt-LBJ - brand" />
+                        <img src="http://placehold.it/243x243" alt="alt-LBJ - brand" />
                     {% endif %}
                 </div>
 

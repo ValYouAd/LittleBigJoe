@@ -83,7 +83,7 @@
     {% if entity.user.photo %}
         <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="{{ asset(entity.user.photo)|apply_filter('230x268') }}" width="82" height="95" /></a>
     {% else %}
-        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="http://placehold.it/230x268" alt="alt-LBJ - author" /></a>
+        <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}"><img class="author-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('230x268') }}" alt="alt-LBJ - author" /></a>
     {% endif %}
 
     <ul class="author-infos">
@@ -127,7 +127,7 @@
         {% if entity.brand.logo %}
             <img class="brand-thumbnail" src="{{ asset(entity.brand.logo)|apply_filter('230x268') }}" width="80" height="93" />
         {% else %}
-            <img class="brand-thumbnail" src="http://placehold.it/230x268" alt="alt-LBJ - author" />
+            <img class="brand-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('230x268') }}" alt="alt-LBJ - author" />
         {% endif %}
     </div>
 

@@ -460,6 +460,10 @@ class ProjectController extends Controller
 		        else 
 		        {
                     // Remap entities
+                    $brand = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($project->getBrand()->getId());
+                    $project->setBrand($brand);
+                    $brand->addProject($project);
+
                     $productType = $em->getRepository('LittleBigJoeCoreBundle:ProductType')->find($project->getProductType()->getId());
                     $project->setProductType($productType);
                     $productType->addProject($project);
@@ -556,6 +560,7 @@ class ProjectController extends Controller
 					// Delete session data
 		            $this->getRequest()->getSession()->remove('tmpUploadedFile');
 		            $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
+                    $this->getRequest()->getSession()->remove('tmpUploadedFileRelativePath');
 
 		            // Reset flow data
 		            $flow->reset();
@@ -781,6 +786,7 @@ class ProjectController extends Controller
             }
 
             return $this->render('LittleBigJoeFrontendBundle:Project:edit.html.twig', array(
+                'project' => $project,
                 'form' => $form->createView(),
                 'flow' => $flow,
                 'projectMedias' => $projectMedias
@@ -1366,7 +1372,7 @@ class ProjectController extends Controller
                 {
                     $email = \Swift_Message::newInstance()
                         ->setContentType('text/html')
-                        ->setSubject($this->container->get('translator')->trans($currentUser.' has declined the product '.$project->getProduct()))
+                        ->setSubject($this->container->get('translator')->trans('%currentUser% has declined the product %product%', array('%currentUser%' => $currentUser, '%product%' => $project->getProduct())))
                         ->setFrom($this->container->getParameter('default_email_address'))
                         ->setTo(array($brandAdmin->getEmail() => $brandAdmin))
                         ->setBody(

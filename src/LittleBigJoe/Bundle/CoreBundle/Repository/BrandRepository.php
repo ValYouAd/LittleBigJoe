@@ -101,4 +101,24 @@ class BrandRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Return brand similar to the serach
+     *
+     * @param string $term : Term to search in db
+     * @param string $locale : Term language
+     * @return array
+     */
+    public function findEquivalents($term)
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('b.name')
+            ->andWhere('LOWER(b.name) LIKE :name')
+            ->setParameters(array(
+                'name' => '%'.$term.'%'
+            ));
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

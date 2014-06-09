@@ -30,7 +30,13 @@
                     {% if is_granted('ROLE_USER') %}
                         <li class="dropdown login">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <div class="user-login-img-container"><img class="user-login-img" src="{{ asset('static/img/mascot.png') }}" alt="alt-LBJ - user-pic" /></div>
+                                <div class="user-login-img-container">
+                                    {% if app.user.photo %}
+                                        <img class="user-login-img" src="{{ asset(app.user.photo) }}" alt="alt-LBJ - user-pic" />
+                                    {% else %}
+                                        <img class="user-login-img" src="{{ asset('static/img/mascot.png') }}" alt="alt-LBJ - user-pic" />
+                                    {% endif %}
+                                </div>
                                 <div class="username">
                                     <span>{{ app.user }} </span>
                                     (<span id="unread_notifications"></span>)

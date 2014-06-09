@@ -148,17 +148,26 @@ class Builder extends ContainerAware
 
         // Add categories
         if (!empty($categories)) {
+            // Default
+            $size = 1;
+            if (sizeof($categories) > 3)
+            {
+                $size = ceil(sizeof($categories)/3);
+            }
 
-            $categories = array_chunk((array)$categories, sizeof($categories)/3, true);
+            $categories = array_chunk((array)$categories, $size, true);
 
-            foreach ($categories as $key => $items) {
-                $subMenu[$key] = $menu->addChild($key);
+            if (is_array($categories))
+            {
+                foreach ($categories as $key => $items) {
+                    $subMenu[$key] = $menu->addChild($key);
 
-                foreach ($items as $key_category => $category) {
-                    $subMenu{$key}->addChild($category->getName(), array(
-                        'route' => 'littlebigjoe_frontendbundle_category_show',
-                        'routeParameters' => array('slug' => $category->getSlug())
-                    ));
+                    foreach ($items as $key_category => $category) {
+                        $subMenu{$key}->addChild($category->getName(), array(
+                            'route' => 'littlebigjoe_frontendbundle_category_show',
+                            'routeParameters' => array('slug' => $category->getSlug())
+                        ));
+                    }
                 }
             }
         }

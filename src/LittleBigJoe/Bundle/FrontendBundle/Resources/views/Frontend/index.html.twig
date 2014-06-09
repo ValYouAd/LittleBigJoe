@@ -24,9 +24,9 @@
                 <div class="top-main-project">
                     <div class="top-thumbnail-cont">
                         {% if popularProjects.0.photo %}
-                            <img src="{{ asset(popularProjects.0.photo)|apply_filter('722x445') }}" width="534" height="329">
+                            <img src="{{ asset(popularProjects.0.photo)|apply_filter('534x329') }}" alt="{{ popularProjects.0.name }}">
                         {% else %}
-                            <img class="top-thumbnail" src="http://placehold.it/722x445" alt="alt-LBJ" />
+                            <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('534x329')  }}" alt="{{ popularProjects.0.name }}"/>
                         {% endif %}
                     </div>
 
@@ -38,7 +38,7 @@
                         <p>{{ popularProjects.0.pitch }}</p>
 
                         <div class="status-bar-container">
-                            <img src="{{ asset('static/img/bg/progress-bar.jpg') }}" alt="alt-LBJ - status bar" />
+                            <img src="{{ asset('static/img/bg/progress-bar.jpg') }}" alt="progess bar" />
                             {% if popularProjects.0.status == '1' %}
                                 {% if popularProjects.0.likesCount == 0 %}
                                     {% set project_status = 0 %}
@@ -68,9 +68,9 @@
                         <div class="top-secondary-project">
                             <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProject.id, 'slug': popularProject.slug}) }}">
                             {% if popularProject.photo %}
-                                <img class="top-thumbnail" src="{{ asset(popularProject.photo) }}|apply_filter('346x215')" width="346" height="215" alt="alt-LBJ" />
+                                <img class="top-thumbnail" src="{{ asset(popularProject.photo)|apply_filter('346x215') }}" alt="{{ popularProject.name }}" />
                             {% else %}
-                                <img class="top-thumbnail" src="http://placehold.it/346x215" alt="alt-LBJ" />
+                                <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('346x215') }}" alt="{{ popularProject.name }}" />
                             {% endif %}
                             </a>
                         </div>

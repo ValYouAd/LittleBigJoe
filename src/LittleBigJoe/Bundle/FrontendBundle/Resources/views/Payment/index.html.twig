@@ -16,7 +16,7 @@
             <div class="white-container">
 
                 <div class="inner-title">
-                    <img class="inner-thumbnail" src="http://placehold.it/690x690" alt="alt-LBJ - project thumbnail" />
+                    <img class="inner-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x690') }}" alt="alt-LBJ - project thumbnail" />
                     <h1>{{ project.name }}</h1>
                     <div class="steps">{{ 'by'|trans() }} <strong>{{ project.user }}</strong></div>
                 </div>

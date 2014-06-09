@@ -17,7 +17,8 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
-    session:         ~
+    session:
+        save_path: %kernel.root_dir%/var/sessions
     fragments:       ~
     http_method_override: true
     
@@ -104,6 +105,7 @@ stof_doctrine_extensions:
         default:
             uploadable: true
             translatable: true
+            sluggable: true
     mongodb: ~
     
 # A2lixTranslationFormBundle Configuration
@@ -170,6 +172,17 @@ jms_i18n_routing:
     locales: %locales%
     strategy: prefix_except_default
 
+# JMSTranslationBundle Configuration
+jms_translation:
+    configs:
+        app:
+            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
+            output_dir: %kernel.root_dir%/Resources/translations
+            ignored_domains: []
+            excluded_names: [*TestCase.php, *Test.php]
+            excluded_dirs: [cache, data, logs]
+            output_format: xliff
+
 # JMSTranslationBundle Configuration   
 services:
     twig.extension.intl:
@@ -220,34 +233,44 @@ avalanche_imagine:
     filters:
         780x495:
             type:    thumbnail
-            options: { size: [780, 495], mode: inset }
+            options: { size: [780, 495], mode: inset, quality: 100, format: jpeg }
         750x500:
             type:    thumbnail
-            options: { size: [750, 500], mode: inset }
+            options: { size: [750, 500], mode: inset, quality: 95, format: jpeg }
         722x445:
             type:    thumbnail
-            options: { size: [722, 445], mode: inset }
+            options: { size: [722, 445], mode: inset, quality: 95, format: jpeg }
         690x690:
             type:    thumbnail
-            options: { size: [690, 690], mode: inset }
+            options: { size: [690, 690], mode: inset, quality: 95, format: jpeg }
         690x500:
             type:    thumbnail
-            options: { size: [690, 500], mode: inset }
+            options: { size: [690, 500], mode: inset, quality: 95, format: jpeg }
         690x460:
             type:    thumbnail
-            options: { size: [690, 460], mode: inset }
+            options: { size: [690, 460], mode: inset, quality: 95, format: png }
         581x581:
             type:    thumbnail
-            options: { size: [581, 581], mode: inset }
+            options: { size: [581, 581], mode: inset, quality: 95, format: jpeg }
+        534x329:
+            type:    thumbnail
+            options: { size: [534, 329], mode: inset, quality: 95, format: jpeg }
         346x215:
             type:    thumbnail
-            options: { size: [346, 215], mode: inset }
+            options: { size: [346, 215], mode: inset, quality: 95, format: jpeg }
+        260x174:
+            type:    thumbnail
+            options: { size: [260, 174], mode: outbound, quality: 95, format: jpeg }
+        255x255:
+            type:    thumbnail
+            options: { size: [255, 255], mode: inset, quality: 95, format: png }
         230x268:
             type:    thumbnail
-            options: { size: [230, 268], mode: inset }
+            options: { size: [230, 268], mode: inset, quality: 95, format: jpeg }
         239x239:
             type:    thumbnail
-            options: { size: [239, 239], mode: inset }
+            options: { size: [239, 239], mode: inset, quality: 95, format: jpeg }
+
 
 # LittleBigJoeBundle Configuration
 little_big_joe_mango_pay: 

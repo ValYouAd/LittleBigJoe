@@ -20,6 +20,11 @@ class CreateProjectFormType extends AbstractType
     		{
                 $ckeditorLanguage = 'en';
     		}
+            $brand = $options['data']->getBrand();
+            if (empty($brand))
+            {
+                $brand = '';
+            }
             $productType = $options['data']->getProductType();
             if (empty($productType))
             {
@@ -43,9 +48,6 @@ class CreateProjectFormType extends AbstractType
                     ->add('name', 'text', array(
                         'label' => 'Name'
                     ))
-                    ->add('slug', 'text', array(
-                        'label' => 'Slug'
-                    ))
                     ->add('photo', 'file', array(
                             'label' => 'Logo',
                             'attr' => array(
@@ -55,10 +57,9 @@ class CreateProjectFormType extends AbstractType
                             'mapped' => true,
                             'required' => false
                     ))
-                    ->add('brand', 'entity', array(
+                    ->add('brand', 'text', array(
                         'label' => 'Associated brand',
-                        'class' => 'LittleBigJoeCoreBundle:Brand',
-                        'property' => 'name'
+                        'data' => $brand
                     ))
                     ->add('productType', 'text', array(
                         'label' => 'Product type',

@@ -37,54 +37,12 @@
 </div>
 <div class="clearfix">&nbsp;</div>
 
-<div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Media gallery'|trans() }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{ 'Media gallery'|trans() }} - <span class="nbGalleryElements">{{ projectMedias|length() }}</span> {{ 'element(s)'|trans() }}</h4>
-            </div>
-            <div class="modal-body">
-                <div style="width:50%;float:left">
-                    <h5>{{ 'Images'|trans() }}</h5>
-                    <input type="file" class="btn btn-info btn-xs" id="selectGalleryImages" name="selectGalleryImages" style="padding:0;font-size:10px" value="{{ 'Add images'|trans() }}" multiple />
-                </div>
-                <div style="width:50%;float:left">
-                    <h5>{{ 'Videos'|trans() }}</h5>
-                    <p>{{ 'Paste your Youtube/Dailymotion/Vimeo video url'|trans() }}</p>
-                    <p>
-                        <input type="text" id="videoUrl" name="videoUrl" value="" size="15" />
-                        <span id="getVideoBtn" class="btn btn-info btn-xs" style="padding:0;font-size:10px">{{ 'Get the video'|trans() }}</span>
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-
-                <div class="double-separator"></div>
-                <div id="gallery_container">
-                    <h5>{{ 'Your project medias'|trans() }}</h5>
-                    <div id="gallery">
-                        {% if projectMedias %}
-                            {% for projectMedia in projectMedias %}
-                                {% include "LittleBigJoeFrontendBundle:includes:create_project/gallery_item.html.twig" with {'projectMedia': projectMedia} %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-
 <script type="text/javascript">
     $(document).ready(function(){
         var nbItems = {{ projectMedias|length() }};
 
         $('#showGallery').click(function(){
-            $('#galleryModal').modal({'backdrop': false});
+            $('#galleryModal').modal();
         });
 
         // Add image
@@ -101,9 +59,10 @@
                 console.log(data);
                 if (data.status == 'OK')
                 {
-                    $('#gallery').append('<div id="image_' + data.id + '" style="float:left; width:30%"><img src="' + data.image + '" width="100" /><input type="checkbox" class="mediaId" name="createProject[images][]" id="createProject_images_' + data.id + '" value="' + data.id + '" checked="checked" /><input type="hidden" class="mediaType" name="createProject_image_' + data.id + '_type" id="createProject_image_' + data.id + '_type" value="image" /><div class="clearfix"></div><p><span class="highlightGalleryItem">' + ((data.highlighted == true) ? "{{ 'Highlighted'|trans() }}" : "{{ 'Highlight'|trans() }}") + '</span><span class="deleteGalleryItem">{{ 'Delete'|trans() }}</span></p></div>');
+                    $('#gallery').append('<div id="image_' + data.id + '" style="float:left; width:30%"><img src="' + data.image + '" width="100" /><input type="checkbox" class="mediaId" name="createProject[images][]" id="createProject_images_' + data.id + '" value="' + data.id + '" checked="checked" /><input type="hidden" class="mediaType" name="createProject_image_' + data.id + '_type" id="createProject_image_' + data.id + '_type" value="image" /><div class="clearfix"></div><p><span class="highlightGalleryItem">' + ((data.highlighted == true) ? '<i class="fa fa-star"></i>' : '<i class="fa fa-star-o"></i>') + '</span><span class="deleteGalleryItem"><i class="fa fa-trash-o"></i></span></p></div>');
                     nbItems++;
                     $(".nbGalleryElements").text(nbItems);
+                    $('div.noData').hide();
                 }
                 else if (data.status == 'KO USER')
                 {
@@ -136,9 +95,10 @@
                     .done(function(data) {
                         if (data.status == 'OK')
                         {
-                            $('#gallery').append('<div id="video_' + data.id + '" style="float:left; width:30%"><img src="' + data.image + '" width="100" /><input type="checkbox" checked="checked" class="mediaId" name="createProject[videos][]" id="createProject_videos_' + data.id + '" value="' + data.id + '" /><input class="mediaType" name="createProject_video_' + data.id + '_type" id="createProject_video_' + data.id + '_type" value="video" /><div class="clearfix"></div><p><span class="highlightGalleryItem">' + ((data.highlighted == true) ? "{{ 'Highlighted'|trans() }}" : "{{ 'Highlight'|trans() }}") + '</span><span class="deleteGalleryItem">{{ 'Delete'|trans() }}</span></p></div>');
+                            $('#gallery').append('<div id="video_' + data.id + '" style="float:left; width:30%"><img src="' + data.image + '" width="100" /><input type="checkbox" checked="checked" class="mediaId" name="createProject[videos][]" id="createProject_videos_' + data.id + '" value="' + data.id + '" /><input class="mediaType" name="createProject_video_' + data.id + '_type" id="createProject_video_' + data.id + '_type" value="video" /><div class="clearfix"></div><p><span class="highlightGalleryItem">' + ((data.highlighted == true) ? '<i class="fa fa-star"></i>' : '<i class="fa fa-star-o"></i>') + '</span><span class="deleteGalleryItem"><i class="fa fa-trash-o"></i></span></p></div>');
                             nbItems++;
                             $(".nbGalleryElements").text(nbItems);
+                            $('div.noData').hide();
                         }
                         else
                         {
@@ -157,15 +117,15 @@
                     .done(function(data) {
                         if (data.status == 'OK' && (mediaType == 'video' || mediaType == 'image'))
                         {
-                            $('#gallery .highlightGalleryItem').text("{{ 'Highlight'|trans() }}");
+                            $('#gallery .highlightGalleryItem').html('<i class="fa fa-star-o"></i>');
                             if (data.toHighlight == true)
                             {
-                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').text("{{ 'Highlighted'|trans() }}");
+                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').html('<i class="fa fa-star"></i>');
                                 $('#defaultMedia').html($('#' + mediaType + '_' + mediaId).html());
                             }
                             else
                             {
-                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').text("{{ 'Highlight'|trans() }}");
+                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').html('<i class="fa fa-star-o"></i>');
                                 $('#defaultMedia').empty();
                             }
                         }

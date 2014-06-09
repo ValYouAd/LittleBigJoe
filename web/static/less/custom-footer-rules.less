@@ -66,6 +66,22 @@
     ul{
         .make-xs-column(12, 0);
         .make-sm-column(4, 0);
+        width: 100% !important;
+    }
+
+    li{
+      display:inline-block;
+      width: 33%;
+      float:left;
+    }
+
+    li li{
+      display:inline;
+      width: 100%;
+    }
+
+    li span {
+       display:none;
     }
 }
 

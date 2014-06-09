@@ -340,6 +340,31 @@ class AjaxController extends Controller
     }
 
     /**
+     * Search brand
+     *
+     * @Route("/search-brand", name="littlebigjoe_frontendbundle_ajax_search_brand")
+     * @Method("GET")
+     * @Template()
+     */
+    public function searchBrandAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $brand = strtolower($this->get('request')->query->get('brand'));
+        $predictions = array();
+
+        $brands = $em->getRepository('LittleBigJoeCoreBundle:Brand')->findEquivalents($brand);
+        if (!empty($brands))
+        {
+            foreach ($brands as $brand)
+                array_push($predictions, array('value' => $brand['name']));
+        }
+
+        // Make sure no code is executed after it
+        return new JsonResponse($predictions);
+        exit;
+    }
+
+    /**
      * Search location
      *
      * @Route("/search-location", name="littlebigjoe_frontendbundle_ajax_search_location")

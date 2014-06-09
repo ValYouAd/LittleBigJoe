@@ -3,9 +3,28 @@
 <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="form-signin">
     <h1>{{ 'Edit profile'|trans() }}</h1>
 
-    {{ form_widget(form) }}
-
-    <div>
-        <button class="btn validate-style">{{ 'Update my profile'|trans }}</button>
+    <div class="row">
+        <section class="col-md-5">
+            {{ form_row(form.email) }}
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.lastname) }}
+            {{ form_row(form.birthday) }}
+            {{ form_row(form.city) }}
+            {{ form_row(form.country) }}
+            {{ form_row(form.defaultLanguage) }}
+            <div>
+                <button class="btn validate-style">{{ 'Update my profile'|trans }}</button>
+            </div>
+        </section>
+        <section class="col-md-2"></section>
+        <section class="col-md-5">
+            {{ form_row(form.facebookUrl) }}
+            {{ form_row(form.twitterUrl) }}
+            {{ form_row(form.googleUrl) }}
+            {{ form_row(form.websiteUrl) }}
+            {{ form_row(form.photo) }}
+            {{ form_row(form.bio) }}
+            {{ form_rest(form) }}
+        </section>
     </div>
 </form>

@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Brand
 {
+
     /**
      * @var integer
      *
@@ -51,12 +52,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="slug", type="string", length=255)
-     *
-     * @Assert\NotBlank(message = "You must enter your brand slug")
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z\-]*$/",
-     *    message = "Your brand slug must only contains letters, or dashes"
-     * )
+     * @Gedmo\Slug(fields={"name"})
      */
     protected $slug;
 
@@ -71,7 +67,7 @@ class Brand
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      *
      * @Assert\NotBlank(message = "You must enter the description")
      */
@@ -175,7 +171,7 @@ class Brand
     /**
      * @var integer
      *
-     * @ORM\Column(name="minimum_likes_required", type="integer")
+     * @ORM\Column(name="minimum_likes_required", type="integer", nullable=true)
      *
      * @Assert\NotBlank(message = "You must enter the minimum required likes count")
      * @Assert\Regex(
@@ -183,7 +179,7 @@ class Brand
      *    message = "Your minimum required likes count must only contains numbers"
      * )
      */
-    protected $minimumLikesRequired;
+    protected $minimumLikesRequired = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="Project", mappedBy="brand", cascade={"persist", "remove"})
