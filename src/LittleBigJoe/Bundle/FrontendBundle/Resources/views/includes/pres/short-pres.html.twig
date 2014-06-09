@@ -4,7 +4,7 @@
         {% if type == 'brand' and item.logo %}
 	    <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': item.slug}) }}"><img class="pres-thumbnail" src="{{ asset(item.logo)|apply_filter('690x460') }}" alt="{{ brand.name }}" /></a>
         {% else %}
-	    <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': item.slug}) }}"><img class="pres-thumbnail" src="{{ asset('static/img/mascot.png')|apply_filter('690x460') }}" alt="{{ brand.name }}" /></a>
+	    <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': item.slug}) }}"><img class="pres-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x460') }}" alt="{{ brand.name }}" /></a>
         {% endif %}
     </div>
 
