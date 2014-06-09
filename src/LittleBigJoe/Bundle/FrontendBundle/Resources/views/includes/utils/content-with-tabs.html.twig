@@ -1,6 +1,7 @@
 <div class="outer-title">
 
     <h1>{{ entity }}</h1>
+
     {% set canCreateProduct = false %}
     {% set canEditProject = false %}
 
@@ -16,7 +17,7 @@
         {% elseif is_granted('ROLE_USER') and entity.user.id == app.user.id %}
             {% set canEditProject = true %}
         {% endif %}
-        {% if canCreateProduct and entity.status == '1' and entity.product and entity.product.validatedAt is null %}
+        {% if canCreateProduct and entity.status == '1' and ((entity.product is null) or (entity.product and entity.product.validatedAt is null)) %}
             <div class="clearfix"></div>
             <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
             <div class="clearfix"></div>
