@@ -162,7 +162,7 @@ class AjaxController extends Controller
         $em->flush();
 
         // Generate thumb
-        $imagine = $this->container->get('imagine');
+        /*$imagine = $this->container->get('imagine');
         $imagineFilterManager = $this->container->get('imagine.filter.manager');
         $imagineFilterManager->get('230x268')
             ->apply($imagine->open($image->getPath()))
@@ -170,6 +170,8 @@ class AjaxController extends Controller
 
         $avalancheService = $this->get('imagine.cache.path.resolver');
         $imagePath = $this->container->getParameter('default_url').$avalancheService->getBrowserPath($image->getPath(), '230x268');
+        */
+        $imagePath = '/'.$dirName.'/'.$tmpName;
 
         $imageData = array(
             'id' => $image->getId(),
@@ -182,6 +184,7 @@ class AjaxController extends Controller
         $projectMedias['image_'.$image->getId()] = array(
             'type' => 'image',
             'id' => $image->getId(),
+            'videoUrl' => null,
             'image' => $imagePath,
             'highlighted' => $image->getHighlighted()
         );
@@ -237,6 +240,7 @@ class AjaxController extends Controller
             $projectMedias['video_'.$video->getId()] = array(
                 'type' => 'video',
                 'id' => $video->getId(),
+                'videoUrl' => '//www.youtube.com/embed/'.$video->getProviderVideoId(),
                 'image' => $video->getThumbUrl(),
                 'highlighted' => $video->getHighlighted()
             );

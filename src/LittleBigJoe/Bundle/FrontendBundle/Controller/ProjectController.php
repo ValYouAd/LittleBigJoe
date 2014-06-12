@@ -759,12 +759,14 @@ class ProjectController extends Controller
                         {
                             if ($projectMedia['type'] == 'image')
                             {
-                                $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
-                                $filePath = $projectImage->getPath();
-
-                                copy($this->get('kernel')->getRootDir().'/../web/'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
-                                $path = preg_replace('#'.$filePath.'#', 'uploads/projects/'.$project->getId().'/'.basename($filePath), $projectImage->getPath());
-                                $projectImage->setPath($path);
+                                $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
+                                if (!empty($projectImage) && $projectImage instanceof ProjectImage)
+                                {
+                                    $filePath = $projectImage->getPath();
+                                    copy($this->get('kernel')->getRootDir().'/../web/'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
+                                    $path = preg_replace('#'.$filePath.'#', 'uploads/projects/'.$project->getId().'/'.basename($filePath), $projectImage->getPath());
+                                    $projectImage->setPath($path);
+                                }
                             }
                         }
                     }
