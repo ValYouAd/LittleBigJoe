@@ -1073,9 +1073,10 @@ class AjaxController extends Controller
 	    
 	    	$entryJson = array(
 	    			'title' => $entry->getTitle(),
-	    			'is_public' => $entry->getIsPublic(),
-	    			'created_at' => $entry->getCreatedAt()->format('m/d/Y h:i'),
-	    			'content' => $entry->getContent()
+                    'user_photo' => $entry->getProject()->getUser()->getPhoto(),
+                    'entry_id' => $entry->getId(),
+                    'created_at' => $this->get('littlebigjoefrontend.twig.littlebigjoe_extension')->timeAgoInWordsFilter($entry->getCreatedAt()),
+                    'content' => $entry->getContent()
 	    	);
 	    
 	    	// Make sure no code is executed after it
@@ -1136,10 +1137,12 @@ class AjaxController extends Controller
 	    	$em->flush();
 	    
 	    	$commentJson = array(
-	    			'user_name' => (string)$currentUser,
-	    			'user_id' => $currentUser->getId(),
-	    			'created_at' => $entryComment->getCreatedAt()->format('m/d/Y h:i'),
-	    			'content' => $entryComment->getContent()
+                'user_name' => (string)$currentUser,
+                'user_id' => $currentUser->getId(),
+                'user_photo' => $currentUser->getPhoto(),
+                'entry_id' => $entry->getId(),
+                'created_at' => $this->get('littlebigjoefrontend.twig.littlebigjoe_extension')->timeAgoInWordsFilter($entryComment->getCreatedAt()),
+                'content' => $entryComment->getContent()
 	    	);
 	    
 	    	// Make sure no code is executed after it
@@ -1201,7 +1204,8 @@ class AjaxController extends Controller
 	    	$commentJson = array(
 	    			'user_name' => (string)$currentUser,
 	    			'user_id' => $currentUser->getId(),
-	    			'created_at' => $comment->getCreatedAt()->format('m/d/Y h:i'),
+                    'user_photo' => $currentUser->getPhoto(),
+	    			'created_at' => $this->get('littlebigjoefrontend.twig.littlebigjoe_extension')->timeAgoInWordsFilter($comment->getCreatedAt()),
 	    			'content' => $comment->getContent()
 	   		);
 	    	

@@ -20,41 +20,14 @@ class CommentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    		if (!($this->options['user'] instanceof User))
-	    	{
-	    			$ckeditorLanguage = 'en';
-	    	}
-	    	else
-	    	{
-		    		$ckeditorLanguage = $this->options['user']->getDefaultLanguage();
-		    		if (empty($ckeditorLanguage))
-		    		{
-		    				$ckeditorLanguage = 'en';
-		    		}
-	    	}
-	    	
-	    	// Define default language for CKEditor interface
-	    	switch ($ckeditorLanguage)
-	    	{
-		    		case 'en': $ckeditorLanguage = 'en-US';
-		    							 break;
-		    		case 'fr': $ckeditorLanguage = 'fr-FR';
-		    							 break;
-		    		default: 	 $ckeditorLanguage = 'en-US';
-		    							 break;
-	    	}
-    	
         $builder
         		->add('project', 'hidden', array(
         				'data' => $options['data']->getProject()->getId()
         		))
-            ->add('content', 'ckeditor', array(
-			      		'label' => 'Comment content',
+                ->add('content', 'textarea', array(
+			      		'label' => false,
 			      		'data' => '',
-            		    'language' => $ckeditorLanguage,
-                        'width' => '100%',
-			      		'custom_config' => "toolbarGroups: [{ name: 'clipboard', groups: ['clipboard']}, { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] }, { name: 'links' }, { name: 'styles' }]"
-    				))
+                ))
 			      ->add('addComment', 'button', array(
 			      		'label' => 'Comment this project',
 			      		'attr' => array(

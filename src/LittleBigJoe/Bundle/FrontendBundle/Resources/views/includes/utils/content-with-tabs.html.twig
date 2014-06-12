@@ -196,46 +196,63 @@
         </div>
         <div class="description-infos">
             {% if is_granted('ROLE_USER') and app.user.id == entity.user.id and entry_form is defined %}
-                <div style="padding:20px;border:1px dotted black">
-                    <h4>{{ 'Add new entry'|trans() }}</h4>
-                    {{ form(entry_form, {attr:{id:'entryForm', role:'form'}}) }}
-                </div>
+                <h4>{{ 'Add new entry'|trans() }}</h4>
+                {{ form(entry_form, {attr:{id:'entryForm', role:'form'}}) }}
+                <div class="clearfix">&nbsp;</div>
             {% endif %}
 
+            <div id="entryInfos">
             {% if entity.entries and entity.entries|length() > 0 %}
-                <div id="entries_list">
+                <ul id="entries_list" class="media-list">
                 {% for entry in entity.entries|reverse %}
                     {% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
-                        <div class="entry">
-                            <strong>{{ entry }} {% if entry.isPublic %}{{ '(Public)'|trans() }}{% else %}{{ '(Private)'|trans() }}{% endif %}</strong><br />
-                            <small>{{ 'On'|trans() }} {{ entry.createdAt|localizeddate('short', 'short') }}</small><br />
-                            {{ entry.content|raw }}
-
-                            {% if entry.comments %}
-                                <ul id="entry_{{ entry.id }}_comment_list">
+                        <li class="media">
+                            <a class="pull-left" href="">
+                                {% if entity.user.photo %}
+                                    <img class="media-object" src="{{ asset(entity.user.photo) }}" width="64" height="64" />
+                                {% else %}
+                                    <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
+                                {% endif %}
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{ entry }}</h4>
+                                <h5>{{ entry.createdAt|time_ago_in_words }}</h5>
+                                <p>{{ entry.content|raw }}</p>
+                                <ul id="entryCommentsContainer_{{ entry.id }}" class="media media-list">
+                                {% if entry.comments %}
                                     {% for comment in entry.comments|reverse %}
-                                        <li>
-                                            <strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
-                                            <small>{{ time_diff(comment.createdAt) }}</small><br />
-                                            {{ comment.content|raw }}
+                                        <li class="media">
+                                            <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">
+                                                {% if comment.user.photo %}
+                                                    <img class="media-object" src="{{ asset(comment.user.photo) }}" width="64" height="64" />
+                                                {% else %}
+                                                    <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
+                                                {% endif %}
+                                            </a>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{{ comment.user }}</h4>
+                                                <h5>{{ comment.createdAt|time_ago_in_words }}</h5>
+                                                <p>{{ comment.content|raw }}</p>
+                                            </div>
                                         </li>
                                     {% endfor %}
+                                {% endif %}
                                 </ul>
-                            {% endif %}
-                        </div>
+                            </div>
+                        </li>
                     {% endif %}
                 {% endfor %}
-                </div>
+                </ul>
 
                 <div class="double-separator"></div>
 
-                <div style="padding:20px;border:1px dotted black">
-                    <h4>{{ 'Add new entry comment'|trans() }}</h4>
-                    {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
-                </div>
+                <h4>{{ 'Add new entry comment'|trans() }}</h4>
+                {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
+                <div class="clearfix">&nbsp;</div>
             {% else %}
                 <p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>
             {% endif %}
+            </div>
         </div>
     </div>
 
@@ -271,19 +288,28 @@
             <h2><span class="grand-hotel">{{ 'Comment(s)'|trans() }}</span> {{ 'regarding this project'|trans() }}</h2>
         </div>
         <div class="description-infos">
+            <ul id="commentsContainer" class="media-list">
             {% if entity.comments and entity.comments|length() > 0 %}
                 {% for comment in entity.comments|reverse %}
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
-                            <small>{{ 'On'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</small>
+                    <li class="media">
+                        <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">
+                            {% if comment.user.photo %}
+                                <img class="media-object" src="{{ asset(comment.user.photo) }}" width="64" height="64" />
+                            {% else %}
+                                <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
+                            {% endif %}
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{ comment.user }}</h4>
+                            <h5>{{ comment.createdAt|time_ago_in_words }}</h5>
                             <p>{{ comment.content|raw }}</p>
                         </div>
-                    </div>
+                    </li>
                 {% endfor %}
             {% else %}
                 <p><strong>{{ 'There\'s no comments for the moment'|trans() }}</strong><p>
             {% endif %}
+            </ul>
 
             {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (app.user is null) %}
                 <div class="double-separator"></div>
@@ -291,6 +317,7 @@
                     <h3>{{ 'Add new comment'|trans() }}</h3>
                     {{ form(comment_form, {attr:{id:'commentForm', role:'form'}}) }}
                 </div>
+                <div class="clearfix">&nbsp;</div>
             {% endif %}
         </div>
     </div>

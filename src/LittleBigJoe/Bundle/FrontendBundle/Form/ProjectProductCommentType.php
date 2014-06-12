@@ -16,7 +16,7 @@ class ProjectProductCommentType extends AbstractType
     {
         $builder
             ->add('content', 'textarea', array(
-                'label' => 'Feedback text'
+                'label' => false,
             ))
             ->add('submit', 'submit', array(
                 'label' => 'Save feedback'
