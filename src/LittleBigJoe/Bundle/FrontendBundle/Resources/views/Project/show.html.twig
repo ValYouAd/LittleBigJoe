@@ -370,6 +370,10 @@
                         {
                             $('#entryInfos').empty().append('<ul id="entries_list" class="media-list">' + entryHtml + '</ul>');
                         }
+
+                        $('#entry_title').val('');
+                        $('#entry_content').val('');
+                        CKEDITOR.instances['entry_content'].setData("");
                     }
                     else if (data.status == 'KO USER')
                     {
@@ -414,6 +418,8 @@
                         {
                             $('#entryCommentsContainer_' + data.comment.entry_id).empty().append(commentHtml);
                         }
+
+                        $('#entrycomment_content').val('');
                     }
                     else if (data.status == 'KO USER')
                     {
@@ -456,6 +462,8 @@
                         {
                             $('#commentsContainer').empty().append(commentHtml);
                         }
+
+                        $('#comment_content').val('');
                     }
                     else if (data.status == 'KO USER')
                     {
