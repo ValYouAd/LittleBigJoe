@@ -96,7 +96,7 @@
 
                     <div class="likes-label">
                         <div class="nb-likes">{{ project.likesCount }}</div>
-                        <div class="likes">{{ 'likes'|trans() }}</div>
+                        <div class="likes">{% transchoice project.likesCount %}{0} like|{1} like|]1,Inf] likes{% endtranschoice %}</div>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
         <div class="project-stats">
             <div class="likes">
                 <img class="icon" src="{{ asset('static/img/icons/icon-like-it.png') }}" alt="alt-LBJ - like icon" />
-                <span class="orange-text"><strong>{{ entity.likesCount|default('0') }}</strong></span> {{ 'likes'|trans() }}
+                <span class="orange-text"><strong>{{ entity.likesCount|default('0') }}</strong></span> {% transchoice entity.likesCount|default('0')|length() %}{0} like|{1} like|]1,Inf] likes{% endtranschoice %}
             </div>
             <div class="days">
                 <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />
@@ -100,7 +100,8 @@
         </li>
         <li class="links">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}#projects">
-                <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" />{{ 'His projects'|trans() }}
+                <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" />
+                {% transchoice entity.user.projects|length|length() %}{0} No project|{1} His project|]1,Inf] His projects{% endtranschoice %}
                 ( <span class="orange-text">{{ entity.user.projects|length }}</span> )
             </a>
         </li>

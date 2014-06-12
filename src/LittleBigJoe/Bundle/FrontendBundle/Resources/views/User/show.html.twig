@@ -48,7 +48,7 @@
             </div>
 
             <div class="wContent-id-infos">
-                <div><span class="orange-text">{{ entity.projects|length|default('0') }}</span> {{ 'projects' }}</div>
+                <div><span class="orange-text">{{ entity.projects|length|default('0') }}</span> {% transchoice entity.projects|length|default('0') %}{0} project|{1} project|]1,Inf] projects{% endtranschoice %}</div>
                 <div>{{ 'Registered since' }} <strong>{{ entity.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
                 {% if entity.websiteUrl %}<a href="{{ entity.websiteUrl }}" target="_blank"><div class="orange-text"><strong>{{ entity.websiteUrl }}</strong></div></a>{% endif %}
                 <div class="social-links">
@@ -61,7 +61,7 @@
 
             {% if entity.projects|length > 0 %}
                 <div class="article-header">
-                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" /> {{ 'His projects'|trans() }}</h2>
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" /> {% transchoice entity.projects|length %}{0} No project|{1} His project|]1,Inf] His projects{% endtranschoice %}</h2>
                     <div class="separator"></div>
                 </div>
 
@@ -75,7 +75,8 @@
 
             {% if distinctProjects|length > 0 %}
                 <div class="article-header">
-                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" /> {{ 'Projects in which the user has participated'|trans() }}</h2>
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" />
+                        {% transchoice distinctProjects|length %}{0} No project in which the user has participated|{1} Project in which the user has participated|]1,Inf] Projects in which the user has participated{% endtranschoice %}</h2>
                     <div class="separator"></div>
                 </div>
 

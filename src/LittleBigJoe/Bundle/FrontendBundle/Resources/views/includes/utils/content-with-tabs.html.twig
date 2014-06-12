@@ -274,7 +274,16 @@
     {# ----- TAB 'PARTICIPANTS' ------ #}
     <div class="tab-content-container" id="tabcont_2">
         <div class="article-header">
-            <h2>{{ 'Other'|trans() }} <span class="grand-hotel">{{ 'participant(s)'|trans() }}</span> {{ 'to this project'|trans() }}</h2>
+            {% set countParticipants = 0 %}
+            {% if entity.contributions and entity.contributions|length() > 0 %}
+                {% set already_shown_users_ids = [] %}
+                {% for contribution in entity.contributions %}
+                    {% if contribution.user.id not in already_shown_users_ids %}
+                        {% set countParticipants = countParticipants+1 %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            <h2>{{ 'Other'|trans() }} <span class="grand-hotel">{% transchoice countParticipants %}{0} participant|{1} participant|]1,Inf] participants{% endtranschoice %}</span> {{ 'to this project'|trans() }}</h2>
         </div>
         <div class="description-infos">
             {% if entity.contributions and entity.contributions|length() > 0 %}
@@ -300,7 +309,7 @@
     {% if comment_form is defined %}
     <div class="tab-content-container" id="tabcont_3">
         <div class="article-header">
-            <h2><span class="grand-hotel">{{ 'Comment(s)'|trans() }}</span> {{ 'regarding this project'|trans() }}</h2>
+            <h2><span class="grand-hotel">{% transchoice entity.comments|length() %}{0} Comment|{1} Comment|]1,Inf] Comments{% endtranschoice %}</span> {{ 'regarding this project'|trans() }}</h2>
         </div>
         <div class="description-infos">
             <ul id="commentsContainer" class="media-list">

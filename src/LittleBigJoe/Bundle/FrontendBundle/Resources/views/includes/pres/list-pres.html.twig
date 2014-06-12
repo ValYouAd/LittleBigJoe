@@ -14,7 +14,8 @@
                 <img class="mosaic-project-type" src="{{ asset('static/img/icons/icon-mosaic-funded.png') }}" alt="alt-LBJ - project type" />
             {% else %}
                 <img class="icon" src="{{ asset('static/img/icons/icon-heart-white.png') }}" alt="alt-LBJ - likes icon" />
-                <span class="orange-text"><strong>{{ project.likesCount|default('0') }}</strong></span> {{ 'likes'|trans() }}
+                <span class="orange-text"><strong>{{ project.likesCount|default('0') }}</strong></span>
+                {% transchoice project.likesCount|default('0') %}{0} like|{1} like|]1,Inf] likes{% endtranschoice %}</h2>
                 <img class="mosaic-project-type" src="{{ asset('static/img/icons/icon-mosaic-indev.png') }}" alt="alt-LBJ - project type" />
             {% endif %}
         </div>
@@ -42,7 +43,7 @@
         <p class="project-description">{{ project.pitch }}</p>
 
         <div class="stat">
-            <img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people" /> <span class="orange-text"><strong>{{ project.contributions|length|default('0') }}</strong></span> {{ 'participants'|trans() }}
+            <img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people" /> <span class="orange-text"><strong>{{ project.contributions|length|default('0') }}</strong></span> {% transchoice project.contributions|length|default('0') %}{0} participant|{1} participant|]1,Inf] participants{% endtranschoice %}
         </div>
         <div class="stat">
             <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock" /> <span class="orange-text"><strong>{{ project.endingAt|time_remaining }}</strong></span> {{ 'remaining'|trans() }}
