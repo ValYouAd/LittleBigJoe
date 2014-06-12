@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <form method="POST" {{ form_enctype(form) }}>
+                <form class="formProject" method="POST" {{ form_enctype(form) }}>
                     {{ form_errors(form) }}
 
                     {% if flow.getCurrentStepNumber() == 2 %}
