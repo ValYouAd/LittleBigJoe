@@ -101,7 +101,7 @@
         <li class="links">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}#projects">
                 <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" />{{ 'His projects'|trans() }}
-                ( <span class="orange-text">5</span> )
+                ( <span class="orange-text">{{ entity.user.projects|length }}</span> )
             </a>
         </li>
     </ul>
