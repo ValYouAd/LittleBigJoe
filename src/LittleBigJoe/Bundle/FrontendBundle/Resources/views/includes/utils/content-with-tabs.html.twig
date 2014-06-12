@@ -211,6 +211,7 @@
                 <h4>{{ 'Add new entry'|trans() }}</h4>
                 {{ form(entry_form, {attr:{id:'entryForm', role:'form'}}) }}
                 <div class="clearfix">&nbsp;</div>
+                <div class="double-separator"></div>
             {% endif %}
 
             <div id="entryInfos">
@@ -218,51 +219,54 @@
                 <ul id="entries_list" class="media-list">
                 {% for entry in entity.entries|reverse %}
                     {% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
-                        <li class="media">
-                            <a class="pull-left" href="">
-                                {% if entity.user.photo %}
-                                    <img class="media-object" src="{{ asset(entity.user.photo) }}" width="64" height="64" />
-                                {% else %}
-                                    <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
-                                {% endif %}
-                            </a>
-                            <div class="media-body">
-                                <div class="pull-right text-muted">{{ entry.createdAt|time_ago_in_words }}</div>
-                                <h4 class="media-heading">{{ entry }}</h4>
-                                <p>{{ entry.content|raw }}</p>
-                                <ul id="entryCommentsContainer_{{ entry.id }}" class="media media-list">
-                                {% if entry.comments %}
-                                    {% for comment in entry.comments|reverse %}
-                                        <li class="media">
-                                            <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">
-                                                {% if comment.user.photo %}
-                                                    <img class="media-object" src="{{ asset(comment.user.photo) }}" width="64" height="64" />
-                                                {% else %}
-                                                    <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
-                                                {% endif %}
-                                            </a>
-                                            <div class="media-body">
-                                                <div class="pull-right text-muted">{{ comment.createdAt|time_ago_in_words }}</div>
-                                                <h4 class="media-heading">{{ comment.user }}</h4>
-                                                <p>{{ comment.content|raw }}</p>
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                {% endif %}
-                                </ul>
-                            </div>
+                        <li>
+                            <div class="pull-right text-muted">{{ entry.createdAt|time_ago_in_words }}</div>
+                            <h4 class="media-heading">{{ entry }}</h4>
+                            <p>{{ entry.content|raw }}</p>
+                            <li class="media">
+                                <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entry.project.user.id}) }}">
+                                    {% if entry.project.user.photo %}
+                                        <img class="media-object" src="{{ asset(entry.project.user.photo) }}" width="64" height="64" />
+                                    {% else %}
+                                        <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
+                                    {% endif %}
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{ entry.project.user }}</h4>
+                                </div>
+                            </li>
+
+                            <ul id="entryCommentsContainer_{{ entry.id }}" class="media media-list">
+                            {% if entry.comments %}
+                                {% for comment in entry.comments|reverse %}
+                                    <li class="media">
+                                        <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">
+                                            {% if comment.user.photo %}
+                                                <img class="media-object" src="{{ asset(comment.user.photo) }}" width="64" height="64" />
+                                            {% else %}
+                                                <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
+                                            {% endif %}
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="pull-right text-muted">{{ comment.createdAt|time_ago_in_words }}</div>
+                                            <h4 class="media-heading">{{ comment.user }}</h4>
+                                            <p>{{ comment.content|raw }}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                            </ul>
+
+                            <h4>{{ 'Add new entry comment'|trans() }}</h4>
+                            {% if entry_comment_form is defined %}
+                                {% include "LittleBigJoeFrontendBundle:FormFlow:buttons.html.twig" %}
+                                {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
+                            {% endif %}
                         </li>
                     {% endif %}
+                    <div class="double-separator"></div>
                 {% endfor %}
                 </ul>
-
-                <div class="double-separator"></div>
-
-                <h4>{{ 'Add new entry comment'|trans() }}</h4>
-                {% if entry_comment_form is defined %}
-                    {% include "LittleBigJoeFrontendBundle:FormFlow:buttons.html.twig" %}
-                    {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
-                {% endif %}
                 <div class="clearfix">&nbsp;</div>
             {% else %}
                 <p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>

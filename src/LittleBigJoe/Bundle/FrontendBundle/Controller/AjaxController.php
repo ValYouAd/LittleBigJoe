@@ -1077,6 +1077,8 @@ class AjaxController extends Controller
 	    
 	    	$entryJson = array(
 	    			'title' => $entry->getTitle(),
+                    'user' => (string)$entry->getProject()->getUser(),
+                    'user_id' => $entry->getProject()->getUser()->getId(),
                     'user_photo' => $entry->getProject()->getUser()->getPhoto(),
                     'entry_id' => $entry->getId(),
                     'created_at' => $this->get('littlebigjoefrontend.twig.littlebigjoe_extension')->timeAgoInWordsFilter($entry->getCreatedAt()),
