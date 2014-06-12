@@ -84,11 +84,15 @@
         {% else %}
             <div class="stats-followed mos-bottom">
                 <div class="center">
-                    {% for like in app.user.likes if like.project.id == project.id %}
-                        <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart-blue.png') }}" alt="alt-LBJ - likes" />
+                    {% if is_granted('ROLE_USER') %}
+                        {% for like in app.user.likes if like.project.id == project.id %}
+                            <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart-blue.png') }}" alt="alt-LBJ - likes" />
+                        {% else %}
+                            <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart.png') }}" alt="alt-LBJ - likes" />
+                        {% endfor %}
                     {% else %}
                         <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart.png') }}" alt="alt-LBJ - likes" />
-                    {% endfor %}
+                    {% endif %}
 
                     <div class="likes-label">
                         <div class="nb-likes">{{ project.likesCount }}</div>
