@@ -360,7 +360,7 @@
                             var userPhoto = '/static/img/mascot-square.png';
                         }
 
-                        var entryHtml = '<li class="media"><a class="pull-left" href=""><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><h4 class="media-heading">' + data.entry.title + '</h4><h5>' + data.entry.created_at + '</h5><p>' + data.entry.content + '</p><ul id="entryCommentsContainer_' + data.entry.entry_id + '" class="media media-list"></ul></div></li>';
+                        var entryHtml = '<li class="media"><a class="pull-left" href=""><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><div class="pull-right text-muted">' + data.entry.created_at + '</div><h4 class="media-heading">' + data.entry.title + '</h4><p>' + data.entry.content + '</p><ul id="entryCommentsContainer_' + data.entry.entry_id + '" class="media media-list"></ul></div></li>';
 
                         if ($('#entries_list li').length > 0)
                         {
@@ -408,7 +408,7 @@
                             var userPhoto = '/static/img/mascot-square.png';
                         }
 
-                        var commentHtml = '<li class="media"><a class="pull-left" href="' + userShowPath + '"><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><h4 class="media-heading">' + data.comment.user_name + '</h4><h5>' + data.comment.created_at + '</h5><p>' + data.comment.content + '</p></div></li>';
+                        var commentHtml = '<li class="media"><a class="pull-left" href="' + userShowPath + '"><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><div class="pull-right text-muted">' + data.comment.created_at + '</div><h4 class="media-heading">' + data.comment.user_name + '</h4><p>' + data.comment.content + '</p></div></li>';
 
                         if ($('#entryCommentsContainer_' + data.comment.entry_id + ' li').length > 0)
                         {
@@ -452,7 +452,7 @@
                             var userPhoto = '/static/img/mascot-square.png';
                         }
 
-                        var commentHtml = '<li class="media"><a class="pull-left" href="' + userShowPath + '"><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><h4 class="media-heading">' + data.comment.user_name + '</h4><h5>' + data.comment.created_at + '</h5><p>' + data.comment.content + '</p></div></li>';
+                        var commentHtml = '<li class="media"><a class="pull-left" href="' + userShowPath + '"><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><div class="pull-right text-muted">' + data.comment.created_at + '</div><h4 class="media-heading">' + data.comment.user_name + '</h4><p>' + data.comment.content + '</p></div></li>';
 
                         if ($('#commentsContainer li').length > 0)
                         {
