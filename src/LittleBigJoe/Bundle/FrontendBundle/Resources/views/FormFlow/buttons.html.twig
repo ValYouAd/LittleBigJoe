@@ -1,19 +1,21 @@
-{% set renderBackButton = flow.getCurrentStepNumber() in (flow.getFirstStepNumber() + 1) .. flow.getLastStepNumber() %}
-<div class="article-footer">
-    <div class="double-separator"></div>
-    <div class="craue_formflow_buttons craue_formflow_button_count_{% if renderBackButton %}3{% else %}2{% endif %}">
-        <button type="submit" class="validate-style next">
-            {% if flow.getCurrentStepNumber() < flow.getLastStepNumber() %}
-                {{ 'Next'|trans() }}
-            {% else %}
-                {{ 'Finish'|trans() }}
-            {% endif %}
-        </button>
-
-        {% if renderBackButton %}
-            <button type="submit" name="{{ flow.getFormTransitionKey() }}" class="back-link" value="back" formnovalidate="formnovalidate">
-                &lsaquo;&lsaquo; {{ 'Previous step'|trans() }}
+{% if flow is defined %}
+    {% set renderBackButton = flow.getCurrentStepNumber() in (flow.getFirstStepNumber() + 1) .. flow.getLastStepNumber() %}
+    <div class="article-footer">
+        <div class="double-separator"></div>
+        <div class="craue_formflow_buttons craue_formflow_button_count_{% if renderBackButton %}3{% else %}2{% endif %}">
+            <button type="submit" class="validate-style next">
+                {% if flow.getCurrentStepNumber() < flow.getLastStepNumber() %}
+                    {{ 'Next'|trans() }}
+                {% else %}
+                    {{ 'Finish'|trans() }}
+                {% endif %}
             </button>
-        {% endif %}
+
+            {% if renderBackButton %}
+                <button type="submit" name="{{ flow.getFormTransitionKey() }}" class="back-link" value="back" formnovalidate="formnovalidate">
+                    &lsaquo;&lsaquo; {{ 'Previous step'|trans() }}
+                </button>
+            {% endif %}
+        </div>
     </div>
-</div>
+{% endif %}

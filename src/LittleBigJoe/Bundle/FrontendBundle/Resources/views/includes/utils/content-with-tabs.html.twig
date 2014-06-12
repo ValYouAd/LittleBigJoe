@@ -243,7 +243,10 @@
                 <div class="double-separator"></div>
 
                 <h4>{{ 'Add new entry comment'|trans() }}</h4>
-                {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
+                {% if entry_comment_form is defined %}
+                    {% include "LittleBigJoeFrontendBundle:FormFlow:buttons.html.twig" %}
+                    {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
+                {% endif %}
                 <div class="clearfix">&nbsp;</div>
             {% else %}
                 <p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>
