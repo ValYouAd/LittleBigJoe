@@ -244,6 +244,7 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('LittleBigJoeCoreBundle:User')->find($id);
+        $oldPhoto = $entity->getPhoto();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find User entity.');
@@ -254,11 +255,16 @@ class UserController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($entity->getPhoto() != null) {
+            if ($entity->getPhoto() != null)
+            {
                 $evm = $em->getEventManager();
                 $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
                 $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
                 $uploadableManager->markEntityToUpload($entity, $entity->getPhoto());
+            }
+            else
+            {
+                $entity->setPhoto($oldPhoto);
             }
 
             $em->flush();
