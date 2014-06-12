@@ -19,6 +19,7 @@
     <script type="text/javascript" src="{{ asset('static/js/modules/involve-graph.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('static/js/modules/project-carousel.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('static/js/modules/tabs-display.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('js/fancybox/jquery.fancybox.pack.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -487,6 +488,9 @@
                     $('#declineForm').submit();
                 })
             });
+
+            // Fancybox
+            $('.fancybox').fancybox();
         });
     </script>
 {% endblock %}

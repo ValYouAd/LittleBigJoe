@@ -94,7 +94,15 @@
                     {% endif %}
 
                     <div class="thumb-cont">
-                        <img class="carousel-thumbnail" src="{% if projectMedia.type == 'video' %}{{ projectMedia.image }}{% else %}{{ asset(projectMedia.image) }}{% endif %}" alt="alt-LBJ - project image" />
+                        {% if projectMedia.type == 'video' %}
+                            <a href="{{ projectMedia.videoUrl }}" class="fancybox fancybox.iframe">
+                                <img class="carousel-thumbnail" src="{{ projectMedia.image }}"/>
+                            </a>
+                        {% else %}
+                            <a href="{{ asset(projectMedia.image) }}" class="fancybox">
+                                <img class="carousel-thumbnail" src="{{ asset(projectMedia.image) }}" alt="alt-LBJ - project image" />
+                            </a>
+                        {% endif %}
                     </div>
 
                     {% if loop.last %}
@@ -161,7 +169,15 @@
                         {% endif %}
 
                         <div class="thumb-cont">
-                            <img class="carousel-thumbnail" src="{% if productMedia.type == 'video' %}{{ productMedia.image }}{% else %}{{ asset(productMedia.image) }}{% endif %}" alt="alt-LBJ - project image" />
+                            {% if productMedia.type == 'video' %}
+                                <a href="{{ productMedia.videoUrl }}" class="fancybox fancybox.iframe">
+                                    <img class="carousel-thumbnail" src="{{ productMedia.image }}"/>
+                                </a>
+                            {% else %}
+                                <a href="{{ asset(productMedia.image) }}" class="fancybox">
+                                    <img class="carousel-thumbnail" src="{{ asset(productMedia.image) }}" alt="alt-LBJ - project image" />
+                                </a>
+                            {% endif %}
                         </div>
 
                         {% if loop.last %}
