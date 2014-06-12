@@ -7,6 +7,7 @@
     {% if isPreview is not defined %}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             {% set canCreateProduct = true %}
+            {% set canEditProject = true %}
         {% elseif is_granted('ROLE_BRAND_ADMIN') %}
             {% for brand in app.user.brands %}
                 {% if brand.id == entity.brand.id %}

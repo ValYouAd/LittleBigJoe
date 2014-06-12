@@ -608,7 +608,7 @@ class ProjectController extends Controller
         }
 
         // If the current user is not the project owner
-        if ($currentUser != $project->getUser())
+        if ($currentUser != $project->getUser() && (false === $this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')))
         {
                 $this->get('session')->getFlashBag()->add(
                         'notice',
