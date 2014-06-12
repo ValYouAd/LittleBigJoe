@@ -1,7 +1,6 @@
 <div class="outer-title">
 
-    <h1>{{ entity }}</h1>
-
+    <h1>{{ entity }}
     {% set canCreateProduct = false %}
     {% set canEditProject = false %}
 
@@ -18,17 +17,13 @@
             {% set canEditProject = true %}
         {% endif %}
         {% if canCreateProduct and entity.status == '1' and ((entity.product is null) or (entity.product and entity.product.validatedAt is null)) %}
-            <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
-            <div class="clearfix"></div>
-        {% endif %}
+            <a style="font-size: 12px;padding: 5px 10px;float:right;" href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary btn-sm">{{ 'Validate'|trans() }}</a>
+         {% endif %}
         {% if canEditProject %}
-            <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_edit', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Edit'|trans() }}</a></p>
-            <div class="clearfix"></div>
+            <a style="font-size: 12px;padding: 5px 10px;float:right;" href="{{ path('littlebigjoe_frontendbundle_project_edit', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary btn-sm">{{ 'Edit'|trans() }}</a>
         {% endif %}
     {% endif %}
-
+    </h1>
 
     <div class="brand-location">
         <img class="icon" src="{{ asset('static/img/icons/icon-location.png') }}" alt="alt-LBJ - location icon" /> <strong>{{ entity.user.city }}</strong> ({{ entity.user.country|country(app.request.locale) }})
