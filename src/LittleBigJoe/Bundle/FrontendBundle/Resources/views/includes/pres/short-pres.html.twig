@@ -2,9 +2,9 @@
 
     <div class="img-container">
         {% if type == 'brand' and item.logo %}
-            <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': item.slug}) }}"><img class="pres-thumbnail" src="{{ asset(item.logo)|apply_filter('690x460') }}" alt="{{ item.name }}" /></a>
+            <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': item.slug}) }}"><img class="pres-thumbnail" src="{{ asset(item.logo)|apply_filter('690x460') }}" /></a>
         {% else %}
-            <img class="pres-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x460') }}" alt="{{ item.name }}" />
+            <img class="pres-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x460') }}" />
         {% endif %}
     </div>
 

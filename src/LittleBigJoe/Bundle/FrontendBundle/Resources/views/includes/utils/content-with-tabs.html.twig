@@ -210,8 +210,8 @@
                                 {% endif %}
                             </a>
                             <div class="media-body">
+                                <div class="pull-right text-muted">{{ entry.createdAt|time_ago_in_words }}</div>
                                 <h4 class="media-heading">{{ entry }}</h4>
-                                <h5>{{ entry.createdAt|time_ago_in_words }}</h5>
                                 <p>{{ entry.content|raw }}</p>
                                 <ul id="entryCommentsContainer_{{ entry.id }}" class="media media-list">
                                 {% if entry.comments %}
@@ -225,8 +225,8 @@
                                                 {% endif %}
                                             </a>
                                             <div class="media-body">
+                                                <div class="pull-right text-muted">{{ comment.createdAt|time_ago_in_words }}</div>
                                                 <h4 class="media-heading">{{ comment.user }}</h4>
-                                                <h5>{{ comment.createdAt|time_ago_in_words }}</h5>
                                                 <p>{{ comment.content|raw }}</p>
                                             </div>
                                         </li>
@@ -295,8 +295,8 @@
                             {% endif %}
                         </a>
                         <div class="media-body">
+                            <div class="pull-right text-muted">{{ comment.createdAt|time_ago_in_words }}</div>
                             <h4 class="media-heading">{{ comment.user }}</h4>
-                            <h5>{{ comment.createdAt|time_ago_in_words }}</h5>
                             <p>{{ comment.content|raw }}</p>
                         </div>
                     </li>
