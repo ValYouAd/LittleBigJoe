@@ -392,10 +392,21 @@
             });
 
             // Create entry comment
+            $('.generate-entry-comment').click(function (e) {
+                var entryId = parseInt($(this).attr('data-entry'));
+                var projectId = parseInt($(this).attr('data-project'));
+
+                $('#entrycomment_project').val(projectId);
+                $('#entrycomment_entry').val(entryId);
+                $('#entrycomment_content').text();
+                $('#entry-comment').removeClass('hide');
+            });
+
+            // Create entry comment
             $('#entrycomment_addEntryComment').click(function (e) {
                 var entryId = parseInt($('#entrycomment_entry').val());
 
-                $.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_comment_project') }}", $('#entryCommentForm').serialize())
+                $.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_comment_project') }}", $('#entry-comment form').serialize())
                 .done(function(data) {
                     if (data.status == 'OK')
                     {
@@ -420,7 +431,10 @@
                             $('#entryCommentsContainer_' + data.comment.entry_id).empty().append(commentHtml);
                         }
 
+                        $('#entrycomment_project').val('');
+                        $('#entrycomment_entry').val('');
                         $('#entrycomment_content').val('');
+                        $('#entry-comment').addClass('hide');
                     }
                     else if (data.status == 'KO USER')
                     {

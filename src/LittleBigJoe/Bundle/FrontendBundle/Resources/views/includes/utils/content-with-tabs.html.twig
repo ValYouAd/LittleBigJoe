@@ -265,16 +265,17 @@
                             {% endif %}
                             </ul>
 
-                            <h4>{{ 'Add new entry comment'|trans() }}</h4>
-                            {% if entry_comment_form is defined %}
-                                {% include "LittleBigJoeFrontendBundle:FormFlow:buttons.html.twig" %}
-                                {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
-                            {% endif %}
+                            <a href="#" data-project="{{ entry.project.id }}" data-entry="{{ entry.id }}" class="btn mosaic-style generate-entry-comment">{{ 'Add new entry comment'|trans() }}</a>
                         </li>
                     {% endif %}
                     <div class="double-separator"></div>
                 {% endfor %}
                 </ul>
+                <div id="entry-comment" class="hide">
+                    <h4>{{ 'Add new entry comment'|trans() }}</h4>
+                    {{ form(entry_comment_form) }}
+                    <div class="clearfix">&nbsp;</div>
+                </div>
                 <div class="clearfix">&nbsp;</div>
             {% else %}
                 <p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>
