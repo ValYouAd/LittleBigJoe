@@ -1408,7 +1408,7 @@ class Project
     public function getMedias()
     {
         $medias = array();
-        foreach ($this->images as $image)
+        foreach ($this->getImages() as $image)
         {
             $medias['image_'.$image->getId()] = array(
                 'type' => 'image',
@@ -1419,7 +1419,7 @@ class Project
             );
         }
 
-        foreach ($this->videos as $video)
+        foreach ($this->getVideos() as $video)
         {
             $medias['video_'.$video->getId()] = array(
                 'type' => 'video',

@@ -65,12 +65,37 @@ class AjaxController extends Controller
                         $projectMedias[$key]['highlighted'] = true;
                     }
 
+                    if ($projectMedia['type'] == 'image')
+                    {
+                        $media = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
+                    }
+                    elseif ($projectMedia['type'] == 'video')
+                    {
+                        $media = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectMedia['id']);
+                    }
+                    $media->setHighlighted($projectMedias[$key]['highlighted']);
+                    $em->persist($media);
+                    $em->flush();
+
                     $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
                     $return = array('status' => 'OK', 'toHighlight' => $projectMedias[$key]['highlighted']);
                 }
                 else
                 {
+                    if ($projectMedia['type'] == 'image')
+                    {
+                        $media = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
+                    }
+                    elseif ($projectMedia['type'] == 'video')
+                    {
+                        $media = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectMedia['id']);
+                    }
+                    $media->setHighlighted(false);
+                    $em->persist($media);
+                    $em->flush();
+
                     $projectMedias[$key]['highlighted'] = false;
+                    $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
                 }
             }
         }
@@ -102,7 +127,7 @@ class AjaxController extends Controller
     public function addImageAction(Request $request, $sessionKey = 'projectMedias')
     {
         $em = $this->getDoctrine()->getManager();
-        $projectMedias = $this->getRequest()->getSession()->get($sessionKey, array());
+        $projectMedias = $this->getRequest()->getSession()->get($sessionKey);
         $file = $_FILES['selectGalleryImages'];
         $imageData = array('status' => 'KO');
 
@@ -161,16 +186,6 @@ class AjaxController extends Controller
         $em->persist($image);
         $em->flush();
 
-        // Generate thumb
-        /*$imagine = $this->container->get('imagine');
-        $imagineFilterManager = $this->container->get('imagine.filter.manager');
-        $imagineFilterManager->get('230x268')
-            ->apply($imagine->open($image->getPath()))
-            ->save($image->getPath());
-
-        $avalancheService = $this->get('imagine.cache.path.resolver');
-        $imagePath = $this->container->getParameter('default_url').$avalancheService->getBrowserPath($image->getPath(), '230x268');
-        */
         $imagePath = '/'.$dirName.'/'.$tmpName;
 
         $imageData = array(
@@ -217,7 +232,8 @@ class AjaxController extends Controller
     public function addVideoAction(Request $request, $sessionKey = 'projectMedias')
     {
         $em = $this->getDoctrine()->getManager();
-        $projectMedias = $this->getRequest()->getSession()->get($sessionKey, array());
+        $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
+
         $videoUrl = $this->get('request')->request->get('videoUrl');
         $videoData = array('status' => 'KO');
 
