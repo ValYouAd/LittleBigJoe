@@ -66,9 +66,9 @@
                 {% for projectMedia in projectMedias %}
                     {% if projectMedia.highlighted %}
                         {% if projectMedia.type == 'video' %}
-                            <a href="{{ projectMedia.videoUrl }}?autoplay=1" class="fancybox fancybox.iframe">
-                                <img src="{{ projectMedia.image }}"/>
-                            </a>
+                            <iframe style="height:450px" scrolling="auto" frameborder="0" allowfullscreen="" mozallowfullscreen=""
+                                    webkitallowfullscreen="" hspace="0" vspace="0" class="fancybox-iframe"
+                                    src="{{ projectMedia.videoUrl }}"></iframe>
                         {% else %}
                             <a href="{{ asset(projectMedia.image) }}" class="fancybox">
                                 <img src="{{ asset(projectMedia.image) }}" alt="alt-LBJ - project image" />
