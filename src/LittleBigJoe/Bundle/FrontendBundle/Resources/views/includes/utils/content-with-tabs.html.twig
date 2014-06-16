@@ -271,11 +271,14 @@
                     <div class="double-separator"></div>
                 {% endfor %}
                 </ul>
+                {% if entry_comment_form is defined %}
                 <div id="entry-comment" class="hide">
                     <h4>{{ 'Add new entry comment'|trans() }}</h4>
+                    {% include "LittleBigJoeFrontendBundle:FormFlow:buttons.html.twig" %}
                     {{ form(entry_comment_form) }}
                     <div class="clearfix">&nbsp;</div>
                 </div>
+                {% endif %}
                 <div class="clearfix">&nbsp;</div>
             {% else %}
                 <p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>
