@@ -226,7 +226,7 @@
             {% if entity.entries and entity.entries|length() > 0 %}
                 <ul id="entries_list" class="media-list">
                 {% for entry in entity.entries|reverse %}
-                    {% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
+                    {% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and usersIds is defined and app.user.id in usersIds) %}
                         <li>
                             <div class="pull-right text-muted">{{ entry.createdAt|time_ago_in_words }}</div>
                             <h4 class="media-heading">{{ entry }}</h4>

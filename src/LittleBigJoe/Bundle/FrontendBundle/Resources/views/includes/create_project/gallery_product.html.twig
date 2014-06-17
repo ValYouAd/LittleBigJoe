@@ -115,15 +115,15 @@
                     .done(function(data) {
                         if (data.status == 'OK' && (mediaType == 'video' || mediaType == 'image'))
                         {
-                            $('#gallery .highlightGalleryItem').text("<i class="fa fa-star-o"></i>");
+                            $('#gallery .highlightGalleryItem').html("<i class='fa fa-star-o'></i>");
                             if (data.toHighlight == true)
                             {
-                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').text("<i class="fa fa-star"></i>");
+                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').html("<i class='fa fa-star'></i>");
                                 $('#defaultMedia').html($('#' + mediaType + '_' + mediaId).html());
                             }
                             else
                             {
-                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').text("<i class="fa fa-star-o"></i>");
+                                $('#' + mediaType + '_' + mediaId + ' .highlightGalleryItem').html("<i class='fa fa-star-o'></i>");
                                 $('#defaultMedia').empty();
                             }
                         }

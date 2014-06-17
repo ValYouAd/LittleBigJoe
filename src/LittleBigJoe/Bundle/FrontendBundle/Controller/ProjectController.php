@@ -843,17 +843,21 @@ class ProjectController extends Controller
             } else {
                 if (!empty($projectFields)) {
                     $project->setAmountRequired($projectFields['amountRequired']);
-                    foreach ($projectFields['rewards'] as $key => $reward) {
-                        $projectReward = new ProjectReward();
-                        $projectReward->setAmount($reward['amount']);
-                        $projectReward->setTitle($reward['title']);
-                        $projectReward->setDescription($reward['description']);
-                        $projectReward->setStock($reward['stock']);
-                        $projectReward->setMaxQuantityByUser($reward['maxQuantityByUser']);
-                        $projectReward->setProject($project);
 
-                        $em->persist($projectReward);
-                        $em->flush();
+                    if (!empty($projectFields['rewards']))
+                    {
+                        foreach ($projectFields['rewards'] as $key => $reward) {
+                            $projectReward = new ProjectReward();
+                            $projectReward->setAmount($reward['amount']);
+                            $projectReward->setTitle($reward['title']);
+                            $projectReward->setDescription($reward['description']);
+                            $projectReward->setStock($reward['stock']);
+                            $projectReward->setMaxQuantityByUser($reward['maxQuantityByUser']);
+                            $projectReward->setProject($project);
+
+                            $em->persist($projectReward);
+                            $em->flush();
+                        }
                     }
                 }
 
@@ -909,7 +913,7 @@ class ProjectController extends Controller
                 if (!empty($productMedias)) {
                     foreach ($productMedias as $productMedia) {
                         if ($productMedia['type'] == 'image') {
-                            $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productImage);
+                            $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productMedia['id']);
                             $filePath = $productImage->getPath();
 
                             copy($this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product/' . basename($filePath));
@@ -932,7 +936,7 @@ class ProjectController extends Controller
                 $this->getRequest()->getSession()->set('productMedias', null);
                 $this->getRequest()->getSession()->set('projectFields', null);
 
-                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
             }
         }
 

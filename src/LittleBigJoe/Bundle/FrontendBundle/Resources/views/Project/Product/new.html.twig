@@ -15,10 +15,6 @@
 
 {% block body %}
     <section>
-        <div class="aside-part classic stuck">
-            {% include "LittleBigJoeFrontendBundle:FormFlow:stepList.html.twig" %}
-		</div>
-
         <article class="wContent classic stuck">
             <div class="white-container">
 
@@ -34,7 +30,6 @@
 
                     {% if flow.getCurrentStepNumber() == 2 %}
                         {% include "LittleBigJoeFrontendBundle:includes:create_project/gallery_product.html.twig" with {'projectMedias': productMedias} %}
-                        {% include "LittleBigJoeFrontendBundle:includes:create_project/upload_modals.html.twig" %}
                     {% elseif flow.getCurrentStepNumber() == 3 %}
                         {{ form_row(form.amountRequired) }}
                         <div class="clearfix"></div>
@@ -60,6 +55,92 @@
             </div>
         </article>
     </section>
+{% endblock %}
+
+{% block modal %}
+    <div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Media gallery'|trans() }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{ 'Media gallery'|trans() }} - <span class="nbGalleryElements">{{ productMedias|length() }}</span> {{ 'element(s)'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="width:50%;float:left">
+                        <h5>{{ 'Images'|trans() }}</h5>
+                        <input type="file" class="btn btn-info btn-xs" id="selectGalleryImages" name="selectGalleryImages" style="padding:0;font-size:10px" value="{{ 'Add images'|trans() }}" multiple />
+                    </div>
+                    <div style="width:50%;float:left">
+                        <h5>{{ 'Videos'|trans() }}</h5>
+                        <p>{{ 'Paste your Youtube/Dailymotion/Vimeo video url'|trans() }}</p>
+                        <p>
+                            <input type="text" id="videoUrl" name="videoUrl" value="" size="15" />
+                            <span id="getVideoBtn" class="btn btn-info btn-xs" style="padding:0;font-size:10px">{{ 'Get the video'|trans() }}</span>
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="double-separator"></div>
+                    <div id="gallery_container">
+                        <h5>{{ 'Your product medias'|trans() }}</h5>
+                        <div id="gallery">
+                            {% if productMedias %}
+                                {% for productMedia in productMedias %}
+                                    {% include "LittleBigJoeFrontendBundle:includes:create_project/gallery_product_item.html.twig" with {'productMedia': productMedia} %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Upload new file'|trans() }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{ 'Upload new file'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    <p><input type="file" id="fileName" name="fileName" /></p>
+                    <div class="clearfix"></div>
+                    <div id="fileProgress" class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="audioFileModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Upload new audio file'|trans() }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{ 'Upload new audio file'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    <p><input type="file" id="audioFileName"  name="audioFileName" /></p>
+                    <div class="clearfix"></div>
+                    <div id="audioFileProgress" class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 {% endblock %}
 
 {% block footer_javascripts %}
@@ -183,6 +264,22 @@
 
             // STEP 4
             // Handle rewards
+            if ($('#createProduct_giftProduct').val() == '1')
+            {
+                $('#createProduct_giftPercentageFundsRaised').hide();
+            }
+
+            $('#createProduct_giftProduct').change(function(){
+                if ($('#createProduct_giftProduct').val() == '1')
+                {
+                    $('#createProduct_giftPercentageFundsRaised').hide();
+                }
+                else
+                {
+                    $('#createProduct_giftPercentageFundsRaised').show();
+                }
+            });
+
             var collectionHolder = $('ul.rewards');
             var $addRewardLink = $('<a href="#" class="btn btn-success">' + addRewardLabel + '</a>');
             var $newLinkLi = $('<li></li>').append($addRewardLink);
