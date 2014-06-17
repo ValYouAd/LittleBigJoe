@@ -233,7 +233,7 @@ class AjaxController extends Controller
     public function addVideoAction(Request $request, $sessionKey = 'projectMedias')
     {
         $em = $this->getDoctrine()->getManager();
-        $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
+        $projectMedias = $this->getRequest()->getSession()->get($sessionKey);
 
         $videoUrl = $this->get('request')->request->get('videoUrl');
         $videoData = array('status' => 'KO');

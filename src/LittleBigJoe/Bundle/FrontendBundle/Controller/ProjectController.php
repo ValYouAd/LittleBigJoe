@@ -821,10 +821,11 @@ class ProjectController extends Controller
         }
 
         // Get session vars
-        $productMedias = $this->getRequest()->getSession()->get('productMedias', array());
+        $productMedias = $this->getRequest()->getSession()->get('productMedias');
         $projectFields = $this->getRequest()->getSession()->get('projectFields', array());
         if (empty($productMedias)) {
-            $this->getRequest()->getSession()->set('productMedias', $project->getMedias());
+            $productMedias = $project->getMedias();
+            $this->getRequest()->getSession()->set('productMedias', $productMedias);
         }
 
         // Create form flow
@@ -867,24 +868,25 @@ class ProjectController extends Controller
                 $projectProduct->setProject($project);
                 $project->setProduct($projectProduct);
 
-                $productImages = $projectProduct->getImages();
-                if (!empty($productImages)) {
-                    foreach ($productImages as $key => $productImage) {
-                        $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productImage);
-                        $projectProduct->addImage($productImage);
-                        $productImage->setProduct($projectProduct);
+                if (!empty($productMedias))
+                {
+                    foreach ($productMedias as $key => $productMedia)
+                    {
+                        if ($productMedia['type'] == 'image')
+                        {
+                            $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productMedia['id']);
+                            $projectProduct->addImage($productImage);
+                            $productImage->setProduct($projectProduct);
+                        }
+                        else if ($productMedia['type'] == 'video')
+                        {
+                            $productVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($productMedia['id']);
+                            $projectProduct->addVideo($productVideo);
+                            $productVideo->setProduct($projectProduct);
+                        }
                     }
                 }
-
-                $productVideos = $projectProduct->getVideos();
-                if (!empty($productVideos)) {
-                    foreach ($productVideos as $key => $productVideo) {
-                        $productVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($productVideo);
-                        $projectProduct->addVideo($productVideo);
-                        $productVideo->setProduct($projectProduct);
-                    }
-                }
-
+                
                 // Persist form data
                 $em->persist($projectProduct);
                 $em->flush();
@@ -1134,6 +1136,7 @@ class ProjectController extends Controller
         $photo = '';
         // Get session vars
         $projectMedias = $this->getRequest()->getSession()->get('projectMedias', array());
+        $productMedias = $this->getRequest()->getSession()->get('productMedias', array());
 
         // Retrieve the uploaded photo, and associate it with project
         if ($this->getRequest()->getSession()->get('tmpUploadedFile') != null && $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath') != null) {
@@ -1146,6 +1149,7 @@ class ProjectController extends Controller
             'isPreview'     => $isPreview,
             'photo'         => $photo,
             'projectMedias' => $projectMedias,
+            'productMedias' => $productMedias,
             'current_date'  => new \Datetime()
         );
     }

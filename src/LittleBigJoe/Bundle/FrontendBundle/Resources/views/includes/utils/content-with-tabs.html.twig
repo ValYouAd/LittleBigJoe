@@ -23,6 +23,9 @@
         {% if canEditProject %}
             <a style="font-size: 12px;padding: 5px 10px;float:right;" href="{{ path('littlebigjoe_frontendbundle_project_edit', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary btn-sm">{{ 'Edit'|trans() }}</a>
         {% endif %}
+    {% else %}
+        {% set canCreateProduct = true %}
+        {% set canEditProject = true %}
     {% endif %}
     </h1>
 
@@ -142,16 +145,18 @@
                 {% set hasDefaultMedia = false %}
                 {% for productMedia in productMedias %}
                     {% if productMedia.highlighted %}
-                        <img src="{{ asset(productMedia.image) }}" alt="alt-LBJ - brand" />
+                        {% if productMedia.type == 'video' %}
+                            <iframe style="height:450px" scrolling="auto" frameborder="0" allowfullscreen="" mozallowfullscreen=""
+                                    webkitallowfullscreen="" hspace="0" vspace="0" class="fancybox-iframe"
+                                    src="{{ productMedia.videoUrl }}"></iframe>
+                        {% else %}
+                            <a href="{{ asset(productMedia.image) }}" class="fancybox">
+                                <img src="{{ asset(productMedia.image) }}" alt="alt-LBJ - product image" />
+                            </a>
+                        {% endif %}
                         {% set hasDefaultMedia = true %}
                     {% endif %}
                 {% endfor %}
-
-                {% if not hasDefaultMedia %}
-                    <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
-                {% endif %}
-            {% else %}
-                <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
             {% endif %}
         </div>
 
@@ -183,7 +188,7 @@
                                 </a>
                             {% else %}
                                 <a href="{{ asset(productMedia.image) }}" class="fancybox">
-                                    <img class="carousel-thumbnail" src="{{ asset(productMedia.image) }}" alt="alt-LBJ - project image" />
+                                    <img class="carousel-thumbnail" src="{{ asset(productMedia.image) }}" alt="alt-LBJ - product image" />
                                 </a>
                             {% endif %}
                         </div>
@@ -203,8 +208,10 @@
             </div>
         {% endif %}
 
-        {{ form(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
-        <p><span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span></p>
+        {% if validation_form is defined %}
+            {{ form(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
+            <p><span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span></p>
+        {% endif %}
         <div class="clearfix">&nbsp;</div>
     </div>
     {% endif %}
