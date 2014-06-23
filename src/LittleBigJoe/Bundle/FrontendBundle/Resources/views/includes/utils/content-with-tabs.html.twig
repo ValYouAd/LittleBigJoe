@@ -26,6 +26,14 @@
     {% else %}
         {% set canCreateProduct = true %}
         {% set canEditProject = true %}
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                {% if entity.product is defined and entity.product.validatedAt is defined %}
+                    window.location.hash = "tab_4";
+                {% endif %}
+            });
+        </script>
     {% endif %}
     </h1>
 
