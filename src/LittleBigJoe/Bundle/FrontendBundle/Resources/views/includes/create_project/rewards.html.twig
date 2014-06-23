@@ -1,6 +1,6 @@
 <ul class="rewards" data-prototype="{{ form_widget(projectRewards.vars.prototype)|e }}">
     {% for reward in projectRewards %}
-        <li>
+        <li class="clearfix">
             {{ form_row(reward.title) }}
             {{ form_row(reward.description) }}
             {{ form_row(reward.amount) }}
