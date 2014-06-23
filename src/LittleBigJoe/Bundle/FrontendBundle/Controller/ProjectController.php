@@ -830,6 +830,7 @@ class ProjectController extends Controller
 
         // Create form flow
         $projectProduct = new ProjectProduct();
+        $projectProduct->setDescription($project->getDescription());
         $flow = $this->get('littlebigjoefrontend.flow.project.createProduct');
         $flow->bind($projectProduct);
         $form = $flow->createForm();

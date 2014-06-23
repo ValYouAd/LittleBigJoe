@@ -66,7 +66,6 @@ class CreateProductFormType extends AbstractType
                 ))
                 ->add('description', 'ckeditor', array(
                     'label' => 'Description',
-                    'data' => $options['data']->getProject()['description'],
                     'language' => $ckeditorLanguage,
                     'width' => '100%'
                 ));
