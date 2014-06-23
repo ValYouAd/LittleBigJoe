@@ -39,7 +39,7 @@
                     {% elseif flow.getCurrentStepNumber() == 5 %}
                         <p>{{ 'Please check below, if your data is correct. If so, please click on the "Finish" button to put your project online.'|trans() }}</p>
                         <div class="clearfix"></div>
-                        {% render(controller('LittleBigJoeFrontendBundle:Project:preview', { 'entity':project })) %}
+                        {% render(controller('LittleBigJoeFrontendBundle:Project:preview', { 'entity':project,'product':projectProduct })) %}
                     {% endif %}
 
                     {{ form_rest(form) }}

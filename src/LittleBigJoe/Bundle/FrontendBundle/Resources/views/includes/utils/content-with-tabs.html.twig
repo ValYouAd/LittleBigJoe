@@ -133,7 +133,8 @@
     </div>
 
     {# N'affiche l'onglet que si c'est le créateur du projet, un admin LBJ, un admin marque, ou que le produit est validé #}
-    {% if entity.product and (canCreateProduct or canEditProject or (entity.status == '2' and entity.product.validatedAt is defined)) %}
+    {% if entity.product and (canCreateProduct or canEditProject or (entity.status == '2'
+    and entity.product.validatedAt is defined)) %}
     {# ----- TAB 'PRODUIT' ------ #}
     <div class="tab-content-container" id="tabcont_4">
         <div class="wContent-video-container">
