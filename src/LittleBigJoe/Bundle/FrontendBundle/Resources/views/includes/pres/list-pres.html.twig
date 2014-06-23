@@ -75,12 +75,11 @@
 
         <div class="keywords-container">
             {% for category in project.categories %}
-                <a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug':category.slug}) }}"><div class="keyword">
-
-                        <span>{{ category }}</span>
-                        <img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" />
-
-                </div> </a>
+                <div class="keyword">
+                <span><a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug':category.slug}) }}">
+                        {{ category }}</a></span>
+                    <img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" />
+                </div>
             {% endfor %}
         </div>
 
