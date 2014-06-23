@@ -31,7 +31,7 @@ class CreateProjectFlow extends FormFlow implements EventSubscriberInterface
 		{
 				$this->formType = $formType;
 		}
-	
+
 		public function getName() 
 		{
 				return 'createProject';
@@ -68,6 +68,7 @@ class CreateProjectFlow extends FormFlow implements EventSubscriberInterface
 			
 				$options['cascade_validation'] = true;
 				$options['flow_step'] = $step;
+            $options['locale'] = $this->getRequest()->getLocale();
 			
 				return $options;
 		}
