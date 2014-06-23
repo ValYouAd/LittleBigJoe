@@ -210,8 +210,12 @@
         {% endif %}
 
         {% if validation_form is defined %}
-            {{ form(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
-            <p><span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span></p>
+            {{ form_start(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
+            <div class="btn-group">
+                {{ form_widget(validation_form.submitValidate) }}
+                <span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span>
+            </div>
+            {{ form_end(validation_form) }}
         {% endif %}
         <div class="clearfix">&nbsp;</div>
     </div>
