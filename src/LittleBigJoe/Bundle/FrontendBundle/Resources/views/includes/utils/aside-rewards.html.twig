@@ -3,7 +3,7 @@
 
     <div class="participating">
         <img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />
-        <span class="orange-text">{{ nb_participants }}</span> {{ 'participant(s)'|trans() }} <span class="light-text">/ {{ reward.stock }} {{ 'max.'|trans() }}</span>
+        <span class="orange-text">{{ nb_participants }}</span> {% transchoice nb_participants %}{0} participant|{1} participant|]1,Inf] participants{% endtranschoice %} <span class="light-text">/ {{ reward.stock }} {{ 'max.'|trans() }}</span>
     </div>
 
     <div class="text-infos">
