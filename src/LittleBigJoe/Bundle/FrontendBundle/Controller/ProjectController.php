@@ -545,7 +545,7 @@ class ProjectController extends Controller
                 $flow->reset();
                 $this->getRequest()->getSession()->set('projectMedias', null);
 
-                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
             }
         }
 
