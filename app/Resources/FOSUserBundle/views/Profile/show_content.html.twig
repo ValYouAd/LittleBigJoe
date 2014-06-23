@@ -49,7 +49,7 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p>{{ 'There\'s no projects for the moment.'|trans() }}</p>
+                    <p class="nodata">{{ 'There\'s no projects for the moment.'|trans() }}</p>
                 {% endif %}
 
                 <div class="article-header">
@@ -75,7 +75,7 @@
                         {% endif %}
                     {% endfor %}
                 {% else %}
-                    <p>{{ 'There\'s no contributions for the moment.'|trans() }}</p>
+                    <p class="nodata">{{ 'There\'s no contributions for the moment.'|trans() }}</p>
                 {% endif %}
             </div>
         </article>
