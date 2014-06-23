@@ -212,9 +212,12 @@
         {% if validation_form is defined %}
             {{ form_start(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
             <div class="btn-group">
-                {{ form_widget(validation_form.submitValidate) }}
+                {% if not entity.product.validatedAt %}
+                    {{ form_widget(validation_form.submitValidate) }}
+                {% endif %}
                 <span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span>
             </div>
+            <div class="hidden">{{ form_rest(validation_form) }}</div>
             {{ form_end(validation_form) }}
         {% endif %}
         <div class="clearfix">&nbsp;</div>

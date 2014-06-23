@@ -831,7 +831,6 @@ class ProjectController extends Controller
         // Create form flow
         $projectProduct = new ProjectProduct();
         $projectProduct->setDescription($project->getDescription());
-        $projectProduct->setProject($project);
         $project->setProduct($projectProduct);
         $flow = $this->get('littlebigjoefrontend.flow.project.createProduct');
         $flow->bind($projectProduct);
@@ -845,6 +844,8 @@ class ProjectController extends Controller
                 // Create form for next step
                 $form = $flow->createForm();
             } else {
+                $project->setProduct(null);
+
                 if (!empty($projectFields)) {
                     $project->setAmountRequired($projectFields['amountRequired']);
 
