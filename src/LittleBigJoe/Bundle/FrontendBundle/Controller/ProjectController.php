@@ -24,6 +24,7 @@ use LittleBigJoe\Bundle\FrontendBundle\Form\EntryType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\ReportProjectType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\EntryCommentType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\HelpProjectType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ProjectController extends Controller
 {

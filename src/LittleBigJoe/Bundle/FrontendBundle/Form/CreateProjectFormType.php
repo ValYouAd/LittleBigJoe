@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints\Image;
 
 class CreateProjectFormType extends AbstractType
 {
@@ -51,7 +52,7 @@ class CreateProjectFormType extends AbstractType
                             ),
                             'data_class' => null,
                             'mapped' => true,
-                            'required' => false
+                            'required' => false,
                     ))
                     ->add('brand', 'text', array(
                         'label' => 'Associated brand',

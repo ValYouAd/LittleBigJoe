@@ -66,6 +66,11 @@ class Project
      * @var string
      *
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
+     * @Assert\Image(
+     *    maxSize = "20971520",
+     *    mimeTypes= {"image/gif", "image/jpeg", "image/png"},
+     *    groups = {"flow_createProject_step1"}
+     * )
      * @Gedmo\UploadableFilePath
      */
     protected $photo;
