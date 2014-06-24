@@ -49,7 +49,7 @@ class EntryCommentType extends AbstractType
                 'mapped' => false,
             ))
             ->add('content', 'textarea', array(
-                'label' => false,
+                'label' => '',
                 'data' => '',
             ))
             ->add('addEntryComment', 'button', array(
