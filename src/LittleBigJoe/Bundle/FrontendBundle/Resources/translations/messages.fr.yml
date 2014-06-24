@@ -1,0 +1,363 @@
+'': ''
+'%currentUser% has declined the product %product%': '%currentUser% a refusé le produit %product%'
+'%days% day(s)': '%days% jour(s)'
+'%hours% hour(s)': '%hours% heure(s)'
+'%minutes% minute(s)': '%minutes% minute(s)'
+'%months% month(s)': '%months% mois'
+'%years% year(s)': '%years% année(s)'
+(Private): (Privé)
+(Public): (Public)
+'1. Create my project': '1. Créer mon projet'
+'1€ and more': '1€ et plus'
+'2. Engagement & funding phase': '2. Phase d''engagement et de financement'
+'3 Villa du Clos de Malevart': '3 Villa du Clos de Malevart'
+'3. Launch my project': '3. Lancer mon projet'
+'A problem has occured during your payment.': 'Un problème est survenu durant votre paiement.'
+'A project has been reported': 'Un projet a été signalé'
+'A user has reported the following project : ': 'Un utilisateur a rapporté le projet suivant : '
+About: 'A propos'
+'Add entry to this project': 'Ajouter un article au projet'
+'Add images': 'Ajouter des images'
+'Add images/videos': 'Ajouter des images/vidéos'
+'Add new audio file': 'Ajouter un nouveau fichier audio'
+'Add new comment': 'Ajouter un nouveau commentaire'
+'Add new entry': 'Ajouter un nouvel article'
+'Add new entry comment': 'Ajouter un nouveau commentaire sur l''article'
+'Add new file': 'Ajouter un nouveau fichier'
+'Add new reward': 'Ajouter une nouvelle récompense'
+'All brands': 'Toutes les marques'
+'All projects': 'Tous les projets'
+Amount: Montant
+'Amount to raise': 'Montant à lever'
+'An error has occured during brand unfollow. Please try again': 'Une erreur est survenue lors du désabonnement à la marque. Veuillez réessayer'
+'An error has occured during comment saving. Please try again': 'Une erreur est survenue lors de la sauvegarde du commentaire. Veuillez réessayer'
+'An error has occured during entry saving. Please try again': 'Une erreur est survenue lors de la sauvegarde de l''article. Veuillez réessayer'
+'An error has occured during item deletion. Please try again': 'Une erreur est survenue lors de la suppression de l''élément. Veuillez réessayer'
+'An error has occured during media deleting. Please try again': 'Une erreur est survenue lors de la suppression du média. Veuillez réessayer'
+'An error has occured during media highlighting. Please try again': 'Une erreur est survenue lors de la mise à la une de l''élément. Veuillez réessayer'
+'An error has occured during nra follow. Please try again': 'Une erreur est survenue. Veuillez réessayer'
+'An error has occured during project liking. Please try again': 'Une erreur est survenue lors du "J''aime" sur le projet. Veuillez réessayer'
+'An error has occured during project reporting. Please try again': 'Une erreur est survenue lors du signalement du projet. Veuillez réessayer'
+'An error has occured during video downloading. Please try again': 'Une erreur est survenue lors du téléchargement de la vidéo. Veuillez réessayer'
+'Any amount of': 'N''importe quel montant'
+'Associated brand': 'Marque associée'
+'Associated categories': 'Catégories associées'
+'Associated entry': 'Article associé'
+Bio: Bio
+'Biography of': 'Biographie de'
+'Birthday date': 'Date de naissance'
+Blog: Blog
+Brands: Marques
+By: Par
+Cancel: Annuler
+Categories: Catégories
+'Choose awards': 'Sélectionnez les récompenses'
+City: Ville
+'Comment content': 'Contenu du commentaire'
+'Comment this entry': 'Commenter cet article'
+'Comment this project': 'Commenter ce projet'
+Comment(s): Commentaire(s)
+Comments: Commentaires
+Contact: Contact
+Continue: Continuer
+'Contribution ID': 'ID de la contribution'
+'Contribution amount': 'Montant de la contribution'
+'Contribution for': 'Contribution pour'
+Contributor: Contributeur
+Country: Pays
+'Create my project': 'Créer mon projet'
+'Create the product': 'Créer le produit'
+Currency: Devise
+Current: 'En cours'
+'Current projects': 'Projets en cours'
+Date: Date
+Decline: Décliner
+'Decline message': 'Décliner le message'
+'Decline product': 'Décliner la fiche produit'
+'Decline the product': 'Décliner cette offre de produit'
+'Default language': 'Langue par défaut'
+'Define my goals': 'Définir mes objectifs'
+'Define the goals': 'Définir les objectifs'
+'Delete reward': 'Supprimer la récompense'
+'Delete this project': 'Supprimer le projet'
+Description: Description
+Details: Détails
+Discovering: Découvrir
+'Does the project contains a visual or written representation of the brand ?': 'Est-ce que le projet contient une représentation visuelle ou écrite d''une marque ?'
+'Don''t hesitate to contribute to others projects to help creators !': 'N''hésitez pas à contributer à d''autres projets pour aider les créateurs !'
+EUR: EUR
+Edit: Editer
+'Edit my project': 'Editer mon projet'
+'Edit project': 'Editer le projet'
+Email: Email
+'Email address': 'Adresse email'
+Ended: Terminés
+'Ended projects': 'Projets terminés'
+'Ending at': 'Se termine le'
+Engagement: Engagement
+English: Anglais
+'Entry title': 'Titre de l''article'
+'Error during payment': 'Erreur durant le paiement'
+'Euros raised in total': 'Total d''Euros levés'
+FAQ: FAQ
+Facebook: Facebook
+'Facebook URL': 'URL Facebook'
+Favorites: Favoris
+'Feedback text': 'Texte du retour'
+'Feedbacks regarding': 'Retours concernant'
+Finish: Terminer
+'First revival': 'Première relance'
+Firstname: Prénom
+Follow: Suivre
+'Follow us': Suivez-nous
+Followed: Suivi
+French: Français
+'Fund this project': 'Financer ce projet'
+GBP: GBP
+'General conditions': 'Conditions générales d''utilisation'
+'Get the video': 'Récupérer la vidéo'
+'Getting online': 'Passer en ligne'
+'Go back to homepage': 'Retourner à la page d''accueil'
+'Google+ URL': 'URL Google+'
+Hello: Bonjour
+'Help us to realize this project': 'Aidez-nous à réaliser le projet'
+'Here''s some details regarding this report : ': 'Voici quelques détails concernant ce rapport : '
+'Here''s some infos regarding your contribution :': 'Voici des informations concernant votre contributions :'
+'Here''s the important data regarding this contribution': 'Voici des informations importantes concernant votre contribution'
+'Here''s the important data regarding your account': 'Voici des informations importantes concernant votre compte'
+'His projects': 'Ses projets'
+'How does': Comment
+'I just financed project %project%': 'J''ai financé le projet %project%'
+'I just voted for project %project%': 'Je viens de voter pour le projet %project%'
+'I like this project': 'J''aime ce projet'
+'I think this project should not be on LittleBigJoe': 'Je pense que ce projet ne devrait pas être sur LittleBigJoe'
+'I would like to keep this contribution anonymous': 'Je souhaite que cette contribution reste anonyme'
+Images: Images
+'Intellectual property infringement': 'Violation de propriété intellectuelle'
+'Invoice for contribution': 'Facture pour la contribution'
+'It is up to you!': 'C''est à vous!'
+JPY: JPY
+Lastname: Nom
+Latest: Derniers
+'Latest projects': 'Derniers projects'
+Launch: Lancer
+'Launch my project': 'Lancer mon projet'
+'Learn more about our': 'Apprenez en plus sur notre'
+'Likes to get': 'Likes à obtenir'
+Limited: Limité
+'Little Big Joe': 'Little Big Joe'
+Location: Localisation
+Login: Connexion
+Logo: Logo
+Logout: Déconnexion
+'Maximum quantity by user': 'Quantité maximum par utilisateur'
+'Media gallery': 'Galerie des médias'
+'Most desired': 'Les plus désirés'
+'My account': 'Mon compte'
+'My news': 'Mes news'
+N/A: N/A
+Name: Nom
+New: Nouveau
+'New contribution': 'Nouvelle contribution'
+Newletter: Newletter
+News: News
+Next: Suivant
+No: Non
+'No image': 'Aucune image'
+'No rewards': 'Aucune récompense'
+'No thanks, I just want to help the project.': 'Non merci, je veux simplement aider le projet.'
+'Offer an percentage of raised funds to the project owner': 'Offrir un pourcentage du montant levé au créateur du projet'
+'Offer the product to the project owner if the amount to raise is reached': 'Offrir le produit au créateur du projet, si le montant à lever est atteint'
+On: Le
+Other: Autre
+'Out of stock': 'Plus de stock'
+Participants: Participants
+Password: 'Mot de passe'
+'Paste your Youtube/Dailymotion/Vimeo video url': 'Copiez/coller l''URL de votre vidéo Youtube/Dailymotion/Vimeo'
+'Payment confirmation': 'Confirmation de paiement'
+'Payment for': 'Paiement pour'
+'Payment methods': 'Moyens de paiement'
+Photo: Photo
+Pitch: Pitch
+'Please check below, if your data is correct. If so, please click on the "Finish" button to put your project online.': 'Veuillez vérifier ci-dessous que toutes les informations sont correctes. Si c''est le cas, merci de cliquer sur le bouton "Terminer", pour basculer votre projet en ligne.'
+'Please select a file before submitting the form': 'Veuillez sélectionner un fichier avant de soumettre le formulaire'
+'Please try again.': 'Veuillez réessayer.'
+Popular: Populaires
+'Popular projects': 'Projets populaires'
+'Posted by': 'Posté par'
+'Present my project': 'Présenter mon projet'
+'Present the product': 'Présenter le produit'
+Preview: Prévisualiser
+Previous: Précédent
+'Previous step': 'Etape précédente'
+Price: Prix
+Product: Produit
+'Product ending at': 'Produit se termine le'
+'Product type': 'Type de produit'
+Project: Projet
+'Project ending at': 'Le projet se termine le'
+'Project owner gift': 'Cadeau au créateur du projet'
+Projects: Projets
+'Projects I''m supporting': 'Projets que je soutiens'
+'Projects in which the user has participated': 'Projets dans lesquels l''utilisateur a participé'
+'Projects nearing completion': 'Projets bientôt terminés'
+'Projects of brands I follow': 'Projets des marques suivies'
+'Projects of users I follow': 'Projets des utilisateurs suivis'
+Quantity: Quantité
+'Read the terms': 'Lire les CGU'
+Reason: Motif
+'Recently updated': 'Récemment mis à jour'
+Registration: Inscription
+'Related project': 'Projet lié'
+Report: Signaler
+'Report details : ': 'Détails du rapport : '
+'Report reason': 'Motif du rapport'
+'Report reason : ': 'Motif du rapport : '
+'Report this project': 'Signaler ce projet'
+'Required amount': 'Montant requis'
+'Return to the project page': 'Retourner sur la page du projet'
+'Reward description': 'Description de la récompense'
+'Reward title': 'Titre de la récompense'
+Rewards: Récompenses
+Save: Sauvegarder
+'Save feedback': 'Sauvegarder le retour'
+'Save modifications': 'Sauvegarder les modifications'
+Search: Rechercher
+'Search for ': 'Recherche pour '
+'Second revival': 'Seconde relance'
+'See all brands': 'Voir toutes les marques'
+'See all contributions': 'Voir toutes les contributions'
+'See all current projects': 'Voir tous les projets en cours'
+'See all ended projects': 'Voir tous les projets terminés'
+'See all projects': 'Voir tous les projets'
+'See his profile': 'Voir son profil'
+'Share my support on Facebook': 'Partager mon soutien sur Facebook'
+'Share my support on Twitter': 'Partager mon soutien sur Twitter'
+'Some fields are required. Please fill them before submitting the form': 'Certains champs sont requis. Veuillez les compléter avant de soumettre le formulaire'
+Stock: Stock
+Submit: Soumettre
+'Submit & participate': 'Soumettez & participer'
+'Thanks for follow this brand !': 'Merci de suivre cette marque !'
+'Thanks for liking the project !': 'Merci d''avoir "aimé" ce projet !'
+'Thanks for posting your comment !': 'Merci d''avoir posté votre commentaire !'
+'Thanks for posting your entry !': 'Merci d''avoir posté votre article !'
+'Thanks for reporting this project !': 'Merci d''avoir signalé ce projet'
+'Thanks for unfollow this brand !': 'Merci du désabonnement à cette marque !'
+'Thanks for your contribution': 'Merci de votre contribution'
+'Thanks for your payment.': 'Merci pour votre paiement'
+'The brand': 'La marque'
+'The file size is too big. Please upload audio files that do not exceed 20Mo': 'Le fichier est trop lourd. Veuillez ne pas télécharger des fichiers audio de plus de 20Mo'
+'The file size is too big. Please upload files that do not exceed 20Mo': 'Le fichier est trop lourd. Veuillez ne pas télécharger des fichiers de plus de 20Mo'
+'The file type is not authorized. Authorized audio types are : .mpeg, .mp3, .mp4, .wma, .wav': 'Ce type de fichier n''est pas autorisé. Les extensions autorisées sont : .mpeg, .mp3, .mp4, .wma, .wav'
+'The file type is not authorized. Authorized types are : .pdf, .xml, .zip, .csv, .txt, .doc': 'Ce type de fichier n''est pas autorisé. Les extensions autorisées sont : .pdf, .xml, .zip, .csv, .txt, .doc'
+'The project': 'Le projet'
+'There''s a new contribution on the': 'Il y a une nouvelle contribution sur le'
+'There''s no comments for the moment': 'Il n''y a aucun commentaire pour le moment'
+'There''s no feedbacks for the moment': 'Il n''y a aucun retour pour le moment'
+'There''s no media added to your product.': 'Il n''y a aucun média associé à votre produit.'
+'There''s no media added to your project.': 'Il n''y a aucun média associé à votre projet.'
+'There''s no news for the moment': 'Il n''y a aucune news pour le moment'
+'There''s no participants for the moment': 'Il n''y a aucun participant pour le moment'
+'There''s no projects for the moment': 'Il n''y a aucun projet pour le moment'
+'There''s no results for your search': 'Il n''y a aucun résultat pour votre recherche'
+'This is spam': 'Ceci est du spam'
+'This is the second revival. The': 'Il s''agit de la seconde relance. Le'
+'This is the third and last revival. The': 'Il s''agit de la troisième et dernière relance. Le'
+'Top funded projects': 'Projets les plus financés'
+Total: Total
+'Total likes': 'Total de likes'
+Twitter: Twitter
+'Twitter URL': 'URL de la page Twitter'
+Types: Types
+USD: USD
+Unfollow: 'Non suivi'
+'Unit Price': 'Prix unitaire'
+'Upload new audio file': 'Télécharger un nouveau fichier audio'
+'Upload new file': 'Télécharger un nouveau fichier'
+'User : ': 'Utilisateur : '
+'User IP address : ': 'Adresse IP de l''utilisateur : '
+Validate: Valider
+Videos: Vidéos
+'Visible to non participants ?': 'Visible aux non-participants ?'
+'We are pleased to announce you that': 'Nous sommes heureux de vous annoncer que'
+'We are pleased to announce you that your project has been fully funded by the community !"': 'Nous sommes heureux de vous annoncer que votre projet a atteint le montant total de fonds à lever !"'
+'We are pleased to announce you that your project has reached the "funding phase"': 'Nous sommes heureux de vous annoncer que votre projet a atteint la "phase de financement"'
+'We are pleased to welcome you in this wonderful world !': 'Nous sommes heureux de vous accueillir dans ce monde !'
+'We hope to see you soon in': 'Nous espérons vous revoir bientot sur'
+'Website URL': 'URL du site web'
+'Welcome to Little Big Joe': 'Bienvenue sur Little Big Joe'
+'Welcome to Little Big Joe website': 'Bienvenue sur le site de Little Big Joe'
+'What a great news !': 'Quelle bonne nouvelle !'
+Yes: Oui
+'You already have followed this brand !': 'Vous suivez déjà cette marque !'
+'You already have liked this project !': 'Vous "aimez" déjà ce projet !'
+'You already have unfollowed this brand !': 'Vous ne suivez déjà plus cette marque !'
+'You can access to your project at': 'Vous pouvez accéder à votre projet sur'
+'You can directly access to the product details at': 'Vous pouvez directement accéder à la fiche produit sur'
+'You should receive your money in the next two days': 'Vous recevrez votre argent dans les deux prochains jours'
+'You''ll receive an confirmation email with your payment invoice.': 'Vous recevrez un email de confirmation contenant votre facture.'
+'You''ve been refund for your contribution': 'Vous avez été remboursé pour votre contribution'
+'You''ve been refunded for your contribution on the': 'Vous avez été remboursé pour la contribution du'
+'Your product medias': 'Les médias de votre produit'
+'Your project medias': 'Les médias de votre projet'
+'about this project': 'à propos du projet'
+available: disponible
+'brand wants to create an product for your project :': 'veut créer un produit pour le projet :'
+'brands quoted': 'marques citées'
+by: par
+contributions: contributions
+element(s): élément(s)
+evolution: évolution
+'for %brand%%url%': 'pour %brand%%url%'
+'for contributing to the': 'pour votre contrbution au'
+'for free': gratuitement
+'for registering in Little Big Joe website': 'pour votre inscription sur le site de Little Big Joe'
+funded: financés
+gived: donné(s)
+got: a
+'has declined your product ': 'a refusé votre produit '
+'in projects right now, by': 'aux projets, en'
+'it work ?': 'ca marche ?'
+likes: '"J''aime"'
+'likes, to consider the project.': 'likes, pour commencer à trouver le projet intéressant.'
+max.: max.
+'my project': 'mon projet'
+on: le
+'on @LittleBigJoe %url%': 'sur @LittleBigJoe %url%'
+participant(s): '{0} participant|{1} participant|]1,Inf] participants'
+participants: participants
+'posted a new entry': 'a posté un nouvel article'
+product: produit
+'product is related to the following project': 'produit lié au projet'
+project: projet
+'project, in Little Big Joe website': 'projet, sur le site de Little Big Joe'
+projects: projets
+raised: levés
+'regarding this project': 'concernant ce projet'
+'related to the project': 'lié au projet'
+remaining: restant(e)s
+'signing up': 'vous connectant'
+supporters: supporters
+'this week': 'cette semaine'
+'to be funded': 'à financer'
+'to this project': 'à ce projet'
+'wonderful project': 'magnifique projet'
+€: €
+'has declined your product': '__has declined your product'
+'A user has reported the following project :': 'Un utilisateur a rapporté le projet suivant :'
+'Here''s some details regarding this report :': 'Voici quelques informations concernant le rapport :'
+'User :': 'Utilisateur :'
+'User IP address :': 'Adresse IP de l''utilisateur :'
+'Report reason :': 'Raison du rapport :'
+'Report details :': 'Détails du rapport :'
+'Search for': 'Recherche pour'
+'{0} participant|{1} participant|]1,Inf] participants': '{0} participant|{1} participant|]1,Inf] participants'
+Newsletter: Newsletter
+'{0} comment|{1} comment|]1,Inf] comments': '__{0} Aucun commentaire|{1} Un commentaire|]1,Inf] Commentaires'
+'{0} Comment|{1} Comment|]1,Inf] Comments': '__{0} Commentaire|{1} Commentaire|]1,Inf] Commentaires'
+'{0} like|{1} like|]1,Inf] likes': '__{0} like|{1} like|]1,Inf] likes'
+'{0} No project|{1} His project|]1,Inf] His projects': '__{0} Aucun projet|{1} Son projet|]1,Inf] Ses projets'
+'{0} project|{1} project|]1,Inf] projects': '__{0} projet|{1} projet|]1,Inf] projets'
+'{0} No project in which the user has participated|{1} Project in which the user has participated|]1,Inf] Projects in which the user has participated': '__{0} Aucun projet pour lequel l''utilisateur a participé|{1} Projet pour lequel l''utilisateur a participé|]1,Inf] Projets pour lesquels l''utilisateur a participé'
+'%count% participants': "{0} Aucun participant|{1} %count% participant|]1,Inf] %count% participants"
+(unlimited): (illimité)
