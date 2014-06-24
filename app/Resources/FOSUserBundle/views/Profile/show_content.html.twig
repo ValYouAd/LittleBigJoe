@@ -60,7 +60,7 @@
                 {% if user.contributions|length > 0 %}
                     {% for contribution in user.contributions|reverse() %}
                         <h3>
-                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'slug': contribution.project.slug}) }}">{{ contribution.project.name }}</a>
+                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': contribution.project.id, 'slug': contribution.project.slug}) }}">{{ contribution.project.name }}</a>
                         </h3>
                         <h4>{{ contribution.mangopayAmount() }} {{ '€'|trans() }} {% if contribution.isAnonymous %}({{ 'Anonymous contribution'|trans() }}){% else %}({{ 'Public contribution'|trans() }}){% endif %}</h4>
                         <p>{{ 'Made on'|trans() }} {{ contribution.createdAt|localizeddate('medium', 'medium') }}</p>
