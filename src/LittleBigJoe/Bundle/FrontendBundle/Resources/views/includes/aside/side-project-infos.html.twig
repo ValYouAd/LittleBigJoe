@@ -37,7 +37,7 @@
         <div class="project-stats">
             <div class="likes">
                 <img class="icon" src="{{ asset('static/img/icons/icon-author.png') }}" alt="alt-LBJ - author icon" />
-                <span class="orange-text"><strong>{{ usersIds|length }}</strong></span> {{ 'participant(s)'|trans() }}
+                <span class="orange-text"><strong>{{ usersIds|length }}</strong></span> {% transchoice usersIds|length %}{0} participant|{1} participant|]1,Inf] participants{% endtranschoice %}
             </div>
             <div class="days">
                 <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />

@@ -359,5 +359,5 @@ Newsletter: Newsletter
 '{0} No project|{1} His project|]1,Inf] His projects': '__{0} Aucun projet|{1} Son projet|]1,Inf] Ses projets'
 '{0} project|{1} project|]1,Inf] projects': '__{0} projet|{1} projet|]1,Inf] projets'
 '{0} No project in which the user has participated|{1} Project in which the user has participated|]1,Inf] Projects in which the user has participated': '__{0} Aucun projet pour lequel l''utilisateur a participé|{1} Projet pour lequel l''utilisateur a participé|]1,Inf] Projets pour lesquels l''utilisateur a participé'
-'%count% participants': "{0} Aucun participant|{1} %count% participant|]1,Inf] %count% participants"
+'trans_participants': "{0} Aucun participant|{1} %count% participant|]1,Inf] %count% participants"
 (unlimited): (illimité)
