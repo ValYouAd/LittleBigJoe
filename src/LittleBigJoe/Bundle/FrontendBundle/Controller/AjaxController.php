@@ -4,6 +4,7 @@ namespace LittleBigJoe\Bundle\FrontendBundle\Controller;
 
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectVideo;
+use LittleBigJoe\Bundle\FrontendBundle\Form\EntryCommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -65,12 +66,37 @@ class AjaxController extends Controller
                         $projectMedias[$key]['highlighted'] = true;
                     }
 
+                    if ($projectMedia['type'] == 'image')
+                    {
+                        $media = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
+                    }
+                    elseif ($projectMedia['type'] == 'video')
+                    {
+                        $media = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectMedia['id']);
+                    }
+                    $media->setHighlighted($projectMedias[$key]['highlighted']);
+                    $em->persist($media);
+                    $em->flush();
+
                     $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
                     $return = array('status' => 'OK', 'toHighlight' => $projectMedias[$key]['highlighted']);
                 }
                 else
                 {
+                    if ($projectMedia['type'] == 'image')
+                    {
+                        $media = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
+                    }
+                    elseif ($projectMedia['type'] == 'video')
+                    {
+                        $media = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectMedia['id']);
+                    }
+                    $media->setHighlighted(false);
+                    $em->persist($media);
+                    $em->flush();
+
                     $projectMedias[$key]['highlighted'] = false;
+                    $this->getRequest()->getSession()->set($sessionKey, $projectMedias);
                 }
             }
         }
@@ -102,7 +128,7 @@ class AjaxController extends Controller
     public function addImageAction(Request $request, $sessionKey = 'projectMedias')
     {
         $em = $this->getDoctrine()->getManager();
-        $projectMedias = $this->getRequest()->getSession()->get($sessionKey, array());
+        $projectMedias = $this->getRequest()->getSession()->get($sessionKey);
         $file = $_FILES['selectGalleryImages'];
         $imageData = array('status' => 'KO');
 
@@ -161,15 +187,7 @@ class AjaxController extends Controller
         $em->persist($image);
         $em->flush();
 
-        // Generate thumb
-        $imagine = $this->container->get('imagine');
-        $imagineFilterManager = $this->container->get('imagine.filter.manager');
-        $imagineFilterManager->get('230x268')
-            ->apply($imagine->open($image->getPath()))
-            ->save($image->getPath());
-
-        $avalancheService = $this->get('imagine.cache.path.resolver');
-        $imagePath = $this->container->getParameter('default_url').$avalancheService->getBrowserPath($image->getPath(), '230x268');
+        $imagePath = '/'.$dirName.'/'.$tmpName;
 
         $imageData = array(
             'id' => $image->getId(),
@@ -182,6 +200,7 @@ class AjaxController extends Controller
         $projectMedias['image_'.$image->getId()] = array(
             'type' => 'image',
             'id' => $image->getId(),
+            'videoUrl' => null,
             'image' => $imagePath,
             'highlighted' => $image->getHighlighted()
         );
@@ -214,7 +233,8 @@ class AjaxController extends Controller
     public function addVideoAction(Request $request, $sessionKey = 'projectMedias')
     {
         $em = $this->getDoctrine()->getManager();
-        $projectMedias = $this->getRequest()->getSession()->get($sessionKey, array());
+        $projectMedias = $this->getRequest()->getSession()->get($sessionKey);
+
         $videoUrl = $this->get('request')->request->get('videoUrl');
         $videoData = array('status' => 'KO');
 
@@ -237,6 +257,7 @@ class AjaxController extends Controller
             $projectMedias['video_'.$video->getId()] = array(
                 'type' => 'video',
                 'id' => $video->getId(),
+                'videoUrl' => '//www.youtube.com/embed/'.$video->getProviderVideoId(),
                 'image' => $video->getThumbUrl(),
                 'highlighted' => $video->getHighlighted()
             );
@@ -1073,9 +1094,12 @@ class AjaxController extends Controller
 	    
 	    	$entryJson = array(
 	    			'title' => $entry->getTitle(),
-	    			'is_public' => $entry->getIsPublic(),
-	    			'created_at' => $entry->getCreatedAt()->format('m/d/Y h:i'),
-	    			'content' => $entry->getContent()
+                    'user' => (string)$entry->getProject()->getUser(),
+                    'user_id' => $entry->getProject()->getUser()->getId(),
+                    'user_photo' => $entry->getProject()->getUser()->getPhoto(),
+                    'entry_id' => $entry->getId(),
+                    'created_at' => $this->get('littlebigjoefrontend.twig.littlebigjoe_extension')->timeAgoInWordsFilter($entry->getCreatedAt()),
+                    'content' => $entry->getContent()
 	    	);
 	    
 	    	// Make sure no code is executed after it
@@ -1136,10 +1160,12 @@ class AjaxController extends Controller
 	    	$em->flush();
 	    
 	    	$commentJson = array(
-	    			'user_name' => (string)$currentUser,
-	    			'user_id' => $currentUser->getId(),
-	    			'created_at' => $entryComment->getCreatedAt()->format('m/d/Y h:i'),
-	    			'content' => $entryComment->getContent()
+                'user_name' => (string)$currentUser,
+                'user_id' => $currentUser->getId(),
+                'user_photo' => $currentUser->getPhoto(),
+                'entry_id' => $entry->getId(),
+                'created_at' => $this->get('littlebigjoefrontend.twig.littlebigjoe_extension')->timeAgoInWordsFilter($entryComment->getCreatedAt()),
+                'content' => $entryComment->getContent()
 	    	);
 	    
 	    	// Make sure no code is executed after it
@@ -1201,7 +1227,8 @@ class AjaxController extends Controller
 	    	$commentJson = array(
 	    			'user_name' => (string)$currentUser,
 	    			'user_id' => $currentUser->getId(),
-	    			'created_at' => $comment->getCreatedAt()->format('m/d/Y h:i'),
+                    'user_photo' => $currentUser->getPhoto(),
+	    			'created_at' => $this->get('littlebigjoefrontend.twig.littlebigjoe_extension')->timeAgoInWordsFilter($comment->getCreatedAt()),
 	    			'content' => $comment->getContent()
 	   		);
 	    	

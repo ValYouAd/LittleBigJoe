@@ -51,6 +51,9 @@ class RegistrationFormType extends BaseType
         {
         		$lang = 'en';
         }
+
+        $defaultDate = strtotime('-18 years');
+        $defaultDate = new \DateTime('@'.$defaultDate);
         switch ($lang)
         {
             case 'en': $format = 'MM/dd/yyyy'; break;
@@ -76,6 +79,7 @@ class RegistrationFormType extends BaseType
             ->add('birthday', 'date', array(
                 'label' => 'Birthday date',
                 'widget' => 'single_text',
+                'data' => $defaultDate,
                 'format' => $format,
                 'attr' => array('class' => 'form-control datepicker'),
             ))

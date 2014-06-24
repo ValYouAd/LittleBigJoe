@@ -66,6 +66,11 @@ class Project
      * @var string
      *
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
+     * @Assert\Image(
+     *    maxSize = "20971520",
+     *    mimeTypes= {"image/gif", "image/jpeg", "image/png"},
+     *    groups = {"flow_createProject_step1"}
+     * )
      * @Gedmo\UploadableFilePath
      */
     protected $photo;
@@ -1408,21 +1413,23 @@ class Project
     public function getMedias()
     {
         $medias = array();
-        foreach ($this->images as $image)
+        foreach ($this->getImages() as $image)
         {
             $medias['image_'.$image->getId()] = array(
                 'type' => 'image',
                 'id' => $image->getId(),
+                'videoUrl' => null,
                 'image' => '/'.$image->getPath(),
                 'highlighted' => $image->getHighlighted()
             );
         }
 
-        foreach ($this->videos as $video)
+        foreach ($this->getVideos() as $video)
         {
             $medias['video_'.$video->getId()] = array(
                 'type' => 'video',
                 'id' => $video->getId(),
+                'videoUrl' => '//www.youtube.com/embed/'.$video->getProviderVideoId(),
                 'image' => $video->getThumbUrl(),
                 'highlighted' => $video->getHighlighted()
             );

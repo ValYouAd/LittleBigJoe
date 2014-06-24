@@ -42,9 +42,9 @@
 
                 <div class="wContent-id-img">
                     {% if entity.logo %}
-                        <img src="{{ asset(entity.logo) }}" width="243" height="243">
+                        <img src="{{ asset(entity.logo) }}" width="243" height="243" alt="{{ entity.name }}">
                     {% else %}
-                        <img src="http://placehold.it/243x243" alt="alt-LBJ - brand" />
+                        <img src="{{ asset('static/img/mascot-square.png')|apply_filter('255x255') }}" width="243" height="243" alt="{{ entity.name }}" />
                     {% endif %}
                 </div>
 

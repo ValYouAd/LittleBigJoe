@@ -1,12 +1,13 @@
 <div class="outer-title">
 
-    <h1>{{ entity }}</h1>
+    <h1>{{ entity }}
     {% set canCreateProduct = false %}
     {% set canEditProject = false %}
 
     {% if isPreview is not defined %}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             {% set canCreateProduct = true %}
+            {% set canEditProject = true %}
         {% elseif is_granted('ROLE_BRAND_ADMIN') %}
             {% for brand in app.user.brands %}
                 {% if brand.id == entity.brand.id %}
@@ -16,26 +17,37 @@
         {% elseif is_granted('ROLE_USER') and entity.user.id == app.user.id %}
             {% set canEditProject = true %}
         {% endif %}
-        {% if canCreateProduct and entity.status == '1' and entity.product and entity.product.validatedAt is null %}
-            <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
-            <div class="clearfix"></div>
-        {% endif %}
+        {% if canCreateProduct and entity.status == '1' and ((entity.product is null) or (entity.product and entity.product.validatedAt is null)) %}
+            <a style="font-size: 12px;padding: 5px 10px;float:right;" href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary btn-sm">{{ 'Validate'|trans() }}</a>
+         {% endif %}
         {% if canEditProject %}
-            <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_edit', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary">{{ 'Edit'|trans() }}</a></p>
-            <div class="clearfix"></div>
+            <a style="font-size: 12px;padding: 5px 10px;float:right;" href="{{ path('littlebigjoe_frontendbundle_project_edit', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary btn-sm">{{ 'Edit'|trans() }}</a>
         {% endif %}
-    {% endif %}
+    {% else %}
+        {% set canCreateProduct = true %}
+        {% set canEditProject = true %}
 
+        <script type="text/javascript">
+            $(document).ready(function () {
+                {% if entity.product is defined and entity.product.validatedAt is defined %}
+                    window.location.hash = "tab_4";
+                {% endif %}
+            });
+        </script>
+    {% endif %}
+    </h1>
 
     <div class="brand-location">
-        <img class="icon" src="{{ asset('static/img/icons/icon-location.png') }}" alt="alt-LBJ - location icon" /> <strong>{{ entity.user.city }}</strong> ({{ entity.user.country|country(app.request.locale) }})
+        <img class="icon" src="{{ asset('static/img/icons/icon-location.png') }}" alt="alt-LBJ - location icon" /> <strong>{{ entity.location }}</strong>
     </div>
 
     <div class="keywords-container">
         {% for category in entity.categories %}
-            <div class="keyword"><span>{{ category }}</span><img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" /></div>
+            <div class="keyword">
+                <span><a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug':category.slug}) }}">
+                    {{ category }}</a></span>
+                <img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" />
+            </div>
         {% endfor %}
     </div>
 
@@ -68,7 +80,15 @@
                 {% set hasDefaultMedia = false %}
                 {% for projectMedia in projectMedias %}
                     {% if projectMedia.highlighted %}
-                        <img src="{{ asset(projectMedia.image) }}" alt="alt-LBJ - brand" />
+                        {% if projectMedia.type == 'video' %}
+                            <iframe style="height:450px" scrolling="auto" frameborder="0" allowfullscreen="" mozallowfullscreen=""
+                                    webkitallowfullscreen="" hspace="0" vspace="0" class="fancybox-iframe"
+                                    src="{{ projectMedia.videoUrl }}"></iframe>
+                        {% else %}
+                            <a href="{{ asset(projectMedia.image) }}" class="fancybox">
+                                <img src="{{ asset(projectMedia.image) }}" alt="alt-LBJ - project image" />
+                            </a>
+                        {% endif %}
                         {% set hasDefaultMedia = true %}
                     {% endif %}
                 {% endfor %}
@@ -97,7 +117,15 @@
                     {% endif %}
 
                     <div class="thumb-cont">
-                        <img class="carousel-thumbnail" src="{% if projectMedia.type == 'video' %}{{ projectMedia.image }}{% else %}{{ asset(projectMedia.image) }}{% endif %}" alt="alt-LBJ - project image" />
+                        {% if projectMedia.type == 'video' %}
+                            <a href="{{ projectMedia.videoUrl }}?autoplay=1" class="fancybox fancybox.iframe">
+                                <img class="carousel-thumbnail" src="{{ projectMedia.image }}"/>
+                            </a>
+                        {% else %}
+                            <a href="{{ asset(projectMedia.image) }}" class="fancybox">
+                                <img class="carousel-thumbnail" src="{{ asset(projectMedia.image) }}" alt="alt-LBJ - project image" />
+                            </a>
+                        {% endif %}
                     </div>
 
                     {% if loop.last %}
@@ -117,7 +145,8 @@
     </div>
 
     {# N'affiche l'onglet que si c'est le créateur du projet, un admin LBJ, un admin marque, ou que le produit est validé #}
-    {% if entity.product and (canCreateProduct or canEditProject or (entity.status == '2' and entity.product.validatedAt is defined)) %}
+    {% if entity.product and (canCreateProduct or canEditProject or (entity.status == '2'
+    and entity.product.validatedAt is defined)) %}
     {# ----- TAB 'PRODUIT' ------ #}
     <div class="tab-content-container" id="tabcont_4">
         <div class="wContent-video-container">
@@ -129,16 +158,18 @@
                 {% set hasDefaultMedia = false %}
                 {% for productMedia in productMedias %}
                     {% if productMedia.highlighted %}
-                        <img src="{{ asset(productMedia.image) }}" alt="alt-LBJ - brand" />
+                        {% if productMedia.type == 'video' %}
+                            <iframe style="height:450px" scrolling="auto" frameborder="0" allowfullscreen="" mozallowfullscreen=""
+                                    webkitallowfullscreen="" hspace="0" vspace="0" class="fancybox-iframe"
+                                    src="{{ productMedia.videoUrl }}"></iframe>
+                        {% else %}
+                            <a href="{{ asset(productMedia.image) }}" class="fancybox">
+                                <img src="{{ asset(productMedia.image) }}" alt="alt-LBJ - product image" />
+                            </a>
+                        {% endif %}
                         {% set hasDefaultMedia = true %}
                     {% endif %}
                 {% endfor %}
-
-                {% if not hasDefaultMedia %}
-                    <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
-                {% endif %}
-            {% else %}
-                <img src="{{ asset('static/img/video.jpg') }}" alt="alt-LBJ - brand" />
             {% endif %}
         </div>
 
@@ -164,7 +195,15 @@
                         {% endif %}
 
                         <div class="thumb-cont">
-                            <img class="carousel-thumbnail" src="{% if productMedia.type == 'video' %}{{ productMedia.image }}{% else %}{{ asset(productMedia.image) }}{% endif %}" alt="alt-LBJ - project image" />
+                            {% if productMedia.type == 'video' %}
+                                <a href="{{ productMedia.videoUrl }}?autoplay=1" class="fancybox fancybox.iframe">
+                                    <img class="carousel-thumbnail" src="{{ productMedia.image }}"/>
+                                </a>
+                            {% else %}
+                                <a href="{{ asset(productMedia.image) }}" class="fancybox">
+                                    <img class="carousel-thumbnail" src="{{ asset(productMedia.image) }}" alt="alt-LBJ - product image" />
+                                </a>
+                            {% endif %}
                         </div>
 
                         {% if loop.last %}
@@ -182,8 +221,17 @@
             </div>
         {% endif %}
 
-        {{ form(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
-        <p><span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span></p>
+        {% if validation_form is defined %}
+            {{ form_start(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
+            <div class="btn-group">
+                {% if not entity.product.validatedAt %}
+                    {{ form_widget(validation_form.submitValidate) }}
+                {% endif %}
+                <span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span>
+            </div>
+            <div class="hidden">{{ form_rest(validation_form) }}</div>
+            {{ form_end(validation_form) }}
+        {% endif %}
         <div class="clearfix">&nbsp;</div>
     </div>
     {% endif %}
@@ -195,53 +243,92 @@
         </div>
         <div class="description-infos">
             {% if is_granted('ROLE_USER') and app.user.id == entity.user.id and entry_form is defined %}
-                <div style="padding:20px;border:1px dotted black">
-                    <h4>{{ 'Add new entry'|trans() }}</h4>
-                    {{ form(entry_form, {attr:{id:'entryForm', role:'form'}}) }}
-                </div>
+                <h4>{{ 'Add new entry'|trans() }}</h4>
+                {{ form(entry_form, {attr:{id:'entryForm', role:'form'}}) }}
+                <div class="clearfix">&nbsp;</div>
+                <div class="double-separator"></div>
             {% endif %}
 
+            <div id="entryInfos">
             {% if entity.entries and entity.entries|length() > 0 %}
-                <div id="entries_list">
+                <ul id="entries_list" class="media-list">
                 {% for entry in entity.entries|reverse %}
-                    {% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and app.user.id in usersIds) %}
-                        <div class="entry">
-                            <strong>{{ entry }} {% if entry.isPublic %}{{ '(Public)'|trans() }}{% else %}{{ '(Private)'|trans() }}{% endif %}</strong><br />
-                            <small>{{ 'On'|trans() }} {{ entry.createdAt|localizeddate('short', 'short') }}</small><br />
-                            {{ entry.content|raw }}
+                    {% if (is_granted('ROLE_USER') and app.user.id == entity.user.id) or (entry.isPublic) or (is_granted('ROLE_USER') and usersIds is defined and app.user.id in usersIds) %}
+                        <li>
+                            <div class="pull-right text-muted">{{ entry.createdAt|time_ago_in_words }}</div>
+                            <h4 class="media-heading">{{ entry }}</h4>
+                            <p>{{ entry.content|raw }}</p>
+                            <li class="media">
+                                <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entry.project.user.id}) }}">
+                                    {% if entry.project.user.photo %}
+                                        <img class="media-object" src="{{ asset(entry.project.user.photo) }}" width="64" height="64" />
+                                    {% else %}
+                                        <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
+                                    {% endif %}
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{ entry.project.user }}</h4>
+                                </div>
+                            </li>
 
+                            <ul id="entryCommentsContainer_{{ entry.id }}" class="media media-list">
                             {% if entry.comments %}
-                                <ul id="entry_{{ entry.id }}_comment_list">
-                                    {% for comment in entry.comments|reverse %}
-                                        <li>
-                                            <strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
-                                            <small>{{ time_diff(comment.createdAt) }}</small><br />
-                                            {{ comment.content|raw }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
+                                {% for comment in entry.comments|reverse %}
+                                    <li class="media">
+                                        <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">
+                                            {% if comment.user.photo %}
+                                                <img class="media-object" src="{{ asset(comment.user.photo) }}" width="64" height="64" />
+                                            {% else %}
+                                                <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
+                                            {% endif %}
+                                        </a>
+                                        <div class="media-body">
+                                            <div class="pull-right text-muted">{{ comment.createdAt|time_ago_in_words }}</div>
+                                            <h4 class="media-heading">{{ comment.user }}</h4>
+                                            <p>{{ comment.content|raw }}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
                             {% endif %}
-                        </div>
+                            </ul>
+
+                            <div class="parentEntryComment">
+                                <a href="#entry-comment" data-project="{{ entry.project.id }}" data-entry="{{ entry.id }}" class="btn mosaic-style generate-entry-comment">{{ 'Add new entry comment'|trans() }}</a>
+                            </div>
+                        </li>
                     {% endif %}
+                    <div class="double-separator"></div>
                 {% endfor %}
-                </div>
-
-                <div class="double-separator"></div>
-
-                <div style="padding:20px;border:1px dotted black">
+                </ul>
+                {% if entry_comment_form is defined %}
+                <div id="entry-comment" class="hide">
                     <h4>{{ 'Add new entry comment'|trans() }}</h4>
-                    {{ form(entry_comment_form, {attr:{id:'entryCommentForm', role:'form'}}) }}
+                    {% include "LittleBigJoeFrontendBundle:FormFlow:buttons.html.twig" %}
+                    {{ form(entry_comment_form) }}
+                    <div class="clearfix">&nbsp;</div>
                 </div>
+                {% endif %}
+                <div class="clearfix">&nbsp;</div>
             {% else %}
                 <p><strong>{{ 'There\'s no news for the moment'|trans() }}</strong><p>
             {% endif %}
+            </div>
         </div>
     </div>
 
     {# ----- TAB 'PARTICIPANTS' ------ #}
     <div class="tab-content-container" id="tabcont_2">
         <div class="article-header">
-            <h2>{{ 'Other'|trans() }} <span class="grand-hotel">{{ 'participant(s)'|trans() }}</span> {{ 'to this project'|trans() }}</h2>
+            {% set countParticipants = 0 %}
+            {% if entity.contributions and entity.contributions|length() > 0 %}
+                {% set already_shown_users_ids = [] %}
+                {% for contribution in entity.contributions %}
+                    {% if contribution.user.id not in already_shown_users_ids %}
+                        {% set countParticipants = countParticipants+1 %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            <h2>{{ 'Other'|trans() }} <span class="grand-hotel">{% transchoice countParticipants %}{0} participant|{1} participant|]1,Inf] participants{% endtranschoice %}</span> {{ 'to this project'|trans() }}</h2>
         </div>
         <div class="description-infos">
             {% if entity.contributions and entity.contributions|length() > 0 %}
@@ -267,22 +354,31 @@
     {% if comment_form is defined %}
     <div class="tab-content-container" id="tabcont_3">
         <div class="article-header">
-            <h2><span class="grand-hotel">{{ 'Comment(s)'|trans() }}</span> {{ 'regarding this project'|trans() }}</h2>
+            <h2><span class="grand-hotel">{% transchoice entity.comments|length() %}{0} Comment|{1} Comment|]1,Inf] Comments{% endtranschoice %}</span> {{ 'regarding this project'|trans() }}</h2>
         </div>
         <div class="description-infos">
+            <ul id="commentsContainer" class="media-list">
             {% if entity.comments and entity.comments|length() > 0 %}
                 {% for comment in entity.comments|reverse %}
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <strong><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">{{ comment.user }}</a></strong><br />
-                            <small>{{ 'On'|trans() }} {{ comment.createdAt|localizeddate('short', 'short') }}</small>
+                    <li class="media">
+                        <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">
+                            {% if comment.user.photo %}
+                                <img class="media-object" src="{{ asset(comment.user.photo) }}" width="64" height="64" />
+                            {% else %}
+                                <img class="media-object" src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand"  width="64" height="64" />
+                            {% endif %}
+                        </a>
+                        <div class="media-body">
+                            <div class="pull-right text-muted">{{ comment.createdAt|time_ago_in_words }}</div>
+                            <h4 class="media-heading">{{ comment.user }}</h4>
                             <p>{{ comment.content|raw }}</p>
                         </div>
-                    </div>
+                    </li>
                 {% endfor %}
             {% else %}
                 <p><strong>{{ 'There\'s no comments for the moment'|trans() }}</strong><p>
             {% endif %}
+            </ul>
 
             {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (app.user is null) %}
                 <div class="double-separator"></div>
@@ -290,6 +386,7 @@
                     <h3>{{ 'Add new comment'|trans() }}</h3>
                     {{ form(comment_form, {attr:{id:'commentForm', role:'form'}}) }}
                 </div>
+                <div class="clearfix">&nbsp;</div>
             {% endif %}
         </div>
     </div>

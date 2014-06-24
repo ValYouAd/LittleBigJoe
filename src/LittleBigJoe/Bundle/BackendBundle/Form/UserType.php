@@ -20,6 +20,13 @@ class UserType extends BaseType
         $user = new User();
 
         $builder
+            ->remove('plainPassword')
+            ->add('plainPassword', 'repeated', array(
+                'options' => array('required' => true),
+                'first_options'  => array('label' => 'backend.password'),
+                'second_options' => array('label' => 'backend.password_verification'),
+                'required' => false
+            ))
             ->add('firstname', 'text', array(
                 'label' => 'backend.firstname'
             ))

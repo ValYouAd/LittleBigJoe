@@ -37,7 +37,7 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
-        {% if canCreateProduct and project.status == '1' and project.product and project.product.validatedAt is null %}
+        {% if canCreateProduct and project.status == '1' and ((project.product is null) or (project.product and project.product.validatedAt is null)) %}
             <div class="clearfix"></div>
             <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': project.id, 'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
             <div class="clearfix"></div>
@@ -84,10 +84,19 @@
         {% else %}
             <div class="stats-followed mos-bottom">
                 <div class="center">
-                    <img class="icon" src="{{ asset('static/img/icons/icon-heart.png') }}" alt="alt-LBJ - likes" />
+                    {% if is_granted('ROLE_USER') %}
+                        {% for like in app.user.likes if like.project.id == project.id %}
+                            <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart-blue.png') }}" alt="alt-LBJ - likes" />
+                        {% else %}
+                            <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart.png') }}" alt="alt-LBJ - likes" />
+                        {% endfor %}
+                    {% else %}
+                        <img class="heartIt icon" rel="{{ project.id }}" src="{{ asset('static/img/icons/icon-heart.png') }}" alt="alt-LBJ - likes" />
+                    {% endif %}
+
                     <div class="likes-label">
                         <div class="nb-likes">{{ project.likesCount }}</div>
-                        <div class="likes">{{ 'likes'|trans() }}</div>
+                        <div class="likes">{% transchoice project.likesCount %}{0} like|{1} like|]1,Inf] likes{% endtranschoice %}</div>
                     </div>
                 </div>
             </div>
@@ -96,3 +105,4 @@
     </div>
 
 </div>
+

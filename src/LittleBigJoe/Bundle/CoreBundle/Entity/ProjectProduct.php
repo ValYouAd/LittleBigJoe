@@ -432,6 +432,7 @@ class ProjectProduct
             $medias['image_'.$image->getId()] = array(
                 'type' => 'image',
                 'id' => $image->getId(),
+                'videoUrl' => null,
                 'image' => '/'.$image->getPath(),
                 'highlighted' => $image->getHighlighted()
             );
@@ -442,6 +443,7 @@ class ProjectProduct
             $medias['video_'.$video->getId()] = array(
                 'type' => 'video',
                 'id' => $video->getId(),
+                'videoUrl' => '//www.youtube.com/embed/'.$video->getProviderVideoId(),
                 'image' => $video->getThumbUrl(),
                 'highlighted' => $video->getHighlighted()
             );

@@ -15,11 +15,7 @@ class EditProjectFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $ckeditorLanguage = $options['data']->getUser()->getDefaultLanguage();
-        if (empty($ckeditorLanguage))
-        {
-            $ckeditorLanguage = 'en';
-        }
+        $ckeditorLanguage = $options['locale'];
         $productType = $options['data']->getProductType();
         if (empty($productType))
         {
@@ -129,6 +125,7 @@ class EditProjectFormType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Project',
             'flow_step' => null,
+            'locale' => 'en'
         ));
     }
 

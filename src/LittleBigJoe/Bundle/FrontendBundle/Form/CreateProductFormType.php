@@ -22,11 +22,7 @@ class CreateProductFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $ckeditorLanguage = $options['data']->getProject()['user']['defaultLanguage'];
-        if (empty($ckeditorLanguage))
-        {
-            $ckeditorLanguage = 'en';
-        }
+        $ckeditorLanguage = $options['locale'];
         // Define default language for CKEditor interface
         switch ($ckeditorLanguage)
         {
@@ -66,7 +62,6 @@ class CreateProductFormType extends AbstractType
                 ))
                 ->add('description', 'ckeditor', array(
                     'label' => 'Description',
-                    'data' => $options['data']->getProject()['description'],
                     'language' => $ckeditorLanguage,
                     'width' => '100%'
                 ));
@@ -120,6 +115,7 @@ class CreateProductFormType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\ProjectProduct',
             'flow_step' => null,
+            'locale' => 'en'
         ));
     }
 

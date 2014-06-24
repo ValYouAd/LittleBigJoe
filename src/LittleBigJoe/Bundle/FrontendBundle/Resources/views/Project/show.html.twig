@@ -19,6 +19,7 @@
     <script type="text/javascript" src="{{ asset('static/js/modules/involve-graph.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('static/js/modules/project-carousel.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('static/js/modules/tabs-display.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('js/fancybox/jquery.fancybox.pack.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -120,6 +121,10 @@
         var privateLabel = "{{ '(Private)'|trans() }}";
 
         $(document).ready(function () {
+            {% if entity.product is defined and entity.product.validatedAt is defined %}
+                window.location.hash = "tab_4";
+            {% endif %}
+
             {% if showLikePopup == 'true' %}
                 $('#helpProject').modal();
                 $('#helpProject').on('hidden.bs.modal', function (e) {
@@ -154,9 +159,6 @@
                     $('#fundingForm').submit();
                 });
             {% endif %}
-
-            for ( instance in CKEDITOR.instances )
-                CKEDITOR.instances[instance].setData("");
 
             // Follow request
             $('#followUser').click(function (e) {
@@ -353,15 +355,30 @@
                 .done(function(data) {
                     if (data.status == 'OK')
                     {
-                        alert("{{ 'Thanks for posting your entry !'|trans() }}");
+                        var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.entry.user_id + "}) }}";
+                        if (data.entry.user_photo != 'null' && data.entry.user_photo != null)
+                        {
+                            var userPhoto = '/' + data.entry.user_photo;
+                        }
+                        else
+                        {
+                            var userPhoto = '/static/img/mascot-square.png';
+                        }
 
-                        $('#entries_list .entry:eq(0)').before('<li><strong>' + data.entry.title + ' ' + ((data.entry.is_public == '1') ? publicLabel : privateLabel) + '</strong><br /><small>' + onLabel + ' ' + data.entry.created_at + '</small><br /><p>' + data.entry.content + '</p></li>');
+                        var entryHtml = '<li><div class="pull-right text-muted">' + data.entry.created_at + '</div><h4 class="media-heading">' + data.entry.title + '</h4><p>' + data.entry.content + '</p><li class="media"><a class="pull-left" href="' + userShowPath + '"><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><h4 class="media-heading">' + data.entry.user + '</h4></div></li>';
 
-                        $("#entry_title").val("");
+                        if ($('#entries_list li').length > 0)
+                        {
+                            $('#entries_list li:eq(0)').before(entryHtml);
+                        }
+                        else
+                        {
+                            $('#entryInfos').empty().append('<ul id="entries_list" class="media-list">' + entryHtml + '</ul>');
+                        }
+
+                        $('#entry_title').val('');
+                        $('#entry_content').val('');
                         CKEDITOR.instances['entry_content'].setData("");
-
-                        var entries = parseInt($('.entries_count').text()) + 1;
-                        $('.entries_count').text(entries);
                     }
                     else if (data.status == 'KO USER')
                     {
@@ -379,22 +396,49 @@
             });
 
             // Create entry comment
-            $('#entrycomment_addEntryComment').click(function (e) {
-                for ( instance in CKEDITOR.instances )
-                    CKEDITOR.instances[instance].updateElement();
+            $('.generate-entry-comment').click(function (e) {
+                var entryId = parseInt($(this).attr('data-entry'));
+                var projectId = parseInt($(this).attr('data-project'));
 
+                $('#entrycomment_project').val(projectId);
+                $('#entrycomment_entry').val(entryId);
+                $('#entrycomment_content').text();
+                $('#entry-comment').removeClass('hide');
+            });
+
+            // Create entry comment
+            $('#entrycomment_addEntryComment').click(function (e) {
                 var entryId = parseInt($('#entrycomment_entry').val());
 
-                $.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_comment_project') }}", $('#entryCommentForm').serialize())
+                $.post("{{ path('littlebigjoe_frontendbundle_ajax_entry_comment_project') }}", $('#entry-comment form').serialize())
                 .done(function(data) {
                     if (data.status == 'OK')
                     {
-                        alert("{{ 'Thanks for posting your comment !'|trans() }}");
-
                         var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
-                        $('#entry_' + entryId + '_comment_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
+                        if (data.comment.user_photo != 'null' && data.comment.user_photo != null)
+                        {
+                            var userPhoto = '/' + data.comment.user_photo;
+                        }
+                        else
+                        {
+                            var userPhoto = '/static/img/mascot-square.png';
+                        }
 
-                        CKEDITOR.instances['entrycomment_content'].setData("");
+                        var commentHtml = '<li class="media"><a class="pull-left" href="' + userShowPath + '"><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><div class="pull-right text-muted">' + data.comment.created_at + '</div><h4 class="media-heading">' + data.comment.user_name + '</h4><p>' + data.comment.content + '</p></div></li>';
+
+                        if ($('#entryCommentsContainer_' + data.comment.entry_id + ' li').length > 0)
+                        {
+                            $('#entryCommentsContainer_' + data.comment.entry_id + ' li:eq(0)').before(commentHtml);
+                        }
+                        else
+                        {
+                            $('#entryCommentsContainer_' + data.comment.entry_id).empty().append(commentHtml);
+                        }
+
+                        $('#entrycomment_project').val('');
+                        $('#entrycomment_entry').val('');
+                        $('#entrycomment_content').val('');
+                        $('#entry-comment').addClass('hide');
                     }
                     else if (data.status == 'KO USER')
                     {
@@ -413,22 +457,32 @@
 
             // Create comment
             $('#comment_addComment').click(function (e) {
-                for ( instance in CKEDITOR.instances )
-                    CKEDITOR.instances[instance].updateElement();
-
                 $.post("{{ path('littlebigjoe_frontendbundle_ajax_comment_project') }}", $('#commentForm').serialize())
                 .done(function(data) {
                     if (data.status == 'OK')
                     {
-                        alert("{{ 'Thanks for posting your comment !'|trans() }}");
-
                         var userShowPath = "{{ path('littlebigjoe_frontendbundle_user_show', {'id': " + data.comment.user_id + "}) }}";
-                        $('#comments_list li:eq(0)').before('<li><strong><a href="' + userShowPath + '">' + data.comment.user_name + '</a></strong><br /><small>' + onLabel + ' ' + data.comment.created_at + '</small><br />' + data.comment.content + '</li>');
+                        if (data.comment.user_photo != 'null' && data.comment.user_photo != null)
+                        {
+                            var userPhoto = '/' + data.comment.user_photo;
+                        }
+                        else
+                        {
+                            var userPhoto = '/static/img/mascot-square.png';
+                        }
 
-                        CKEDITOR.instances['comment_content'].setData("");
+                        var commentHtml = '<li class="media"><a class="pull-left" href="' + userShowPath + '"><img class="media-object" src="' + userPhoto + '" alt="alt-LBJ - brand" width="64" height="64" /></a><div class="media-body"><div class="pull-right text-muted">' + data.comment.created_at + '</div><h4 class="media-heading">' + data.comment.user_name + '</h4><p>' + data.comment.content + '</p></div></li>';
 
-                        var comments = parseInt($('.comments_count').text()) + 1;
-                        $('.comments_count').text(comments);
+                        if ($('#commentsContainer li').length > 0)
+                        {
+                            $('#commentsContainer li:eq(0)').before(commentHtml);
+                        }
+                        else
+                        {
+                            $('#commentsContainer').empty().append(commentHtml);
+                        }
+
+                        $('#comment_content').val('');
                     }
                     else if (data.status == 'KO USER')
                     {
@@ -452,6 +506,9 @@
                     $('#declineForm').submit();
                 })
             });
+
+            // Fancybox
+            $('.fancybox').fancybox();
         });
     </script>
 {% endblock %}

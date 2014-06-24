@@ -24,6 +24,7 @@ use LittleBigJoe\Bundle\FrontendBundle\Form\EntryType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\ReportProjectType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\EntryCommentType;
 use LittleBigJoe\Bundle\FrontendBundle\Form\HelpProjectType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ProjectController extends Controller
 {
@@ -34,7 +35,7 @@ class ProjectController extends Controller
      * @Template()
      */
     public function indexAction()
-    {             
+    {
         $em = $this->getDoctrine()->getManager();
 
         $favoriteProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findFavorite();
@@ -42,8 +43,8 @@ class ProjectController extends Controller
         $recentlyUpdatedProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findRecentlyUpdated();
 
         return array(
-            'favoriteProjects' => $favoriteProjects,
-            'popularProjects' => $popularProjects,
+            'favoriteProjects'        => $favoriteProjects,
+            'popularProjects'         => $popularProjects,
             'recentlyUpdatedProjects' => $recentlyUpdatedProjects
         );
     }
@@ -58,34 +59,34 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $currentUser = $this->get('security.context')->getToken()->getUser();
-        
+
         // If the current user is not logged, redirect him to login page
-        if (!is_object($currentUser))
-        {
+        if (!is_object($currentUser)) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be logged in to create a project'
             );
-        
+
             $request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project');
+
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-        
+
         $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findSupported($currentUser, null);
-    
+
         $paginator = $this->get('knp_paginator');
         $projects = $paginator->paginate(
             $query,
             $this->get('request')->query->get('page', 1),
             $this->container->getParameter('nb_elements_by_page')
         );
-    
+
         return array(
-            'title' => 'Projects I\'m supporting',
+            'title'    => 'Projects I\'m supporting',
             'projects' => $projects
         );
     }
-    
+
     /**
      * Projects from the followed people by the logged user
      *
@@ -96,52 +97,47 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $currentUser = $this->get('security.context')->getToken()->getUser();
-    
+
         // If the current user is not logged, redirect him to login page
-        if (!is_object($currentUser))
-        {
+        if (!is_object($currentUser)) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be logged in to access to the projects of users you follow'
             );
-    
+
             $request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project_users_followed_projects');
+
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-        
+
         $followedUsers = $currentUser->getFollowedUsers();
         $followedUsersIds = array();
-        
-        if (!empty($followedUsers))
-        {
-            foreach ($followedUsers as $followedUser)
-            {
+
+        if (!empty($followedUsers)) {
+            foreach ($followedUsers as $followedUser) {
                 array_push($followedUsersIds, $followedUser->getId());
             }
         }
-        
-        if (!empty($followedUsersIds))
-        {
+
+        if (!empty($followedUsersIds)) {
             $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findUsersFollowersProjects($followedUsersIds, null);
-    
+
             $paginator = $this->get('knp_paginator');
             $projects = $paginator->paginate(
                 $query,
                 $this->get('request')->query->get('page', 1),
                 $this->container->getParameter('nb_elements_by_page')
             );
+        } else {
+            $projects = array();
         }
-        else
-        {
-            $projects = array();            
-        }
-        
+
         return array(
-            'title' => 'Projects of users I follow',
+            'title'    => 'Projects of users I follow',
             'projects' => $projects
         );
     }
-    
+
     /**
      * Projects from the followed people by the logged user
      *
@@ -152,52 +148,47 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $currentUser = $this->get('security.context')->getToken()->getUser();
-    
+
         // If the current user is not logged, redirect him to login page
-        if (!is_object($currentUser))
-        {
+        if (!is_object($currentUser)) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be logged in to access to the projects of brands you follow'
             );
-    
+
             $request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project_brands_followed_projects');
+
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-    
+
         $followedBrands = $currentUser->getFollowedBrands();
         $followedBrandsIds = array();
-    
-        if (!empty($followedBrands))
-        {
-            foreach ($followedBrands as $followedBrand)
-            {
+
+        if (!empty($followedBrands)) {
+            foreach ($followedBrands as $followedBrand) {
                 array_push($followedBrandsIds, $followedBrand->getId());
             }
         }
-    
-        if (!empty($followedBrandsIds))
-        {
+
+        if (!empty($followedBrandsIds)) {
             $query = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBrandsFollowersProjects($followedBrandsIds, null);
-        
+
             $paginator = $this->get('knp_paginator');
             $projects = $paginator->paginate(
                 $query,
                 $this->get('request')->query->get('page', 1),
                 $this->container->getParameter('nb_elements_by_page')
             );
-        }
-        else
-        {
+        } else {
             $projects = array();
         }
-            
+
         return array(
-            'title' => 'Projects of brands I follow',
+            'title'    => 'Projects of brands I follow',
             'projects' => $projects
         );
     }
-    
+
     /**
      * Latest projects
      *
@@ -218,7 +209,7 @@ class ProjectController extends Controller
         );
 
         return array(
-            'title' => 'Latest projects',
+            'title'    => 'Latest projects',
             'projects' => $projects
         );
     }
@@ -243,7 +234,7 @@ class ProjectController extends Controller
         );
 
         return array(
-            'title' => 'Popular projects',
+            'title'    => 'Popular projects',
             'projects' => $projects
         );
     }
@@ -268,7 +259,7 @@ class ProjectController extends Controller
         );
 
         return array(
-            'title' => 'Popular week projects',
+            'title'    => 'Popular week projects',
             'projects' => $projects
         );
     }
@@ -293,7 +284,7 @@ class ProjectController extends Controller
         );
 
         return array(
-            'title' => 'Projects to fund',
+            'title'    => 'Projects to fund',
             'projects' => $projects
         );
     }
@@ -318,7 +309,7 @@ class ProjectController extends Controller
         );
 
         return array(
-            'title' => 'Top funded projects',
+            'title'    => 'Top funded projects',
             'projects' => $projects
         );
     }
@@ -343,7 +334,7 @@ class ProjectController extends Controller
         );
 
         return array(
-            'title' => 'Almost ending projects',
+            'title'    => 'Almost ending projects',
             'projects' => $projects
         );
     }
@@ -368,7 +359,7 @@ class ProjectController extends Controller
         );
 
         return array(
-            'title' => 'Favorite projects',
+            'title'    => 'Favorite projects',
             'projects' => $projects
         );
     }
@@ -393,7 +384,7 @@ class ProjectController extends Controller
         );
 
         return array(
-            'title' => 'Recently updated projects',
+            'title'    => 'Recently updated projects',
             'projects' => $projects
         );
     }
@@ -410,28 +401,31 @@ class ProjectController extends Controller
 
         $currentUser = $this->get('security.context')->getToken()->getUser();
         // If the current user is not logged, redirect him to login page
-        if (!is_object($currentUser))
-        {
-                $this->get('session')->getFlashBag()->add(
-                        'notice',
-                        'You must be logged in to create a project'
-                );
+        if (!is_object($currentUser)) {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to create a project'
+            );
 
-                $request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project_create_project');
-                return $this->redirect($this->generateUrl('fos_user_security_login'));
+            $request->getSession()->set('_security.main.target_path', 'littlebigjoe_frontendbundle_project_create_project');
+
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
         // Make sure the private user dir is created
-        $dirName = __DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
-        if (!file_exists($dirName))
-        {
+        $dirName = __DIR__ . '/../../../../../web/uploads/tmp/user/' . preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+        if (!file_exists($dirName)) {
             mkdir($dirName, 0755);
         }
 
         // Get session vars
-        $projectMedias = $this->getRequest()->getSession()->get('projectMedias', array());
-								
-        $project = new Project(); 
+        $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
+        if (empty($projectMedias)) {
+            $projectMedias = array();
+            $this->getRequest()->getSession()->set('projectMedias', $projectMedias);
+        }
+
+        $project = new Project();
         // Set default data like creator and default language for project
         $project->setUser($currentUser);
         $project->setLanguage($currentUser->getDefaultLanguage());
@@ -441,142 +435,128 @@ class ProjectController extends Controller
         $project->setStatus('1');
 
         // Create form flow
-		    $flow = $this->get('littlebigjoefrontend.flow.project.createProject');
-		    $flow->bind($project);
-		    $form = $flow->createForm();
+        $flow = $this->get('littlebigjoefrontend.flow.project.createProject');
+        $flow->bind($project);
+        $form = $flow->createForm();
 
-		    if ($flow->isValid($form)) 
-		    {
-                // Handle file upload in first step
-                $photo = $this->_fixUploadFile($project->getPhoto());
-		        $flow->saveCurrentStepData($form);
-		        
-		        // If we're not on the final step
-		        if ($flow->nextStep()) 
-		        {
-		            // Create form for next step
-		            $form = $flow->createForm();
-		        } 
-		        else 
-		        {
-                    // Remap entities
-                    $brand = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($project->getBrand()->getId());
-                    $project->setBrand($brand);
-                    $brand->addProject($project);
+        if ($flow->isValid($form)) {
+            // Handle file upload in first step
+            $photo = $this->_fixUploadFile($project->getPhoto());
+            $flow->saveCurrentStepData($form);
 
-                    $productType = $em->getRepository('LittleBigJoeCoreBundle:ProductType')->find($project->getProductType()->getId());
-                    $project->setProductType($productType);
-                    $productType->addProject($project);
+            // If we're not on the final step
+            if ($flow->nextStep()) {
+                // Create form for next step
+                $form = $flow->createForm();
+            } else {
+                // Remap entities
+                $brand = $em->getRepository('LittleBigJoeCoreBundle:Brand')->find($project->getBrand()->getId());
+                $project->setBrand($brand);
+                $brand->addProject($project);
 
-                    $projectImages = $project->getImages();
-                    if (!empty($projectImages))
+                $productType = $em->getRepository('LittleBigJoeCoreBundle:ProductType')->find($project->getProductType()->getId());
+                $project->setProductType($productType);
+                $productType->addProject($project);
+
+                if (!empty($projectMedias))
+                {
+                    foreach ($projectMedias as $key => $projectMedia)
                     {
-                        foreach ($projectImages as $key => $projectImage)
+                        if ($projectMedia['type'] == 'image')
                         {
-                            $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
+                            $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
                             $project->addImage($projectImage);
                             $projectImage->setProject($project);
                         }
-                    }
-
-                    $projectVideos = $project->getVideos();
-                    if (!empty($projectVideos))
-                    {
-                        foreach ($projectVideos as $key => $projectVideo)
+                        else if ($projectMedia['type'] == 'video')
                         {
-                            $projectVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectVideo);
+                            $projectVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectMedia['id']);
                             $project->addVideo($projectVideo);
                             $projectVideo->setProject($project);
                         }
                     }
+                }
 
-                    // Persist form data
-                    $em->persist($project);
-		            $em->flush();
+                // Persist form data
+                $em->persist($project);
+                $em->flush();
 
-                    // Create project directory if it doesn't exist
-                    if (!is_dir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId()))
-                    {
-                        mkdir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId(), 0777);
+                // Create project directory if it doesn't exist
+                if (!is_dir($this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId())) {
+                    mkdir($this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId(), 0777);
+                }
+
+                // Move tmp file from server, to project directory
+                $matches = array();
+                preg_match_all('/\b(?:(?:https?):\/\/' . $this->getRequest()->getHost() . ')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $project->getDescription(), $matches, PREG_PATTERN_ORDER);
+                foreach ($matches[0] as $key => $match) {
+                    if (@fopen($match, 'r')) {
+                        // Move file
+                        $filePath = preg_replace('/\b(?:(?:https?):\/\/' . $this->getRequest()->getHost() . ')/i', '', $match);
+                        copy($this->get('kernel')->getRootDir() . '/../web' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
+
+                        // Update description field
+                        $description = preg_replace('#' . $filePath . '#', '/uploads/projects/' . $project->getId() . '/' . basename($filePath), $project->getDescription());
+                        $project->setDescription($description);
                     }
+                }
 
-		            // Move tmp file from server, to project directory
-		            $matches = array();
-		            preg_match_all('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $project->getDescription(), $matches, PREG_PATTERN_ORDER);
-		            foreach ($matches[0] as $key => $match)
-		            {
-                        if (@fopen($match, 'r'))
-                        {
-                            // Move file
-                            $filePath = preg_replace('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')/i', '', $match);
-                            copy($this->get('kernel')->getRootDir().'/../web'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
+                // Retrieve the uploaded photo, and associate it with project
+                if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null) {
+                    $fileInfo = new UploadedFile(
+                        $this->getRequest()->getSession()->get('tmpUploadedFilePath'),
+                        $this->getRequest()->getSession()->get('tmpUploadedFile'),
+                        MimeTypeGuesser::getInstance()->guess($this->getRequest()->getSession()->get('tmpUploadedFilePath')),
+                        filesize($this->getRequest()->getSession()->get('tmpUploadedFilePath'))
+                    );
+                    $project->setPhoto($fileInfo);
 
-                            // Update description field
-                            $description = preg_replace('#'.$filePath.'#', '/uploads/projects/'.$project->getId().'/'.basename($filePath), $project->getDescription());
-                            $project->setDescription($description);
-                        }
-		            }
+                    $evm = $em->getEventManager();
+                    $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+                    $uploadableListener = $uploadableManager->getUploadableListener();
+                    $uploadableListener->setDefaultPath('uploads/projects/' . $project->getId());
+                    $evm->removeEventListener(array('postFlush'), $uploadableListener);
+                    $uploadableManager->markEntityToUpload($project, $project->getPhoto());
+                }
 
-		            // Retrieve the uploaded photo, and associate it with project
-		            if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null)
-		            {
-                        $fileInfo = new UploadedFile(
-                                $this->getRequest()->getSession()->get('tmpUploadedFilePath'),
-                                $this->getRequest()->getSession()->get('tmpUploadedFile'),
-                                MimeTypeGuesser::getInstance()->guess($this->getRequest()->getSession()->get('tmpUploadedFilePath')),
-                                filesize($this->getRequest()->getSession()->get('tmpUploadedFilePath'))
-                        );
-                        $project->setPhoto($fileInfo);
+                // Move tmp project medias from server, to project directory
+                if (!empty($projectMedias)) {
+                    foreach ($projectMedias as $projectMedia) {
+                        if ($projectMedia['type'] == 'image') {
+                            $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
+                            $filePath = $projectImage->getPath();
 
-                        $evm = $em->getEventManager();
-                        $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-                        $uploadableListener = $uploadableManager->getUploadableListener();
-                        $uploadableListener->setDefaultPath('uploads/projects/'.$project->getId());
-                        $evm->removeEventListener(array('postFlush'), $uploadableListener);
-                        $uploadableManager->markEntityToUpload($project, $project->getPhoto());
-		            }
-
-                    // Move tmp project medias from server, to project directory
-                    if (!empty($projectMedias))
-                    {
-                        foreach ($projectMedias as $projectMedia)
-                        {
-                            if ($projectMedia['type'] == 'image')
-                            {
-                                $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
-                                $filePath = $projectImage->getPath();
-
-                                copy($this->get('kernel')->getRootDir().'/../web/'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
-                                $path = preg_replace('#'.$filePath.'#', 'uploads/projects/'.$project->getId().'/'.basename($filePath), $projectImage->getPath());
-                                $projectImage->setPath($path);
-                            }
+                            copy($this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
+                            $path = preg_replace('#' . $filePath . '#', 'uploads/projects/' . $project->getId() . '/' . basename($filePath), $projectImage->getPath());
+                            $projectImage->setPath($path);
                         }
                     }
+                }
 
-		            // Persist form data and redirect user
-                    $em->persist($project);
-		            $em->flush();
+                // Persist form data and redirect user
+                $em->persist($project);
+                $em->flush();
 
-					// Delete session data
-		            $this->getRequest()->getSession()->remove('tmpUploadedFile');
-		            $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
-                    $this->getRequest()->getSession()->remove('tmpUploadedFileRelativePath');
+                // Delete session data
+                $this->getRequest()->getSession()->remove('tmpUploadedFile');
+                $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
+                $this->getRequest()->getSession()->remove('tmpUploadedFileRelativePath');
 
-		            // Reset flow data
-		            $flow->reset();
-                    $this->getRequest()->getSession()->set('projectMedias', null);
+                // Reset flow data
+                $flow->reset();
+                $this->getRequest()->getSession()->set('projectMedias', null);
 
-		            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
-		        }
-		    }
-		    
-		    return $this->render('LittleBigJoeFrontendBundle:Project:new.html.twig', array(
-		        'form' => $form->createView(),
-		        'flow' => $flow,
-                'projectMedias' => $projectMedias
-		    ));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+            }
+        }
+
+        return $this->render('LittleBigJoeFrontendBundle:Project:new.html.twig', array(
+            'form'          => $form->createView(),
+            'flow'          => $flow,
+            'projectMedias' => $projectMedias
+        ));
     }
-    
+
     /**
      * Edit specific project
      *
@@ -590,42 +570,39 @@ class ProjectController extends Controller
         $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($id, $slug);
 
         if (!$project) {
-                throw $this->createNotFoundException('Unable to find Project entity.');
+            throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
         // If the current user is not logged, redirect him to login page
-        if (!is_object($currentUser))
-        {
-                $this->get('session')->getFlashBag()->add(
-                        'notice',
-                        'You must be logged in to edit a project'
-                );
+        if (!is_object($currentUser)) {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to edit a project'
+            );
 
-                // Force base url to make sure environment is not specified in the URL
-                    $this->get('router')->getContext()->setBaseUrl('');
-                    $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())));
-                return $this->redirect($this->generateUrl('fos_user_security_login'));
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
         // If the current user is not the project owner
-        if ($currentUser != $project->getUser())
-        {
-                $this->get('session')->getFlashBag()->add(
-                        'notice',
-                        'You must be the project owner to edit the project'
-                );
+        if ($currentUser != $project->getUser() && (false === $this->get('security.context')->isGranted('ROLE_SUPER_ADMIN'))) {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be the project owner to edit the project'
+            );
 
-                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
         }
 
         // If the project is already ended, show a different form
-        if ($project->getEndedAt() != null)
-        {
+        if ($project->getEndedAt() != null) {
             $editForm = $this->createForm(new EditProjectType(array('locale' => $request->getLocale())), $project);
             $editForm->handleRequest($request);
 
-            if ($editForm->isValid())
-            {
+            if ($editForm->isValid()) {
                 $em->persist($project);
                 $em->flush();
 
@@ -634,10 +611,10 @@ class ProjectController extends Controller
 
             // Project deletion
             $deleteForm = $this->createFormBuilder()
-                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())))
-                                ->setMethod('DELETE')
-                                ->add('submit', 'submit', array('label' => 'Delete this project', 'attr' => array('class' => 'btn btn-danger')))
-                                ->getForm();
+                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())))
+                ->setMethod('DELETE')
+                ->add('submit', 'submit', array('label' => 'Delete this project', 'attr' => array('class' => 'btn btn-danger')))
+                ->getForm();
             $deleteForm->handleRequest($request);
 
             if ($deleteForm->isValid()) {
@@ -649,46 +626,42 @@ class ProjectController extends Controller
             }
 
             return $this->render('LittleBigJoeFrontendBundle:Project:edit_ended.html.twig', array(
-                'entity' => $project,
-                'form' => $editForm->createView(),
+                'entity'     => $project,
+                'form'       => $editForm->createView(),
                 'deleteForm' => $deleteForm->createView(),
             ));
-        }
-        // If the project is still available, show multi steps form (to edit all project datas)
-        else
-        {
+        } // If the project is still available, show multi steps form (to edit all project datas)
+        else {
             // Get session vars
-            $projectMedias = $this->getRequest()->getSession()->get('projectMedias', $project->getMedias());
+            $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
+            if (empty($projectMedias)) {
+                $this->getRequest()->getSession()->set('projectMedias', $project->getMedias());
+                $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
+            }
 
             // Create form flow
             $flow = $this->get('littlebigjoefrontend.flow.project.editProject');
             $flow->bind($project);
             $form = $flow->createForm();
 
-            if ($flow->isValid($form))
-            {
+            if ($flow->isValid($form)) {
                 // Handle file upload in first step
                 $photo = $this->_fixUploadFile($project->getPhoto());
                 $flow->saveCurrentStepData($form);
 
                 // If we're not on the final step
-                if ($flow->nextStep())
-                {
+                if ($flow->nextStep()) {
                     // Create form for next step
                     $form = $flow->createForm();
-                }
-                else
-                {
+                } else {
                     // Remap entities
                     $productType = $em->getRepository('LittleBigJoeCoreBundle:ProductType')->find($project->getProductType()->getId());
                     $project->setProductType($productType);
                     $productType->addProject($project);
 
                     $projectImages = $project->getImages();
-                    if (!empty($projectImages))
-                    {
-                        foreach ($projectImages as $key => $projectImage)
-                        {
+                    if (!empty($projectImages)) {
+                        foreach ($projectImages as $key => $projectImage) {
                             $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
                             $project->addImage($projectImage);
                             $projectImage->setProject($project);
@@ -696,10 +669,8 @@ class ProjectController extends Controller
                     }
 
                     $projectVideos = $project->getVideos();
-                    if (!empty($projectVideos))
-                    {
-                        foreach ($projectVideos as $key => $projectVideo)
-                        {
+                    if (!empty($projectVideos)) {
+                        foreach ($projectVideos as $key => $projectVideo) {
                             $projectVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($projectVideo);
                             $project->addVideo($projectVideo);
                             $projectVideo->setProject($project);
@@ -711,31 +682,27 @@ class ProjectController extends Controller
                     $em->flush();
 
                     // Create project directory if it doesn't exist
-                    if (!is_dir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId()))
-                    {
-                        mkdir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId(), 0777);
+                    if (!is_dir($this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId())) {
+                        mkdir($this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId(), 0777);
                     }
 
                     // Move tmp file from server, to project directory
                     $matches = array();
-                    preg_match_all('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $project->getDescription(), $matches, PREG_PATTERN_ORDER);
-                    foreach ($matches[0] as $key => $match)
-                    {
-                        if (@fopen($match, 'r'))
-                        {
+                    preg_match_all('/\b(?:(?:https?):\/\/' . $this->getRequest()->getHost() . ')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $project->getDescription(), $matches, PREG_PATTERN_ORDER);
+                    foreach ($matches[0] as $key => $match) {
+                        if (@fopen($match, 'r')) {
                             // Move file
-                            $filePath = preg_replace('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')/i', '', $match);
-                            copy($this->get('kernel')->getRootDir().'/../web'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
+                            $filePath = preg_replace('/\b(?:(?:https?):\/\/' . $this->getRequest()->getHost() . ')/i', '', $match);
+                            copy($this->get('kernel')->getRootDir() . '/../web' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
 
                             // Update description field
-                            $description = preg_replace('#'.$filePath.'#', '/uploads/projects/'.$project->getId().'/'.basename($filePath), $project->getDescription());
+                            $description = preg_replace('#' . $filePath . '#', '/uploads/projects/' . $project->getId() . '/' . basename($filePath), $project->getDescription());
                             $project->setDescription($description);
                         }
                     }
 
                     // Retrieve the uploaded photo, and associate it with project
-                    if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null)
-                    {
+                    if ($this->getRequest()->getSession()->get('tmpUploadedFilePath') != null) {
                         $fileInfo = new UploadedFile(
                             $this->getRequest()->getSession()->get('tmpUploadedFilePath'),
                             $this->getRequest()->getSession()->get('tmpUploadedFile'),
@@ -747,24 +714,22 @@ class ProjectController extends Controller
                         $evm = $em->getEventManager();
                         $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
                         $uploadableListener = $uploadableManager->getUploadableListener();
-                        $uploadableListener->setDefaultPath('uploads/projects/'.$project->getId());
+                        $uploadableListener->setDefaultPath('uploads/projects/' . $project->getId());
                         $evm->removeEventListener(array('postFlush'), $uploadableListener);
                         $uploadableManager->markEntityToUpload($project, $project->getPhoto());
                     }
 
                     // Move tmp project medias from server, to project directory
-                    if (!empty($projectMedias))
-                    {
-                        foreach ($projectMedias as $projectMedia)
-                        {
-                            if ($projectMedia['type'] == 'image')
-                            {
-                                $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectImage);
-                                $filePath = $projectImage->getPath();
-
-                                copy($this->get('kernel')->getRootDir().'/../web/'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/'.basename($filePath));
-                                $path = preg_replace('#'.$filePath.'#', 'uploads/projects/'.$project->getId().'/'.basename($filePath), $projectImage->getPath());
-                                $projectImage->setPath($path);
+                    if (!empty($projectMedias)) {
+                        foreach ($projectMedias as $projectMedia) {
+                            if ($projectMedia['type'] == 'image') {
+                                $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
+                                if (!empty($projectImage) && $projectImage instanceof ProjectImage) {
+                                    $filePath = $projectImage->getPath();
+                                    copy($this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
+                                    $path = preg_replace('#' . $filePath . '#', 'uploads/projects/' . $project->getId() . '/' . basename($filePath), $projectImage->getPath());
+                                    $projectImage->setPath($path);
+                                }
                             }
                         }
                     }
@@ -781,14 +746,14 @@ class ProjectController extends Controller
                     $flow->reset();
                     $this->getRequest()->getSession()->set('projectMedias', null);
 
-                    return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                    return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
                 }
             }
 
             return $this->render('LittleBigJoeFrontendBundle:Project:edit.html.twig', array(
-                'project' => $project,
-                'form' => $form->createView(),
-                'flow' => $flow,
+                'project'       => $project,
+                'form'          => $form->createView(),
+                'flow'          => $flow,
                 'projectMedias' => $projectMedias
             ));
         }
@@ -811,8 +776,7 @@ class ProjectController extends Controller
         }
 
         // If the current user is not logged, redirect him to login page
-        if (!is_object($currentUser))
-        {
+        if (!is_object($currentUser)) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be logged in to edit a project'
@@ -821,18 +785,18 @@ class ProjectController extends Controller
             // Force base url to make sure environment is not specified in the URL
             $this->get('router')->getContext()->setBaseUrl('');
             $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
         // If the current user is not an LBJ admin or brand admin
         $brandIds = array();
-        foreach ($currentUser->getBrands() as $brand)
-        {
+        foreach ($currentUser->getBrands() as $brand) {
             $brandIds[] = $brand->getId();
         }
         if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
-            !in_array($project->getBrand()->getId(), $brandIds))
-        {
+            !in_array($project->getBrand()->getId(), $brandIds)
+        ) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be an administrator to create a product'
@@ -842,8 +806,7 @@ class ProjectController extends Controller
         }
 
         // If the product is already validated OR project already in "Funding phase"
-        if (($project->getProduct() != null && $project->getProduct()->getValidatedAt() != null) || $project->getStatus() == '2')
-        {
+        if (($project->getProduct() != null && $project->getProduct()->getValidatedAt() != null) || $project->getStatus() == '2') {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'The product is already validated !'
@@ -853,53 +816,54 @@ class ProjectController extends Controller
         }
 
         // Make sure the private user dir is created
-        $dirName = __DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
-        if (!file_exists($dirName))
-        {
+        $dirName = __DIR__ . '/../../../../../web/uploads/tmp/user/' . preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+        if (!file_exists($dirName)) {
             mkdir($dirName, 0755);
         }
 
         // Get session vars
-        $productMedias = $this->getRequest()->getSession()->get('productMedias', array());
+        $productMedias = $this->getRequest()->getSession()->get('productMedias');
         $projectFields = $this->getRequest()->getSession()->get('projectFields', array());
-        if (empty($productMedias))
-        {
-            $this->getRequest()->getSession()->set('productMedias', $project->getMedias());
+        if (empty($productMedias)) {
+            $productMedias = $project->getMedias();
+            $this->getRequest()->getSession()->set('productMedias', $productMedias);
         }
 
         // Create form flow
         $projectProduct = new ProjectProduct();
+        $projectProduct->setDescription($project->getDescription());
+        $project->setProduct($projectProduct);
         $flow = $this->get('littlebigjoefrontend.flow.project.createProduct');
         $flow->bind($projectProduct);
         $form = $flow->createForm();
 
-        if ($flow->isValid($form))
-        {
+        if ($flow->isValid($form)) {
             $flow->saveCurrentStepData($form);
 
             // If we're not on the final step
-            if ($flow->nextStep())
-            {
+            if ($flow->nextStep()) {
                 // Create form for next step
                 $form = $flow->createForm();
-            }
-            else
-            {
-                if (!empty($projectFields))
-                {
-                    $project->setAmountRequired($projectFields['amountRequired']);
-                    foreach ($projectFields['rewards'] as $key => $reward)
-                    {
-                        $projectReward = new ProjectReward();
-                        $projectReward->setAmount($reward['amount']);
-                        $projectReward->setTitle($reward['title']);
-                        $projectReward->setDescription($reward['description']);
-                        $projectReward->setStock($reward['stock']);
-                        $projectReward->setMaxQuantityByUser($reward['maxQuantityByUser']);
-                        $projectReward->setProject($project);
+            } else {
+                $project->setProduct(null);
 
-                        $em->persist($projectReward);
-                        $em->flush();
+                if (!empty($projectFields)) {
+                    $project->setAmountRequired($projectFields['amountRequired']);
+
+                    if (!empty($projectFields['rewards']))
+                    {
+                        foreach ($projectFields['rewards'] as $key => $reward) {
+                            $projectReward = new ProjectReward();
+                            $projectReward->setAmount($reward['amount']);
+                            $projectReward->setTitle($reward['title']);
+                            $projectReward->setDescription($reward['description']);
+                            $projectReward->setStock($reward['stock']);
+                            $projectReward->setMaxQuantityByUser($reward['maxQuantityByUser']);
+                            $projectReward->setProject($project);
+
+                            $em->persist($projectReward);
+                            $em->flush();
+                        }
                     }
                 }
 
@@ -909,67 +873,58 @@ class ProjectController extends Controller
                 $projectProduct->setProject($project);
                 $project->setProduct($projectProduct);
 
-                $productImages = $projectProduct->getImages();
-                if (!empty($productImages))
+                if (!empty($productMedias))
                 {
-                    foreach ($productImages as $key => $productImage)
+                    foreach ($productMedias as $key => $productMedia)
                     {
-                        $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productImage);
-                        $projectProduct->addImage($productImage);
-                        $productImage->setProduct($projectProduct);
+                        if ($productMedia['type'] == 'image')
+                        {
+                            $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productMedia['id']);
+                            $projectProduct->addImage($productImage);
+                            $productImage->setProduct($projectProduct);
+                        }
+                        else if ($productMedia['type'] == 'video')
+                        {
+                            $productVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($productMedia['id']);
+                            $projectProduct->addVideo($productVideo);
+                            $productVideo->setProduct($projectProduct);
+                        }
                     }
                 }
-
-                $productVideos = $projectProduct->getVideos();
-                if (!empty($productVideos))
-                {
-                    foreach ($productVideos as $key => $productVideo)
-                    {
-                        $productVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($productVideo);
-                        $projectProduct->addVideo($productVideo);
-                        $productVideo->setProduct($projectProduct);
-                    }
-                }
-
+                
                 // Persist form data
                 $em->persist($projectProduct);
                 $em->flush();
 
                 // Create product directory if it doesn't exist
-                if (!is_dir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/product'))
-                {
-                    mkdir($this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/product', 0777);
+                if (!is_dir($this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product')) {
+                    mkdir($this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product', 0777);
                 }
 
                 // Move tmp file from server, to project directory
                 $matches = array();
-                preg_match_all('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $projectProduct->getDescription(), $matches, PREG_PATTERN_ORDER);
-                foreach ($matches[0] as $key => $match)
-                {
-                    if (@fopen($match, 'r'))
-                    {
+                preg_match_all('/\b(?:(?:https?):\/\/' . $this->getRequest()->getHost() . ')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $projectProduct->getDescription(), $matches, PREG_PATTERN_ORDER);
+                foreach ($matches[0] as $key => $match) {
+                    if (@fopen($match, 'r')) {
                         // Move file
-                        $filePath = preg_replace('/\b(?:(?:https?):\/\/'.$this->getRequest()->getHost().')/i', '', $match);
-                        copy($this->get('kernel')->getRootDir().'/../web'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/product/'.basename($filePath));
+                        $filePath = preg_replace('/\b(?:(?:https?):\/\/' . $this->getRequest()->getHost() . ')/i', '', $match);
+                        copy($this->get('kernel')->getRootDir() . '/../web' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product/' . basename($filePath));
 
                         // Update description field
-                        $description = preg_replace('#'.$filePath.'#', '/uploads/projects/'.$project->getId().'/product/'.basename($filePath), $projectProduct->getDescription());
+                        $description = preg_replace('#' . $filePath . '#', '/uploads/projects/' . $project->getId() . '/product/' . basename($filePath), $projectProduct->getDescription());
                         $projectProduct->setDescription($description);
                     }
                 }
 
                 // Move tmp project medias from server, to project directory
-                if (!empty($productMedias))
-                {
-                    foreach ($productMedias as $productMedia)
-                    {
-                        if ($productMedia['type'] == 'image')
-                        {
-                            $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productImage);
+                if (!empty($productMedias)) {
+                    foreach ($productMedias as $productMedia) {
+                        if ($productMedia['type'] == 'image') {
+                            $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productMedia['id']);
                             $filePath = $productImage->getPath();
 
-                            copy($this->get('kernel')->getRootDir().'/../web/'.$filePath, $this->get('kernel')->getRootDir().'/../web/uploads/projects/'.$project->getId().'/product/'.basename($filePath));
-                            $path = preg_replace('#'.$filePath.'#', 'uploads/projects/'.$project->getId().'/product/'.basename($filePath), $productImage->getPath());
+                            copy($this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product/' . basename($filePath));
+                            $path = preg_replace('#' . $filePath . '#', 'uploads/projects/' . $project->getId() . '/product/' . basename($filePath), $productImage->getPath());
                             $productImage->setPath($path);
                         }
                     }
@@ -988,50 +943,49 @@ class ProjectController extends Controller
                 $this->getRequest()->getSession()->set('productMedias', null);
                 $this->getRequest()->getSession()->set('projectFields', null);
 
-                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
             }
         }
 
         return $this->render('LittleBigJoeFrontendBundle:Project:Product/new.html.twig', array(
-            'form' => $form->createView(),
-            'flow' => $flow,
-            'project' => $project,
+            'form'          => $form->createView(),
+            'flow'          => $flow,
+            'project'       => $project,
+            'projectProduct' => $projectProduct,
             'productMedias' => $productMedias
         ));
     }
-    
+
     /**
      * Allows to save project logo in project creation during step 1
-     * 
+     *
      * @param UploadedFile $file
+     *
      * @return string
      */
-    public function _fixUploadFile($file) 
-    {    
+    public function _fixUploadFile($file)
+    {
         $currentUser = $this->get('security.context')->getToken()->getUser();
-    	
-        if (!empty($file) && $file instanceof UploadedFile)
-        {
-            $dirName = __DIR__.'/../../../../../web/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
-            if (!file_exists($dirName))
-            {
-                    mkdir($dirName, 0777);
+
+        if (!empty($file) && $file instanceof UploadedFile) {
+            $dirName = __DIR__ . '/../../../../../web/uploads/tmp/user/' . preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+            if (!file_exists($dirName)) {
+                mkdir($dirName, 0777);
             }
             // Move uploaded file to tmp directory, and save path in session
-            $tmpFile = $file->move($dirName.'/', sha1($file->getClientOriginalName().uniqid(mt_rand(), true)));
+            $tmpFile = $file->move($dirName . '/', sha1($file->getClientOriginalName() . uniqid(mt_rand(), true)));
 
-            if (!empty($tmpFile))
-            {
-                    $tmpFilePath = $tmpFile->getPath().'/'.$tmpFile->getFilename();
-                    $this->getRequest()->getSession()->set('tmpUploadedFile', $tmpFile->getFilename());
-                    $this->getRequest()->getSession()->set('tmpUploadedFileRelativePath', '/uploads/tmp/user/'.preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail()).'/');
-                    $this->getRequest()->getSession()->set('tmpUploadedFilePath', $tmpFilePath);
+            if (!empty($tmpFile)) {
+                $tmpFilePath = $tmpFile->getPath() . '/' . $tmpFile->getFilename();
+                $this->getRequest()->getSession()->set('tmpUploadedFile', $tmpFile->getFilename());
+                $this->getRequest()->getSession()->set('tmpUploadedFileRelativePath', '/uploads/tmp/user/' . preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail()) . '/');
+                $this->getRequest()->getSession()->set('tmpUploadedFilePath', $tmpFilePath);
             }
         }
-	    	
+
         return $this->getRequest()->getSession()->get('tmpUploadedFilePath');
     }
-    
+
     /**
      * Specific project
      *
@@ -1041,7 +995,7 @@ class ProjectController extends Controller
     public function showAction(Request $request, $id, $slug)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $showLikePopup = $request->query->get('likePopup', false);
         $showFundingPopup = $request->query->get('fundingPopup', false);
         $currentUser = $this->get('security.context')->getToken()->getUser();
@@ -1049,15 +1003,14 @@ class ProjectController extends Controller
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
-        }     
-                
+        }
+
         // Generate stats for chart
         $stats = $em->getRepository('LittleBigJoeCoreBundle:ProjectLike')->findLikesStats($entity->getCreatedAt(), new \DateTime(), $entity->getId());
         $dateStats = array();
         $likesStats = array();
 
-        foreach ($stats as $key => $stat)
-        {
+        foreach ($stats as $key => $stat) {
             $dateStats[] = $stat['date'];
             $likesStats[] = $stat['nbLikes'];
         }
@@ -1066,21 +1019,21 @@ class ProjectController extends Controller
         $projectHelp = new ProjectHelp();
         $projectHelp->setProject($entity);
         $options = array(
-            'loggedFb' => $this->get('security.context')->isGranted('ROLE_FACEBOOK'),
+            'loggedFb'      => $this->get('security.context')->isGranted('ROLE_FACEBOOK'),
             'loggedTwitter' => $this->get('security.context')->isGranted('ROLE_TWITTER'),
         );
         $helpProjectForm = $this->createForm(new HelpProjectType($options), $projectHelp);
-        
+
         // Create the entry form
         $entry = new Entry();
-        $entry->setProject($entity);      
+        $entry->setProject($entity);
         $entryForm = $this->createForm(new EntryType(), $entry);
-	            
+
         // Create the entry comment form
         $entryComment = new EntryComment();
         $options = array('project' => $entity, 'user' => $currentUser);
         $entryCommentForm = $this->createForm(new EntryCommentType($options), $entryComment);
-        
+
         // Create the comment form
         $comment = new Comment();
         $comment->setProject($entity);
@@ -1098,90 +1051,86 @@ class ProjectController extends Controller
             )
         );
         $reportForm = $this->createForm(new ReportProjectType($options));
-          
+
         // Create the funding form
         $fundingForm = $this->createFormBuilder()
-                            ->setAction($this->generateUrl('littlebigjoe_frontendbundle_payment_project'))
-                            ->setMethod('POST')
-                            ->add('projectId', 'hidden', array(
-                                    'data' => $entity->getId()
-                            ))
-                            ->add('submit', 'submit', array(
-                                    'label' => 'Fund this project',
-                                    'attr' => array(
-                                            'class' => 'btn btn-success'
-                                    )
-                            ))
-                            ->getForm();
+            ->setAction($this->generateUrl('littlebigjoe_frontendbundle_payment_project'))
+            ->setMethod('POST')
+            ->add('projectId', 'hidden', array(
+                'data' => $entity->getId()
+            ))
+            ->add('submit', 'submit', array(
+                'label' => 'Fund this project',
+                'attr'  => array(
+                    'class' => 'btn btn-success'
+                )
+            ))
+            ->getForm();
 
 
         // Create the product validation form
         $validationForm = $this->createFormBuilder()
-                                ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('id' => $id, 'slug' => $slug)))
-                                ->setMethod('POST')
-                                ->add('projectId', 'hidden', array(
-                                    'data' => $entity->getId()
-                                ))
-                                ->add('submitValidate', 'submit', array(
-                                    'label' => 'Validate',
-                                    'attr' => array(
-                                        'class' => 'btn btn-success'
-                                    )
-                                ))
-                                ->getForm();
+            ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('id' => $id, 'slug' => $slug)))
+            ->setMethod('POST')
+            ->add('projectId', 'hidden', array(
+                'data' => $entity->getId()
+            ))
+            ->add('submitValidate', 'submit', array(
+                'label' => 'Validate',
+                'attr'  => array(
+                    'class' => 'btn btn-success'
+                )
+            ))
+            ->getForm();
 
         // Create the product decline form
         $declineForm = $this->createFormBuilder()
-                            ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('id' => $id, 'slug' => $slug)))
-                            ->setMethod('POST')
-                            ->add('projectId', 'hidden', array(
-                                'data' => $entity->getId()
-                            ))
-                            ->add('declineMessage', 'textarea', array(
-                                'label' => 'Decline message'
-                            ))
-                            ->getForm();
+            ->setAction($this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('id' => $id, 'slug' => $slug)))
+            ->setMethod('POST')
+            ->add('projectId', 'hidden', array(
+                'data' => $entity->getId()
+            ))
+            ->add('declineMessage', 'textarea', array(
+                'label' => 'Decline message'
+            ))
+            ->getForm();
 
         // Set some vars used in the template to filter data
         $contributions = $entity->getContributions();
         $usersIds = array();
         $usersAmounts = array();
-        if (!empty($contributions))
-        {
-            foreach ($contributions as $contribution)
-            {
-                if (!in_array($contribution->getUser()->getId(), $usersIds))
-                {
+        if (!empty($contributions)) {
+            foreach ($contributions as $contribution) {
+                if (!in_array($contribution->getUser()->getId(), $usersIds)) {
                     $usersIds[] = $contribution->getUser()->getId();
                     $usersAmounts[$contribution->getUser()->getId()] = 0;
                 }
-                if ($contribution->getIsAnonymous() == false)
-                {
+                if ($contribution->getIsAnonymous() == false) {
                     $usersAmounts[$contribution->getUser()->getId()] += $contribution->getMangopayAmount();
                 }
             }
         }
-			     						
+
         return array(
-            'entity' => $entity,        		
-    		'usersIds' => $usersIds,
-    		'usersAmounts' => $usersAmounts,        		
-    		'dateStats' => $dateStats,
-    		'likesStats' => json_encode($likesStats),
-            'showLikePopup' => $showLikePopup,
-            'showFundingPopup' => $showFundingPopup,
-            'help_project_form' => $helpProjectForm->createView(),
-    		'entry_form' => $entryForm->createView(),
-    		'entry_comment_form' => $entryCommentForm->createView(),
-    		'comment_form' => $commentForm->createView(),
-    		'funding_form' => $fundingForm->createView(),
-            'report_form' => $reportForm->createView(),
-            'validation_form' => $validationForm->createView(),
-            'decline_form' => $declineForm->createView(),
-            'current_date' => new \Datetime()
+            'entity'             => $entity,
+            'usersIds'           => $usersIds,
+            'usersAmounts'       => $usersAmounts,
+            'dateStats'          => $dateStats,
+            'likesStats'         => json_encode($likesStats),
+            'showLikePopup'      => $showLikePopup,
+            'showFundingPopup'   => $showFundingPopup,
+            'help_project_form'  => $helpProjectForm->createView(),
+            'entry_form'         => $entryForm->createView(),
+            'entry_comment_form' => $entryCommentForm->createView(),
+            'comment_form'       => $commentForm->createView(),
+            'funding_form'       => $fundingForm->createView(),
+            'report_form'        => $reportForm->createView(),
+            'validation_form'    => $validationForm->createView(),
+            'decline_form'       => $declineForm->createView(),
+            'current_date'       => new \Datetime()
         );
     }
-    
+
     /**
      * Project preview
      *
@@ -1189,24 +1138,25 @@ class ProjectController extends Controller
      * @Template("LittleBigJoeFrontendBundle:Project:preview.html.twig")
      */
     public function previewAction($entity, $isPreview = true)
-    {    	
+    {
         $photo = '';
         // Get session vars
         $projectMedias = $this->getRequest()->getSession()->get('projectMedias', array());
+        $productMedias = $this->getRequest()->getSession()->get('productMedias', array());
 
         // Retrieve the uploaded photo, and associate it with project
-        if ($this->getRequest()->getSession()->get('tmpUploadedFile') != null && $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath') != null)
-        {
-            $photo = $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath').
-            $this->getRequest()->getSession()->get('tmpUploadedFile');
+        if ($this->getRequest()->getSession()->get('tmpUploadedFile') != null && $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath') != null) {
+            $photo = $this->getRequest()->getSession()->get('tmpUploadedFileRelativePath') .
+                $this->getRequest()->getSession()->get('tmpUploadedFile');
         }
 
         return array(
-            'entity' => $entity,
-            'isPreview' => $isPreview,
-            'photo' => $photo,
+            'entity'        => $entity,
+            'isPreview'     => $isPreview,
+            'photo'         => $photo,
             'projectMedias' => $projectMedias,
-            'current_date' => new \Datetime()
+            'productMedias' => $productMedias,
+            'current_date'  => new \Datetime()
         );
     }
 
@@ -1226,8 +1176,7 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        if ($project->getProduct() == null)
-        {
+        if ($project->getProduct() == null) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'There\'s no product for this project'
@@ -1237,8 +1186,7 @@ class ProjectController extends Controller
         }
 
         // If the current user is not logged, redirect him to login page
-        if (!is_object($currentUser))
-        {
+        if (!is_object($currentUser)) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be logged in to access to the product feedbacks'
@@ -1247,18 +1195,18 @@ class ProjectController extends Controller
             // Force base url to make sure environment is not specified in the URL
             $this->get('router')->getContext()->setBaseUrl('');
             $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_product_feedbacks', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
         // If the current user is not an LBJ admin or brand admin or project owner
         $brandIds = array();
-        foreach ($currentUser->getBrands() as $brand)
-        {
+        foreach ($currentUser->getBrands() as $brand) {
             $brandIds[] = $brand->getId();
         }
         if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
-            !in_array($project->getBrand()->getId(), $brandIds) && $project->getUser()->getId() != $currentUser->getId())
-        {
+            !in_array($project->getBrand()->getId(), $brandIds) && $project->getUser()->getId() != $currentUser->getId()
+        ) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be the owner or an administrator to access to the product feedbacks'
@@ -1274,8 +1222,7 @@ class ProjectController extends Controller
         $form = $this->createForm(new ProjectProductCommentType(), $comment);
         $form->handleRequest($request);
 
-        if ($form->isValid())
-        {
+        if ($form->isValid()) {
             $em->persist($comment);
             $em->flush();
 
@@ -1284,7 +1231,7 @@ class ProjectController extends Controller
 
         return array(
             'entity' => $project->getProduct(),
-            'form' => $form->createView()
+            'form'   => $form->createView()
         );
     }
 
@@ -1304,8 +1251,7 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        if ($project->getProduct() == null)
-        {
+        if ($project->getProduct() == null) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'There\'s no product for this project'
@@ -1315,8 +1261,7 @@ class ProjectController extends Controller
         }
 
         // If the current user is not logged, redirect him to login page
-        if (!is_object($currentUser))
-        {
+        if (!is_object($currentUser)) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be logged in to change the status of a product'
@@ -1325,12 +1270,12 @@ class ProjectController extends Controller
             // Force base url to make sure environment is not specified in the URL
             $this->get('router')->getContext()->setBaseUrl('');
             $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_product_change_status', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
 
         // If the current user is not an LBJ admin or project owner
-        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && $project->getUser()->getId() != $currentUser->getId())
-        {
+        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && $project->getUser()->getId() != $currentUser->getId()) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be the owner or an administrator to change the status of the product'
@@ -1342,8 +1287,7 @@ class ProjectController extends Controller
         $formData = $request->request->get('form');
 
         // If the product sheet is validated, change project status
-        if (isset($formData['submitValidate']) && $project->getId() == $formData['projectId'])
-        {
+        if (isset($formData['submitValidate']) && $project->getId() == $formData['projectId']) {
             $project->setStatus(2);
             $project->getProduct()->setValidatedAt(new \DateTime());
 
@@ -1351,10 +1295,8 @@ class ProjectController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
-        }
-        // If the product sheet is declined, notify brand admin
-        elseif (!empty($formData['declineMessage']) && $project->getId() == $formData['projectId'])
-        {
+        } // If the product sheet is declined, notify brand admin
+        elseif (!empty($formData['declineMessage']) && $project->getId() == $formData['projectId']) {
             $productComment = new ProjectProductComment();
             $productComment->setContent(strip_tags($formData['declineMessage']));
             $productComment->setProduct($project->getProduct());
@@ -1366,10 +1308,8 @@ class ProjectController extends Controller
 
             // Notify brand admins
             $brandAdmins = $em->getRepository('LittleBigJoeCoreBundle:User')->findByRoleAndBrand('ROLE_BRAND_ADMIN', $project->getBrand());
-            if (!empty($brandAdmins))
-            {
-                foreach ($brandAdmins as $brandAdmin)
-                {
+            if (!empty($brandAdmins)) {
+                foreach ($brandAdmins as $brandAdmin) {
                     $email = \Swift_Message::newInstance()
                         ->setContentType('text/html')
                         ->setSubject($this->container->get('translator')->trans('%currentUser% has declined the product %product%', array('%currentUser%' => $currentUser, '%product%' => $project->getProduct())))
@@ -1377,14 +1317,14 @@ class ProjectController extends Controller
                         ->setTo(array($brandAdmin->getEmail() => $brandAdmin))
                         ->setBody(
                             $this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:decline_product.html.twig', array(
-                                'projectOwner' => $currentUser,
-                                'admin' => $brandAdmin,
-                                'project' => $project,
+                                'projectOwner'  => $currentUser,
+                                'admin'         => $brandAdmin,
+                                'project'       => $project,
                                 'declineReason' => strip_tags($formData['declineMessage']),
-                                'url' => $this->container->get('request')->getSchemeAndHttpHost()
-                        ), 'text/html')
-                    );
-                $this->container->get('mailer')->send($email);
+                                'url'           => $this->container->get('request')->getSchemeAndHttpHost()
+                            ), 'text/html')
+                        );
+                    $this->container->get('mailer')->send($email);
                 }
             }
 

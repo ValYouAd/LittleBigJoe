@@ -19,6 +19,9 @@ web/uploads/tmp/*
 web/uploads/pdfs/*
 web/bundles/*
 
+# Sessions
+app/var/sessions/*
+
 # Don't allow to use the default ckeditor.js file (from the bundle), and use our own 
 !/web/bundles/trsteelckeditor/*
 

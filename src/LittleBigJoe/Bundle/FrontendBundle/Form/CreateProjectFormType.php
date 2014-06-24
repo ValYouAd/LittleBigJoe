@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints\Image;
 
 class CreateProjectFormType extends AbstractType
 {
@@ -14,12 +15,8 @@ class CreateProjectFormType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {    		
-    		$ckeditorLanguage = $options['data']->getUser()->getDefaultLanguage();
-    		if (empty($ckeditorLanguage))
-    		{
-                $ckeditorLanguage = 'en';
-    		}
+    {
+    		$ckeditorLanguage = $options['locale'];
             $brand = $options['data']->getBrand();
             if (empty($brand))
             {
@@ -55,7 +52,7 @@ class CreateProjectFormType extends AbstractType
                             ),
                             'data_class' => null,
                             'mapped' => true,
-                            'required' => false
+                            'required' => false,
                     ))
                     ->add('brand', 'text', array(
                         'label' => 'Associated brand',
@@ -121,7 +118,7 @@ class CreateProjectFormType extends AbstractType
                     ->add('endingAt', 'date', array(
                         'label' => 'Project ending at',
                         'widget' => 'single_text',
-                        'format' => $format,
+                        'format' => 'MM/dd/yyyy',
                         'attr' => array('class' => 'form-control datepicker'),
                     ));
                     break;
@@ -141,6 +138,7 @@ class CreateProjectFormType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\Project',
         		'flow_step' => null,
+            'locale' => 'en',
         ));
     }
 
