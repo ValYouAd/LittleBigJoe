@@ -7,27 +7,27 @@
 {% block body %}
     <section>
         <article>
-            <div class="white-container">
-                <div class="article-header">
-                    <h2>{{ 'Feedbacks regarding'|trans() }} "{{ entity }}" {{ "product" }}</h2>
-                </div>
+            <div class="white-container feedbacksContainer">
+                <h2>{{ 'Feedbacks regarding'|trans() }} "{{ entity }}" {{ "product" }}</h2>
 
-                <p>"{{ entity }}" {{ 'product is related to the following project'|trans() }} : <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': entity.project.id, 'slug': entity.project.slug}) }}">{{ entity.project }}</a></p>
+                <p class="padding10">"{{ entity }}" {{ 'product is related to the following project'|trans() }} : <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': entity.project.id, 'slug': entity.project.slug}) }}">{{ entity.project }}</a></p>
 
                 <div class="description-infos">
                     {% if entity.comments|length > 0 %}
                         {% for comment in entity.comments %}
-                            <div>
-                                <p>{{ comment }}</p>
-                                <p><small>{{ 'Posted by'|trans() }} {{ comment.user }} {{ 'on'|trans() }} {{ comment.createdAt|localizeddate('medium', 'medium') }}</small></p>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">{{ 'Posted by'|trans() }} {{ comment.user }} {{ 'on'|trans() }} {{ comment.createdAt|localizeddate('medium', 'medium') }}</div>
+                                <div class="panel-body">
+                                    {{ comment }}
+                                </div>
                             </div>
-                            <div class="separator"></div>
                         {% endfor %}
                     {% else %}
                         <p><strong>{{ 'There\'s no feedbacks for the moment'|trans() }}</strong></p>
                     {% endif %}
                 </div>
 
+                <hr />
                 <div>
                     {{ form(form) }}
                 </div>
