@@ -34,6 +34,37 @@
                 {% endfor %}
             {% endif %}
 
+            {% if users is not empty %}
+                {% for user in users %}
+                    <div class="brand-mosaic-container">
+                        <div class="brand-sheet">
+                            <div class="img-container">
+                                {% if user.photo %}
+                                    <img class="pres-thumbnail" src="{{ asset(user.photo)|apply_filter('260x174') }}" style="width:260px; height:174px">
+                                {% else %}
+                                    <img class="pres-thumbnail" src="{{ asset('static/img/mosaic-test.jpg') }}" alt="alt-LBJ - project image" />
+                                {% endif %}
+                            </div>
+
+                            <div class="brand-infos-container">
+                                <h3><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': user.id}) }}">{{ user }}</a></h3>
+                                <div class="social-links">
+                                    {% if user.facebookUrl %}
+                                        <a href="{{ user.facebookUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="Facebook {{ user }}" /></a>
+                                    {% endif %}
+                                    {% if user.twitterUrl %}
+                                        <a href="{{ user.twitterUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="Twitter {{ user }}" /></a>
+                                    {% endif %}
+                                    {% if user.googleUrl %}
+                                        <a href="{{ user.googleUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="Google {{ user }}" /></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
