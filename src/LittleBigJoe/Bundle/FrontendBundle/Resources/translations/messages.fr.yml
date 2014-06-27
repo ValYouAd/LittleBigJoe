@@ -361,3 +361,4 @@ Newsletter: Newsletter
 '{0} No project in which the user has participated|{1} Project in which the user has participated|]1,Inf] Projects in which the user has participated': '__{0} Aucun projet pour lequel l''utilisateur a participé|{1} Projet pour lequel l''utilisateur a participé|]1,Inf] Projets pour lesquels l''utilisateur a participé'
 'trans_participants': "{0} Aucun participant|{1} %count% participant|]1,Inf] %count% participants"
 (unlimited): (illimité)
+>>>>>>> FETCH_HEAD
