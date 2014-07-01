@@ -166,6 +166,7 @@ class PaymentController extends Controller
                 // Override default reward amount
                 $amountToPay = (float)$data['form']['amount'];
 	    	}
+            // If user has selected a reward
 	    	else if (!empty($data['form']['rewards'][0]))
 	    	{
 	    		$rewardId = $data['form']['rewards'][0];
@@ -173,7 +174,7 @@ class PaymentController extends Controller
 	    	// If user has not selected a reward, and not entered specific amount
 	    	else
 	    	{
-	    		return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+	    		return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home').'?norewards');
 	    	}	
 
 	    	// Make sure the reward id we get is correct
@@ -182,7 +183,7 @@ class PaymentController extends Controller
 	    	// If the reward doesn't exist and amount not specified
 	    	if (empty($reward) && $amountToPay == 0)
 	    	{
-                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home').'?notexistingrewards');
 	    	}
 
 	    	// Create contribution
@@ -245,7 +246,7 @@ class PaymentController extends Controller
 	    	}
 	    	else
     		{
-                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home').'?failmango');
             }
     }
     
