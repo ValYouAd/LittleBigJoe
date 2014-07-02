@@ -3,14 +3,15 @@
 namespace LittleBigJoe\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Code
  *
- * @ORM\Table(name="codes")
+ * @ORM\Table(name="codes",uniqueConstraints={@ORM\UniqueConstraint(name="unique_code", columns={"code"})})
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Entity\CodeRepository")
  *
- * @UniqueEntity(fields="code", message="Ce code est invalide.")
+ * @UniqueEntity(fields="code")
  */
 class Code
 {
