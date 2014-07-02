@@ -7,8 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Code
  *
- * @ORM\Table(name="code")
+ * @ORM\Table(name="codes")
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Entity\CodeRepository")
+ *
+ * @UniqueEntity(fields="code", message="Ce code est invalide.")
  */
 class Code
 {
@@ -24,7 +26,7 @@ class Code
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=255)
+     * @ORM\Column(name="code", type="string", unique=true, length=255)
      */
     private $code;
 
@@ -33,12 +35,7 @@ class Code
      *
      * @ORM\Column(name="used", type="integer")
      */
-    private $used;
-
-    public function __construct()
-    {
-        $this->used = 0;
-    }
+    private $used = 0;
 
     /**
      * Get id
