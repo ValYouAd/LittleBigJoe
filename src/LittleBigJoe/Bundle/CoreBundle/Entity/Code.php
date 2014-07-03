@@ -8,10 +8,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Code
  *
- * @ORM\Table(name="codes",uniqueConstraints={@ORM\UniqueConstraint(name="unique_code", columns={"code"})})
+ * @ORM\Table(name="codes")
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Entity\CodeRepository")
  *
- * @UniqueEntity(fields="code")
+ * @UniqueEntity(fields="code", message="Code already used.")
  */
 class Code
 {
