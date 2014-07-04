@@ -304,6 +304,18 @@ class PaymentController extends Controller
 				    		if ($mangopayContribution->IsSucceeded == true && $mangopayContribution->IsCompleted == true)
 				    		{
 				    				$status = 'OK';
+
+                                mail('lbrieu@shivacom.fr', 'passage',$data['project']->getAmountCount().' / '.$contribution->getMangopayAmount());
+                                    $data['project']->setAmountCount($data['project']->getAmountCount() + $contribution->getMangopayAmount());
+                                    $reward = $contribution->getReward();
+
+                                    // Decrement stock available for associated reward if there's an associated reward
+                                    // and if there's a limited stock
+                                    if ($reward instanceof ProjectReward && $reward->getStock() != null)
+                                    {
+                                        $reward->setStock($reward->getStock() - 1);
+                                        $em->persist($reward);
+                                    }
 				    				
 				    				// Make sure the PDF dir is created
 				    				$pdfPath = $this->container->getParameter('kernel.root_dir').'/../web/uploads/pdfs/';
@@ -365,7 +377,7 @@ class PaymentController extends Controller
 									    				);
 				    				$this->container->get('mailer')->send($email);
 				    		}
-				    		
+
 				    		$em->persist($contribution);
 				    		$em->flush();
 	    			}

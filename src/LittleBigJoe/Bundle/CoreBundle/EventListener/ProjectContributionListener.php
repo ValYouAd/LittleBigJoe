@@ -19,46 +19,19 @@
             $this->container = $container;
         }
 
-        public function onFlush(Event\OnFlushEventArgs $eventArgs)
+        public function postUpdate(LifecycleEventArgs $args)
         {
-            $em = $eventArgs->getEntityManager();
-            $uow = $em->getUnitOfWork();
+            $projectContribution = $args->getEntity();
+            $em = $args->getEntityManager();
 
-            // Updates
-            foreach ($uow->getScheduledEntityUpdates() as $projectContribution)
+            if ($projectContribution instanceof ProjectContribution)
             {
-                if ($projectContribution instanceof ProjectContribution)
+                $project = $projectContribution->getProject();
+                $reward = $projectContribution->getReward();
+
+                if ($project instanceof Project)
                 {
-                    $project = $projectContribution->getProject();
                     $previousTotalParticipants = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->countParticipants($project->getId());
-                    $reward = $projectContribution->getReward();
-
-                    if ($project instanceof Project)
-                    {
-                        // Only update amount count, if transaction is OK
-                        if ($projectContribution->getMangopayIsSucceeded() == true &&
-                            $projectContribution->getMangopayIsCompleted() == true)
-                        {
-                            // Update funding amount
-                            $project->setAmountCount($project->getAmountCount() + $projectContribution->getMangopayAmount());
-
-                            // Decrement stock available for associated reward if there's an associated reward
-                            // and if there's a limited stock
-                            if ($reward instanceof ProjectReward && $reward->getStock() != null)
-                            {
-                                $reward->setStock($reward->getStock() - 1);
-
-                                // Save changes
-                                $meta = $em->getClassMetadata(get_class($reward));
-                                $uow->computeChangeSet($meta, $reward);
-                            }
-
-                            // Save changes
-                            $meta = $em->getClassMetadata(get_class($project));
-                            $uow->computeChangeSet($meta, $project);
-                        }
-                    }
-
                     $totalParticipants = $em->getRepository('LittleBigJoeCoreBundle:ProjectContribution')->countParticipants($project->getId());
 
                     // Check that the project has at least 10 participants, and has reached a new step
@@ -107,6 +80,9 @@
                             }
                         }
                     }
+
+                    $em->persist($project);
+                    $em->flush();
                 }
             }
         }
