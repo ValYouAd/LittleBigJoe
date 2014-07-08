@@ -1,0 +1,32 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.code'|trans() }} {{ entity }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.code'|trans() }} {{ entity }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.code_resume'|trans() }}</p>
+
+    <div class="row">
+        <div class="clearfix">&nbsp;</div>
+        <p>{{ 'backend.id'|trans() }} : <strong>{{ entity.id }}</strong></p>
+        <p>{{ 'backend.code'|trans() }} : <strong>{{ entity.code }}</strong></p>
+        <p>{{ 'backend.used'|trans() }} : <strong>{{ entity.used }}</strong></p>
+        <p>{{ 'backend.max_use'|trans() }} : <strong>{{ entity.maxuse }}</strong></p>
+    </div>
+
+    <div class="clearfix">&nbsp;</div>
+
+    <p>
+        <a class="btn btn-default" href="{{ path('code') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('code_edit', { 'id': entity.id }) }}">
+            {{ 'backend.edit'|trans() }}
+        </a>
+        {{ form(delete_form, {attr:{role:'form' }}) }}
+    </p>
+    {% endblock %}
