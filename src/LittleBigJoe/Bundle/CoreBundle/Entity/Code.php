@@ -39,6 +39,18 @@ class Code
     private $used = 0;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="max_use", type="integer")
+     */
+    private $max_use;
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="betaCode")
+     */
+    protected $users;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -92,5 +104,69 @@ class Code
     public function getUsed()
     {
         return $this->used;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add users
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $users
+     * @return Code
+     */
+    public function addUser(\LittleBigJoe\Bundle\CoreBundle\Entity\User $users)
+    {
+        $this->users[] = $users;
+    
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\User $users
+     */
+    public function removeUser(\LittleBigJoe\Bundle\CoreBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Set max_use
+     *
+     * @param integer $maxUse
+     * @return Code
+     */
+    public function setMaxUse($maxUse)
+    {
+        $this->max_use = $maxUse;
+    
+        return $this;
+    }
+
+    /**
+     * Get max_use
+     *
+     * @return integer 
+     */
+    public function getMaxUse()
+    {
+        return $this->max_use;
     }
 }

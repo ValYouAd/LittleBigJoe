@@ -16,7 +16,6 @@ use Symfony\Component\Locale\Locale;
  * @ORM\Table(name="user")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("email")
- * @UniqueEntity(fields="betaCode", message="Code already used.")
  * @ORM\Entity(repositoryClass="LittleBigJoe\Bundle\CoreBundle\Repository\UserRepository")
  * @Gedmo\Uploadable(path="uploads/users", filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true, allowedTypes="image/png,image/jpg,image/jpeg,image/gif")
  */
@@ -313,11 +312,15 @@ class User extends BaseUser
     protected $productComments;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Code", inversedBy="users", cascade={"persist", "remove"})
+     * @var string
+     * @ORM\Column(name="betaCodeValue", type="string")
+     */
+
+    private $betaCodeValue;
+    /**
+     * @ORM\ManyToOne(targetEntity="Code", inversedBy="users")
      */
     protected $betaCode;
-
-    protected $betaCodeValue;
 
     public function __construct()
     {
@@ -1396,21 +1399,5 @@ class User extends BaseUser
     public function getProductComments()
     {
         return $this->productComments;
-    }
-
-    /**
-     * @param mixed $betaCodeValue
-     */
-    public function setBetaCodeValue($betaCodeValue)
-    {
-        $this->betaCodeValue = $betaCodeValue;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBetaCodeValue()
-    {
-        return $this->betaCodeValue;
     }
 }

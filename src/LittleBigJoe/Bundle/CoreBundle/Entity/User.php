@@ -311,6 +311,18 @@ class User extends BaseUser
      */
     protected $productComments;
 
+    /**
+     * @var string
+     * @ORM\Column(name="betaCodeValue", type="string")
+     */
+    private $betaCodeValue;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Code", inversedBy="users")
+     * @ORM\JoinColumn(name = "betaCode_id", referencedColumnName = "id", onDelete="SET NULL")
+     */
+    protected $betaCode;
+
     public function __construct()
     {
         parent::__construct();
@@ -1388,5 +1400,51 @@ class User extends BaseUser
     public function getProductComments()
     {
         return $this->productComments;
+    }
+
+    /**
+     * Set betaCodeValue
+     *
+     * @param string $betaCodeValue
+     * @return User
+     */
+    public function setBetaCodeValue($betaCodeValue)
+    {
+        $this->betaCodeValue = $betaCodeValue;
+    
+        return $this;
+    }
+
+    /**
+     * Get betaCodeValue
+     *
+     * @return string 
+     */
+    public function getBetaCodeValue()
+    {
+        return $this->betaCodeValue;
+    }
+
+    /**
+     * Set betaCode
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Code $betaCode
+     * @return User
+     */
+    public function setBetaCode(\LittleBigJoe\Bundle\CoreBundle\Entity\Code $betaCode = null)
+    {
+        $this->betaCode = $betaCode;
+    
+        return $this;
+    }
+
+    /**
+     * Get betaCode
+     *
+     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\Code 
+     */
+    public function getBetaCode()
+    {
+        return $this->betaCode;
     }
 }
