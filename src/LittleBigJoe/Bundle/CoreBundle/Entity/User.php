@@ -313,7 +313,7 @@ class User extends BaseUser
 
     /**
      * @var string
-     * @ORM\Column(name="betaCodeValue", type="string")
+     * @ORM\Column(name="betaCodeValue", type="string", nullable=true)
      */
     private $betaCodeValue;
 
