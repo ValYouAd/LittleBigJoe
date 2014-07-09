@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="default-empty">
+        <h1>{{ 'Congratulations %username%, you are now registered.'|trans({'%username%': user.username}) }}</h1>
+        <p>{{ 'Unfortunately, the site is not live yet. Come back later or get a user beta access.'|trans() }}</p>
+    </div>
+    {% if app.session is not empty %}
+        {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}
+    {% endif %}
+{% endblock fos_user_content %}

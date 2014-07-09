@@ -15,7 +15,17 @@
         <p>{{ 'backend.id'|trans() }} : <strong>{{ entity.id }}</strong></p>
         <p>{{ 'backend.code'|trans() }} : <strong>{{ entity.code }}</strong></p>
         <p>{{ 'backend.used'|trans() }} : <strong>{{ entity.used }}</strong></p>
-        <p>{{ 'backend.max_use'|trans() }} : <strong>{{ entity.maxuse }}</strong></p>
+        <p>{{ 'backend.max_use'|trans() }} :
+            {% if entity.maxuse == 0 %}
+                <strong>illimité</strong>
+            {% else %}
+                <strong>{{ entity.maxuse }}</strong></p>
+            {% endif %}
+        <p>{{ 'backend.code_users'|trans() }} :
+            {% for user in entity.users %}
+                <strong>{{ user.username }} </strong>
+            {% endfor %}
+        </p>
     </div>
 
     <div class="clearfix">&nbsp;</div>
@@ -29,4 +39,4 @@
         </a>
         {{ form(delete_form, {attr:{role:'form' }}) }}
     </p>
-    {% endblock %}
+{% endblock %}

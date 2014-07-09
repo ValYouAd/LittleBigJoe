@@ -67,12 +67,6 @@ class CodeController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
-            /*            if ($entity->getLogo() != null) {
-                $evm = $em->getEventManager();
-                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
-                $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
-                $uploadableManager->markEntityToUpload($entity, $entity->getLogo());
-            }*/
             $em->flush();
 
             return $this->redirect($this->generateUrl('code_show', array('id' => $entity->getId())));

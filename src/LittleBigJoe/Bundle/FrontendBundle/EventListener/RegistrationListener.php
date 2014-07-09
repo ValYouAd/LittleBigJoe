@@ -47,12 +47,19 @@ class RegistrationListener implements EventSubscriberInterface
         $betaCodeValue = $event->getUser()->getBetaCodeValue();
         if (!empty($betaCodeValue)) {
             $betaCode = $this->container->get('doctrine')->getRepository('LittleBigJoeCoreBundle:Code')->findOneByCode($betaCodeValue);
-            if ($betaCode && ($betaCode->getMaxUse() > $betaCode->getUsed() || $betaCode->getMaxUse() == 0)) {
-                $user->setBetaCode($betaCode);
-                $user->setRoles(array('ROLE_BETA_USER'));
-                $betaCode->setUsed($betaCode->getUsed() + 1);
+            if ($betaCode) {
+                if ($betaCode->getMaxUse() <= $betaCode->getUsed() && $betaCode->getMaxUse() != 0) {
+                    $form->get('betaCodeValue')->addError(new FormError($translator->trans('The beta code has been used too many times.')));
+                } else {
+                    $user->setBetaCode($betaCode);
+                    $user->setRoles(array('ROLE_BETA_USER'));
+                    $betaCode->setUsed($betaCode->getUsed() + 1);
+                }
             } else {
-                $form->get('betaCodeValue')->addError(new FormError($translator->trans('The beta code is incorrect')));
+                $form->get('betaCodeValue')->addError(new FormError($translator->trans('The beta code is incorrect.')));
+            }
+            $errors = $form->get('betaCodeValue')->getErrors();
+            if (!empty($errors)) {
                 $event->setResponse($this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.twig', array(
                     'form' => $form->createView(),
                 )));
@@ -129,8 +136,14 @@ class RegistrationListener implements EventSubscriberInterface
 				// Redirect user to confirmation page
         if (null === $response = $event->getResponse()) 
         {
-            $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
-            return new RedirectResponse($url);
+            if (!empty($betaCodeValue))
+            {
+                $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
+            } else {
+                $url = $this->container->get('router')->generate('littlebigjoe_frontendbundle_registration_beta_confirmed');
+            }
+            $event->setResponse(new RedirectResponse($url));
+            return (true);
         }
 
         return false;
