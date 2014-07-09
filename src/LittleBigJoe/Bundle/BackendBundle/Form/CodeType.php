@@ -5,6 +5,7 @@ namespace LittleBigJoe\Bundle\BackEndBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Translation\Translator;
 
 class CodeType extends AbstractType
 {
@@ -14,15 +15,16 @@ class CodeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $translator = new Translator('fr_FR');
         $builder
             ->add('code', 'text', array(
-                'label' => 'backend.code'
+                'label' => $translator->trans('backend.code')
             ))
             ->add('used', 'integer', array(
-                'label' => 'backend.used'
+                'label' => $translator->trans('backend.used')
             ))
             ->add('max_use', 'integer', array(
-                'label' => 'backend.max_use'
+                'label' => $translator->trans('backend.max_use')
             ))
         ;
     }
