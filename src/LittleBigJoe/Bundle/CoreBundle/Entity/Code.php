@@ -50,6 +50,11 @@ class Code
      */
     protected $users;
 
+    public function __toString()
+    {
+        return $this->code;
+    }
+
     /**
      * Get id
      *

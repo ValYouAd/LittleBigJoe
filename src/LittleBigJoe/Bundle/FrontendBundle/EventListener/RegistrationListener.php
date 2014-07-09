@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormError;
-
+use Symfony\Component\Translation\Translator;
 
 class RegistrationListener implements EventSubscriberInterface
 {
@@ -35,6 +35,8 @@ class RegistrationListener implements EventSubscriberInterface
 
     public function onRegistrationInitialize(GetResponseUserEvent $event)
     {
+        $translator = new Translator('fr_FR');
+
         $formFactory = $this->container->get('fos_user.registration.form.factory');
         $user = $event->getUser();
 
@@ -45,11 +47,12 @@ class RegistrationListener implements EventSubscriberInterface
         $betaCodeValue = $event->getUser()->getBetaCodeValue();
         if (!empty($betaCodeValue)) {
             $betaCode = $this->container->get('doctrine')->getRepository('LittleBigJoeCoreBundle:Code')->findOneByCode($betaCodeValue);
-            if ($betaCode && ($betaCode->getMaxUse() >= $betaCode->getUsed() || $betaCode->getMaxUse() == 0)) {
+            if ($betaCode && ($betaCode->getMaxUse() > $betaCode->getUsed() || $betaCode->getMaxUse() == 0)) {
                 $user->setBetaCode($betaCode);
-                $user->addRole('ROLE_BETA_USER');
+                $user->setRoles(array('ROLE_BETA_USER'));
+                $betaCode->setUsed($betaCode->getUsed() + 1);
             } else {
-                $form->get('betaCodeValue')->addError(new FormError('Code incorrect'));
+                $form->get('betaCodeValue')->addError(new FormError($translator->trans('The beta code is incorrect')));
                 $event->setResponse($this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.twig', array(
                     'form' => $form->createView(),
                 )));
@@ -63,15 +66,6 @@ class RegistrationListener implements EventSubscriberInterface
         $user = $event->getForm()->getData();
         $em = $this->container->get('doctrine')->getManager();
         $userManager = $this->container->get('fos_user.user_manager');
-
-        $betaCodeValue = $user->getBetaCodeValue();
-        if (!empty($betaCodeValue)){
-            $betaCode = $this->container->get('doctrine')->getRepository('LittleBigJoeCoreBundle:Code')->findOneByCode($betaCodeValue);
-            if (!empty($betaCode)){
-                $user->setBetaCode($betaCode);
-//                $user->setRoles'ROLE_BETA_USER');
-            }
-        }
 
         // Upload user photo
         if ($user->getPhoto() != null) 
