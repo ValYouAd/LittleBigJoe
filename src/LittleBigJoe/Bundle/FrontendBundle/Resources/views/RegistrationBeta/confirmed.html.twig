@@ -5,7 +5,7 @@
 {% block fos_user_content %}
     <div class="default-empty">
         <h1>{{ 'Congratulations %username%, you are now registered.'|trans({'%username%': user.username}) }}</h1>
-        <p>{{ 'Unfortunately, the site is not live yet. Come back later or get a user beta access.'|trans() }}</p>
+        <p>{{ 'The site is not live yet. Come back later.'|trans() }}</p>
     </div>
     {% if app.session is not empty %}
         {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}

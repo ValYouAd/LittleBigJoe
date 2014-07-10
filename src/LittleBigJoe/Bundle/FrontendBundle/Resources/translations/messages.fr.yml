@@ -361,4 +361,7 @@ Newsletter: Newsletter
 '{0} No project in which the user has participated|{1} Project in which the user has participated|]1,Inf] Projects in which the user has participated': '__{0} Aucun projet pour lequel l''utilisateur a participé|{1} Projet pour lequel l''utilisateur a participé|]1,Inf] Projets pour lesquels l''utilisateur a participé'
 'trans_participants': "{0} Aucun participant|{1} %count% participant|]1,Inf] %count% participants"
 (unlimited): (illimité)
+Beta code: 'Code beta'
 The beta code is incorrect: 'Le code Beta est incorrect'
+The beta code has been used too many times: 'Le code Beta a été utilisé un trop grand nombre de fois'
+The site is not live yet. Come back later.: 'Le site n''est pas en ligne pour le moment. Revenez plus tard.'

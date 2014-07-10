@@ -13,8 +13,7 @@ class RegistrationFormTypeBeta extends BaseType
     {
         parent::buildForm($builder, $options);
 
-        $translator = new Translator('fr_FR');
-        $builder->add('betaCodeValue', 'text', array('label' => $translator->trans('Beta code'), 'required' => false));
+        $builder->add('betaCodeValue', 'text', array('label' => ('Beta code'), 'required' => false));
     }
 
     public function getName()

@@ -35,7 +35,7 @@ class RegistrationListener implements EventSubscriberInterface
 
     public function onRegistrationInitialize(GetResponseUserEvent $event)
     {
-        $translator = new Translator('fr_FR');
+//        $translator = $this->container->get('translator');
 
         $formFactory = $this->container->get('fos_user.registration.form.factory');
         $user = $event->getUser();
@@ -49,14 +49,14 @@ class RegistrationListener implements EventSubscriberInterface
             $betaCode = $this->container->get('doctrine')->getRepository('LittleBigJoeCoreBundle:Code')->findOneByCode($betaCodeValue);
             if ($betaCode) {
                 if ($betaCode->getMaxUse() <= $betaCode->getUsed() && $betaCode->getMaxUse() != 0) {
-                    $form->get('betaCodeValue')->addError(new FormError($translator->trans('The beta code has been used too many times.')));
+                    $form->get('betaCodeValue')->addError(new FormError(('The beta code has been used too many times')));
                 } else {
                     $user->setBetaCode($betaCode);
                     $user->setRoles(array('ROLE_BETA_USER'));
                     $betaCode->setUsed($betaCode->getUsed() + 1);
                 }
             } else {
-                $form->get('betaCodeValue')->addError(new FormError($translator->trans('The beta code is incorrect.')));
+                $form->get('betaCodeValue')->addError(new FormError(('The beta code is incorrect')));
             }
             $errors = $form->get('betaCodeValue')->getErrors();
             if (!empty($errors)) {
@@ -133,9 +133,10 @@ class RegistrationListener implements EventSubscriberInterface
 					        );
         $this->container->get('mailer')->send($email);
         
-				// Redirect user to confirmation page
+        // Redirect user to confirmation page
         if (null === $response = $event->getResponse()) 
         {
+            $betaCodeValue = $user->getBetaCodeValue();
             if (!empty($betaCodeValue))
             {
                 $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
