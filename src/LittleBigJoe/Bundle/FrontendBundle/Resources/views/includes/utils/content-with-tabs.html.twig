@@ -44,9 +44,9 @@
     <div class="keywords-container">
         {% for category in entity.categories %}
             <div class="keyword">
+                <img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" />
                 <span><a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug':category.slug}) }}">
                     {{ category }}</a></span>
-                <img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" />
             </div>
         {% endfor %}
     </div>
@@ -227,6 +227,7 @@
                 {% if not entity.product.validatedAt %}
                     {{ form_widget(validation_form.submitValidate) }}
                 {% endif %}
+                <a href="{{ path('littlebigjoe_frontendbundle_project_product_feedbacks', {'id':entity.id, 'slug':entity.slug}) }}" class="btn btn-warning">{{ 'Feedbacks'|trans() }}</a>
                 <span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span>
             </div>
             <div class="hidden">{{ form_rest(validation_form) }}</div>

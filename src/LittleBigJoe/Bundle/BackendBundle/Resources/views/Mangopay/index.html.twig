@@ -42,7 +42,7 @@
 				                    <a class="btn btn-primary btn-xs"
 				                       href="{{ path('littlebigjoe_backendbundle_projects_show', { 'id': entity.id }) }}">{{ 'backend.details'|trans() }}</a>
 				                    <a class="btn btn-default btn-xs"
-				                       href="{{ path('littlebigjoe_frontendbundle_project_show', { 'slug': entity.slug }) }}" target="_blank">{{ 'backend.show_in_fo'|trans() }}</a>
+				                       href="{{ path('littlebigjoe_frontendbundle_project_show', { 'id': entity.id, 'slug': entity.slug }) }}" target="_blank">{{ 'backend.show_in_fo'|trans() }}</a>
 				                </td>
 				            </tr>
 				        {% endfor %}

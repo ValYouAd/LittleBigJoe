@@ -75,7 +75,7 @@ class FOSUBUserProvider extends BaseClass
 				$session = $this->container->get('request')->getSession();
 				$username = $response->getUsername();
 				$user = $this->userManager->findUserBy(array($this->getProperty($response) => $username));
-								
+
 				// when the user is registrating
 				if (null === $user) 
 				{				    

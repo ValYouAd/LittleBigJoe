@@ -58,6 +58,7 @@
                 </div>
 
                 {% if user.contributions|length > 0 %}
+                    {#
                     {% for contribution in user.contributions|reverse() %}
                         <h3>
                             <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': contribution.project.id, 'slug': contribution.project.slug}) }}">{{ contribution.project.name }}</a>
@@ -72,6 +73,18 @@
                         {% endif %}
                         {% if contribution.invoice %}
                             <p><a href="{{ asset('uploads/pdfs/' ~ contribution.invoice) }}" target="_blank">{{ 'Download invoice'|trans() }}</a></p>
+                        {% endif %}
+                    {% endfor %}
+                    #}
+                    {% set displayed_projects = [] %}
+                    {% for contribution in user.contributions|reverse() %}
+                        {% if contribution.project.id not in displayed_projects %}
+                            {% set displayed_projects = displayed_projects|merge([contribution.project.id]) %}
+
+                            <div class="list-container">
+                                {% set list_pres_vars = {'project': contribution.project} %}
+                                {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
+                            </div>
                         {% endif %}
                     {% endfor %}
                 {% else %}

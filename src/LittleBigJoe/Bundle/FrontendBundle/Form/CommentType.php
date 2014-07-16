@@ -25,7 +25,7 @@ class CommentType extends AbstractType
         				'data' => $options['data']->getProject()->getId()
         		))
                 ->add('content', 'textarea', array(
-			      		'label' => false,
+			      		'label' => '',
 			      		'data' => '',
                 ))
 			      ->add('addComment', 'button', array(

@@ -22,7 +22,7 @@
             <argument type="service" id="service_container"/>
         </service>
         <service id="littlebigjoefrontend.listener.projectcontribution" class="LittleBigJoe\Bundle\CoreBundle\EventListener\ProjectContributionListener">
-            <tag name="doctrine.event_listener" event="onFlush" />
+            <tag name="doctrine.event_listener" event="postUpdate" />
             <argument type="service" id="service_container"/>
         </service>
     </services>
