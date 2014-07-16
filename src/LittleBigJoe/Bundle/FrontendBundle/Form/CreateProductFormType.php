@@ -2,6 +2,7 @@
 
 namespace LittleBigJoe\Bundle\FrontendBundle\Form;
 
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -85,6 +86,7 @@ class CreateProductFormType extends AbstractType
             case 4: $builder
                 ->add('rewards', 'collection', array(
                     'type' => new ProjectRewardType(),
+                    'data' => array(new ProjectReward()),
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,

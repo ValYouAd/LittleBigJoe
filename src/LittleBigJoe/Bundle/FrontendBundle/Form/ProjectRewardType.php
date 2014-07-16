@@ -17,15 +17,15 @@ class ProjectRewardType extends AbstractType
         $builder
             ->add('title', 'text', array(
         				'label' => 'Reward title',
-            		'required' => false
+            		'required' => true
         		))
             ->add('description', 'textarea', array(
         				'label' => 'Reward description',
-            		'required' => false
+            		'required' => true
         		))
             ->add('amount', 'integer', array(
         				'label' => 'Required amount',
-            		'required' => false
+            		'required' => true
         		))
             ->add('stock', 'integer', array(
         				'label' => 'Stock',
