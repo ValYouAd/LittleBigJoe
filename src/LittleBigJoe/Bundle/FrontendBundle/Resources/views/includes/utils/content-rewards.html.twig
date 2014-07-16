@@ -2,7 +2,7 @@
     <div class="select-container">
         <input type="radio" name="rewards[]" value="{{ reward.id }}" id="reward_{{ reward.id }}" {% if reward.id in unavailableRewards %}disabled="disabled"{% elseif loop.index == '1' %}checked="checked"{% endif %} />
         {% if reward.description %}
-            <span><strong>{{ reward.title }}</strong></span>
+            <span><strong>{{ reward.title }} ({{ reward.amount|default('0') }}{{ '€ or more'|trans() }})</strong></span>
         {% else %}
             <span>{{ 'No rewards'|trans() }}</span>
         {% endif %}

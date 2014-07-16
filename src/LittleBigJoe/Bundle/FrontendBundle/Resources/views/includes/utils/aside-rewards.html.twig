@@ -1,5 +1,5 @@
 <div class="reward-container">
-    <div class="title"><span class="orange-text">{{ reward.title }}</span></div>
+    <div class="title"><span class="orange-text">{{ reward.title }} ({{ reward.amount|default('0') }}{{ '€ or more'|trans() }})</span></div>
 
     <div class="participating">
         <img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />

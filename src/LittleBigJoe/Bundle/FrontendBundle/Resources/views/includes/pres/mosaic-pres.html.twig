@@ -25,7 +25,11 @@
     </div>
 
     <div class="mosaic-infos-container">
-        <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.name }}</a></h3>
+        {% if project.status != '1' %}
+            <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.name }}</a></h3>
+        {% else %}
+            <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.product.name }}</a></h3>
+        {% endif %}
 
         {% set canCreateProduct = false %}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -43,7 +47,12 @@
             <div class="clearfix"></div>
         {% endif %}
 
-        <p class="project-description">{{ project.pitch }}</p>
+        {% if project.status != '1' %}
+            <p class="project-description">{{ project.pitch }}</p>
+        {% else %}
+            <p class="project-description">{{ project.product.pitch }}</p>
+        {% endif %}
+
         <div class="author">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': project.user.id}) }}">
                 <img class="icon" src="{{ asset('static/img/icons/icon-author.png') }}" alt="alt-LBJ - author" /> {{ project.user }}</a>
