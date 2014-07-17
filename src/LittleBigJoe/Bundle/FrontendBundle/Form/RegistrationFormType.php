@@ -103,10 +103,12 @@ class RegistrationFormType extends BaseType
             ))
             ->add('city', 'text', array(
                 'label' => 'City',
-            		'data' => $location
+            		'data' => $location,
+                'required' => false
             ))
             ->add('country', 'country', array(
                 'label' => 'Country',
+                'required' => false
             ))
             ->add('defaultLanguage', 'locale', array(
                 'label' => 'Default language',

@@ -74,9 +74,11 @@ class ProfileFormType extends BaseType
             ))
             ->add('city', 'text', array(
                 'label' => 'City',
+                'required' => false
             ))
             ->add('country', 'country', array(
                 'label' => 'Country',
+                'required' => false
             ))
             ->add('defaultLanguage', 'locale', array(
                 'label' => 'Default language',
