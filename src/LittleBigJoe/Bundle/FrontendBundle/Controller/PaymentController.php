@@ -188,7 +188,9 @@ class PaymentController extends Controller
             $amountToPay = $reward->getAmount();
         }
 
-        $mangopayContribution = $api->createContribution($data['project']->getMangopayWalletId(), $data['user']->getMangopayUserId(), $amountToPay * 100, $returnUrl, $contribution->getId(), null, null, null, null, $data['user']->getDefaultLanguage(), null, null);
+        $mangopayContribution = $api->createContribution($data['project']->getMangopayWalletId(), $data['user']->getMangopayUserId(),
+                                                        $amountToPay * 100, $returnUrl, $contribution->getId(), null, null, null, null,
+                                                        $data['user']->getDefaultLanguage(), null, null);
         if (!empty($mangopayContribution)) {
             if (!empty($mangopayContribution->ID)) {
                 $contribution->setMangopayContributionId($mangopayContribution->ID);
