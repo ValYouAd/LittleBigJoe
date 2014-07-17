@@ -16,7 +16,7 @@
                 <img class="icon" src="{{ asset('static/img/icons/icon-author.png') }}" alt="alt-LBJ - author" /> {{ item.projects.0.user }}</a>
             </div>
         {% else %}
-            {% if project.status != '1' %}
+            {% if project.status == '1' %}
                 <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': item.project.id, 'slug': item.project.slug}) }}">{{ item.project.name }}</a></h3>
             {% else %}
                 <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': item.project.id, 'slug': item.project.slug}) }}">{{ item.project.product.name }}</a></h3>
