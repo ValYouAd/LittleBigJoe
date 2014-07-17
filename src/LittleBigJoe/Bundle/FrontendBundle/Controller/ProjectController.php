@@ -794,8 +794,8 @@ class ProjectController extends Controller
         foreach ($currentUser->getBrands() as $brand) {
             $brandIds[] = $brand->getId();
         }
-        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
-            !in_array($project->getBrand()->getId(), $brandIds)
+        if (!$currentUser->hasRole('ROLE_ADMIN') && !$currentUser->hasRole('ROLE_SUPER_ADMIN')
+            && !$currentUser->hasRole('ROLE_BRAND_ADMIN') && !in_array($project->getBrand()->getId(), $brandIds)
         ) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
@@ -1205,7 +1205,7 @@ class ProjectController extends Controller
         foreach ($currentUser->getBrands() as $brand) {
             $brandIds[] = $brand->getId();
         }
-        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
+        if (!$currentUser->hasRole('ROLE_ADMIN') && !$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
             !in_array($project->getBrand()->getId(), $brandIds) && $project->getUser()->getId() != $currentUser->getId()
         ) {
             $this->get('session')->getFlashBag()->add(
@@ -1276,7 +1276,7 @@ class ProjectController extends Controller
         }
 
         // If the current user is not an LBJ admin or project owner
-        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && $project->getUser()->getId() != $currentUser->getId()) {
+        if (!$currentUser->hasRole('ROLE_ADMIN') && !$currentUser->hasRole('ROLE_SUPER_ADMIN') && $project->getUser()->getId() != $currentUser->getId()) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be the owner or an administrator to change the status of the product'

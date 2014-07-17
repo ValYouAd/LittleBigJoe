@@ -5,15 +5,15 @@
     {% set canEditProject = false %}
 
     {% if isPreview is not defined %}
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            {% set canCreateProduct = true %}
-            {% set canEditProject = true %}
-        {% elseif is_granted('ROLE_BRAND_ADMIN') %}
+        {% if is_granted('ROLE_BRAND_ADMIN') %}
             {% for brand in app.user.brands %}
                 {% if brand.id == entity.brand.id %}
                     {% set canCreateProduct = true %}
                 {% endif %}
             {% endfor %}
+        {% elseif is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+            {% set canCreateProduct = true %}
+            {% set canEditProject = true %}
         {% elseif is_granted('ROLE_USER') and entity.user.id == app.user.id %}
             {% set canEditProject = true %}
         {% endif %}
@@ -221,7 +221,7 @@
             </div>
         {% endif %}
 
-        {% if validation_form is defined  and (is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_USER') and entity.user.id == app.user.id)) %}
+        {% if validation_form is defined  and (is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_ADMIN') and not is_granted('ROLE_BRAND_ADMIN')) or (is_granted('ROLE_USER') and entity.user.id == app.user.id)) %}
             {{ form_start(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
             <div class="btn-group">
                 {% if not entity.product.validatedAt %}

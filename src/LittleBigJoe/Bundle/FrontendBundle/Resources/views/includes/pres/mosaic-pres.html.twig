@@ -32,14 +32,14 @@
         {% endif %}
 
         {% set canCreateProduct = false %}
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            {% set canCreateProduct = true %}
-        {% elseif is_granted('ROLE_BRAND_ADMIN') %}
+        {% if is_granted('ROLE_BRAND_ADMIN') %}
             {% for brand in app.user.brands %}
                 {% if brand.id == project.brand.id %}
                     {% set canCreateProduct = true %}
                 {% endif %}
             {% endfor %}
+        {% elseif is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+            {% set canCreateProduct = true %}
         {% endif %}
         {% if canCreateProduct and project.status == '1' and ((project.product is null) or (project.product and project.product.validatedAt is null)) %}
             <div class="clearfix"></div>
