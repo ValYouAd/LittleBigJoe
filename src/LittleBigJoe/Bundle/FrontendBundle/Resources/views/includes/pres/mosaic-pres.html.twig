@@ -25,7 +25,7 @@
     </div>
 
     <div class="mosaic-infos-container">
-        {% if project.status == '1' %}
+        {% if project.status == '1' or project.product is not defined %}
             <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.name }}</a></h3>
         {% else %}
             <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.product.name }}</a></h3>
@@ -47,7 +47,7 @@
             <div class="clearfix"></div>
         {% endif %}
 
-        {% if project.status == '1' %}
+        {% if project.status == '1' or project.product is not defined %}
             <p class="project-description">{{ project.pitch }}</p>
         {% else %}
             <p class="project-description">{{ project.product.pitch }}</p>

@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="top-infos">
-                        {% if popularProjects.0.status == '1' %}
+                        {% if popularProjects.0.status == '1' or popularProjects.0.product is not defined %}
                             <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProjects.0.id, 'slug': popularProjects.0.slug}) }}">{{ popularProjects.0.name }}</a></h3>
                         {% else %}
                             <h3><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProjects.0.id, 'slug': popularProjects.0.slug}) }}">{{ popularProjects.0.product.name }}</a></h3>
@@ -39,7 +39,7 @@
 
                         <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': popularProjects.0.user.id}) }}" class="author">{{ 'By'|trans() }} {{ popularProjects.0.user }}</a>
 
-                        {% if popularProjects.0.status == '1' %}
+                        {% if popularProjects.0.status == '1' or popularProjects.0.product is not defined %}
                             <p>{{ popularProjects.0.pitch }}</p>
                         {% else %}
                             <p>{{ popularProjects.0.product.pitch }}</p>
