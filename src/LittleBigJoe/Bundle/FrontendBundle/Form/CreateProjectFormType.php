@@ -53,7 +53,6 @@ class CreateProjectFormType extends AbstractType
                             ),
                             'data_class' => null,
                             'mapped' => true,
-                            'required' => false,
                     ))
                     ->add('brand', 'text', array(
                         'label' => 'Associated brand',
