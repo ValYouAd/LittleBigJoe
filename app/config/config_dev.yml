@@ -27,8 +27,8 @@ monolog:
 assetic:
     use_controller: true
 
-swiftmailer: 
-    delivery_address: laurentbrieu@gmail.com
+#swiftmailer:
+#    delivery_address: laurentbrieu@gmail.com
 
 # LittleBigJoeBundle Configuration
 little_big_joe_mango_pay: 
