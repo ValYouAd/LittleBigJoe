@@ -135,6 +135,8 @@
                                     alert("{{ 'Thanks for liking the project !'|trans() }}");
                                     var likes = parseInt($('.likes_count').text()) + 1;
                                     $('.likes_count').text(likes);
+                                    $('#likeProject').hide();
+                                    $('#unlikeProject').show();
                                 }
                                 else if (data.status == 'KO USER')
                                 {
@@ -303,6 +305,8 @@
                             alert("{{ 'Thanks for liking the project !'|trans() }}");
                             var likes = parseInt($('.likes_count').text()) + 1;
                             $('.likes_count').text(likes);
+                            $('#likeProject').hide();
+                            $('#unlikeProject').show();
                         });
                     }
                     else if (data.status == 'KO USER')
@@ -509,7 +513,6 @@
 
             // Delete comment
             $('.deleteComment').click(function (e) {
-                alert('bim');
                 var commentId = $(this).attr('rel');
                 $.post("{{ path('littlebigjoe_frontendbundle_ajax_delete_comment_project') }}", { 'commentId' : commentId })
                     .done(function(data) {
@@ -522,6 +525,35 @@
                             window.location = "{{ path('fos_user_security_login') }}";
                         }
                     });
+            });
+
+            // Unlike project
+            $('#unlikeProject').click(function (e) {
+                $.post("{{ path('littlebigjoe_frontendbundle_ajax_unlike_project') }}", { 'projectId' : currentProjectId })
+                    .done(function(data) {
+                        if (data.status == 'OK')
+                        {
+                            var likes = parseInt($('.likes_count').text()) - 1;
+                            $('.likes_count').text(likes);
+                            $('#likeProject').show();
+                            $('#unlikeProject').hide();
+                        }
+                        else if (data.status == 'KO USER')
+                        {
+                            window.location = "{{ path('fos_user_security_login') }}";
+                        }
+                        else if (data.status == 'KO VOTE')
+                        {
+                            $('#helpProject').modal();
+                            $('#helpProject').on('hidden.bs.modal', function (e) {
+                                alert("{{ 'You already have unliked this project !'|trans() }}");
+                            });
+                        }
+                        else
+                        {
+                            alert("{{ 'An error has occured during project unliking. Please try again'|trans() }}");
+                        }
+                });
             });
 
             // Fancybox

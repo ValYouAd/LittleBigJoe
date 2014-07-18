@@ -1,4 +1,13 @@
 {% if like %}
+    {% set isLikedProject = false %}
+    {% if entity.likes|length > 0 %}
+        {% for like in entity.likes %}
+            {% if like.user.id == app.user.id %}
+                {% set isLikedProject = true %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
     <div class="side-infos-block">
         <div class="project-stats">
             <div class="likes">
@@ -26,7 +35,8 @@
         </div>
 
         {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
-            <button id="likeProject" class="btn validate-style">{{ 'I like this project'|trans() }}</button>
+            <button id="likeProject" class="btn validate-style" {% if isLikedProject %}style="display:none"{% endif %}>{{ 'I like this project'|trans() }}</button>
+            <button id="unlikeProject" class="btn validate-style" {% if not isLikedProject %}style="display:none"{% endif %}>{{ 'Unlike this project'|trans() }}</button>
         {% endif %}
         <p><a id="reportProjectButton" class="btn mosaic-style" href="#">{{ 'Report this project'|trans() }}</a></p>
     </div>
