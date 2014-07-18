@@ -12,9 +12,13 @@
         {% endif %}
 
         <div class="project-label">
-            {% if project.brand.logo %}
-                <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': project.brand.slug}) }}"><img class="mosaic-brand-logo" src="{{ asset(project.brand.logo) }}"></a>
-            {% endif %}
+            <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': project.brand.slug}) }}">
+                {% if project.brand.logo %}
+                    <img alt="alt-LBJ - brand logo" src="{{ asset(project.brand.logo) }}" width="32" height="32" class="mosaic-brand-logo">
+                {% else %}
+                    {{ project.brand }}
+                {% endif %}
+            </a>
 
             {% if project.status != '1' %}
                 <img class="mosaic-project-type" src="{{ asset('static/img/icons/icon-mosaic-funded.png') }}" alt="alt-LBJ - project type" />
