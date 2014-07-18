@@ -343,7 +343,8 @@ class PaymentController extends Controller
         }
 
         return array(
-            'status' => $status
+            'status' => $status,
+            'project' => $data['project']
         );
     }
 }

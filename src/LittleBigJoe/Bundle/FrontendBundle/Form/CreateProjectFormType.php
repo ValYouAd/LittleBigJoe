@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CreateProjectFormType extends AbstractType
 {
@@ -46,13 +47,13 @@ class CreateProjectFormType extends AbstractType
                         'label' => 'Name'
                     ))
                     ->add('photo', 'file', array(
-                            'label' => 'Logo',
-                            'attr' => array(
-                                    'class' => 'file',
-                                'accept' => "image/*"
-                            ),
-                            'data_class' => null,
-                            'mapped' => true,
+                        'label' => 'Logo',
+                        'attr' => array(
+                            'class' => 'file',
+                            'accept' => "image/*"
+                        ),
+                        'data_class' => null,
+                        'mapped' => true,
                     ))
                     ->add('brand', 'text', array(
                         'label' => 'Associated brand',

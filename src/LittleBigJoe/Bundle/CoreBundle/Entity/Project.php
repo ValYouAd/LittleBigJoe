@@ -65,7 +65,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="photo", type="string", length=255, nullable=true)
+     * @ORM\Column(name="photo", type="string", length=255)
      * @Assert\Image(
      *    maxSize = "20971520",
      *    mimeTypes= {"image/gif", "image/jpeg", "image/png"},

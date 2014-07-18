@@ -10,29 +10,33 @@
 
 {% block body %}
     <section>
-    <article>
-        <div class="white-container">
-            <div class="article-header">
-                {% if status == 'OK' %}
-                    <h2>{{ 'Payment confirmation'|trans() }}</h2>
-                {% else %}
-                    <h2>{{ 'Error during payment'|trans() }}</h2>
-                {% endif %}
-            </div>
+        <article>
+            <div class="padding10 white-container">
+                <div class="article-header">
+                    <h2>
+                        <span class="grand-hotel">
+                            {% if status == 'OK' %}
+                                {{ 'Payment confirmation'|trans() }}
+                            {% else %}
+                                {{ 'Error during payment'|trans() }}
+                            {% endif %}
+                        </span>
+                    </h2>
+                </div>
 
-            <div class="description-infos">
-                {% if status == 'OK' %}
-                    <p>{{ 'Thanks for your payment.'|trans() }}</p>
-                    <p>{{ 'You\'ll receive an confirmation email with your payment invoice.'|trans() }}</p>
-                {% else %}
-                    <p>{{ 'A problem has occured during your payment.'|trans() }}</p>
-                    <p>{{ 'Please try again.'|trans() }}</p>
-                {% endif %}
+                <div class="nodata">
+                    {% if status == 'OK' %}
+                        <p>{{ 'Thanks for your payment.'|trans() }}</p>
+                        <p>{{ 'You\'ll receive an confirmation email with your payment invoice.'|trans() }}</p>
+                    {% else %}
+                        <p>{{ 'A problem has occured during your payment.'|trans() }}</p>
+                        <p>{{ 'Please try again.'|trans() }}</p>
+                    {% endif %}
 
-                <div class="clearfix">&nbsp;</div>
-                <p><a href="{{ path('littlebigjoe_frontendbundle_home') }}">{{ 'Go back to homepage'|trans() }}</a></p>
+                    <div class="clearfix">&nbsp;</div>
+                    <p><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ 'Go back to project page'|trans() }}</a></p>
+                </div>
             </div>
-        </div>
-    </article>
-</section>
+        </article>
+    </section>
 {% endblock %}
