@@ -67,6 +67,8 @@ class Project
      *
      * @ORM\Column(name="photo", type="string", length=255)
      * @Assert\Image(
+     *    minWidth = "534",
+     *    minHeight = "329",
      *    maxSize = "20971520",
      *    mimeTypes= {"image/gif", "image/jpeg", "image/png"},
      *    groups = {"flow_createProject_step1"}
