@@ -361,7 +361,7 @@
             <ul id="commentsContainer" class="media-list">
             {% if entity.comments and entity.comments|length() > 0 %}
                 {% for comment in entity.comments|reverse %}
-                    <li class="media">
+                    <li id="comment_{{ comment.id }}" class="media">
                         <a class="pull-left" href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': comment.user.id}) }}">
                             {% if comment.user.photo %}
                                 <img class="media-object" src="{{ asset(comment.user.photo) }}" width="64" height="64" />
@@ -370,7 +370,13 @@
                             {% endif %}
                         </a>
                         <div class="media-body">
-                            <div class="pull-right text-muted">{{ comment.createdAt|time_ago_in_words }}</div>
+                            <div class="pull-right text-muted">
+                                {% if is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_ADMIN') and not is_granted('ROLE_BRAND_ADMIN')) %}
+                                    <button rel="{{ comment.id }}" type="button" class="deleteComment close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <div class="clearfix">&nbsp;</div>
+                                {% endif %}
+                                {{ comment.createdAt|time_ago_in_words }}
+                            </div>
                             <h4 class="media-heading">{{ comment.user }}</h4>
                             <p>{{ comment.content|raw }}</p>
                         </div>

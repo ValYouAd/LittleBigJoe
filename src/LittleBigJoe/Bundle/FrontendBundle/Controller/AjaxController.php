@@ -1236,6 +1236,47 @@ class AjaxController extends Controller
 	    	return new JsonResponse(array('status' => 'OK', 'comment' => $commentJson));
 	    	exit;
     }
+
+    /**
+     * Delete a comment
+     *
+     * @Route("/delete-comment-project", name="littlebigjoe_frontendbundle_ajax_delete_comment_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function deleteCommentProjectAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commentId = $this->get('request')->request->get('commentId');
+
+        // If there's no comment id
+        if (empty($commentId))
+        {
+            return new JsonResponse(array('status' => 'KO FIELD'));
+        }
+
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser) || (!$this->get('security.context')->isGranted('ROLE_ADMIN')))
+        {
+            return new JsonResponse(array('status' => 'KO USER'));
+        }
+
+        $comment = $em->getRepository('LittleBigJoeCoreBundle:Comment')->find($commentId);
+
+        if (empty($comment) || !($comment instanceof Comment))
+        {
+            return new JsonResponse(array('status' => 'KO FIELD'));
+        }
+
+        // Delete comment in DB
+        $em->remove($comment);
+        $em->flush();
+
+        // Make sure no code is executed after it
+        return new JsonResponse(array('status' => 'OK'));
+        exit;
+    }
     
     /**
      * Upload new project file

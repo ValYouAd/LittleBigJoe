@@ -3,7 +3,7 @@
         <div class="project-stats">
             <div class="likes">
                 <img class="icon" src="{{ asset('static/img/icons/icon-like-it.png') }}" alt="alt-LBJ - like icon" />
-                <span class="orange-text"><strong>{{ entity.likesCount|default('0') }}</strong></span> {% transchoice entity.likesCount|default('0')|length() %}{0} like|{1} like|]1,Inf] likes{% endtranschoice %}
+                <span class="orange-text"><strong class="likes_count">{{ entity.likesCount|default('0') }}</strong></span> {% transchoice entity.likesCount|default('0')|length() %}{0} like|{1} like|]1,Inf] likes{% endtranschoice %}
             </div>
             <div class="days">
                 <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />
