@@ -385,6 +385,19 @@
                 }
             });
 
+            $('#createProject_pitch').on('keyup', function(){
+                var max = 140;
+                var len = $(this).val().length;
+                if (len >= max) {
+                    $(this).val($(this).val().substring(0, max));
+                    $('#createProject_pitch_counter').text("{{ 'You have reached the limit'|trans() }}");
+                } else {
+                    var char = max - len;
+                    $('#createProject_pitch_counter').text(char + " {{ 'characters left'|trans() }}");
+                }
+            });
+            $('#createProject_pitch').parent().after().append('<p id="createProject_pitch_counter"></p>');
+
             $('.datepicker').datepicker({
                 language: '{{ app.request.locale }}'
             });
