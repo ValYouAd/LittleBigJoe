@@ -106,7 +106,7 @@ class Project
      * @Assert\NotBlank(message = "You must enter the pitch", groups = {"Default", "flow_createProject_step1"})
      * @Assert\Length(
      *    min = "1",
-     *    max = "300",
+     *    max = "140",
      *    minMessage = "Your pitch must contains at least {{ limit }} characters",
      *    maxMessage = "Your pitch can't exceed {{ limit }} characters",
      *    groups = {"Default", "flow_createProject_step1"}
