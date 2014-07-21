@@ -195,6 +195,10 @@ class Builder extends ContainerAware
                 }
             }
         }
+        $menu->addChild('Contact', array(
+            'route' => 'littlebigjoe_frontendbundle_contact',
+            'routeParameters' => array()
+        ));
 
         return $menu;
     }

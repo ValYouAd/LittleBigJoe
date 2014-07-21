@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <section>
+        <article>
+            <div class="padding10 white-container">
+                <div class="article-header">
+                    <h2><span class="grand-hotel">{{ 'Contact'|trans() }}</span></h2>
+                </div>
+
+                <iframe src="https://www.google.com/maps/embed" width="100%" height="450" frameborder="0" style="border:0"></iframe>
+
+                <div class="row mb3">
+                    <div id="contactContainer" class="col-sm-6">
+                        {% for type, flashMessages in app.session.flashbag.all() %}
+                            {% for flashMessage in flashMessages %}
+                                <div class="alert alert-{{ type }}">
+                                    {{ flashMessage }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+
+                        {{ form(form) }}
+                    </div>
+                    <div class="col-sm-5">
+                        <h2>{{ 'Follow us !'|trans() }}</h2>
+                        <a target="_blank" href="https://www.facebook.com/pages/AdEntify/167935029970678"><img src="{{ asset('static/img/contact-facebook.jpg') }}"></a>
+                        <a target="_blank" href="https://twitter.com/adentify"><img src="{{ asset('static/img/contact-twitter.jpg') }}"></a>
+                        <a target="_blank" href="https://plus.google.com/u/0/b/115776105780658726605/+Adentify/posts"><img src="{{ asset('static/img/contact-google.png') }}"></a>
+                        <a target="_blank" href="https://pinterest.com/adentify"><img src="{{ asset('static/img/contact-pinterest.png') }}"></a>
+                        <a target="_blank" href="http://instagram.com/adentify"><img src="{{ asset('static/img/contact-instagram.jpg') }}"></a>
+                        <a target="_blank" href="http://adentify.tumblr.com/"><img src="{{ asset('static/img/contact-tumblr.png') }}"></a>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock %}
