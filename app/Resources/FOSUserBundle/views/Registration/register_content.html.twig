@@ -26,6 +26,8 @@
             {{ form_row(form.city) }}
             {{ form_row(form.country) }}
             {{ form_row(form.defaultLanguage) }}
+            {{ form_widget(form.cgv) }}
+            {{ form_label(form.cgv) }} (<a href="{{ path('littlebigjoe_frontendbundle_page_show', {'slug':'cgv'}) }}" target="_blank">{{ 'Read the terms'|trans() }}</a>)
             <div>
                 <button class="btn validate-style">{{ 'Register'|trans }}</button>
             </div>

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class RegistrationFormType extends BaseType
 {
@@ -129,6 +130,14 @@ class RegistrationFormType extends BaseType
             		'data' => $bio,
                 'required' => false
             ))
+            ->add('cgv', 'checkbox', array(
+                'mapped' => false,
+                'empty_data' => false,
+                'required' => 'required',
+                'label' => 'I accept the applicable Terms of Use',
+                'data'=>false,
+                'constraints' => array(new NotNull())
+            ))
             ->remove('ipAddress');
     }
 
@@ -138,7 +147,8 @@ class RegistrationFormType extends BaseType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\User'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\User',
+            'translation_domain' => 'messages'
         ));
     }
 
