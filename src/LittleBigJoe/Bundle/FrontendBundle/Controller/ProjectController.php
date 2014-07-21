@@ -639,6 +639,8 @@ class ProjectController extends Controller
                 $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
             }
 
+            $oldPhoto = $project->getPhoto();
+
             // Create form flow
             $flow = $this->get('littlebigjoefrontend.flow.project.editProject');
             $flow->bind($project);
@@ -646,7 +648,14 @@ class ProjectController extends Controller
 
             if ($flow->isValid($form)) {
                 // Handle file upload in first step
-                $photo = $this->_fixUploadFile($project->getPhoto());
+                if ($project->getPhoto() != null)
+                {
+                    $photo = $this->_fixUploadFile($project->getPhoto());
+                }
+                else
+                {
+                    $project->setPhoto($oldPhoto);
+                }
                 $flow->saveCurrentStepData($form);
 
                 // If we're not on the final step
