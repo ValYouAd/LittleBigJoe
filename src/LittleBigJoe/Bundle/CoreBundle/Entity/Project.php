@@ -111,11 +111,6 @@ class Project
      *    maxMessage = "Your pitch can't exceed {{ limit }} characters",
      *    groups = {"Default", "flow_createProject_step1"}
      * )
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!\']*$/i",
-     *    message = "Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes",
-     *    groups = {"Default", "flow_createProject_step1"}
-     * )
      */
     protected $pitch;
 
