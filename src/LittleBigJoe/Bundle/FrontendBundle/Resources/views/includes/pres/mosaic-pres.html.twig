@@ -52,9 +52,9 @@
         {% endif %}
 
         {% if project.status == '1' or project.product is not defined %}
-            <p class="project-description">{{ project.pitch }}</p>
+            <p class="project-description">{{ project.pitch|truncate(140, true, '...') }}</p>
         {% else %}
-            <p class="project-description">{{ project.product.pitch }}</p>
+            <p class="project-description">{{ project.product.pitch|truncate(140, true, '...') }}</p>
         {% endif %}
 
         <div class="author">
