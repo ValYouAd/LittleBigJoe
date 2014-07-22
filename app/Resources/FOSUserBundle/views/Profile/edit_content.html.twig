@@ -29,3 +29,16 @@
         </section>
     </div>
 </form>
+
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="form-signin">
+    <h1>{{ 'Change password'|trans() }}</h1>
+
+    <div class="row">
+        <section class="col-md-5">
+            {{ form_widget(formPassword) }}
+            <div>
+                <button class="btn validate-style">{{ 'Change password'|trans }}</button>
+            </div>
+        </section>
+    </div>
+</form>

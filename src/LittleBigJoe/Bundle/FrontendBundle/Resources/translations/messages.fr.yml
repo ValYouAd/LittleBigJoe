@@ -21,8 +21,7 @@
 3:
     ' Launch my project': '3. Lancer mon projet'
 
-'A problem has occured during your payment':
-	    '': 'Désolé, un problème est survenu lors de votre paiement.'
+'A problem has occured during your payment': 'Désolé, un problème est survenu lors de votre paiement.'
 
 'A project has been reported': 'Un projet a été signalé'
 'A user has reported the following project : ': 'Un utilisateur a signalé le projet suivant : '
@@ -123,7 +122,7 @@ Description: Description
 Details: Détails
 Discovering: Découvrir
 'Does the project contains a visual or written representation of the brand ?': 'Est-ce que le projet inclut une description écrite ou visuelle de la marque? '
-'Don''t hesitate to contribute to others projects to help creators !': 'N'''hésitez pas à contributer à d'autres projets pour aider les créateurs !'
+'Don''t hesitate to contribute to others projects to help creators !': 'N''hésitez pas à contributer à d''autres projets pour aider les créateurs !'
 EUR: EUR
 Edit: Editer
 'Edit my project': 'Modifier mon projet'
@@ -131,7 +130,7 @@ Edit: Editer
 'Email address': 'Adresse email'
 Ended: Terminé(s)
 'Ended projects': 'Projets terminés'
-'Ending at': 'S''arrêtera à''   # FIXME
+'Ending at': 'S''arrêtera à'
 Engagement: Engagement
 English: Anglais
 'Entry title': 'Titre de l''article'
@@ -168,7 +167,7 @@ Highlighted: 'Mis en avant'
 'His projects': 'Ses projets'
 'How does': Comment
 'I just financed project %project%': 'Je finance désormais le projet %project%'
-'I just voted for project %project%': 'J'ai voté pour le projet' %project%'
+'I just voted for project %project%': 'J''ai voté pour le projet %project%'
 'I like this project': 'J''aime ce projet'
 'I think this project should not be on LittleBigJoe': 'Je pense que ce projet ne devrait pas être sur LittleBigJoe'
 'I would like to keep this contribution anonymous': 'Je souhaite que cette contribution reste anonyme'
@@ -223,9 +222,8 @@ Password: 'Mot de passe'
 Photo: Photo
 Pitch: Pitch
 
-'Please check below, if your data is correct':
-    ' If so, please click on the "Finish" button to put your project online':
-	'': 'Veuillez vérifier ci-dessous que toutes les informations sont correctes. Si c''est le cas, merci de cliquer sur le bouton "Terminer", pour basculer votre projet en ligne.'
+'Please check below, if your data is correct': 'Veuillez vérifier ci-dessous que toutes les informations sont correctes.'
+'If so, please click on the "Finish" button to put your project online': 'Si c''est le cas, merci de cliquer sur le bouton "Terminer", pour basculer votre projet en ligne.'
 
 'Please select a file before submitting the form': 'Veuillez sélectionner un fichier avant de soumettre le formulaire'
 
@@ -242,7 +240,7 @@ Previous: Précédent
 'Previous step': 'Etape précédente'
 Price: Prix
 Product: Produit
-'Product ending at': 'Le produit se termine le''
+'Product ending at': 'Le produit se termine le'
 'Product type': 'Type de produit'
 Project: Projet
 'Project ending at': 'Le projet se termine le'
@@ -262,7 +260,6 @@ Registration: Inscription
 Report: Signaler
 'Report details : ': 'Détails du signalement : '
 'Report reason': 'Raison du signalement'
-'Report reason : 'Raison du signalement'
 'Report this project': 'Signaler ce projet'
 'Required amount': 'Montant requis'
 'Return to the project page': 'Retourner sur la page du projet'
@@ -311,20 +308,20 @@ Submit: Soumettre
     ' Please upload files that do not exceed 20Mo': 'Le fichier est trop lourd. Veuillez ne pas télécharger des fichiers de plus de 20Mo'
 
 'The file type is not authorized':
-    ' Authorized audio types are : ':
-	'mpeg, ':
-	    'mp3, ':
-		'mp4, ':
-		    'wma, ':
-			wav: 'Ce type de fichier n''est pas accepté. Les extensions acceptées sont : .mpeg, .mp3, .mp4, .wma, .wav'
+' Authorized audio types are : ':
+'mpeg, ':
+'mp3, ':
+'mp4, ':
+'wma, ':
+wav: 'Ce type de fichier n''est pas accepté. Les extensions acceptées sont : .mpeg, .mp3, .mp4, .wma, .wav'
 
-    ' Authorized types are : ':
-	'pdf, ':
-	    'xml, ':
-		'zip, ':
-		    'csv, ':
-			'txt, ':
-			    doc: 'Ce type de fichier n''est pas accepté. Les extensions acceptées sont : .pdf, .xml, .zip, .csv, .txt, .doc'
+' Authorized types are : ':
+'pdf, ':
+'xml, ':
+'zip, ':
+'csv, ':
+'txt, ':
+doc: 'Ce type de fichier n''est pas accepté. Les extensions acceptées sont : .pdf, .xml, .zip, .csv, .txt, .doc'
 
 'The project': 'Le projet'
 'There''s a new contribution on the': 'Il y a une nouvelle contribution pour le'
