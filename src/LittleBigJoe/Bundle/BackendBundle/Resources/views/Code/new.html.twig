@@ -1,0 +1,21 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.new_code'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-plus"></span> {{ 'backend.new_code'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
+
+    {{ form(form, {attr:{role:'form' }}) }}
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('code') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+    </p>
+{% endblock %}

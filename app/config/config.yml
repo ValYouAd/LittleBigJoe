@@ -121,7 +121,7 @@ fos_user:
     user_class: LittleBigJoe\Bundle\CoreBundle\Entity\User
     registration:
         form:
-            type: littlebigjoe_bundle_frontendbundle_user_registration
+            type: littlebigjoe_bundle_frontendbundle_user_registration_beta
     profile:
         form:
             type: littlebigjoe_bundle_frontendbundle_user_profile
