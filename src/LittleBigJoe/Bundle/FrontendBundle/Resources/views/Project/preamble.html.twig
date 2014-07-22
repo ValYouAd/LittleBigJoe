@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<section>
+    <article>
+        <div class="padding10 white-container">
+            <div class="article-header">
+                <h2>{{ 'Project creation'|trans() }}</h2>
+            </div>
+            <div class="nodata">
+                <p>{{ 'Project description content'|trans() }}</p>
+            </div>
+            <div class="article-footer">
+                <div class="craue_formflow_buttons craue_formflow_button_count_2">
+                    <a class="validate-style next" href="{{ path('littlebigjoe_frontendbundle_project_create_project') }}">
+                        {{ 'Next'|trans() }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+{% endblock %}

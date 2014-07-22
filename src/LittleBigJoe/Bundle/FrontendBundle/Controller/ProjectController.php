@@ -390,6 +390,17 @@ class ProjectController extends Controller
     }
 
     /**
+     * Preamble of project creation
+     *
+     * @Route("/launch-my-project/preamble", name="littlebigjoe_frontendbundle_project_create_project_preamble")
+     * @Template("LittleBigJoeFrontendBundle:Project:preamble.html.twig")
+     */
+    public function preambleCreateProjectAction(Request $request)
+    {
+        return array();
+    }
+
+    /**
      * Create new project
      *
      * @Route("/launch-my-project", name="littlebigjoe_frontendbundle_project_create_project")

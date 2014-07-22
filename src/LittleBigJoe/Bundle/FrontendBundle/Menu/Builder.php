@@ -68,7 +68,7 @@ class Builder extends ContainerAware
         $labelFirst = $this->container->get('translator')->trans('Launch');
         $labelSecond = $this->container->get('translator')->trans('my project');
         $menu->addChild('<div class="blue-catch">'.$labelFirst.'</div><div class="white-catch">'.$labelSecond.'</div>', array(
-            'route' => 'littlebigjoe_frontendbundle_project_create_project'
+            'route' => 'littlebigjoe_frontendbundle_project_create_project_preamble'
         ))
         ->setExtra('safe_label', true)
         ->setAttribute('class', 'main-nav-item');
