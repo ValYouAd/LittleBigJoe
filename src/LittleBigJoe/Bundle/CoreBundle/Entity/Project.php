@@ -65,7 +65,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="photo", type="string", length=255)
+     * @ORM\Column(name="photo", type="string", length=255, nullable=true)
      * @Assert\Image(
      *    minWidth = "534",
      *    minHeight = "329",
