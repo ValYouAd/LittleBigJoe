@@ -457,7 +457,3 @@ trans_participants: '{0} Aucun participant|{1} %count% participant|]1,Inf] %coun
 'or more': 'ou plus'
 '€ or more': '€ ou plus'
 'I accept the applicable Terms of Use': "J'accepte les Conditions Générales d'Utilisation en vigueur"
-Beta code: 'Code beta'
-The beta code is incorrect: 'Le code Beta est incorrect'
-The beta code has been used too many times: 'Le code Beta a été utilisé un trop grand nombre de fois'
-The site is not live yet. Come back later.: 'Le site n''est pas en ligne pour le moment. Revenez plus tard.'

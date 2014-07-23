@@ -11,10 +11,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use FOS\UserBundle\Event\GetResponseUserEvent;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Translation\Translator;
 
 class RegistrationListener implements EventSubscriberInterface
 {
@@ -29,40 +25,7 @@ class RegistrationListener implements EventSubscriberInterface
     {
         return array(
             FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
-            FOSUserEvents::REGISTRATION_INITIALIZE => 'onRegistrationInitialize',
         );
-    }
-
-    public function onRegistrationInitialize(GetResponseUserEvent $event)
-    {
-        $formFactory = $this->container->get('fos_user.registration.form.factory');
-        $user = $event->getUser();
-
-        $form = $formFactory->createForm();
-        $form->setData($user);
-        $form->bind($event->getRequest());
-
-        $betaCodeValue = $event->getUser()->getBetaCodeValue();
-        if (!empty($betaCodeValue)) {
-            $betaCode = $this->container->get('doctrine')->getRepository('LittleBigJoeCoreBundle:Code')->findOneByCode($betaCodeValue);
-            if ($betaCode) {
-                if ($betaCode->getMaxUse() <= $betaCode->getUsed() && $betaCode->getMaxUse() != 0) {
-                    $form->get('betaCodeValue')->addError(new FormError(('The beta code has been used too many times')));
-                } else {
-                    $user->setBetaCode($betaCode);
-                    $user->setRoles(array('ROLE_BETA_USER'));
-                    $betaCode->setUsed($betaCode->getUsed() + 1);
-                }
-            } else {
-                $form->get('betaCodeValue')->addError(new FormError(('The beta code is incorrect')));
-            }
-            $errors = $form->get('betaCodeValue')->getErrors();
-            if (!empty($errors)) {
-                $event->setResponse($this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.twig', array(
-                    'form' => $form->createView(),
-                )));
-            }
-        }
     }
 
     public function onRegistrationSuccess(FormEvent $event)
@@ -131,18 +94,11 @@ class RegistrationListener implements EventSubscriberInterface
 					        );
         $this->container->get('mailer')->send($email);
         
-        // Redirect user to confirmation page
+				// Redirect user to confirmation page
         if (null === $response = $event->getResponse()) 
         {
-            $betaCodeValue = $user->getBetaCodeValue();
-            if (!empty($betaCodeValue))
-            {
-                $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
-            } else {
-                $url = $this->container->get('router')->generate('littlebigjoe_frontendbundle_registration_beta_confirmed');
-            }
-            $event->setResponse(new RedirectResponse($url));
-            return (true);
+            $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
+            return new RedirectResponse($url);
         }
 
         return false;

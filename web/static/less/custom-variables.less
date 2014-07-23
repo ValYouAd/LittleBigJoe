@@ -1,0 +1,75 @@
+
+// COLORS ----------------------------------------
+@lbj-light-beige:   #faf7f0;
+@lbj-light-beige-so:fade(@lbj-light-beige, 95%);
+@lbj-med-beige:     #e0dcd0;
+@lbj-dark-beige:    #a38d80;
+@lbj-dark-beige-l:  lighten(@lbj-dark-beige, 20%);
+
+@lbj-dark-blue:     #484e5a;
+@lbj-dark-blue-d:   darken(@lbj-dark-blue, 7%);
+@lbj-dark-blue-l:   lighten(@lbj-dark-blue, 6%);
+@lbj-dark-blue-so:  fade(@lbj-dark-blue-d, 50%);
+
+@lbj-light-blue:    #78c8cf;
+@lbj-light-blue-l:  lighten(@lbj-light-blue, 10%);
+@lbj-light-blue-l-so:fade(@lbj-light-blue-l, 50%);
+@lbj-light-blue-d:  darken(@lbj-light-blue, 25%);
+
+@lbj-orange:        #fa7451;
+@lbj-dark-orange:   darken(@lbj-orange, 7%);
+@lbj-light-orange:  ligthen(@lbj-orange, 5%);
+@lbj-orange-header: #de5f32;
+@lbj-orange-header-d:darken(@lbj-orange-header, 7%);
+
+@lbj-green:         #8ab424;
+@lbj-dark-green:    darken(@lbj-green, 10%);
+
+@lbj-dark-gray:     #737373;
+@lbj-med-gray:      #bfc4c7;
+@lbj-light-gray:    #f0ede8;
+@lbj-light-gray-l:  #fafbfd;
+@lbj-light-gray-so: fade(@lbj-light-gray, 85%);
+
+@white:             #fff;
+@black:             #222;
+@black-so:          fade(@black, 66%);
+
+// --> bootstrap override
+@body-bg:           @lbj-light-beige;
+@text-color:        @lbj-dark-blue;
+
+
+// SIZES ------------------------------------------
+@radius: 3px;
+// --> bootstrap override
+@border-radius-base:    @radius;
+@border-radius-large:   @radius;
+@border-radius-small:   @radius;
+
+@header-items-height:   34px;
+@header-height:         90px;
+@header-top-margin-ratio: 0.81;
+
+@header-message-height: 56px;
+
+@header-mascot-width:   100px;
+
+@content-hh:            285px;
+
+@wRope-height:          96px;
+
+
+// BOX SHADOWS ------------------------------------
+@global-shadow: 0px 0px 10px 0px rgba(33, 33, 33, 0.5);
+@bottom-shadow: 0px 4px 6px 0px rgba(33, 33, 33, 0.5);
+@vLight-bottom-shadow: 0px 4px 4px -4px @lbj-dark-gray;
+@inset-shadow: inset 0px 1px 1px 0px @black;
+
+
+// TEXT SHADOWS -----------------------------------
+@strong-bottom-text-shadow: 1px 2px 0px @lbj-dark-blue-d;
+@light-bottom-text-shadow: 1px 2px 0px @lbj-light-blue-d;
+@light-top-text-shadow: 0px -2px 0px @lbj-dark-blue-d;
+@validate-btn-shadow: 1px -1px 0px @lbj-dark-green;
+

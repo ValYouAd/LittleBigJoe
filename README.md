@@ -45,19 +45,7 @@ In order to make sure that projects are setted as ended, when their ending date 
 
 ``` bash
 30 * * * * php app/console lbj:update-project
-````
-
-### Step 4 bis : Install node and less
-
-Install node.js : https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
-
-Install less :
-
-``` bash
-$ sudo npm install -g less
-````
-
-More details : http://dividebyze.ro/178/how-to-use-less-css-and-symfony-2-in-harmony/
+```
 
 ### Step 5 : Empty Symfony2 caches
 To make sure everything is alright, run the following commands : 
@@ -65,8 +53,7 @@ To make sure everything is alright, run the following commands :
 ``` bash
 $ php app/console cache:clear
 $ php app/console cache:clear --env=prod
-``
-
+```
 
 ### Step 6 : Create admin account
 If you want to access to the project administration, you'll need an admin account.

@@ -18,13 +18,8 @@
     </parameters>		
 		
     <services>
-        <service id="littlebigjoefrontend.user_listener" class="LittleBigJoe\Bundle\FrontendBundle\EventListener\UserListener">
-            <argument type="service" id="security.context" />
-            <tag name="kernel.event_subscriber" />
-            <tag name="kernel.event_listener" event="security.interactive_login" />
-        </service>
-        <service id="littlebigjoefrontend.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormTypeBeta" scope="request">
-            <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_registration_beta"/>
+        <service id="littlebigjoefrontend.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormType" scope="request">
+            <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_registration"/>
             <argument type="service" id="session" />
             <argument>%fos_user.model.user.class%</argument>
             <argument type="service" id="service_container" />

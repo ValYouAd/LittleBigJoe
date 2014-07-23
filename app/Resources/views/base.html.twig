@@ -19,11 +19,7 @@
     <meta name="viewport" content="width=device-width"/>
     <link rel="shortcut icon" href="" />
 
-    {% stylesheets
-    '../app/Resources/public/static/less/main.less'
-    %}
-	<link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
+    <link href="{{ asset('static/less/main.less') }}" type="text/less" rel="stylesheet"/>
     {% block header_css %}{% endblock %}
 
     {% block header_javascripts %}

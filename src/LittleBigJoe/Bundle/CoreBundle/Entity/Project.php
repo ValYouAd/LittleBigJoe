@@ -107,7 +107,7 @@ class Project
      * @Assert\Length(
      *    min = "1",
      *    max = "140",
-     *    minMessage = "Your pitch must contain at least {{ limit }} characters",
+     *    minMessage = "Your pitch must contains at least {{ limit }} characters",
      *    maxMessage = "Your pitch can't exceed {{ limit }} characters",
      *    groups = {"Default", "flow_createProject_step1"}
      * )
