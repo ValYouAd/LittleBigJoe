@@ -47,7 +47,7 @@ class FacebookProvider implements UserProviderInterface
     {
         $user = $this->findUserByFbId($username);
         $em = $this->container->get('doctrine')->getManager();
-        
+
         try {
             $fbdata = $this->facebook->api('/me');
         } catch (FacebookApiException $e) {

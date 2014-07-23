@@ -47,7 +47,7 @@ security:
     access_control:
         #- { path: ^/$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/_wdt, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+	- { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/beta, role: ROLE_USER }
