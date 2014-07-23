@@ -5,10 +5,12 @@ parameters:
     database_name:     symfony
     database_user:     root
     database_password: ~
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_transport: smtp
+    mailer_host: smtp.office365.com
+    mailer_port: 587
+    mailer_user: no-reply@littlebigjoe.com
+    mailer_password: Littlebigjoe14$
+    mailer_encryption: tls
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
 
