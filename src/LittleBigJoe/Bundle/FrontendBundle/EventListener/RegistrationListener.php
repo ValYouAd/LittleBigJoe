@@ -35,8 +35,6 @@ class RegistrationListener implements EventSubscriberInterface
 
     public function onRegistrationInitialize(GetResponseUserEvent $event)
     {
-//        $translator = $this->container->get('translator');
-
         $formFactory = $this->container->get('fos_user.registration.form.factory');
         $user = $event->getUser();
 
