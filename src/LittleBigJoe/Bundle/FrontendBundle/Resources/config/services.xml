@@ -53,6 +53,7 @@
         <service id="littlebigjoefrontend.listener.user.profile" class="LittleBigJoe\Bundle\FrontendBundle\EventListener\ProfileListener">
             <tag name="kernel.event_subscriber"/>
             <argument type="service" id="service_container"/>
+            <argument type="service" id="security.context"/>
         </service>
         <service id="littlebigjoefrontend.project.createProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProjectFormType">
             <tag name="form.type" alias="createProject" />

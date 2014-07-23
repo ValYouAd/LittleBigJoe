@@ -176,7 +176,7 @@ knp_menu:
 jms_i18n_routing:
     default_locale: %locale%
     locales: %locales%
-    strategy: prefix_except_default
+    strategy: prefix
 
 # JMSTranslationBundle Configuration
 jms_translation:
