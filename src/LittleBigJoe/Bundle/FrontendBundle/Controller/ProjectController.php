@@ -643,6 +643,9 @@ class ProjectController extends Controller
             ));
         } // If the project is still available, show multi steps form (to edit all project datas)
         else {
+
+            $this->getRequest()->getSession()->set('currentlyEditedProject', $project->getId());
+
             // Get session vars
             $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
             if (empty($projectMedias)) {
