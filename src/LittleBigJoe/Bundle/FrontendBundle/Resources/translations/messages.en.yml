@@ -163,7 +163,8 @@ Images: Images
 'It is up to you!': 'It''s up to you!'
 JPY: JPY   
 Lastname: Lastname 
-Latest: Latest   
+Latest: Latest
+Latest brands: Latest <span class="grand-hotel">brands</span>
 'Latest projects': 'Latest projects'   
 Launch: Launch  
 'Launch my project': 'Launch my project'   
