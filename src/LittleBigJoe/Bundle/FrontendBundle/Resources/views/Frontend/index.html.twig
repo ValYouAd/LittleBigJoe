@@ -23,11 +23,17 @@
 
                 <div class="top-main-project">
                     <div class="top-thumbnail-cont">
-                        {% if popularProjects.0.photo %}
-                            <img src="{{ asset(popularProjects.0.photo)|apply_filter('534x329') }}" alt="{{ popularProjects.0.name }}">
+                        {% if popularProjects.0.status == '1' or popularProjects.0.product is not defined %}
+                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProjects.0.id, 'slug': popularProjects.0.slug}) }}">
                         {% else %}
-                            <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('534x329')  }}" alt="{{ popularProjects.0.name }}"/>
+                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProjects.0.id, 'slug': popularProjects.0.slug}) }}">
                         {% endif %}
+                            {% if popularProjects.0.photo %}
+                                <img src="{{ asset(popularProjects.0.photo)|apply_filter('534x329') }}" alt="{{ popularProjects.0.name }}">
+                            {% else %}
+                                <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('534x329')  }}" alt="{{ popularProjects.0.name }}"/>
+                            {% endif %}
+                        </a>
                     </div>
 
                     <div class="top-infos">

@@ -2,11 +2,17 @@
 
     <div class="img-container">
 
-        {% if project.photo %}
-            <img src="{{ asset(project.photo)|apply_filter('239x239') }}" width="239">
+        {% if project.status == '1' or project.product is not defined %}
+            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">
         {% else %}
-            <img class="pres-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('239x239') }}" alt="alt-LBJ - project image" />
+            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">
         {% endif %}
+            {% if project.photo %}
+                <img src="{{ asset(project.photo)|apply_filter('239x239') }}" width="239">
+            {% else %}
+                <img class="pres-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('239x239') }}" alt="alt-LBJ - project image" />
+            {% endif %}
+        </a>
 
         <div class="project-label">
             <a class="white" href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': project.brand.slug}) }}">

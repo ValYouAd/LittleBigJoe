@@ -5,11 +5,17 @@
             <img class="favorite-icon" src="{{ asset('static/img/icons/icon-favorite.png') }}" alt="alt-LBJ - favorite icon" />
         {% endif %}
 
-        {% if project.photo %}
-            <img class="pres-thumbnail" src="{{ asset(project.photo)|apply_filter('260x174') }}" style="width:260px; height:174px">
+        {% if project.status == '1' or project.product is not defined %}
+            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">
         {% else %}
-            <img class="pres-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('260x174') }}" alt="alt-LBJ - project image" />
+            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">
         {% endif %}
+            {% if project.photo %}
+                <img class="pres-thumbnail" src="{{ asset(project.photo)|apply_filter('260x174') }}" style="width:260px; height:174px">
+            {% else %}
+                <img class="pres-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('260x174') }}" alt="alt-LBJ - project image" />
+            {% endif %}
+        </a>
 
         <div class="project-label">
             <a class="white" href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': project.brand.slug}) }}">
