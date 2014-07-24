@@ -363,3 +363,10 @@ trans_participants: '{0} Aucun participant|{1} %count% participant|]1,Inf] %coun
 (unlimited): (illimité)
 'or more': 'ou plus'
 '€ or more': '€ ou plus'
+'My': 'Ma'
+biography: 'biographie'
+Edit my profile: 'Editer mon profil'
+'Registered since': 'Inscrit(e) depuis le'
+'My projects': 'Mes projets'
+'My contributions': 'Mes contributions'
+'There''s no contributions for the moment.': 'Il n''y a aucune contribution pour le moment.'
