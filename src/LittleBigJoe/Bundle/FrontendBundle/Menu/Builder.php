@@ -126,7 +126,7 @@ class Builder extends ContainerAware
         if (!empty($categories)) {
             foreach ($categories as $category) {
 
-                $nbProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, null, null, null, $category->getId());
+                $nbProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(false, null, null, null, $category->getId());
                 $categoryName = $category->getName().' <span class="cat-count">'.$nbProjects.'</span>';
 
                 $menu->addChild($categoryName, array(
