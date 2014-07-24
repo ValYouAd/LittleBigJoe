@@ -1141,8 +1141,9 @@ class Project
     public function isDateInFuture(ExecutionContext $context)
 		{
 		    $propertyPath = $context->getPropertyPath();
-		
-		    if ($this->endingAt < new \DateTime()) 
+            $now = new \DateTime();
+
+		    if ($this->endingAt->getTimestamp() < $now->getTimestamp())
 		    {
 		        $context->addViolationAt('endingAt', 'The ending date cannot be in the past', array(), null);
 		    }

@@ -32,6 +32,7 @@ class RegistrationFormType extends BaseType
         parent::buildForm($builder, $options);
         
         // Get session vars (setted via OAuth) if they are setted
+        $gender = $this->session->get('oauth_gender', '0');
         $firstname = $this->session->get('oauth_firstname', '');
         $lastname = $this->session->get('oauth_lastname', '');
         $email = $this->session->get('oauth_email', '');

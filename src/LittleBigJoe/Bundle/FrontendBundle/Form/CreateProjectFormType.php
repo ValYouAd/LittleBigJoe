@@ -39,6 +39,7 @@ class CreateProjectFormType extends AbstractType
                 break;
             }
 
+
     		switch ($options['flow_step']) 
     		{
     				// Step 1 : Create my project
@@ -119,7 +120,7 @@ class CreateProjectFormType extends AbstractType
                     ->add('endingAt', 'date', array(
                         'label' => 'Project ending at',
                         'widget' => 'single_text',
-                        'format' => 'MM/dd/yyyy',
+                        'format' => $format,
                         'attr' => array('class' => 'form-control datepicker'),
                     ));
                     break;
