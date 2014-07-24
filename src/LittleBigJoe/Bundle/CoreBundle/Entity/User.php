@@ -1447,4 +1447,21 @@ class User extends BaseUser
     {
         return $this->betaCode;
     }
+
+    public function getAvailableProjects()
+    {
+        $nb = 0;
+        if (sizeof($this->projects) > 0)
+        {
+            foreach ($this->projects as $project)
+            {
+                if ($project->getDeletedAt() == null)
+                {
+                    $nb++;
+                }
+            }
+        }
+
+        return $nb;
+    }
 }

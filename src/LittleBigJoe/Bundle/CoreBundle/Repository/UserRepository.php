@@ -28,6 +28,25 @@ class UserRepository extends EntityRepository
     }
 
     /**
+     * Return the number of projects for user
+     *
+     * @param boolean/null $visible :
+     *        if set to null, return all users
+     * @return int nbUsers
+     */
+    public function countProjects($userId)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('COUNT(p)')
+            ->where('p.deletedAt IS NULL')
+            ->andWhere('p.user = :user')
+            ->setParameter('user', $userId);
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * Return users for specific keyword (used for search)
      *
      * @param string $search : search keyword
