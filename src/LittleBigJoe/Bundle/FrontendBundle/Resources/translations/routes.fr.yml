@@ -37,6 +37,9 @@ littlebigjoe_frontendbundle_brand_show: '/marque/{slug}'
 # Desc: /category/{slug}
 littlebigjoe_frontendbundle_category_show: '/categorie/{slug}'
 
+# Desc: /contact
+littlebigjoe_frontendbundle_contact: /contact
+
 # Desc: /
 littlebigjoe_frontendbundle_home: /
 
@@ -66,6 +69,9 @@ littlebigjoe_frontendbundle_project_create_product: '/projet/{id}-{slug}/creer-p
 
 # Desc: /launch-my-project
 littlebigjoe_frontendbundle_project_create_project: /lancer-mon-projet
+
+# Desc: /launch-my-project/preamble
+littlebigjoe_frontendbundle_project_create_project_preamble: /lancer-mon-projet/preambule
 
 # Desc: /project/{id}-{slug}/edit
 littlebigjoe_frontendbundle_project_edit: '/projet/{id}-{slug}/edition'
@@ -109,8 +115,14 @@ littlebigjoe_frontendbundle_project_top_funded_projects: /projets-les-mieux-fina
 # Desc: /projects-of-followed-users
 littlebigjoe_frontendbundle_project_users_followed_projects: /projets-des-utilisateurs-suivis
 
+# Desc: /beta
+littlebigjoe_frontendbundle_registration_beta_confirmed: /beta
+
 # Desc: /search
 littlebigjoe_frontendbundle_search: /recherche
+
+# Desc: /delete-account
+littlebigjoe_frontendbundle_user_delete_account: /suppression-compte
 
 # Desc: /my-news
 littlebigjoe_frontendbundle_user_news: /mes-news
