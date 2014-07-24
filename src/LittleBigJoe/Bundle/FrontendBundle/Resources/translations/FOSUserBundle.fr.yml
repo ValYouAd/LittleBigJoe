@@ -1,0 +1,9 @@
+'Congratulations %username%, you are now registered':
+    '': 'Féliciations %username%, vous êtes inscrit.'
+
+'The site is not live yet':
+    ' Come back later':
+        '': 'Le site n''est pas encore disponible. Veuillez revenir plus tard'
+
+registration:
+    back: 'Retour'
