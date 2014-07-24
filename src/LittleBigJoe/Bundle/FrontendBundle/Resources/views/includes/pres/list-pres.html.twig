@@ -54,7 +54,7 @@
         {% endif %}
         {% if canCreateProduct and project.status == '1' and project.product and project.product.validatedAt is null %}
             <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': project.id, 'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
+            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': project.id, 'slug': project.slug}) }}" class="btn btn-primary">{{ 'Phase 2'|trans() }}</a></p>
             <div class="clearfix"></div>
         {% endif %}
 
