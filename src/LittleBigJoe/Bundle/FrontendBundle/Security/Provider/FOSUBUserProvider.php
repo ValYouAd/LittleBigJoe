@@ -93,6 +93,7 @@ class FOSUBUserProvider extends BaseClass
 						// modify here with relevant data
 						$resp = $response->getResponse();
 
+                        $session->set('oauth_gender', '0');
 						if (array_key_exists('name', $response->getResponse()))
 						{
 								if (preg_match('/[\s]+/', $resp['name']))
