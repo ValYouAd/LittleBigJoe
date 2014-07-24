@@ -41,9 +41,9 @@
 
             <div class="wContent-id-img">
                 {% if entity.photo %}
-                    <img src="{{ asset(entity.photo) }}" width="243" />
+                    <img src="{{ asset(entity.photo)|apply_filter('240x240') }}" width="240" height="240" />
                 {% else %}
-                    <img src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand" />
+                    <img src="{{ asset('static/img/mascot-square.png')|apply_filter('240x240') }}" width="240" height="240" alt="alt-LBJ - brand" />
                 {% endif %}
             </div>
 

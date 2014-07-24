@@ -270,6 +270,9 @@ avalanche_imagine:
         255x255:
             type:    thumbnail
             options: { size: [255, 255], mode: inset, quality: 95, format: png }
+        240x240:
+            type:    thumbnail
+            options: { size: [240, 240], mode: inset, quality: 95, format: jpeg }
         230x268:
             type:    thumbnail
             options: { size: [230, 268], mode: inset, quality: 95, format: jpeg }
