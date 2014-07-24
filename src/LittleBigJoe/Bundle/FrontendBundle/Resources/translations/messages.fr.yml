@@ -177,7 +177,8 @@ Images: Images
 'It is up to you!': 'C''est à vous!'
 JPY: JPY
 Lastname: Nom
-Latest: Derniers
+Latest: Dernier
+Latest brands: Dernière <span class="grand-hotel">marques</span>
 'Latest projects': 'Derniers projects'
 Launch: Lancer
 'Launch my project': 'Lancer mon projet'
