@@ -98,7 +98,7 @@ class EditProjectFlow extends FormFlow implements EventSubscriberInterface
 
             if (!($productTypeEntity instanceof ProductType))
             {
-                $project = $this->entityManager->getRepository('LittleBigJoeCoreBundle:Project')->findOneBySlug($formData['slug']);
+                $project = $this->entityManager->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($formData['id'], $formData['slug']);
 
                 $productTypeEntity = new ProductType();
                 $productTypeEntity->setName(ucwords($formData['productType']));
