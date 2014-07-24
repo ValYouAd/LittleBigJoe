@@ -92,7 +92,7 @@ class FOSUBUserProvider extends BaseClass
 						// I have set all requested data with the user's username
 						// modify here with relevant data
 						$resp = $response->getResponse();
-						
+
 						if (array_key_exists('name', $response->getResponse()))
 						{
 								if (preg_match('/[\s]+/', $resp['name']))

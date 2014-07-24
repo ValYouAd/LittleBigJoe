@@ -69,6 +69,10 @@ class RegistrationFormType extends BaseType
         				'label' => 'Email address',
             		'data' => $email
         		))
+            ->add('gender', 'choice', array(
+                'label' => 'Gender',
+                'choices' => array('0' => 'Mr', '1' => 'Ms')
+            ))
             ->add('firstname', 'text', array(
                 'label' => 'Firstname',
             		'data' => $firstname

@@ -31,6 +31,13 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="gender", type="integer", nullable=true)
+     */
+    protected $gender = '0';
+
+    /**
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
@@ -382,6 +389,29 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     * @return User
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 
     /**
