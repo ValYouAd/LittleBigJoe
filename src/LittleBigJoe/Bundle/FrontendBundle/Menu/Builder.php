@@ -120,7 +120,7 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'categories-nav');
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $categories = $em->getRepository('LittleBigJoeCoreBundle:Category')->findBy(array('isVisible' => true));
+        $categories = $em->getRepository('LittleBigJoeCoreBundle:Category')->findBy(array('isVisible' => true), array('name' => 'ASC'));
 
         // Add categories
         if (!empty($categories)) {
