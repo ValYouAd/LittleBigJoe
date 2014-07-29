@@ -52,18 +52,18 @@ class Builder extends ContainerAware
         $projects->addChild($this->container->get('translator')->trans('All projects'), array('route' => 'littlebigjoe_frontendbundle_project'))
             ->setAttribute('class', 'dark-item');
         
-        // Add "Projects I'm supporting" link
-        $projects->addChild($this->container->get('translator')->trans('Projects I\'m supporting'), array('route' => 'littlebigjoe_frontendbundle_project_supported_projects'))
+        // Add "Projects I support" link
+        $projects->addChild($this->container->get('translator')->trans('Projects I support'), array('route' => 'littlebigjoe_frontendbundle_project_supported_projects'))
             ->setAttribute('class', 'light-item');
-        
-        // Add "Projects of users I follow" link
-        $projects->addChild($this->container->get('translator')->trans('Projects of users I follow'), array('route' => 'littlebigjoe_frontendbundle_project_users_followed_projects'))
+
+        // Add "My brands" link
+        $projects->addChild($this->container->get('translator')->trans('My brands'), array('route' => 'littlebigjoe_frontendbundle_project_brands_followed_projects'))
+            ->setAttribute('class', 'light-item');
+
+        // Add "Members I follow" link
+        $projects->addChild($this->container->get('translator')->trans('Members I follow'), array('route' => 'littlebigjoe_frontendbundle_project_users_followed_projects'))
             ->setAttribute('class', 'dark-item');
 
-        // Add "Projects of brands I follow" link
-        $projects->addChild($this->container->get('translator')->trans('Projects of brands I follow'), array('route' => 'littlebigjoe_frontendbundle_project_brands_followed_projects'))
-            ->setAttribute('class', 'light-item');
-        
         // Add "Launch my project" link
         $labelFirst = $this->container->get('translator')->trans('Launch');
         $labelSecond = $this->container->get('translator')->trans('my project');

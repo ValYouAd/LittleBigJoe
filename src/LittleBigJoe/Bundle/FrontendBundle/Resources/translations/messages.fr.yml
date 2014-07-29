@@ -74,6 +74,7 @@ Amount: Montant
 'Any amount of': 'N''importe quel montant'
 'Associated brand': 'Marque associée'
 'Associated categories': 'Catégories associées'
+'Back office': 'Back office'
 'Beta code': 'Code beta'
 Bio: Bio
 'Biography of': 'Biographie de'
@@ -188,7 +189,7 @@ Launch: Lancer
 'Launch my project': 'Lancer mon projet'
 'Learn more about our': 'Apprenez en plus sur notre'
 'Likes to get': '''J''aime'' à obtenir'
-Limed: Limité
+Limited: Limited
 'Little Big Joe': 'Little Big Joe'
 Location: Lieu
 Login: Connexion
@@ -196,12 +197,15 @@ Logo: Logo
 Logout: Déconnexion
 'Maximum quantity by user': 'Quantité maximum par utilisateur'
 'Media gallery': 'Galerie des médias'
+'Members I follow': 'Membres que je suis'
 Message: Message
 'Most desired': 'Les plus désirés'
 Mr: Monsieur
 Ms: Madame
 'My account': 'Mon compte'
+'My brands': 'Mes marques'
 'My news': 'Mes news'
+'My projects': 'Mes projets'
 N/A: N/A
 Name: Nom
 New: Nouveau
@@ -258,10 +262,8 @@ Project: Projet
 'Project ending at': 'Le projet se termine le'
 'Project owner gift': 'Cadeau pour le créateur du projet'
 Projects: Projets
-'Projects I''m supporting': 'Projets que je soutiens'
+'Projects I support': 'Projets que je soutiens'
 'Projects nearing completion': 'Projets bientôt terminés'
-'Projects of brands I follow': 'Projets de marques que je suis'
-'Projects of users I follow': 'Projets d''utilisateurs que je suis'
 Quantity: Quantité
 'Read the terms': 'Lire les CGU'
 Reason: Raison
@@ -344,7 +346,7 @@ Submit: Soumettre
 
 'There''s no news for the moment': 'Il n''y a aucune news pour le moment'
 'There''s no participants for the moment': 'Il n''y a aucun participant pour le moment'
-'There''s no projects for the moment.': 'Il n''y a aucun projet pour le moment.'
+'There''s no projects for the moment': 'There''s no projects for the moment'
 'There''s no results for your search': 'Il n''y a aucun résultat pour votre recherche'
 'This is spam': 'Ceci est du spam'
 
@@ -454,11 +456,3 @@ supporters: supporters
 '{0} project|{1} project|]1,Inf] projects': '__{0} projet|{1} projet|]1,Inf] projets'
 €: €
 '€ or more': '€ ou plus'
-The site is not live yet. Come back later.: 'Le site n''est pas en ligne pour le moment. Revenez plus tard.'
-'My': 'Ma'
-biography: 'biographie'
-Edit my profile: 'Editer mon profil'
-'Registered since': 'Inscrit(e) depuis le'
-'My projects': 'Mes projets'
-'My contributions': 'Mes contributions'
-'There''s no contributions for the moment.': 'Il n''y a aucune contribution pour le moment.'

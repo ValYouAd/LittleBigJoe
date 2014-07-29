@@ -127,5 +127,8 @@ littlebigjoe_frontendbundle_user_delete_account: /suppression-compte
 # Desc: /my-news
 littlebigjoe_frontendbundle_user_news: /mes-news
 
+# Desc: /my-projects
+littlebigjoe_frontendbundle_user_projects: /mes-projets
+
 # Desc: /user/{id}
 littlebigjoe_frontendbundle_user_show: '/utilisateur/{id}'
