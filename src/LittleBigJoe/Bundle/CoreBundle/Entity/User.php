@@ -199,11 +199,6 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="bio", type="text", nullable=true)
-     *
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!]*$/",
-     *    message = "Your bio must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes"
-     * )
      */
     private $bio;
 
