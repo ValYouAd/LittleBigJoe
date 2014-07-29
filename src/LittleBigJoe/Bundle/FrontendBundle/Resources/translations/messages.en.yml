@@ -3,19 +3,19 @@
 (Public): (Public)   
 
 1:
-    ' Create my project': '1. Create my project'   
+    ' Create my project': '1. Imagine & Discover'
 
 '1€ and more': '1€ and more'   
 
 2:
-    ' Engagement & funding phase': '2. Engagement & funding phase'
+    ' Engagement & funding phase': '2. Make some noise!'
 
 '3 Villa du Clos de Malevart': '94 Rue de la Victoire'  
 
 3:
-    ' Launch my project': '3. Launch my project'   
+    ' Launch my project': '3. Make it happen'
 
-'A problem has occured during your payment': 'Opps! Something went wrong with your payment.'
+'A problem has occured during your paymenhow t': 'Opps! Something went wrong with your payment.'
 
 'A project has been reported': 'A project has been reported'   
 'A user has reported the following project : ': 'A user has reported the following project : '   
@@ -151,7 +151,7 @@ Hello: Hello
 Highlight: Highlight   
 Highlighted: Highlighted   
 'His projects': 'His projects'   
-'How does': 'How does'  
+'How does': 'How does'
 'I just financed project %project%': 'I just financed this project'   
 'I just voted for project %project%': 'I just voted for this project'  
 'I like this project': 'I like this project'
@@ -394,7 +394,7 @@ gived: given
 got: got  
 'has declined your product ': 'has declined your product ' 
 'in projects right now, by': 'in projects right now, by'  
-'it work ?': 'it works ?' 
+'it work ?': 'it work ?'
 likes: likes 
 
 'likes, to consider the project':

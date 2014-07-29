@@ -5,17 +5,17 @@
 (unlimited): (illimité)
 
 1:
-    ' Create my project': '1. Lancer un projet'
+    ' Create my project': '1. Créez & Découvrez'
 
 '1€ and more': '1€ et plus'
 
 2:
-    ' Engagement & funding phase': '2. Création d''intérêt autour du projet et financement'
+    ' Engagement & funding phase': '2. Faites du bruit !'
 
 '3 Villa du Clos de Malevart': '94 rue de la Victoire'
 
 3:
-    ' Launch my project': '3. Lancer mon projet'
+    ' Launch my project': '3. Financez votre rêve'
 
 'A problem has occured during your payment':
     '': 'Un problème est survenu lors de votre paiement.'
@@ -188,7 +188,7 @@ Launch: Lancer
 'Launch my project': 'Lancer mon projet'
 'Learn more about our': 'Apprenez en plus sur notre'
 'Likes to get': '''J''aime'' à obtenir'
-Limited: Limité
+Limed: Limité
 'Little Big Joe': 'Little Big Joe'
 Location: Lieu
 Login: Connexion
@@ -344,7 +344,7 @@ Submit: Soumettre
 
 'There''s no news for the moment': 'Il n''y a aucune news pour le moment'
 'There''s no participants for the moment': 'Il n''y a aucun participant pour le moment'
-'There''s no projects for the moment': 'Il n''y a aucun projet pour le moment'
+'There''s no projects for the moment.': 'Il n''y a aucun projet pour le moment.'
 'There''s no results for your search': 'Il n''y a aucun résultat pour votre recherche'
 'This is spam': 'Ceci est du spam'
 
