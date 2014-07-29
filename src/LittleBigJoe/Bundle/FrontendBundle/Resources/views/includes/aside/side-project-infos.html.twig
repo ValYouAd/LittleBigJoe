@@ -140,15 +140,17 @@
 {% if brand %}
 <div class="side-infos-block small-resp-block">
     <div class="brand-thumbnail-cont">
+        <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': entity.brand.slug}) }}">
         {% if entity.brand.logo %}
             <img class="brand-thumbnail" src="{{ asset(entity.brand.logo)|apply_filter('230x268') }}" width="80" height="93" />
         {% else %}
             <img class="brand-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('230x268') }}" alt="alt-LBJ - author" />
         {% endif %}
+        </a>
     </div>
 
     <ul class="brand-infos">
-        <li class="name">{{ entity.brand }}</li>
+        <li class="name"><a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': entity.brand.slug}) }}">{{ entity.brand }}</a></li>
         {% for project in entity.brand.projects|reverse|slice(0, 4) %}
             <li><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.name|e }}</a></li>
         {% endfor %}
