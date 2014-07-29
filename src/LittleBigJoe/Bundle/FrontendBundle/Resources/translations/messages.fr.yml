@@ -449,7 +449,7 @@ supporters: supporters
 '{0} Comment|{1} Comment|]1,Inf] Comments': '__{0} Commentaire|{1} Commentaire|]1,Inf] Commentaires'
 '{0} No project in which the user has participated|{1} Project in which the user has participated|]1,Inf] Projects in which the user has participated': '__{0} Aucun projet pour lequel l''utilisateur a participé|{1} Projet pour lequel l''utilisateur a participé|]1,Inf] Projets pour lesquels l''utilisateur a participé'
 '{0} No project|{1} project|]1,Inf] projects': '{0} Aucun projet|{1} projet|]1,Inf] projets'
-'{0} like|{1} like|]1,Inf] likes': '__{0} like|{1} like|]1,Inf] likes'
+'{0} like|{1} like|]1,Inf] likes': '{0} "J''aime"|{1} "J''aime"|]1,Inf] "J''aime"'
 '{0} participant|{1} participant|]1,Inf] participants': '{0} participant|{1} participant|]1,Inf] participants'
 '{0} project|{1} project|]1,Inf] projects': '__{0} projet|{1} projet|]1,Inf] projets'
 €: €
