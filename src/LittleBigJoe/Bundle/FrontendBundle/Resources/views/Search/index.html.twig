@@ -50,13 +50,13 @@
                                 <h3><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': user.id}) }}">{{ user }}</a></h3>
                                 <div class="social-links">
                                     {% if user.facebookUrl %}
-                                        <a href="{{ user.facebookUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="Facebook {{ user }}" /></a>
+                                        <img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="Facebook {{ user }}" />
                                     {% endif %}
                                     {% if user.twitterUrl %}
-                                        <a href="{{ user.twitterUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="Twitter {{ user }}" /></a>
+                                        <img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="Twitter {{ user }}" />
                                     {% endif %}
                                     {% if user.googleUrl %}
-                                        <a href="{{ user.googleUrl }}"><img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="Google {{ user }}" /></a>
+                                        <img class="icon" src="{{ asset('static/img/icons/icon-social-google.png') }}" alt="Google {{ user }}" />
                                     {% endif %}
                                 </div>
                             </div>
