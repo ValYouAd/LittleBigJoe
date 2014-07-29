@@ -18,9 +18,9 @@
 
                 <div class="wContent-id-img">
                     {% if user.photo %}
-                        <img src="{{ asset(user.photo)|apply_filter('240x240') }}" />
+			<img src="{{ asset(user.photo)|apply_filter('240x9999') }}" />
                     {% else %}
-                        <img src="{{ asset('static/img/mascot-square.png')|apply_filter('240x240') }}" alt="alt-LBJ - brand" />
+			<img src="{{ asset('static/img/mascot-square.png')|apply_filter('240x9999') }}" />
                     {% endif %}
                 </div>
 
