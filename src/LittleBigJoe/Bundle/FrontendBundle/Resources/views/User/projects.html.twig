@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ 'My projects'|trans() }} - {{ parent() }}{% endblock %}
+
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/progress-bars.js') }}" ></script>
+{% endblock %}
+
+{% block body %}
+    <section>
+
+        <div class="aside-part wMosaic">
+            {% set side_menu_vars = {'brands': true, 'categories': true} %}
+            {% include "LittleBigJoeFrontendBundle:includes:aside/side-menu.html.twig" with side_menu_vars %}
+        </div>
+
+        <article class="wMosaic">
+            <div class="article-header">
+                <h1>{{ 'My projects'|trans() }}</h1>
+            </div>
+
+            {% if entity.getAvailableProjects|length > 0 %}
+                {% for project in entity.projects if project.deletedAt == null %}
+                    <div class="mosaic-container">
+                        {% set mosaic_pres_vars = {'project': project} %}
+                        {% include "LittleBigJoeFrontendBundle:includes:pres/mosaic-pres.html.twig" with mosaic_pres_vars %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{{ 'There\'s no projects for the moment'|trans() }}</p>
+            {% endif %}
+        </article>
+
+    </section>
+{% endblock %}

@@ -47,6 +47,36 @@ class UserController extends Controller
         	'distinctProjects' => $distinctProjects
         );
     }
+
+    /**
+     * Projects list
+     *
+     * @Route("/my-projects", name="littlebigjoe_frontendbundle_user_projects")
+     * @Template()
+     */
+    public function projectsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to access to your news'
+            );
+
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_user_projects'));
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+
+        return array(
+            'entity' => $currentUser,
+        );
+    }
     
     /**
      * Notifications feed

@@ -45,6 +45,10 @@
                             <ul class="dropdown-menu">
                                 <li class="dark-item"><a href="{{ path('fos_user_profile_show') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - profile icon" /> {{ 'My account'|trans() }}</a></li>
                                 <li class="dark-item"><a href="{{ path('littlebigjoe_frontendbundle_user_news') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - edit icon" /> {{ 'My news'|trans() }}</a></li>
+                                <li class="dark-item"><a href="{{ path('littlebigjoe_frontendbundle_user_projects') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - edit icon" /> {{ 'My projects'|trans() }}</a></li>
+                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                    <li class="dark-item"><a href="{{ path('littlebigjoe_backendbundle_home') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - profile icon" /> {{ 'Back office'|trans() }}</a></li>
+                                {% endif %}
                                 <li class="light-item"><a href="{{ path('fos_user_security_logout') }}"><img class="icon" src="{{ asset('static/img/icons/icon-logout.png') }}" alt="alt-LBJ - logout icon" /> {{ 'Logout'|trans() }}</a></li>
                             </ul>
                         </li>
