@@ -195,6 +195,7 @@ Location: Lieu
 Login: Connexion
 Logo: Logo
 Logout: Déconnexion
+'Make some noise with your friends and increase the odds of turning this amazing idea into reality !': 'Faites du bruit auprès de vos amis et augmentez les chances de voir cette idée géniale devenir réalité !'
 'Maximum quantity by user': 'Quantité maximum par utilisateur'
 'Media gallery': 'Galerie des médias'
 'Members I follow': 'Membres que je suis'
@@ -312,6 +313,9 @@ Submit: Soumettre
     '': 'Merci de votre paiement'
 
 'The brand': 'La marque'
+
+'The brand associated to this project has not yet made a product suggestion':
+    '': 'La marque désignée pour ce projet n''a pas encore fait de proposition de produit.'
 
 'The file size is too big':
     ' Please upload audio files that do not exceed 20Mo': 'Le fichier est trop lourd. Veuillez ne pas télécharger des fichiers audio de plus de 20Mo'

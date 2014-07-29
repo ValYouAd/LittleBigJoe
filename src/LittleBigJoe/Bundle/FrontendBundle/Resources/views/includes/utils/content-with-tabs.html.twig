@@ -56,14 +56,8 @@
 <div class="white-container">
 
     <div class="tabs-container">
-        {% set allTabs = false %}
-        {# N'affiche l'onglet que si c'est le créateur du projet, un admin LBJ, un admin marque, ou que le produit est validé #}
-        {% if entity.product and (canCreateProduct or canEditProject or (entity.status == '2' and entity.product.validatedAt is defined)) %}
-            {% set allTabs = true %}
-        {% endif %}
-
         <div class="tab tabSmall" id="tab_0"><img class="icon" src="{{ asset('static/img/icons/icon-projects-gray.png') }}" alt="alt-LBJ - projects icon" />{{ 'Project'|trans() }}</div>
-        {% if allTabs %}<div class="tab tabSmall" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>{% endif %}
+        <div class="tab tabSmall" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>
         <div class="tab tabSmall" id="tab_1"><img class="icon" src="{{ asset('static/img/icons/icon-news.png') }}" alt="alt-LBJ - news icon" />{{ 'News'|trans() }}</div>
         <div class="tab tabSmall" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{{ 'Participants'|trans() }}</div>
         <div class="tab tabSmall" id="tab_3"><img class="icon" src="{{ asset('static/img/icons/icon-comment.png') }}" alt="alt-LBJ - comment icon" />{{ 'Comments'|trans() }}</div>
@@ -146,11 +140,9 @@
         {% endif %}
     </div>
 
-    {# N'affiche l'onglet que si c'est le créateur du projet, un admin LBJ, un admin marque, ou que le produit est validé #}
-    {% if entity.product and (canCreateProduct or canEditProject or (entity.status == '2'
-    and entity.product.validatedAt is defined)) %}
     {# ----- TAB 'PRODUIT' ------ #}
     <div class="tab-content-container" id="tabcont_4">
+        {% if entity.product %}
         <div class="wContent-video-container">
             {% if productMedias is not defined %}
                 {% set productMedias = entity.product.medias %}
@@ -166,78 +158,83 @@
                                     src="{{ productMedia.videoUrl }}"></iframe>
                         {% else %}
                             <a href="{{ asset(productMedia.image) }}" class="fancybox">
-                                <img src="{{ asset(productMedia.image) }}" alt="alt-LBJ - product image" />
-                            </a>
-                        {% endif %}
-                        {% set hasDefaultMedia = true %}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        </div>
-
-        <div class="article-header">
-            <h2>{{ entity.product }}</h2>
-        </div>
-
-        <div class="description-infos">
-            {{ entity.product.description|raw() }}
-
-            <div class="double-separator"></div>
-        </div>
-
-        {% if productMedias %}
-            <div class="product-carousel carousel slide" id="product-carousel">
-                <div class="carousel-inner">
-                    {% for productMedia in productMedias %}
-                        {% if loop.index0 == 0 %}
-                            <div class="item active">
-                        {% elseif loop.index0 % 3 == 0 %}
-                            </div>
-                            <div class="item">
-                        {% endif %}
-
-                        <div class="thumb-cont">
-                            {% if productMedia.type == 'video' %}
-                                <a href="{{ productMedia.videoUrl }}?autoplay=1" class="fancybox fancybox.iframe">
-                                    <img class="carousel-thumbnail" src="{{ productMedia.image }}"/>
-                                </a>
-                            {% else %}
-                                <a href="{{ asset(productMedia.image) }}" class="fancybox">
-                                    <img class="carousel-thumbnail" src="{{ asset(productMedia.image) }}" alt="alt-LBJ - product image" />
+                                    <img src="{{ asset(productMedia.image) }}" alt="alt-LBJ - product image" />
                                 </a>
                             {% endif %}
-                        </div>
-
-                        {% if loop.last %}
-                            </div>
+                            {% set hasDefaultMedia = true %}
                         {% endif %}
                     {% endfor %}
-                </div>
-
-                <a class="left carousel-arrow" href="#product-carousel" data-slide="prev">
-                    <img src="{{ asset('static/img/icons/icon-carousel-arrow-left.png') }}" alt="alt-LBJ - arrow left" />
-                </a>
-                <a class="right carousel-arrow" href="#product-carousel" data-slide="next">
-                    <img src="{{ asset('static/img/icons/icon-carousel-arrow-right.png') }}" alt="alt-LBJ - arrow right" />
-                </a>
-            </div>
-        {% endif %}
-
-        {% if validation_form is defined  and (is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_ADMIN') and not is_granted('ROLE_BRAND_ADMIN')) or (is_granted('ROLE_USER') and entity.user.id == app.user.id)) %}
-            {{ form_start(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
-            <div class="btn-group">
-                {% if not entity.product.validatedAt %}
-                    {{ form_widget(validation_form.submitValidate) }}
                 {% endif %}
-                <a href="{{ path('littlebigjoe_frontendbundle_project_product_feedbacks', {'id':entity.id, 'slug':entity.slug}) }}" class="btn btn-warning">{{ 'Feedbacks'|trans() }}</a>
-                <span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span>
             </div>
-            <div class="hidden">{{ form_rest(validation_form) }}</div>
-            {{ form_end(validation_form) }}
+
+            <div class="article-header">
+                <h2>{{ entity.product }}</h2>
+            </div>
+
+            <div class="description-infos">
+                {{ entity.product.description|raw() }}
+
+                <div class="double-separator"></div>
+            </div>
+
+            {% if productMedias %}
+                <div class="product-carousel carousel slide" id="product-carousel">
+                    <div class="carousel-inner">
+                        {% for productMedia in productMedias %}
+                            {% if loop.index0 == 0 %}
+                                <div class="item active">
+                            {% elseif loop.index0 % 3 == 0 %}
+                                </div>
+                                <div class="item">
+                            {% endif %}
+
+                            <div class="thumb-cont">
+                                {% if productMedia.type == 'video' %}
+                                    <a href="{{ productMedia.videoUrl }}?autoplay=1" class="fancybox fancybox.iframe">
+                                        <img class="carousel-thumbnail" src="{{ productMedia.image }}"/>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ asset(productMedia.image) }}" class="fancybox">
+                                        <img class="carousel-thumbnail" src="{{ asset(productMedia.image) }}" alt="alt-LBJ - product image" />
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            {% if loop.last %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <a class="left carousel-arrow" href="#product-carousel" data-slide="prev">
+                        <img src="{{ asset('static/img/icons/icon-carousel-arrow-left.png') }}" alt="alt-LBJ - arrow left" />
+                    </a>
+                    <a class="right carousel-arrow" href="#product-carousel" data-slide="next">
+                        <img src="{{ asset('static/img/icons/icon-carousel-arrow-right.png') }}" alt="alt-LBJ - arrow right" />
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if validation_form is defined  and (is_granted('ROLE_SUPER_ADMIN') or (is_granted('ROLE_ADMIN') and not is_granted('ROLE_BRAND_ADMIN')) or (is_granted('ROLE_USER') and entity.user.id == app.user.id)) %}
+                {{ form_start(validation_form, {attr:{id:'validateProduct', role:'form'}}) }}
+                <div class="btn-group">
+                    {% if not entity.product.validatedAt %}
+                        {{ form_widget(validation_form.submitValidate) }}
+                    {% endif %}
+                    <a href="{{ path('littlebigjoe_frontendbundle_project_product_feedbacks', {'id':entity.id, 'slug':entity.slug}) }}" class="btn btn-warning">{{ 'Feedbacks'|trans() }}</a>
+                    <span id="showDeclineForm" class="btn btn-danger">{{ 'Decline'|trans() }}</span>
+                </div>
+                <div class="hidden">{{ form_rest(validation_form) }}</div>
+                {{ form_end(validation_form) }}
+            {% endif %}
+        {% else %}
+            <div class="wContent-video-container">
+                <p>{{ 'The brand associated to this project has not yet made a product suggestion.'|trans() }}</p>
+                <p>{{ 'Make some noise with your friends and increase the odds of turning this amazing idea into reality !'|trans() }}</p>
+            </div>
         {% endif %}
         <div class="clearfix">&nbsp;</div>
     </div>
-    {% endif %}
 
     {# ----- TAB 'NEWS' ------ #}
     <div class="tab-content-container" id="tabcont_1">
