@@ -39,9 +39,9 @@ class UserListener implements EventSubscriberInterface
         );
     }
 
-    public function onSecurityInteractivelogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractivelogin(UserEvent $event)
     {
-        $user = $event->getAuthenticationToken()->getUser();
+        $user = $event->getUser();
         $request = $event->getRequest();
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -51,7 +51,7 @@ class UserListener implements EventSubscriberInterface
     }
 
     public function onRegistrationCompleted(FilterUserResponseEvent $event){
-        $user = $event->getAuthenticationToken()->getUser();
+        $user = $event->getUser();
         $request = $event->getRequest();
 
         $request->setLocale($user->getDefaultLanguage());
