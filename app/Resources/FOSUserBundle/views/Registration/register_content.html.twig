@@ -5,16 +5,6 @@
 
     {{ form_errors(form) }}
     
-    	<div class="row text-center">
-<div class="col-sm-6">
-{{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
-</div>
-<div class="col-sm-6">
-<a style="font-size: 12px;padding: 5px 0px 5px 38px;" href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
-<i class="fa fa-twitter" style="line-height: 28px;"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
-</a>
-</div>
-</div>
 
     <div class="row">
         <section class="col-md-5">
@@ -39,6 +29,18 @@
         </section>
         <section class="col-md-2"></section>
         <section class="col-md-5">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
+                </div>
+                <div class="col-sm-6">
+                    <a style="font-size: 12px;padding: 5px 0px 5px 38px;" href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
+                        <i class="fa fa-twitter" style="line-height: 28px;"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix">&nbsp;</div>
+
             {{ form_row(form.facebookUrl) }}
             {{ form_row(form.twitterUrl) }}
             {{ form_row(form.googleUrl) }}
