@@ -1,7 +1,9 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ 'Permissions needed'|trans() }} - {{ parent() }}{% endblock %}
+{% block title %}{{ 'access_denied.title'|trans() }} - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>{{ 'Sorry, but you do not have the necessary rights to access this ressource.'|trans() }}</h1>
+    <h1>{{ 'access_denied.title'|trans() }}</h1>
+    <p>{{ 'access_denied.message'|trans|raw }}</p>
+    <p>Joe</p>
 {% endblock %}
