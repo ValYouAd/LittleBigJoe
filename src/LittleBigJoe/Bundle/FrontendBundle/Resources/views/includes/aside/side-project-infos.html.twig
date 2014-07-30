@@ -76,7 +76,6 @@
         {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
             {{ form(funding_form, {attr:{id:'fundingForm', role:'form'}}) }}
         {% endif %}
-        <p><a id="reportProjectButton" class="btn classic-style" href="#">{{ 'Report this project'|trans() }}</a></p>
     </div>
 {% endif %}
 
