@@ -162,6 +162,11 @@ class Project
      *    message = "Your required likes count must only contains numbers",
      *    groups = {"Default", "flow_createProject_step3"}
      * )
+     * @Assert\Range(
+     *    min = "1",
+     *    minMessage = "The required likes count can't be inferior to 1",
+     *    groups = {"Default", "flow_createProject_step3"}
+     * )
      */
     protected $likesRequired;
 
