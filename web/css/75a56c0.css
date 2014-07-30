@@ -7211,6 +7211,9 @@ button.follow-btn,
   margin: 15px auto 0 auto;
   text-align: center;
 }
+a.link {
+  text-decoration: underline;
+}
 @media (max-width: 767px) {
   .header-container {
     padding: 0;

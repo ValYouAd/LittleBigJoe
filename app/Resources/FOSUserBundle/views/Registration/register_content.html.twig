@@ -27,8 +27,12 @@
             {{ form_row(form.city) }}
             {{ form_row(form.country) }}
             {{ form_row(form.defaultLanguage) }}
-            {{ form_widget(form.cgv) }}
-            {{ form_label(form.cgv) }} (<a href="{{ path('littlebigjoe_frontendbundle_page_show', {'slug':'cgv'}) }}" target="_blank">{{ 'Read the terms'|trans() }}</a>)
+            <div class="checkbox">
+                <label>
+                {{ form_widget(form.cgv) }}
+                {{ 'I accept the applicable <a class="link" href="%url%">Terms of Use</a>'|trans({'%url%': path('littlebigjoe_frontendbundle_page_show', {'slug':'cgv'})})|raw }}
+                </label>
+            </div>
             <div>
                 <button class="btn validate-style">{{ 'Register'|trans }}</button>
             </div>
@@ -41,6 +45,15 @@
             {{ form_row(form.websiteUrl) }}
             {{ form_row(form.photo) }}
             {{ form_row(form.bio) }}
+
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ form_label(form.betaCodeValue) }}</h3>
+                </div>
+                <div class="panel-body">
+                    {{ form_widget(form.betaCodeValue) }}
+                </div>
+            </div>
             {{ form_rest(form) }}
         </section>
     </div>
