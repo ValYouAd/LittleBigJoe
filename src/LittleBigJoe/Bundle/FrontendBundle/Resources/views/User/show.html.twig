@@ -78,6 +78,8 @@
                         {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
                     </div>
                 {% endfor %}
+            {% else %}
+                <p class="nodata">{{ 'There\'s no projects for the moment.'|trans() }}</p>
             {% endif %}
 
             {% if distinctProjects|length > 0 %}
@@ -93,6 +95,8 @@
                         {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
                     </div>
                 {% endfor %}
+            {% else %}
+                <p class="nodata">{{ 'There\'s no contributions for the moment.'|trans() }}</p>
             {% endif %}
             </div>
         </article>

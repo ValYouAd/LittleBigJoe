@@ -742,20 +742,24 @@ class ProjectController extends Controller
                         $uploadableManager->markEntityToUpload($project, $project->getPhoto());
                     }
 
+                    var_dump($projectMedias);
                     // Move tmp project medias from server, to project directory
                     if (!empty($projectMedias)) {
-                        foreach ($projectMedias as $projectMedia) {
+                        foreach ($projectMedias as $key => $projectMedia) {
                             if ($projectMedia['type'] == 'image') {
                                 $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
                                 if (!empty($projectImage) && $projectImage instanceof ProjectImage) {
                                     $filePath = $projectImage->getPath();
+                                    var_dump($filePath, $this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
                                     copy($this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
                                     $path = preg_replace('#' . $filePath . '#', 'uploads/projects/' . $project->getId() . '/' . basename($filePath), $projectImage->getPath());
+                                    var_dump($path);
                                     $projectImage->setPath($path);
                                 }
                             }
                         }
                     }
+                    die;
 
                     // Persist form data and redirect user
                     $em->persist($project);
