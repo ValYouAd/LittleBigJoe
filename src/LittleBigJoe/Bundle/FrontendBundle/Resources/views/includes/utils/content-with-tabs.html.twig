@@ -37,6 +37,14 @@
     {% endif %}
     </h1>
 
+    <div class="socialShare pull-right">
+        <div class="fb-share-button" data-width="116" data-href="{{ url('littlebigjoe_frontendbundle_brand_show',{'slug':entity.slug}) }}"></div>
+        <p>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ url('littlebigjoe_frontendbundle_brand_show',{'slug':entity.slug}) }}" data-lang="{{ app.request.locale }}">{{ 'Tweet'|trans() }}</a>
+        </p>
+        <g:plus action="share"></g:plus>
+    </div>
+
     <div class="brand-location">
         <img class="icon" src="{{ asset('static/img/icons/icon-location.png') }}" alt="alt-LBJ - location icon" /> <strong>{{ entity.location }}</strong>
     </div>

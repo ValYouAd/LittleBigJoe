@@ -16,6 +16,15 @@
 
                 <div class="wContent-id-title">
                     <h1>{{ entity.name }}</h1>
+
+                    <div class="socialShare pull-right">
+                        <div class="fb-share-button" data-width="116" data-href="{{ url('littlebigjoe_frontendbundle_brand_show',{'slug':entity.slug}) }}"></div>
+                        <p>
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ url('littlebigjoe_frontendbundle_brand_show',{'slug':entity.slug}) }}" data-lang="{{ app.request.locale }}">{{ 'Tweet'|trans() }}</a>
+                        </p>
+                        <g:plus action="share"></g:plus>
+                    </div>
+
                     <div class="social-links">
                         {% if entity.twitterUrl %}<a href="{{ entity.twitterUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
                         {% if entity.facebookUrl %}<a href="{{ entity.facebookUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-facebook.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
@@ -198,4 +207,6 @@
 	        });
 	     });
 	</script>
+    <script src="https://apis.google.com/js/plusone.js"></script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 {% endblock %}
