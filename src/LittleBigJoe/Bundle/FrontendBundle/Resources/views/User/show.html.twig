@@ -49,7 +49,7 @@
 
             <div class="wContent-id-infos">
                 <div><span class="orange-text">{{ entity.getAvailableProjects }}</span> {% transchoice entity.getAvailableProjects %}{0} project|{1} project|]1,Inf] projects{% endtranschoice %}</div>
-                <div>{{ 'Registered since' }} <strong>{{ entity.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
+                <div>{{ 'Registered since'|trans() }} <strong>{{ entity.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
                 {% if entity.websiteUrl %}<a href="{{ entity.websiteUrl }}" target="_blank"><div class="orange-text"><strong>{{ entity.websiteUrl }}</strong></div></a>{% endif %}
                 <div class="social-links">
                     {% if entity.twitterUrl %}<a href="{{ entity.twitterUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>{% endif %}

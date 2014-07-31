@@ -1,3 +1,5 @@
+{% trans_default_domain 'messages' %}
+
 {% block body %}
     <section>
         <div class="aside-part classic">
@@ -25,8 +27,8 @@
                 </div>
 
                 <div class="wContent-id-infos">
-                    <div><span class="orange-text">{{ user.projects|length|default('0') }}</span> {{ 'projects' }}</div>
-                    <div>{{ 'Registered since' }} <strong>{{ user.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
+                    <div><span class="orange-text">{{ user.getAvailableProjects }}</span> {% transchoice user.getAvailableProjects %}{0} project|{1} project|]1,Inf] projects{% endtranschoice %}</div>
+                    <div>{{ 'Registered since'|trans() }} <strong>{{ user.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
                     {% if user.websiteUrl %}<a href="{{ user.websiteUrl }}" target="_blank"><div class="orange-text"><strong>{{ user.websiteUrl }}</strong></div></a>{% endif %}
                     <div class="social-links">
                         {% if user.twitterUrl %}<a href="{{ user.twitterUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
