@@ -39,9 +39,8 @@ class UserListener implements EventSubscriberInterface
         );
     }
 
-    public function onSecurityInteractivelogin(UserEvent $event)
+    public function onSecurityInteractivelogin($event)
     {
-        $user = $event->getUser();
         $request = $event->getRequest();
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
