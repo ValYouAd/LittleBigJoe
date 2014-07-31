@@ -48,7 +48,7 @@ class CreateProjectFormType extends AbstractType
                         'label' => 'Name'
                     ))
                     ->add('photo', 'file', array(
-                        'label' => 'Logo',
+                        'label' => 'Main photo',
                         'attr' => array(
                             'class' => 'file',
                             'accept' => "image/*"
