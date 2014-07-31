@@ -43,8 +43,8 @@
                     <div class="separator"></div>
                 </div>
 
-                {% if user.projects|length > 0 %}
-                    {% for project in user.projects %}
+                {% if user.getAvailableProjects|length > 0 %}
+                    {% for project in user.projects if project.deletedAt == null %}
                         <div class="list-container">
                             {% set list_pres_vars = {'project': project} %}
                             {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
