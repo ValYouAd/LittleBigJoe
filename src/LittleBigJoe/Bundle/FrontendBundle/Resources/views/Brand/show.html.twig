@@ -18,11 +18,9 @@
                     <h1>{{ entity.name }}</h1>
 
                     <div class="socialShare pull-right">
-                        <div class="fb-share-button" data-width="116" data-href="{{ url('littlebigjoe_frontendbundle_brand_show',{'slug':entity.slug}) }}"></div>
-                        <p>
-                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ url('littlebigjoe_frontendbundle_brand_show',{'slug':entity.slug}) }}" data-lang="{{ app.request.locale }}">{{ 'Tweet'|trans() }}</a>
-                        </p>
-                        <g:plus action="share"></g:plus>
+                        <div class="fb-like" data-lang="{{ app.request.locale }}" data-href="{{ url('littlebigjoe_frontendbundle_brand_show',{'slug':entity.slug}) }}" data-width="116" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
+                        <a data-size="medium" href="https://twitter.com/share" class="twitter-share-button" data-url="{{ url('littlebigjoe_frontendbundle_brand_show',{'slug':entity.slug}) }}" data-lang="{{ app.request.locale }}">{{ 'Tweet'|trans() }}</a>
+                        <div class="g-plusone" data-size="medium"></div>
                     </div>
 
                     <div class="social-links">
@@ -207,6 +205,14 @@
 	        });
 	     });
 	</script>
-    <script src="https://apis.google.com/js/plusone.js"></script>
+    <script type="text/javascript">
+        window.___gcfg = {lang: '{{ app.request.locale }}'};
+
+        (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/platform.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 {% endblock %}
