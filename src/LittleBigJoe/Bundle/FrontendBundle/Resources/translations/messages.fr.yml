@@ -457,12 +457,14 @@ supporters: supporters
 '{0} No project|{1} project|]1,Inf] projects': '{0} Aucun projet|{1} projet|]1,Inf] projets'
 '{0} like|{1} like|]1,Inf] likes': '{0} "J''aime"|{1} "J''aime"|]1,Inf] "J''aime"'
 '{0} participant|{1} participant|]1,Inf] participants': '{0} participant|{1} participant|]1,Inf] participants'
-'{0} project|{1} project|]1,Inf] projects': '__{0} projet|{1} projet|]1,Inf] projets'
+'{0} project|{1} project|]1,Inf] projects': 'aucun projet|{1} projet|]1,Inf] projets'
 €: €
 '€ or more': '€ ou plus'
 Edit my profile: 'Modifier mon compte'
 My contributions: 'Mes contributions'
 'There''s no contributions for the moment.': 'Il n''y a aucune contribution pour le moment.'
+'There''s no projects for the moment.': 'Il n''y a pas de projet pour le moment.'
+'There''s no projects for the moment': 'Il n''y a pas de projet pour le moment.'
 Registered since: 'Inscrit(e) depuis le'
 My: Ma
 biography: biographie
