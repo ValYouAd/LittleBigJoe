@@ -43,9 +43,9 @@ class CategoryRepository extends EntityRepository
     public function findBySlugI18n($slug)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT c FROM LittleBigJoeCoreBundle:Category c WHERE c.slug LIKE :slug AND c.isVisible = :isVisible')
+            ->createQuery('SELECT c FROM LittleBigJoeCoreBundle:Category c WHERE c.slug = :slug AND c.isVisible = :isVisible')
             ->setParameters(array(
-            		'slug' => '%' . $slug . '%',
+            		'slug' => $slug,
             		'isVisible' => true
            	))
             ->setHint(

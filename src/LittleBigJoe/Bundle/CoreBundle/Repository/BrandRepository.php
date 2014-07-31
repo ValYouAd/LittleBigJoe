@@ -36,8 +36,8 @@ class BrandRepository extends EntityRepository
     public function findBySlugI18n($slug)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT b FROM LittleBigJoeCoreBundle:Brand b WHERE b.slug LIKE :slug')
-            ->setParameter('slug', '%' . $slug . '%')
+            ->createQuery('SELECT b FROM LittleBigJoeCoreBundle:Brand b WHERE b.slug = :slug')
+            ->setParameter('slug', $slug)
             ->setHint(
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
                 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'

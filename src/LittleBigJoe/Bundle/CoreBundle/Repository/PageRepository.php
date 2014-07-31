@@ -41,9 +41,9 @@ class PageRepository extends EntityRepository
     public function findBySlugI18n($slug)
     {
         return $this->getEntityManager()
-            ->createQuery('SELECT p FROM LittleBigJoeCoreBundle:Page p WHERE p.slug LIKE :slug AND p.isVisible = :isVisible')
+            ->createQuery('SELECT p FROM LittleBigJoeCoreBundle:Page p WHERE p.slug = :slug AND p.isVisible = :isVisible')
             ->setParameters(array(
-            		'slug' => '%' . $slug . '%',
+            		'slug' => $slug,
             		'isVisible' => true
            	))
             ->setHint(
