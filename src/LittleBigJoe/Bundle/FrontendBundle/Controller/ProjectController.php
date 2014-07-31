@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
 use LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment;
@@ -742,7 +743,6 @@ class ProjectController extends Controller
                         $uploadableManager->markEntityToUpload($project, $project->getPhoto());
                     }
 
-                    var_dump($projectMedias);
                     // Move tmp project medias from server, to project directory
                     if (!empty($projectMedias)) {
                         foreach ($projectMedias as $key => $projectMedia) {
@@ -750,16 +750,14 @@ class ProjectController extends Controller
                                 $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
                                 if (!empty($projectImage) && $projectImage instanceof ProjectImage) {
                                     $filePath = $projectImage->getPath();
-                                    var_dump($filePath, $this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
                                     copy($this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
                                     $path = preg_replace('#' . $filePath . '#', 'uploads/projects/' . $project->getId() . '/' . basename($filePath), $projectImage->getPath());
-                                    var_dump($path);
                                     $projectImage->setPath($path);
+                                    $projectImage->setProject($project);
                                 }
                             }
                         }
                     }
-                    die;
 
                     // Persist form data and redirect user
                     $em->persist($project);
