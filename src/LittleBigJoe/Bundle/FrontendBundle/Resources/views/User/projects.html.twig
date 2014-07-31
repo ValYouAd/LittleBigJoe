@@ -20,7 +20,7 @@
                 <h1>{{ 'My projects'|trans() }}</h1>
             </div>
 
-            {% if entity.getAvailableProjects|length > 0 %}
+            {% if entity.getAvailableProjects > 0 %}
                 {% for project in entity.projects if project.deletedAt == null %}
                     <div class="mosaic-container">
                         {% set mosaic_pres_vars = {'project': project} %}
