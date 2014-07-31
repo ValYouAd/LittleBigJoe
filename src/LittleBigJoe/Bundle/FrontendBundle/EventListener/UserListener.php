@@ -39,7 +39,7 @@ class UserListener implements EventSubscriberInterface
         );
     }
 
-    public function onSecurityInteractivelogin(Event $event)
+    public function onSecurityInteractivelogin($event)
     {
         $request = $event->getRequest();
 
