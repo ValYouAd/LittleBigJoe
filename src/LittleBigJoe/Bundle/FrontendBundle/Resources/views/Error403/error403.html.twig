@@ -1,12 +1,11 @@
 <section class="col-md-5">
-    <div class="panel panel-danger">
+    <form {{ form_enctype(form) }} method="POST" class="panel panel-danger">
         <div class="panel-heading">
             <h3 class="panel-title">{{ form_label(form.betaCodeValue) }}</h3>
         </div>
         <div class="panel-body">
             {{ form_widget(form.betaCodeValue, { 'attr': {'style': 'width: 74%; height: 46px'} } ) }}
-            {#{{ form_label(form.submitCode, { 'label_attr': {'class': 'label-danger'} }) }}#}
-            {{ form_widget(form.submitCode, { 'attr': {'style': 'width: 24%', 'class': 'pull-right btn btn-success btn-sm'} }) }}
+            {{ form_widget(form.submitCode, { 'attr': {'style': 'width: 24%', 'class': 'pull-right btn validate-style btn-sm'} }) }}
         </div>
-    </div>
+    </form>
 </section>
