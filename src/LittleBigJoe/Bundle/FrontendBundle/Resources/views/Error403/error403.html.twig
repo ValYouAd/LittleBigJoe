@@ -1,5 +1,5 @@
 <section class="col-md-5">
-    <form {{ form_enctype(form) }} method="POST" class="panel panel-danger">
+    <form action="{{ path('littlebigjoe_frontendbundle_registration_beta_confirmed') }}" {{ form_enctype(form) }} method="POST" class="panel panel-danger">
         <div class="panel-heading">
             <h3 class="panel-title">{{ form_label(form.betaCodeValue) }}</h3>
         </div>

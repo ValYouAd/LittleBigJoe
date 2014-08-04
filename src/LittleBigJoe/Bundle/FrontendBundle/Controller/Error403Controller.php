@@ -36,7 +36,8 @@ class Error403Controller extends Controller
         $form->handleRequest($request);
 
         echo $request->getMethod();
-        if ($form->isSubmitted()) echo "test";
+        if ($form->isSubmitted()) echo "submitted";
+        else echo "not submitted";
         if ('POST' === $request->getMethod()) {
             if ($form->isValid()) {
 //                echo "test";die;
