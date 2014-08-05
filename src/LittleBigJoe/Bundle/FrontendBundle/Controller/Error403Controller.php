@@ -15,6 +15,7 @@ class Error403Controller extends Controller
     public function editCodeBetaAction(Request $request) {
         $token = $this->get('security.context')->getToken();
         $user = $this->getUser();
+        $is_beta_user = (in_array('ROLE_BETA_USER', $user->getRoles()) != false) ? true : false ;
 
         $form = $this->createFormBuilder($user)
                 ->add('betaCodeValue', 'text', array('label' => ('Get your beta access now!'), 'required' => false))
@@ -22,8 +23,6 @@ class Error403Controller extends Controller
                 ->getForm();
 
         $form->handleRequest($request);
-
-        echo $request->getMethod();
 
         if ('POST' === $request->getMethod()) {
             $betaCodeValue = $user->getBetaCodeValue();
@@ -57,7 +56,7 @@ class Error403Controller extends Controller
         }
         return $this->render('LittleBigJoeFrontendBundle:Error403:error403.html.twig', array(
             'form' => $form->createView(),
-            'is_beta_user' => false,
+            'is_beta_user' => $is_beta_user,
         ));
     }
 }

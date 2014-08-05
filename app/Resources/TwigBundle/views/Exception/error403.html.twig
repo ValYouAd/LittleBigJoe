@@ -80,9 +80,6 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'access_denied.title'|trans() }}</h1>
-    <p>{{ 'access_denied.message1'|trans|raw }}</p>
-    <p>Joe</p>
     {% render(controller('LittleBigJoeFrontendBundle:Error403:editCodeBeta', {'request': app.request})) %}
 {% endblock %}
 
