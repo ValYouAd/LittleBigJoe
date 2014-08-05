@@ -1,4 +1,18 @@
 {% extends "::base.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="default-empty">
+        <h1>{{ 'Congratulations %username%, you are now registered.'|trans({'%username%': user.username}) }}</h1>
+        <p>{{ 'The site is not live yet. Come back later.'|trans() }}</p>
+    </div>
+    {% if app.session is not empty %}
+        {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}
+    {% endif %}
+{% endblock fos_user_content %}
+{#
+{% extends "::base.html.twig" %}
 
 {% block title %}{{ 'access_denied.title'|trans() }} - {{ parent() }}{% endblock %}
 
@@ -82,7 +96,7 @@
 {% block body %}
     <h1>{{ 'access_denied.title'|trans() }}</h1>
     <p>{{ 'access_denied.message1'|trans|raw }}</p>
-    <p>Joe beta</p>
+    <p>Joe</p>
     {% render(controller('LittleBigJoeFrontendBundle:Error403:editCodeBeta', {'request': app.request})) %}
 {% endblock %}
 
@@ -109,3 +123,4 @@
         <div class="footer-mascot"><img src="{{ asset('static/img/bg/footer-mascot.png') }}" alt="alt-LBJ - footer mascot"/></div>
     </div>
 {% endblock %}
+#}
