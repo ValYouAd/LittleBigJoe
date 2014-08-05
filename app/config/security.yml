@@ -56,6 +56,6 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/efconnect, role: ROLE_USER }
         - { path: ^/elfinder, role: ROLE_USER }
-        - { path: ^/, role: ROLE_BETA_USER }
+#        - { path: ^/, role: ROLE_BETA_USER }
 
 

@@ -15,7 +15,6 @@
         <parameter key="littlebigjoe.media.provider.youtube.class">LittleBigJoe\Bundle\FrontendBundle\Provider\YoutubeProvider</parameter>
         <parameter key="littlebigjoe.media.provider.vimeo.class">LittleBigJoe\Bundle\FrontendBundle\Provider\VimeoProvider</parameter>
         <parameter key="littlebigjoe.media.provider.factory.class">LittleBigJoe\Bundle\FrontendBundle\Provider\ProviderFactory</parameter>
-        <parameter key="twig.controller.exception.class">LittleBigJoe\Bundle\FrontendBundle\Controller\TwigExceptionController</parameter>
     </parameters>
 		
     <services>

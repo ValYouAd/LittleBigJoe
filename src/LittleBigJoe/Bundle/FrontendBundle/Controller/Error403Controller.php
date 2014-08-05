@@ -1,32 +1,22 @@
 <?php
 
 namespace LittleBigJoe\Bundle\FrontendBundle\Controller;
+use LittleBigJoe\Bundle\FrontendBundle\TwigExceptionEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use LittleBigJoe\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
+use Symfony\Component\Form\FormError;
 
 
 class Error403Controller extends Controller
 {
     public function editCodeBetaAction(Request $request) {
-  /*      $user = $this->container->get('security.context')->getToken()->getUser();
-        if (!is_object($user) || !$user instanceof User) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
-
-        $dispatcher = $this->container->get('event_dispatcher');
-
-        $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_INITIALIZE, $event);
-
-        if (null !== $event->getResponse()) {
-            return $event->getResponse();
-        }*/
-
-        $user = $request->getUser();
+//        $token = $this->get('security.context')->getToken();
+//        $token->getUser()->setSomethingThatAffectsTheRoleArray( true );
+        // flush document manager or sth like that
+        $user = $this->getUser();
 
         $form = $this->createFormBuilder($user)
                 ->add('betaCodeValue', 'text', array('label' => ('Get your beta access now!'), 'required' => false))
@@ -35,16 +25,41 @@ class Error403Controller extends Controller
 
         $form->handleRequest($request);
 
-        echo $request->getMethod();
-        if ($form->isSubmitted()) echo "submitted";
-        else echo "not submitted";
         if ('POST' === $request->getMethod()) {
+            $betaCodeValue = $user->getBetaCodeValue();
             if ($form->isValid()) {
-//                echo "test";die;
-//              return $this->redirect($this->generateUrl('task_success'));
+                if (!empty($betaCodeValue)) {
+                    $betaCode = $this->container->get('doctrine')->getRepository('LittleBigJoeCoreBundle:Code')->findOneByCode($betaCodeValue);
+                    if ($betaCode) {
+                        if ($betaCode->getMaxUse() <= $betaCode->getUsed() && $betaCode->getMaxUse() != 0) {
+                            $form->get('betaCodeValue')->addError(new FormError(('The beta code has been used too many times')));
+                        } else {
+                            $user->setBetaCode($betaCode);
+                            $user->setRoles(array('ROLE_BETA_USER'));
+                            $betaCode->setUsed($betaCode->getUsed() + 1);
+                        }
+                    } else {
+                        $form->get('betaCodeValue')->addError(new FormError(('The beta code is incorrect')));
+                    }
+                    $errors = $form->get('betaCodeValue')->getErrors();
+                    if (!empty($errors)) {
+//                        $event->setResponse($this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.twig', array(
+//                            'form' => $form->createView(),
+//                        )));
+                        return $this->render('LittleBigJoeFrontendBundle:Error403:error403.html.twig', array(
+                            'form' => $form->createView(),
+                        ));
+                    }
+                    else {
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($user);
+                        $em->flush();
+//                        $token->setAuthenticated(false);
+                        return $this->redirect($this->generateUrl('fos_user_registration_confirmed'));
+                    }
+                }
             }
         }
-
         return $this->render('LittleBigJoeFrontendBundle:Error403:error403.html.twig', array(
             'form' => $form->createView(),
         ));
