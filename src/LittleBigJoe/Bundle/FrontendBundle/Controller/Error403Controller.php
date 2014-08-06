@@ -18,7 +18,7 @@ class Error403Controller extends Controller
         $is_beta_user = (in_array('ROLE_BETA_USER', $user->getRoles()) != false) ? true : false ;
 
         $form = $this->createFormBuilder($user)
-                ->add('betaCodeValue', 'text', array('label' => ('Get your beta access now!'), 'required' => false))
+                ->add('betaCodeValue', 'text', array('required' => false))
                 ->add('submitCode', 'submit', array('label' => ('Submit')))
                 ->getForm();
 
@@ -31,14 +31,14 @@ class Error403Controller extends Controller
                     $betaCode = $this->container->get('doctrine')->getRepository('LittleBigJoeCoreBundle:Code')->findOneByCode($betaCodeValue);
                     if ($betaCode) {
                         if ($betaCode->getMaxUse() <= $betaCode->getUsed() && $betaCode->getMaxUse() != 0) {
-                            $form->get('betaCodeValue')->addError(new FormError(('The beta code has been used too many times')));
+                            $form->get('betaCodeValue')->addError(new FormError(($this->get('translator')->trans('betacode.used_too_many_times'))));
                         } else {
                             $user->setBetaCode($betaCode);
                             $user->setRoles(array('ROLE_BETA_USER'));
                             $betaCode->setUsed($betaCode->getUsed() + 1);
                         }
                     } else {
-                        $form->get('betaCodeValue')->addError(new FormError(('The beta code is incorrect')));
+                        $form->get('betaCodeValue')->addError(new FormError(($this->get('translator')->trans('betacode.incorrect'))));
                     }
                     $errors = $form->get('betaCodeValue')->getErrors();
                     if (empty($errors)) {
@@ -49,6 +49,7 @@ class Error403Controller extends Controller
                         return $this->render('LittleBigJoeFrontendBundle:Error403:error403.html.twig', array(
                             'form' => $form->createView(),
                             'is_beta_user' => true,
+                            'user' => $user,
                         ));
                     }
                 }
@@ -57,6 +58,7 @@ class Error403Controller extends Controller
         return $this->render('LittleBigJoeFrontendBundle:Error403:error403.html.twig', array(
             'form' => $form->createView(),
             'is_beta_user' => $is_beta_user,
+            'user' => $user,
         ));
     }
 }

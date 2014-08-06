@@ -115,3 +115,6 @@ fos_user.username.already_used: fos_utilisateur.nomdutilisateur.deja_pris
 fos_user.username.blank: fos_utilisateur.nomdutilisateur.vide
 fos_user.username.long: fos_utilisateur.nomdutilisateur.long
 fos_user.username.short: fos_utilisateur.nomdutilisateur.court
+betacode:
+    used_too_many_times: 'Le code beta a été utilisé un trop grand nombres de fois'
+    incorrect: 'Le code beta est incorrect'

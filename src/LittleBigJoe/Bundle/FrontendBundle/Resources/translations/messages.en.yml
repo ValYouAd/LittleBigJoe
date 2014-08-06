@@ -426,3 +426,7 @@ supporters: supporters
 €: €
 '€ or more': '€ or more'
 '%currentUser% has declined the product %product%': '%currentUser% has declined the product %product%'
+
+betacode:
+    incorrect: 'The beta code is incorrect'
+    used_too_many_times: 'The beta code has been used too many times'
