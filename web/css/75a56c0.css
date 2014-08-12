@@ -8747,7 +8747,7 @@ article .article-footer .back-link {
   padding-bottom: 21px;
   padding-left: 285px;
   padding-right: 15px;
-  height: 142.5px;
+  height: 160px;
   border-bottom: 1px solid #f0ede8;
   z-index: 1;
 }
@@ -9392,6 +9392,13 @@ article .article-footer .back-link {
 }
 #contactContainer {
   margin-left: 15px;
+}
+.socialShare {
+  width: 300px!important;
+}
+.fb_iframe_widget {
+  vertical-align: top;
+  margin-right: 35px;
 }
 .aside-part {
   float: right !important;
