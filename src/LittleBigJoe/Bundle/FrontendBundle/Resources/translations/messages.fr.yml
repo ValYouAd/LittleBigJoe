@@ -6,21 +6,30 @@
 
 1:
     ' Create my project': '1. Créez & Découvrez'
+    ' Inspire people!': '1. Donnez envie!'
 
 '1€ and more': '1€ et plus'
 
 2:
     ' Engagement & funding phase': '2. Faites du bruit !'
+    ' Stand out': '2. Dé-marquez-vous'
 
 '3 Villa du Clos de Malevart': '94 rue de la Victoire'
 
 3:
+    ' It’s all about getting involved': '3. S’impliquer, la clé du succès'
     ' Launch my project': '3. Financez votre rêve'
 
 'A problem has occured during your payment':
     '': 'Un problème est survenu lors de votre paiement.'
 
 'A project has been reported': 'Un projet a été signalé'
+
+'A successful project should inspire':
+    ' Make us dream! Use visually appealing images at a high resolution and quality videos':
+        " Be creative\n                whilst making sure you have good presentation and text":
+            '': 'Un projet réussi donne envie. Faites rêver! Utilisez de belles images, en grand format, des vidéos de qualité. Soyez créatif tout en soignant la présentation et la communication.'
+
 'A user has reported the following project : ': 'Un utilisateur a signalé le projet suivant : '
 About: 'A propos'
 'Account deletion': 'Suppression de compte'
@@ -33,6 +42,7 @@ About: 'A propos'
 'Add new entry comment': 'Ajouter un nouveau commentaire sur l''article'
 'Add new file': 'Ajouter un nouveau fichier'
 'Add new reward': 'Ajouter une nouvelle récompense'
+'Advice for a successful project!': 'Conseils pour un projet réussi!'
 'All brands': 'Toutes les marques'
 'All projects': 'Tous les projets'
 Amount: Montant
@@ -76,12 +86,20 @@ Amount: Montant
 'Associated categories': 'Catégories associées'
 'Back office': 'Back office'
 'Beta code': 'Code beta'
+
+'Beyond convincing the community about your idea, this will help convince the brand that your project fits well with their values & style':
+    '': 'Au-delà de la communauté, il faudra convaincre la marque que votre projet lui ressemble et qu’il s’inscrit dans son style & ses valeurs.'
+
 Bio: Bio
 'Biography of': 'Biographie de'
 'Birthday date': 'Date de naissance'
 Blog: Blog
 Brands: Marques
 By: Par
+
+'Calling all dreamers and creatives':
+    '': 'Bienvenue aux rêveurs et créatifs,'
+
 Cancel: Annuler
 Categories: Catégories
 'Choose awards': 'Sélectionnez les récompenses'
@@ -155,10 +173,12 @@ Gender: Genre
 'Getting online': 'Passer en ligne'
 'Go back to project page': 'Retourner sur la page du projet'
 'Google+ URL': 'URL Google+'
+'Have a question? Contact us at': 'Une question? Ecrivez-nous à'
 Hello: Bonjour
 'Hello, a new user have made a contact request :': 'Bonjour, un nouvel utilisateur a effectué une demande de contact :'
 'Help us to realize this project': 'Aidez-nous à réaliser ce projet'
 Her: Ses
+'Here are 3 key pieces of advice before you start!': 'N’oubliez pas de suivre ces quelques conseils!'
 'Here''s some details regarding this report : ': 'Détails de ce signalement : '
 'Here''s some infos regarding your contribution :': 'Voici des informations concernant votre contribution :'
 'Here''s the important data regarding this contribution': 'Voici des informations importantes concernant votre contribution'
@@ -191,10 +211,15 @@ Launch: Lancer
 'Likes to get': '''J''aime'' à obtenir'
 Limited: Limited
 'Little Big Joe': 'Little Big Joe'
+
+'LittleBigJoe is here to guide you in the creation of your project : The <a href="%howdoesitworkroute%">How it works</a> page explains the 3 easy steps to launch a project':
+    " The\n                FAQ is there to answer most of your questions and you can use the Best Practices to find hints, tips and examples of how to best create\n                and present your project!": 'LittleBigJoe vous accompagne dans la création de votre projet: les 3 étapes de la réalisation d’un projet sont expliquées dans le <a href="%howdoesitworkroute%">Comment ça marche?</a> Le FAQ répondra à la majorité de vos questions et vous pourrez vous servir des Best practices pour vous inspirer dans la présentation de votre projet.'
+
 Location: Lieu
 Login: Connexion
-Main photo: Photo principale
+Logo: Logo
 Logout: Déconnexion
+'Main photo': 'Photo principale'
 'Make some noise with your friends and increase the odds of turning this amazing idea into reality !': 'Faites du bruit auprès de vos amis et augmentez les chances de voir cette idée géniale devenir réalité !'
 'Maximum quantity by user': 'Quantité maximum par utilisateur'
 'Media gallery': 'Galerie des médias'
@@ -258,8 +283,6 @@ Product: Produit
 'Product ending at': 'Le produit se termine le'
 'Product type': 'Type de produit'
 Project: Projet
-'Project creation': 'Création de projet'
-'Project description content': 'Contenu de la description du projet'
 'Project ending at': 'Le projet se termine le'
 'Project owner gift': 'Cadeau pour le créateur du projet'
 Projects: Projets
@@ -269,6 +292,7 @@ Quantity: Quantité
 'Read the terms': 'Lire les CGU'
 Reason: Raison
 'Recently updated': 'Récemment mis à jour'
+'Registered since': 'Inscrit(e) depuis le'
 Registration: Inscription
 'Related project': 'Projet lié'
 Report: Signaler
@@ -296,6 +320,7 @@ Search: Rechercher
 Send: Envoyer
 'Share my support on Facebook': 'Partager mes soutiens sur Facebook'
 'Share my support on Twitter': 'Partager mes soutiens sur Twitter'
+'Share your enthusiasm through text and images!': 'Partagez votre enthousiasme par les images et le texte!'
 
 'Some fields are required':
     ' Please fill them before submitting the form': 'Certains champs sont requis. Veuillez les compléter avant de soumettre le formulaire'
@@ -340,6 +365,10 @@ Submit: Soumettre
 'The project': 'Le projet'
 'There''s a new contribution on the': 'Il y a une nouvelle contribution pour le'
 'There''s no comments for the moment': 'Il n''y a aucun commentaire pour le moment'
+
+'There''s no contributions for the moment':
+    '': 'Il n''y a aucune contribution pour le moment.'
+
 'There''s no feedbacks for the moment': 'Il n''y a aucun retour pour le moment'
 
 'There''s no media added to your product':
@@ -350,8 +379,13 @@ Submit: Soumettre
 
 'There''s no news for the moment': 'Il n''y a aucune news pour le moment'
 'There''s no participants for the moment': 'Il n''y a aucun participant pour le moment'
-'There''s no projects for the moment': 'There''s no projects for the moment'
+'There''s no projects for the moment': 'Il n''y a pas de projet pour le moment.'
+'There''s no projects for the moment.': 'Il n''y a pas de projet pour le moment.'
 'There''s no results for your search': 'Il n''y a aucun résultat pour votre recherche'
+
+"This is YOUR project! Own it! It will need enough votes and funding in order to go forward so make your project take centre stage, tell your\n                friends how great it is, find networks and communities of awesome, passionate people on blogs and social networks and get them on\n                board":
+    '': 'Pour réussir, un projet doit réunir assez de votes et de financements. A vous de faire sa promotion! Donnez-lui de la visibilité: parlez-en autour de vous, sur les réseaux sociaux, sur un blog, trouvez les communautés de passionnés.'
+
 'This is spam': 'Ceci est du spam'
 
 'This is the second revival':
@@ -363,6 +397,7 @@ Submit: Soumettre
 'Top funded projects': 'Projets les plus financés'
 Total: Total
 'Total likes': 'Total de ""j''aime'''
+Tweet: Tweet
 Twitter: Twitter
 'Twitter URL': 'URL de la page Twitter'
 Types: Types
@@ -401,12 +436,17 @@ Yes: Oui
 
 'You''ve been refund for your contribution': 'Vous avez été remboursé pour votre contribution'
 'You''ve been refunded for your contribution on the': 'Vous avez été remboursé pour la contribution du'
+
+"Your choice of brand is not random! We want to hear more! Tell us a bit about why you love the brand and why you chose it for your\n                project":
+    '': 'Ce n’est pas au hasard que vous avez choisi une marque pour réaliser votre idée. Dites ce que vous appréciez chez la marque et expliquez pourquoi elle est votre choix pour ce projet.'
+
 'Your email': 'Votre email'
 'Your email has been sent! Thanks!': 'Votre email a bien été envoyé! Merci!'
 'Your message': 'Votre message'
 'Your name': 'Votre nom'
 'Your product medias': 'Les médias de votre produit'
 'Your project medias': 'Les médias de votre projet'
+'Your project needs YOU!': 'Votre projet a besoin de VOUS!'
 'about this project': 'à propos du projet'
 available: disponible
 'brand wants to create an product for your project :': 'veut créer un produit pour le projet :'
@@ -460,11 +500,3 @@ supporters: supporters
 '{0} project|{1} project|]1,Inf] projects': 'aucun projet|{1} projet|]1,Inf] projets'
 €: €
 '€ or more': '€ ou plus'
-Edit my profile: 'Modifier mon compte'
-My contributions: 'Mes contributions'
-'There''s no contributions for the moment.': 'Il n''y a aucune contribution pour le moment.'
-'There''s no projects for the moment.': 'Il n''y a pas de projet pour le moment.'
-'There''s no projects for the moment': 'Il n''y a pas de projet pour le moment.'
-Registered since: 'Inscrit(e) depuis le'
-My: Ma
-biography: biographie

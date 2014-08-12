@@ -398,7 +398,19 @@ class ProjectController extends Controller
      */
     public function preambleCreateProjectAction(Request $request)
     {
-        return array();
+        $em = $this->getDoctrine()->getManager();
+
+        // Add "How does this website work ?" link
+        $howDoesItWorkRoute = '';
+        $pageId = $this->container->getParameter('howdoesitwork_page_id');
+        if (!empty($pageId) && $page = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($pageId))
+        {
+            $howDoesItWorkRoute = $this->generateUrl('littlebigjoe_frontendbundle_page_show', array('slug' => $page->getSlug()));
+        }
+
+        return array(
+            'howDoesItWorkRoute' => $howDoesItWorkRoute
+        );
     }
 
     /**
