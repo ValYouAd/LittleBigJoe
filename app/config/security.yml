@@ -52,7 +52,7 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/en/page/cgv, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/fr/page/cgv, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/beta, role: ROLE_USER }
+        - { path: ^/en/beta, role: ROLE_USER }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/efconnect, role: ROLE_USER }
         - { path: ^/elfinder, role: ROLE_USER }

@@ -1919,6 +1919,7 @@ select[multiple].input-lg {
   margin-bottom: 10px;
   color: #848d9d;
 }
+
 @media (min-width: 768px) {
   .form-inline .form-group {
     display: inline-block;
@@ -6869,7 +6870,11 @@ button.classic-style:hover,
   -o-transition: color 200ms ease-out;
   transition: color 200ms ease-out;
 }
-button.validate-style,
+
+.error403submit {
+    width: 90px;
+}
+.error403submit, button.validate-style,
 .btn.validate-style {
   background: #8ab424;
   color: #ffffff;
@@ -6889,7 +6894,7 @@ button.validate-style,
   text-shadow: 1px -1px 0px #698a1c;
   border-color: #f0ede8;
 }
-button.validate-style:hover,
+.error403submit:hover, button.validate-style:hover,
 .btn.validate-style:hover {
   background: #78c8cf;
   color: #ffffff;
@@ -6904,6 +6909,12 @@ button.validate-style:hover,
   -o-text-shadow: none;
   text-shadow: none;
 }
+
+.error403code {
+    width: 150px;
+    background-color:#ffffff;
+}
+
 button.subscribe-style,
 .btn.subscribe-style {
   background: #fa7451;

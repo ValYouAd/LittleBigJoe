@@ -2,8 +2,107 @@
 
 {% block title %}{{ 'access_denied.title'|trans() }} - {{ parent() }}{% endblock %}
 
+{% block header %}
+    {% set header_vars = {'logged': false} %}
+    <div class="colored-nav-container">
+        <div class="container header-container">
+
+            <nav class="navbar navbar-default navigation-container" role="navigation">
+
+                <a class="logo mascot" href="{{ path('littlebigjoe_frontendbundle_home') }}">
+                    <img src="{{ asset('static/img/mascot.png') }}" alt="alt-LBJ - little big joe" />
+                </a>
+
+                <div class="navbar-header">
+                    <a class="logo" href="{{ path('littlebigjoe_frontendbundle_home') }}">Little<span class="black">Big</span><span class="grand-hotel">Joe</span></a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse" id="main-nav">
+                    <ul class="nav navbar-nav navbar-right login-container" style="margin-right: -30px;">
+                            <li class="dropdown login">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <div class="user-login-img-container">
+                                        {% if app.user.photo %}
+                                            <img class="user-login-img" src="{{ asset(app.user.photo) }}" alt="alt-LBJ - user-pic" />
+                                        {% else %}
+                                            <img class="user-login-img" src="{{ asset('static/img/mascot.png') }}" alt="alt-LBJ - user-pic" />
+                                        {% endif %}
+                                    </div>
+                                    <div class="username">
+                                        <span>{{ app.user.firstname }} </span>
+                                        (<span id="unread_notifications"></span>)
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="dark-item"><a href="{{ path('fos_user_profile_show') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - profile icon" /> {{ 'My account'|trans() }}</a></li>
+                                    <li class="dark-item"><a href="{{ path('littlebigjoe_frontendbundle_user_news') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - edit icon" /> {{ 'My news'|trans() }}</a></li>
+                                    <li class="dark-item"><a href="{{ path('littlebigjoe_frontendbundle_user_projects') }}"><img class="icon" src="{{ asset('static/img/icons/icon-myprofile.png') }}" alt="alt-LBJ - edit icon" /> {{ 'My projects'|trans() }}</a></li>
+                                    <li class="light-item"><a href="{{ path('fos_user_security_logout') }}"><img class="icon" src="{{ asset('static/img/icons/icon-logout.png') }}" alt="alt-LBJ - logout icon" /> {{ 'Logout'|trans() }}</a></li>
+                                </ul>
+                            </li>
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div id="quick-start-container">
+        <div class="container">
+            <div class="quick-start-step step-1">
+                <span>{{ '1. Create my project'|trans() }}</span>
+            </div>
+
+            <div class="quick-start-step step-2">
+                <span>{{ '2. Engagement & funding phase'|trans() }}</span>
+            </div>
+
+            <div class="quick-start-step step-3">
+                <span>{{ '3. Launch my project'|trans() }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="image-message-container">
+        <div class="container">
+            {% block trans %}
+                <p>{{ 'Submit & participate'|trans() }} <span class="grand-hotel">{{ 'for free'|trans() }}</span> {{ 'in projects right now, by'|trans() }}
+                    <strong>{{ 'signing up'|trans() }}</strong> <span id="imc-arrow">&#x25BC;</span></p>
+            {% endblock %}
+        </div>
+    </div>
+
+{% endblock %}
+
 {% block body %}
-    <h1>{{ 'access_denied.title'|trans() }}</h1>
-    <p>{{ 'access_denied.message1'|trans|raw }}</p>
-    <p>Joe</p>
+    {% render(controller('LittleBigJoeFrontendBundle:Error403:editCodeBeta', {'request': app.request})) %}
+{% endblock %}
+
+{% block footer %}
+
+    <div class="waved-footer"></div>
+
+    <div class="colored-footer-container">
+        <div class="container">
+
+            <div class="double-separator"></div>
+
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <div class="footer-copyrights">&copy; Copyright 2013</div>
+                    <div class="footer-utils">
+                        {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:footerUtilsMenu') }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-mascot"><img src="{{ asset('static/img/bg/footer-mascot.png') }}" alt="alt-LBJ - footer mascot"/></div>
+    </div>
 {% endblock %}
