@@ -1,0 +1,24 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.faq_category'|trans() }} {{ entity.name|striptags }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="faq-category-header">
+    <h1><span class="glyphicon glyphicon-search"></span> {{ 'backend.faq_category'|trans() }} <span
+                class="text-primary">{{ entity.name|striptags }}</span></h1>
+</div>
+<p class="lead">{{ 'backend.faq_category_infos'|trans() }}</p>
+
+<h3 class="media-heading">{{ entity.name|striptags }}</h3>
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_faq_categories') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_faq_categories_edit', { 'id': entity.id }) }}">
+            {{ 'backend.edit'|trans() }}
+        </a>
+    </p>
+    {% endblock %}

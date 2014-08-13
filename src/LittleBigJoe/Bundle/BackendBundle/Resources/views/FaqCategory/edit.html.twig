@@ -1,0 +1,31 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.edit_faq_category'|trans() }} {{ entity.name|striptags }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="faq-category-header">
+        <h1><span class="glyphicon glyphicon-edit"></span> {{ 'backend.edit_faq_category'|trans() }} <span
+                    class="text-primary">{{ entity.name|striptags }}</span></h1>
+    </div>
+    <p class="lead">{{ 'backend.fill_fields'|trans() }}</p>
+
+    {{ form(edit_form, {attr:{role:'form' }}) }}
+
+    <div class="clearfix">&nbsp;</div>
+    <p>
+        <a class="btn btn-default" href="{{ path('littlebigjoe_backendbundle_faq_categories') }}">
+            {{ 'backend.back_to_list'|trans() }}
+        </a>
+    </p>
+
+    <div class="clearfix">&nbsp;</div>
+    <fieldset>
+        <legend>{{ 'backend.delete_faq_categories'|trans() }}</legend>
+        <p>{{ 'backend.delete_confirmation_faq_categories'|trans() }}</p>
+
+        {{ form(delete_form, {attr:{role:'form' }}) }}
+    </fieldset>
+    <div class="clearfix">&nbsp;</div>
+{% endblock %}

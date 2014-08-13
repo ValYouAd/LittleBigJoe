@@ -1,0 +1,52 @@
+{% extends '::admin.html.twig' %}
+
+{% block title %}
+    {{ 'backend.faq_categories_list'|trans() }} | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="faq_categories-header">
+        <h1><span class="glyphicon glyphicon-list"></span> {{ 'backend.faq_categories_list'|trans() }}</h1>
+    </div>
+    <p class="lead">{{ 'backend.faq_categories_list_resume'|trans() }}</p>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.ID'|trans(), 'f.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'backend.name'|trans(), 'f.name') }}</th>
+            <th>{{ 'backend.actions'|trans() }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('littlebigjoe_backendbundle_faq_categories_show', { 'id': entity.id }) }}">#{{ entity.id }}</a>
+                </td>
+                <td>{{ entity.name }} ...</td>
+                <td>
+                    <a class="btn btn-primary btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_faq_categories_show', { 'id': entity.id }) }}">{{ 'backend.show'|trans() }}</a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('littlebigjoe_backendbundle_faq_categories_edit', { 'id': entity.id }) }}">{{ 'backend.edit'|trans() }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('littlebigjoe_backendbundle_faq_categories_new') }}">
+            {{ 'backend.create_faq_category'|trans() }}
+        </a>
+    </p>
+{% endblock %}
