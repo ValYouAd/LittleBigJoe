@@ -55,6 +55,11 @@ class FaqType extends AbstractType
                     )
                 )
             ))
+            ->add('category', 'entity', array(
+                'label' => 'backend.category',
+                'class' => 'LittleBigJoeCoreBundle:FaqCategory',
+                'property' => 'name',
+            ))
             ->add('isVisible', 'choice', array(
                 'label' => 'backend.visibility',
                 'choices' => array(0 => 'backend.invisible', 1 => 'backend.visible')

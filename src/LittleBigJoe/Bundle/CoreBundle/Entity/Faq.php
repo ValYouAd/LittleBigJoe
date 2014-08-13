@@ -54,6 +54,12 @@ class Faq
     private $isVisible;
 
     /**
+     * @ORM\ManyToOne(targetEntity="FaqCategory", inversedBy="faqs")
+     * @ORM\JoinColumn(name="faq_category_id", referencedColumnName="id")
+     */
+    protected $category;
+
+    /**
      * @ORM\OneToMany(
      *     targetEntity="FaqTranslation",
      *  mappedBy="object",
@@ -149,6 +155,29 @@ class Faq
     public function getIsVisible()
     {
         return $this->isVisible;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\FaqCategory $category
+     * @return Faq
+     */
+    public function setCategory(\LittleBigJoe\Bundle\CoreBundle\Entity\FaqCategory $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\FaqCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 
     /**
