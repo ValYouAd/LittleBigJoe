@@ -1,5 +1,5 @@
 <div class="colored-nav-container">
-    <div class="container header-container">
+    <div class="container header-container" style="height: 90px">
 
         <nav class="navbar navbar-default navigation-container" role="navigation">
 
@@ -16,7 +16,7 @@
                 </button>
             </div>
 
-            <div class="collapse navbar-collapse" id="main-nav">
+            <div class="collapse navbar-collapse" id="main-nav" style="height: 90px!important">
                 {{ knp_menu_render('LittleBigJoeFrontendBundle:Builder:topMenu', {'currentClass': 'active', 'allow_safe_labels': true}) }}
 
                 <form method="get" action="{{ path('littlebigjoe_frontendbundle_search') }}" role="search" name="search">
@@ -83,8 +83,10 @@
 <div id="image-message-container">
     <div class="container">
         {% block trans %}
-            <p>{{ 'Submit & participate'|trans() }} <span class="grand-hotel">{{ 'for free'|trans() }}</span> {{ 'in projects right now, by'|trans() }}
-            <strong>{{ 'signing up'|trans() }}</strong> <span id="imc-arrow">&#x25BC;</span></p>
+            <p>{{ 'Pick your'|trans() }} <strong> {{ 'favorite brands'|trans() }}</strong> {{ '& bring '|trans() }} <span class="grand-hotel">{{ 'your dream products'|trans() }}</span>
+                {{ 'to life!'|trans() }}</p>
+            {#<p>{{ 'Submit & participate'|trans() }} <span class="grand-hotel">{{ 'for free'|trans() }}</span> {{ 'in projects right now, by'|trans() }}#}
+            {#<strong>{{ 'signing up'|trans() }}</strong> <span id="imc-arrow">&#x25BC;</span></p>#}
         {% endblock %}
     </div>
 </div>
