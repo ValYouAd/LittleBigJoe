@@ -21,7 +21,7 @@
             <a style="font-size: 12px;padding: 5px 10px;float:right;" href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary btn-sm">{{ 'Phase 2'|trans() }}</a>
          {% endif %}
         {% if canEditProject %}
-            <a style="font-size: 12px;padding: 5px 10px;float:right;" href="{{ path('littlebigjoe_frontendbundle_project_edit', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary btn-sm">{{ 'Edit'|trans() }}</a>
+            <a style="font-size: 12px;padding: 5px 10px;float:right;" href="{{ path('littlebigjoe_frontendbundle_project_edit', {'id': entity.id, 'slug': entity.slug}) }}" class="btn btn-primary btn-sm">{{ 'Edit my project'|trans() }}</a>
         {% endif %}
     {% else %}
         {% set canCreateProduct = true %}
