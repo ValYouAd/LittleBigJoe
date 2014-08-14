@@ -468,12 +468,15 @@ betacode:
     incorrect: betacode.incorrect   # FIXME
     used_too_many_times: betacode.used_too_many_times   # FIXME
 
+'& bring ': '& donnez vie aux '
 'brand wants to create an product for your project :': 'veut créer un produit pour le projet :'
 by: par
 'characters left': 'caractères restants'
 contributions: contributions
+your dream products: produits de vos rêves!
 element(s): élément(s)
 evolution: évolution
+favorite brands: marques préférées
 'for %brand%%url%': 'pour %brand%%url%'
 'for contributing to the': 'pour votre contrbution au'
 'for free': gratuitement
@@ -493,9 +496,11 @@ max:
     '': max.
 
 'my project': 'mon projet'
+My contributions: Mes contributions
 on: sur
 'on @LittleBigJoe %url%': 'sur @LittleBigJoe %url%'
 participants: participants
+'Pick your': 'Choisissez vos'
 'posted a new entry': 'a posté un nouvel article'
 product: produit
 'product is related to the following project': 'produit lié au projet suivant'
@@ -510,6 +515,7 @@ remaining: restant(e)s
 supporters: supporters
 'this week': 'cette semaine'
 'to be funded': 'à financer'
+'to life!': ''
 'to this project': 'à ce projet'
 'wonderful project': 'incroyable projet'
 '{0} Comment|{1} Comment|]1,Inf] Comments': '__{0} Commentaire|{1} Commentaire|]1,Inf] Commentaires'
