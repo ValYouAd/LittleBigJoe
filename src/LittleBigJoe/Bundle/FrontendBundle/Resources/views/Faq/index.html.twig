@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <section>
+        <article>
+            <div class="padding10 white-container">
+                <div class="article-header">
+                    <h2><span class="grand-hotel">{{ 'FAQ | Best practices'|trans() }}</span></h2>
+                </div>
+
+                {% if categories %}
+                    <ul>
+                        {% for category in categories %}
+                            <li><a href="#section_{{ category.id }}">{{ category }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if faqs %}
+                    <ul>
+                        {% for faq in faqs %}
+                            <li><a href="#section_{{ category.id }}">{{ category }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </article>
+    </section>
+{% endblock %}
