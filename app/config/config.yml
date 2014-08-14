@@ -136,7 +136,7 @@ fos_facebook:
     app_id: %api_facebook_id%
     secret: %api_facebook_secret%
     cookie: true
-    permissions: [email, publish_stream, user_about_me, user_birthday, user_location, user_website]
+    permissions: [email, publish_stream, user_about_me, user_birthday, user_location, user_website, user_photos]
 
 # HWIOAuthBundle Configuration
 hwi_oauth:

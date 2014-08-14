@@ -2,6 +2,7 @@
  
 namespace LittleBigJoe\Bundle\FrontendBundle\Security\Provider;
  
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -60,6 +61,7 @@ class FacebookProvider implements UserProviderInterface
         }
  
         if (!empty($fbdata)) {
+
             if (empty($user)) {
                 $user = $this->userManager->createUser();
                 $user->setEnabled(true);
@@ -71,7 +73,20 @@ class FacebookProvider implements UserProviderInterface
             if (count($this->validator->validate($user, 'Facebook'))) {
                 throw new UsernameNotFoundException('The facebook user could not be stored');
             }
-            
+
+            // Upload user photo
+            $relativePath = 'uploads/users/'.$fbdata['username'].'.jpg';
+            $localImage = $this->container->get('kernel')->getRootDir().'/../web/'.$relativePath;
+            $image = file_get_contents('http://graph.facebook.com/'.$fbdata['username'].'/picture?type=large');
+            $fp = fopen($localImage, "w");
+            fwrite($fp, $image);
+            fclose($fp);
+            $uploadedFile = new UploadedFile(
+                $relativePath,
+                $fbdata['username'].'.jpg'
+            );
+            $user->setPhoto($uploadedFile);
+
             // Stock temporarly user plain password, to send it by email
             $plainPassword = $user->getPlainPassword();
             
