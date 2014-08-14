@@ -79,7 +79,7 @@
 
                 {% for popularProject in popularProjects %}
                     {% if loop.index >= 2 and loop.index < 4 %}
-                        <div class="top-secondary-project">
+                        <div class="top-secondary-project img-container">
                             <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProject.id, 'slug': popularProject.slug}) }}">
                             {% if popularProject.photo %}
                                 <img class="top-thumbnail" src="{{ asset(popularProject.photo)|apply_filter('346x215') }}" alt="{{ popularProject.name }}" />
@@ -87,6 +87,11 @@
                                 <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('346x215') }}" alt="{{ popularProject.name }}" />
                             {% endif %}
                             </a>
+                            <div class="project-label">
+                                <a href="/fr/marque/test" class="white">
+                                    Test
+                                </a>
+                            </div>
                         </div>
                     {% endif %}
                 {% endfor %}
