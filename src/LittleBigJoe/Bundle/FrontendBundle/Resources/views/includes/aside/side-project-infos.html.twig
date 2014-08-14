@@ -1,9 +1,18 @@
 {% if like %}
+    {% set isLikedProject = false %}
+    {% if entity.likes|length > 0 %}
+        {% for like in entity.likes %}
+            {% if like.user.id == app.user.id %}
+                {% set isLikedProject = true %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
     <div class="side-infos-block">
         <div class="project-stats">
             <div class="likes">
                 <img class="icon" src="{{ asset('static/img/icons/icon-like-it.png') }}" alt="alt-LBJ - like icon" />
-                <span class="orange-text"><strong>{{ entity.likesCount|default('0') }}</strong></span> {% transchoice entity.likesCount|default('0')|length() %}{0} like|{1} like|]1,Inf] likes{% endtranschoice %}
+                <span class="orange-text"><strong class="likes_count">{{ entity.likesCount|default('0') }}</strong></span> {% transchoice entity.likesCount|default('0')|length() %}{0} like|{1} like|]1,Inf] likes{% endtranschoice %}
             </div>
             <div class="days">
                 <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />
@@ -26,9 +35,9 @@
         </div>
 
         {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
-            <button id="likeProject" class="btn validate-style">{{ 'I like this project'|trans() }}</button>
+            <button id="likeProject" class="btn validate-style" {% if isLikedProject %}style="display:none"{% endif %}>{{ 'I like this project'|trans() }}</button>
+            <button id="unlikeProject" class="btn validate-style" {% if not isLikedProject %}style="display:none"{% endif %}>{{ 'Unlike this project'|trans() }}</button>
         {% endif %}
-        <p><a id="reportProjectButton" class="btn mosaic-style" href="#">{{ 'Report this project'|trans() }}</a></p>
     </div>
 {% endif %}
 
@@ -67,7 +76,6 @@
         {% if (is_granted('ROLE_USER') and app.user.id != entity.user.id) or (is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not is_granted('ROLE_USER')) %}
             {{ form(funding_form, {attr:{id:'fundingForm', role:'form'}}) }}
         {% endif %}
-        <p><a id="reportProjectButton" class="btn classic-style" href="#">{{ 'Report this project'|trans() }}</a></p>
     </div>
 {% endif %}
 
@@ -101,8 +109,13 @@
         <li class="links">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}#projects">
                 <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" />
-                {% transchoice entity.user.projects|length() %}{0} No project|{1} His project|]1,Inf] His projects{% endtranschoice %}
-                ( <span class="orange-text">{{ entity.user.projects|length }}</span> )
+                {% if entity.user.getAvailableProjects > 0 and entity.user.gender == '0' %}
+                    {{ 'His'|trans() }}
+                {% elseif entity.user.getAvailableProjects > 0 and entity.user.gender == '1' %}
+                    {{ 'Her'|trans() }}
+                {% endif %}
+                {% transchoice entity.user.getAvailableProjects %}{0} No project|{1} project|]1,Inf] projects{% endtranschoice %}
+                ( <span class="orange-text">{{ entity.user.getAvailableProjects }}</span> )
             </a>
         </li>
     </ul>
@@ -125,15 +138,17 @@
 {% if brand %}
 <div class="side-infos-block small-resp-block">
     <div class="brand-thumbnail-cont">
+        <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': entity.brand.slug}) }}">
         {% if entity.brand.logo %}
             <img class="brand-thumbnail" src="{{ asset(entity.brand.logo)|apply_filter('230x268') }}" width="80" height="93" />
         {% else %}
             <img class="brand-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('230x268') }}" alt="alt-LBJ - author" />
         {% endif %}
+        </a>
     </div>
 
     <ul class="brand-infos">
-        <li class="name">{{ entity.brand }}</li>
+        <li class="name"><a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': entity.brand.slug}) }}">{{ entity.brand }}</a></li>
         {% for project in entity.brand.projects|reverse|slice(0, 4) %}
             <li><a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">{{ project.name|e }}</a></li>
         {% endfor %}

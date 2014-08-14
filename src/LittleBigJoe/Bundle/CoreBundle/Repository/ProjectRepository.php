@@ -134,10 +134,10 @@ class ProjectRepository extends EntityRepository
                         FROM LittleBigJoeCoreBundle:Project p
                         WHERE p.deletedAt IS NULL
                         AND p.id = :id
-                        AND p.slug LIKE :slug
+                        AND p.slug = :slug
                     ')
             ->setParameter('id', $id)
-            ->setParameter('slug', '%' . $slug . '%')
+            ->setParameter('slug', $slug)
             ->setHint(
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
                 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'

@@ -1,0 +1,195 @@
+
+article{
+
+    &.wMosaic{
+	.make-xs-column(12, 0);
+	.make-sm-column(12, 0);
+	.make-md-column(9, 0);
+
+	.white-container{
+	    //height: @content-hh;
+
+	    @media(max-width: @screen-sm-max){
+		.border-radius-select(@top-right: @radius, @top-left: @radius);
+		border-bottom: none;
+	    }
+	    @media (max-width: @screen-xs-max){
+		height: auto;
+	    }
+	}
+    }
+
+    &.top-content{
+	.make-xs-column(12, @grid-gutter-width);
+	.make-sm-column(12, @grid-gutter-width);
+	.make-md-column(9, @grid-gutter-width);
+	margin-bottom: @grid-gutter-width;
+
+	.white-container{.padding-vert(@grid-gutter-width/2);}
+
+	.top-main-project{
+	    .make-xs-column(12, @grid-gutter-width);
+	    .make-sm-column(8, @grid-gutter-width);
+	    margin-bottom: @grid-gutter-width/2;
+	    @media(max-width: @screen-xs-max){margin-bottom: @grid-gutter-width;}
+
+	    .top-thumbnail-cont{
+		.top-thumbnail{.img-responsive();}
+		img{.global-border-radius();}
+	    }
+
+	    .top-infos{
+	  margin-top: 10px;
+	  border-top: 1px solid #f0ede8;
+	  padding-top: 10px;
+		h3{
+		    .font-ratio(@h3-ratio*1.3);
+		    float: left;
+		    @media(max-width: @screen-xs-max){
+			margin-bottom: 5px;
+			width: 100%;
+		    }
+		}
+		.author{
+		    .light-text();
+		    float: right;
+		    &:hover{.color-it(@text-color: @lbj-light-blue);}
+		    @media(max-width: @screen-xs-max){float: left;}
+		}
+		p{
+		    margin-top: 10px;
+		    width: 100%;
+		    float: left;
+		}
+		.status-bar-container{
+		    margin-top: 10px;
+		    width: 100%;
+		}
+	    }
+	}
+	.top-secondary-project{
+	    .make-xs-column(6, @grid-gutter-width);
+	    .make-sm-column(4, @grid-gutter-width);
+	    margin-bottom: @grid-gutter-width/2;
+	    img{.global-border-radius();}
+	    .top-thumbnail{
+		.img-responsive();
+		.opacity-hover();
+		cursor: pointer;
+	    }
+        a {
+          padding: 0;
+        }
+	}
+
+	.launch-btn{
+	    .make-xs-column(12, @grid-gutter-width);
+	    .make-sm-column(4, @grid-gutter-width);
+	    .btn{
+		width: 100%;
+		@media(min-width: @screen-xs-max){
+		    .font-ratio(@h2-ratio);
+		    padding: 0;
+		    line-height: 100px;
+		    height: 100px;
+		}
+	    }
+	}
+    }
+
+    &.classic{
+	.make-xs-column(12, @grid-gutter-width);
+	.make-sm-column(12, @grid-gutter-width);
+	.make-md-column(8, @grid-gutter-width);
+
+	margin-bottom: @grid-gutter-width;
+    }
+
+    &.fPage{
+	.make-xs-column(12, @grid-gutter-width);
+	.white-container{
+	    .article-header{
+		.padding-vert(@grid-gutter-width/2);
+		border-bottom: 1px solid @lbj-light-gray;
+	    }
+	}
+    }
+
+    &.wContent{
+	.padding-hor(@grid-gutter-width/2);
+    }
+
+    &.stuck{
+	padding-right: 0;
+	@media(max-width: @screen-sm-max){padding-right: @grid-gutter-width/2;}
+    }
+
+    .article-header{
+	.make-xs-column(12, @grid-gutter-width);
+	margin-bottom: @grid-gutter-width/2;
+
+	h1, h2{
+	    position: relative;
+	    z-index: 2;
+	    float: left;
+	    padding-right: @grid-gutter-width/2;
+	    .grand-hotel{
+		.grand-hotel(@lbj-orange, @h2-ratio);
+	    }
+	    @media(max-width: @screen-xs-max){
+		width: 100%;
+		.global-border-radius();
+		.color-it(@lbj-light-beige-so);
+		.padding-vert(10px);
+	    }
+	}
+
+	.btn{
+	    float: right;
+	    @media(max-width: @screen-xs-max){
+		float: left;
+		margin-top: @grid-gutter-width/2;
+	    }
+	}
+
+	.separator{
+	    .color-it(@lbj-light-gray-so);
+	    .hidden-xs;
+	    position: absolute;
+	    z-index: 1;
+	    height: 5px;
+	    width: 95%;
+	    margin-top: 12px;
+	}
+    }
+
+    .white-container{
+	.article-header{
+	    h1, h2{
+		.color-it(@white);
+		.grand-hotel{.color-it(@white, @lbj-orange);}
+	    }
+	}
+    }
+
+    .article-footer{
+	.make-xs-column(12, @grid-gutter-width);
+	.margin-vert(@grid-gutter-width);
+
+	button, .btn{
+	    width: 200px;
+	    @media(max-width: @screen-xs-max){
+		width: 124px;
+		&.validate-style{width: 100%;}
+	    }
+	}
+	.prev{float: left;}
+	.next{float: right;}
+
+	.back-link{
+	    line-height: 47px;
+	    text-align: center;
+	    @media(max-width: @screen-xs-max){width: 100%;}
+	}
+    }
+}

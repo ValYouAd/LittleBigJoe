@@ -31,6 +31,13 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="gender", type="integer", nullable=true)
+     */
+    protected $gender = '0';
+
+    /**
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
@@ -144,7 +151,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="city", type="string", length=255)
+     * @ORM\Column(name="city", type="string", length=255, nullable=true)
      *
      * @Assert\NotBlank(message = "You must enter your city")
      * @Assert\Length(
@@ -163,7 +170,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=255)
+     * @ORM\Column(name="country", type="string", length=255, nullable=true)
      *
      * @Assert\NotBlank(message = "You must enter your country")
      * @Assert\Country(message = "Your country name is invalid")
@@ -192,11 +199,6 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="bio", type="text", nullable=true)
-     *
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!]*$/",
-     *    message = "Your bio must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes"
-     * )
      */
     private $bio;
 
@@ -311,6 +313,18 @@ class User extends BaseUser
      */
     protected $productComments;
 
+    /**
+     * @var string
+     * @ORM\Column(name="betaCodeValue", type="string", nullable=true)
+     */
+    private $betaCodeValue;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Code", inversedBy="users")
+     * @ORM\JoinColumn(name = "betaCode_id", referencedColumnName = "id", onDelete="SET NULL")
+     */
+    protected $betaCode;
+
     public function __construct()
     {
         parent::__construct();
@@ -370,6 +384,29 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     * @return User
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 
     /**
@@ -1388,5 +1425,68 @@ class User extends BaseUser
     public function getProductComments()
     {
         return $this->productComments;
+    }
+
+    /**
+     * Set betaCodeValue
+     *
+     * @param string $betaCodeValue
+     * @return User
+     */
+    public function setBetaCodeValue($betaCodeValue)
+    {
+        $this->betaCodeValue = $betaCodeValue;
+    
+        return $this;
+    }
+
+    /**
+     * Get betaCodeValue
+     *
+     * @return string 
+     */
+    public function getBetaCodeValue()
+    {
+        return $this->betaCodeValue;
+    }
+
+    /**
+     * Set betaCode
+     *
+     * @param \LittleBigJoe\Bundle\CoreBundle\Entity\Code $betaCode
+     * @return User
+     */
+    public function setBetaCode(\LittleBigJoe\Bundle\CoreBundle\Entity\Code $betaCode = null)
+    {
+        $this->betaCode = $betaCode;
+    
+        return $this;
+    }
+
+    /**
+     * Get betaCode
+     *
+     * @return \LittleBigJoe\Bundle\CoreBundle\Entity\Code 
+     */
+    public function getBetaCode()
+    {
+        return $this->betaCode;
+    }
+
+    public function getAvailableProjects()
+    {
+        $nb = 0;
+        if (sizeof($this->projects) > 0)
+        {
+            foreach ($this->projects as $project)
+            {
+                if ($project->getDeletedAt() == null)
+                {
+                    $nb++;
+                }
+            }
+        }
+
+        return $nb;
     }
 }

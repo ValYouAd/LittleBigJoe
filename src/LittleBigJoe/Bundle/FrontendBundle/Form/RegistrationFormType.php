@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class RegistrationFormType extends BaseType
 {
@@ -31,6 +32,7 @@ class RegistrationFormType extends BaseType
         parent::buildForm($builder, $options);
         
         // Get session vars (setted via OAuth) if they are setted
+        $gender = $this->session->get('oauth_gender', '0');
         $firstname = $this->session->get('oauth_firstname', '');
         $lastname = $this->session->get('oauth_lastname', '');
         $email = $this->session->get('oauth_email', '');
@@ -68,6 +70,10 @@ class RegistrationFormType extends BaseType
         				'label' => 'Email address',
             		'data' => $email
         		))
+            ->add('gender', 'choice', array(
+                'label' => 'Gender',
+                'choices' => array('0' => 'Mr', '1' => 'Ms')
+            ))
             ->add('firstname', 'text', array(
                 'label' => 'Firstname',
             		'data' => $firstname
@@ -103,10 +109,12 @@ class RegistrationFormType extends BaseType
             ))
             ->add('city', 'text', array(
                 'label' => 'City',
-            		'data' => $location
+            		'data' => $location,
+                'required' => false
             ))
             ->add('country', 'country', array(
                 'label' => 'Country',
+                'required' => false
             ))
             ->add('defaultLanguage', 'locale', array(
                 'label' => 'Default language',
@@ -127,6 +135,14 @@ class RegistrationFormType extends BaseType
             		'data' => $bio,
                 'required' => false
             ))
+            ->add('cgv', 'checkbox', array(
+                'mapped' => false,
+                'empty_data' => false,
+                'required' => 'required',
+                'label' => 'I accept the applicable Terms of Use',
+                'data'=>false,
+                'constraints' => array(new NotNull())
+            ))
             ->remove('ipAddress');
     }
 
@@ -136,7 +152,8 @@ class RegistrationFormType extends BaseType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\User'
+            'data_class' => 'LittleBigJoe\Bundle\CoreBundle\Entity\User',
+            'translation_domain' => 'messages'
         ));
     }
 

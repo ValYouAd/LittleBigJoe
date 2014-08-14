@@ -41,15 +41,15 @@
 
             <div class="wContent-id-img">
                 {% if entity.photo %}
-                    <img src="{{ asset(entity.photo) }}" width="243" height="243" />
+		    <img src="{{ asset(entity.photo)|apply_filter('240x240') }}" />
                 {% else %}
-                    <img src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand" />
+		    <img src="{{ asset('static/img/mascot-square.png')|apply_filter('240x240') }}" />
                 {% endif %}
             </div>
 
             <div class="wContent-id-infos">
-                <div><span class="orange-text">{{ entity.projects|length|default('0') }}</span> {% transchoice entity.projects|length|default('0') %}{0} project|{1} project|]1,Inf] projects{% endtranschoice %}</div>
-                <div>{{ 'Registered since' }} <strong>{{ entity.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
+                <div><span class="orange-text">{{ entity.getAvailableProjects }}</span> {% transchoice entity.getAvailableProjects %}{0} project|{1} project|]1,Inf] projects{% endtranschoice %}</div>
+                <div>{{ 'Registered since'|trans() }} <strong>{{ entity.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
                 {% if entity.websiteUrl %}<a href="{{ entity.websiteUrl }}" target="_blank"><div class="orange-text"><strong>{{ entity.websiteUrl }}</strong></div></a>{% endif %}
                 <div class="social-links">
                     {% if entity.twitterUrl %}<a href="{{ entity.twitterUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
@@ -59,18 +59,27 @@
                 </div>
             </div>
 
-            {% if entity.projects|length > 0 %}
+            {% if entity.getAvailableProjects|length > 0 %}
                 <div class="article-header">
-                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" /> {% transchoice entity.projects|length %}{0} No project|{1} His project|]1,Inf] His projects{% endtranschoice %}</h2>
+                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" />
+                        {% if entity.getAvailableProjects > 0 and entity.gender == '0' %}
+                            {{ 'His'|trans() }}
+                        {% elseif entity.getAvailableProjects > 0 and entity.gender == '1' %}
+                            {{ 'Her'|trans() }}
+                        {% endif %}
+                        {% transchoice entity.getAvailableProjects %}{0} No project|{1} project|]1,Inf] projects{% endtranschoice %}
+                    </h2>
                     <div class="separator"></div>
                 </div>
 
-                {% for project in entity.projects %}
+                {% for project in entity.projects if project.deletedAt == null %}
                     <div class="list-container">
                         {% set list_pres_vars = {'project': project} %}
                         {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
                     </div>
                 {% endfor %}
+            {% else %}
+                <p class="nodata">{{ 'There\'s no projects for the moment.'|trans() }}</p>
             {% endif %}
 
             {% if distinctProjects|length > 0 %}
@@ -86,6 +95,8 @@
                         {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}
                     </div>
                 {% endfor %}
+            {% else %}
+                <p class="nodata">{{ 'There\'s no contributions for the moment.'|trans() }}</p>
             {% endif %}
             </div>
         </article>

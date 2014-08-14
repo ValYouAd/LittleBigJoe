@@ -2,7 +2,7 @@
 fos_user_change_password: /profil/changement-mot-de-passe
 
 # Desc: /profile/edit
-fos_user_profile_edit: /profil/edition
+fos_user_profile_edit: /profil/modification
 
 # Desc: /profile/
 fos_user_profile_show: /profil/
@@ -37,6 +37,9 @@ littlebigjoe_frontendbundle_brand_show: '/marque/{slug}'
 # Desc: /category/{slug}
 littlebigjoe_frontendbundle_category_show: '/categorie/{slug}'
 
+# Desc: /contact
+littlebigjoe_frontendbundle_contact: /contact
+
 # Desc: /
 littlebigjoe_frontendbundle_home: /
 
@@ -59,13 +62,16 @@ littlebigjoe_frontendbundle_project: /projets
 littlebigjoe_frontendbundle_project_almost_ending_projects: /projets-bientot-termines
 
 # Desc: /projects-of-followed-brands
-littlebigjoe_frontendbundle_project_brands_followed_projects: /projets-des-marques-suivies
+littlebigjoe_frontendbundle_project_brands_followed_projects: /projets-de-marques-suivies
 
 # Desc: /project/{id}-{slug}/create-product
-littlebigjoe_frontendbundle_project_create_product: '/projet/{id}-{slug}/creer-un-produit'
+littlebigjoe_frontendbundle_project_create_product: '/projet/{id}-{slug}/creer-produit'
 
 # Desc: /launch-my-project
 littlebigjoe_frontendbundle_project_create_project: /lancer-mon-projet
+
+# Desc: /launch-my-project/preamble
+littlebigjoe_frontendbundle_project_create_project_preamble: /lancer-mon-projet/preambule
 
 # Desc: /project/{id}-{slug}/edit
 littlebigjoe_frontendbundle_project_edit: '/projet/{id}-{slug}/edition'
@@ -89,7 +95,7 @@ littlebigjoe_frontendbundle_project_popular_week_projects: /projets-populaires-c
 littlebigjoe_frontendbundle_project_preview: /projet/prévisualisation
 
 # Desc: /project/{id}-{slug}/change-status
-littlebigjoe_frontendbundle_project_product_change_status: '/projet/{id}-{slug}/changer-le-status'
+littlebigjoe_frontendbundle_project_product_change_status: '/projet/{id}-{slug}/changer-statut'
 
 # Desc: /project/{id}-{slug}/feedbacks
 littlebigjoe_frontendbundle_project_product_feedbacks: '/projet/{id}-{slug}/retours'
@@ -101,7 +107,7 @@ littlebigjoe_frontendbundle_project_recently_updated_projects: /projets-recemmen
 littlebigjoe_frontendbundle_project_show: '/projet/{id}-{slug}'
 
 # Desc: /projects-supported
-littlebigjoe_frontendbundle_project_supported_projects: /projets-supportes
+littlebigjoe_frontendbundle_project_supported_projects: /projets-soutenus
 
 # Desc: /top-funded-projects
 littlebigjoe_frontendbundle_project_top_funded_projects: /projets-les-mieux-finances
@@ -109,11 +115,20 @@ littlebigjoe_frontendbundle_project_top_funded_projects: /projets-les-mieux-fina
 # Desc: /projects-of-followed-users
 littlebigjoe_frontendbundle_project_users_followed_projects: /projets-des-utilisateurs-suivis
 
+# Desc: /beta
+littlebigjoe_frontendbundle_registration_beta_confirmed: /beta
+
 # Desc: /search
 littlebigjoe_frontendbundle_search: /recherche
 
+# Desc: /delete-account
+littlebigjoe_frontendbundle_user_delete_account: /suppression-compte
+
 # Desc: /my-news
-littlebigjoe_frontendbundle_user_news: /mon-actualite
+littlebigjoe_frontendbundle_user_news: /mes-news
+
+# Desc: /my-projects
+littlebigjoe_frontendbundle_user_projects: /mes-projets
 
 # Desc: /user/{id}
 littlebigjoe_frontendbundle_user_show: '/utilisateur/{id}'

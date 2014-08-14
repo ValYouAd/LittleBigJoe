@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block meta_title %}
+    {{ entity }} | {{ parent() }}
+{% endblock %}
+
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/progress-bars.js') }}" ></script>
+{% endblock %}
+
+{% block body %}
+    <section>
+        <article>
+            <div class="padding10 white-container">
+                <div class="article-header">
+                    <h2><span class="grand-hotel">{{ 'Account deletion'|trans() }}</span></h2>
+                </div>
+
+                <div class="nodata">
+                    <p>{{ 'If you click on the following button, all your data will be deleted permanently. You\'ll not be available to retrieve them'|trans() }}</p>
+                    <div class="clearfix">&nbsp;</div>
+                    {{ form(form) }}
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock %}

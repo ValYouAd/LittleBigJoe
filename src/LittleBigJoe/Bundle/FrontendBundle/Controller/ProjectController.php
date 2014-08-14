@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Project;
+use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectImage;
 use LittleBigJoe\Bundle\CoreBundle\Entity\ProjectReward;
 use LittleBigJoe\Bundle\CoreBundle\Entity\Entry;
 use LittleBigJoe\Bundle\CoreBundle\Entity\EntryComment;
@@ -390,6 +391,29 @@ class ProjectController extends Controller
     }
 
     /**
+     * Preamble of project creation
+     *
+     * @Route("/launch-my-project/preamble", name="littlebigjoe_frontendbundle_project_create_project_preamble")
+     * @Template("LittleBigJoeFrontendBundle:Project:preamble.html.twig")
+     */
+    public function preambleCreateProjectAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // Add "How does this website work ?" link
+        $howDoesItWorkRoute = '';
+        $pageId = $this->container->getParameter('howdoesitwork_page_id');
+        if (!empty($pageId) && $page = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($pageId))
+        {
+            $howDoesItWorkRoute = $this->generateUrl('littlebigjoe_frontendbundle_page_show', array('slug' => $page->getSlug()));
+        }
+
+        return array(
+            'howDoesItWorkRoute' => $howDoesItWorkRoute
+        );
+    }
+
+    /**
      * Create new project
      *
      * @Route("/launch-my-project", name="littlebigjoe_frontendbundle_project_create_project")
@@ -632,12 +656,17 @@ class ProjectController extends Controller
             ));
         } // If the project is still available, show multi steps form (to edit all project datas)
         else {
+
+            $this->getRequest()->getSession()->set('currentlyEditedProject', $project->getId());
+
             // Get session vars
             $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
             if (empty($projectMedias)) {
                 $this->getRequest()->getSession()->set('projectMedias', $project->getMedias());
                 $projectMedias = $this->getRequest()->getSession()->get('projectMedias');
             }
+
+            $oldPhoto = $project->getPhoto();
 
             // Create form flow
             $flow = $this->get('littlebigjoefrontend.flow.project.editProject');
@@ -646,7 +675,14 @@ class ProjectController extends Controller
 
             if ($flow->isValid($form)) {
                 // Handle file upload in first step
-                $photo = $this->_fixUploadFile($project->getPhoto());
+                if ($project->getPhoto() != null)
+                {
+                    $photo = $this->_fixUploadFile($project->getPhoto());
+                }
+                else
+                {
+                    $project->setPhoto($oldPhoto);
+                }
                 $flow->saveCurrentStepData($form);
 
                 // If we're not on the final step
@@ -721,7 +757,7 @@ class ProjectController extends Controller
 
                     // Move tmp project medias from server, to project directory
                     if (!empty($projectMedias)) {
-                        foreach ($projectMedias as $projectMedia) {
+                        foreach ($projectMedias as $key => $projectMedia) {
                             if ($projectMedia['type'] == 'image') {
                                 $projectImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($projectMedia['id']);
                                 if (!empty($projectImage) && $projectImage instanceof ProjectImage) {
@@ -729,6 +765,7 @@ class ProjectController extends Controller
                                     copy($this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/' . basename($filePath));
                                     $path = preg_replace('#' . $filePath . '#', 'uploads/projects/' . $project->getId() . '/' . basename($filePath), $projectImage->getPath());
                                     $projectImage->setPath($path);
+                                    $projectImage->setProject($project);
                                 }
                             }
                         }
@@ -794,8 +831,8 @@ class ProjectController extends Controller
         foreach ($currentUser->getBrands() as $brand) {
             $brandIds[] = $brand->getId();
         }
-        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
-            !in_array($project->getBrand()->getId(), $brandIds)
+        if (!$currentUser->hasRole('ROLE_ADMIN') && !$currentUser->hasRole('ROLE_SUPER_ADMIN')
+            && !$currentUser->hasRole('ROLE_BRAND_ADMIN') && !in_array($project->getBrand()->getId(), $brandIds)
         ) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
@@ -1205,7 +1242,7 @@ class ProjectController extends Controller
         foreach ($currentUser->getBrands() as $brand) {
             $brandIds[] = $brand->getId();
         }
-        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
+        if (!$currentUser->hasRole('ROLE_ADMIN') && !$currentUser->hasRole('ROLE_SUPER_ADMIN') && !$currentUser->hasRole('ROLE_BRAND_ADMIN') &&
             !in_array($project->getBrand()->getId(), $brandIds) && $project->getUser()->getId() != $currentUser->getId()
         ) {
             $this->get('session')->getFlashBag()->add(
@@ -1276,7 +1313,7 @@ class ProjectController extends Controller
         }
 
         // If the current user is not an LBJ admin or project owner
-        if (!$currentUser->hasRole('ROLE_SUPER_ADMIN') && $project->getUser()->getId() != $currentUser->getId()) {
+        if (!$currentUser->hasRole('ROLE_ADMIN') && !$currentUser->hasRole('ROLE_SUPER_ADMIN') && $project->getUser()->getId() != $currentUser->getId()) {
             $this->get('session')->getFlashBag()->add(
                 'notice',
                 'You must be the owner or an administrator to change the status of the product'

@@ -1,3 +1,5 @@
+{% trans_default_domain 'messages' %}
+
 {% block body %}
     <section>
         <div class="aside-part classic">
@@ -18,15 +20,15 @@
 
                 <div class="wContent-id-img">
                     {% if user.photo %}
-                        <img src="{{ asset(user.photo) }}" width="243" height="243" />
+			            <img src="{{ asset(user.photo)|apply_filter('240x240') }}" />
                     {% else %}
-                        <img src="{{ asset('static/img/mascot-square.png') }}" alt="alt-LBJ - brand" />
+			            <img src="{{ asset('static/img/mascot-square.png')|apply_filter('240x240') }}" />
                     {% endif %}
                 </div>
 
                 <div class="wContent-id-infos">
-                    <div><span class="orange-text">{{ user.projects|length|default('0') }}</span> {{ 'projects' }}</div>
-                    <div>{{ 'Registered since' }} <strong>{{ user.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
+                    <div><span class="orange-text">{{ user.getAvailableProjects }}</span> {% transchoice user.getAvailableProjects %}{0} project|{1} project|]1,Inf] projects{% endtranschoice %}</div>
+                    <div>{{ 'Registered since'|trans() }} <strong>{{ user.mangopayCreatedAt|localizeddate('long', 'none') }}</strong></div>
                     {% if user.websiteUrl %}<a href="{{ user.websiteUrl }}" target="_blank"><div class="orange-text"><strong>{{ user.websiteUrl }}</strong></div></a>{% endif %}
                     <div class="social-links">
                         {% if user.twitterUrl %}<a href="{{ user.twitterUrl }}" target="_blank"><img class="icon" src="{{ asset('static/img/icons/icon-social-twitter.png') }}" alt="alt-LBJ - social" /></a>{% endif %}
@@ -41,8 +43,8 @@
                     <div class="separator"></div>
                 </div>
 
-                {% if user.projects|length > 0 %}
-                    {% for project in user.projects %}
+                {% if user.getAvailableProjects > 0 %}
+                    {% for project in user.projects if project.deletedAt == null %}
                         <div class="list-container">
                             {% set list_pres_vars = {'project': project} %}
                             {% include "LittleBigJoeFrontendBundle:includes:pres/list-pres.html.twig" with list_pres_vars %}

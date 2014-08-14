@@ -2,13 +2,27 @@
 
     <div class="img-container">
 
-        {% if project.photo %}
-            <img src="{{ asset(project.photo)|apply_filter('239x239') }}" width="239">
+        {% if project.status == '1' or project.product is not defined %}
+            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">
         {% else %}
-            <img class="pres-thumbnail" src="{{ asset('static/img/cc-logo-square.png') }}" alt="alt-LBJ - project image" />
+            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': project.id, 'slug': project.slug}) }}">
         {% endif %}
+            {% if project.photo %}
+                <img src="{{ asset(project.photo)|apply_filter('239x239') }}" width="239">
+            {% else %}
+                <img class="pres-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('239x239') }}" alt="alt-LBJ - project image" />
+            {% endif %}
+        </a>
 
         <div class="project-label">
+            <a class="white" href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': project.brand.slug}) }}">
+                {% if project.brand.logo %}
+                    <img alt="alt-LBJ - brand logo" src="{{ asset(project.brand.logo) }}" width="32" height="32" class="mosaic-brand-logo">
+                {% else %}
+                    {{ project.brand }}
+                {% endif %}
+            </a>
+
             {% if project.status != '1' %}
                 <span class="orange-text"><strong>{{ project.amountCount|default('0') }} &euro;</strong></span> {{ 'raised'|trans() }}
                 <img class="mosaic-project-type" src="{{ asset('static/img/icons/icon-mosaic-funded.png') }}" alt="alt-LBJ - project type" />
@@ -29,25 +43,25 @@
         {% endif %}
 
         {% set canCreateProduct = false %}
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            {% set canCreateProduct = true %}
-        {% elseif is_granted('ROLE_BRAND_ADMIN') %}
+        {% if is_granted('ROLE_BRAND_ADMIN') %}
             {% for brand in app.user.brands %}
                 {% if brand.id == entity.brand.id %}
                     {% set canCreateProduct = true %}
                 {% endif %}
             {% endfor %}
+        {% elseif is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+            {% set canCreateProduct = true %}
         {% endif %}
         {% if canCreateProduct and project.status == '1' and project.product and project.product.validatedAt is null %}
             <div class="clearfix"></div>
-            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': project.id, 'slug': project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
+            <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': project.id, 'slug': project.slug}) }}" class="btn btn-primary">{{ 'Phase 2'|trans() }}</a></p>
             <div class="clearfix"></div>
         {% endif %}
 
         {% if project.status == '1' or project.product is not defined %}
-            <p class="project-description">{{ project.pitch }}</p>
+            <p class="project-description">{{ project.pitch|truncate(140, true, '...') }}</p>
         {% else %}
-            <p class="project-description">{{ project.product.pitch }}</p>
+            <p class="project-description">{{ project.product.pitch|truncate(140, true, '...') }}</p>
         {% endif %}
 
         <div class="stat">
@@ -84,9 +98,9 @@
         <div class="keywords-container">
             {% for category in project.categories %}
                 <div class="keyword">
-                <span><a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug':category.slug}) }}">
-                        {{ category }}</a></span>
                     <img src="{{ asset('static/img/bg/keyword.png') }}" alt="alt-LBJ - keyword" />
+                    <span><a href="{{ path('littlebigjoe_frontendbundle_category_show', {'slug':category.slug}) }}">
+                        {{ category }}</a></span>
                 </div>
             {% endfor %}
         </div>

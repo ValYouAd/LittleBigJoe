@@ -1,0 +1,16 @@
+Edit profile: Edition de mon profil
+Edit my profile: Edition de mon profil
+Update my profile: Mettre à jour
+Delete my account: Supprimer mon compte
+Change password: Changer de mot de passe
+'Forgot your password ?': 'Mot de passe oublié ?'
+
+'Congratulations %username%, you are now registered':
+    '': 'Féliciations %username%, vous êtes inscrit.'
+
+'The site is not live yet':
+    ' Come back later':
+        '': 'Le site n''est pas encore disponible. Veuillez revenir plus tard'
+
+registration:
+    back: Retour

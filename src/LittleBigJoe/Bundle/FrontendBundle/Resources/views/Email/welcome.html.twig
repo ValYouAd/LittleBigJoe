@@ -1,22 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<!-- If you delete this meta tag, Half Life 3 will never be released. -->
-	<meta name="viewport" content="width=device-width" />
-	
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>{{ 'Welcome to Little Big Joe website'|trans() }}</title>
-</head> 
-<body bgcolor="#FFFFFF">
-	<p>{{ 'Hello'|trans() }} <strong>{{ user }}</strong>, {{ 'for registering in Little Big Joe website'|trans() }}</p>	
-	<p>{{ 'We are pleased to welcome you in this wonderful world !'|trans() }}</p>	
-	<p>{{ 'Here\'s the important data regarding your account'|trans() }}</p>
-	
-	<ul>
-		<li>{{ 'Email address'|trans() }} : <strong>{{ user.email }}</strong></li>
-		{% if plainPassword %}<li>{{ 'Password'|trans() }} : <strong>{{ plainPassword }}</strong></li>{% endif %}
-	</ul>
-	
-	<p>{{ 'We hope to see you soon in'|trans() }} <a href="{{ url }}">{{ url }}</a></p>
-</body>
-</html>
+<p>{{ 'Hello'|trans() }} <strong>{{ user }}</strong>, {{ 'for registering in Little Big Joe website'|trans() }}</p>
+<p>{{ 'We are pleased to welcome you in this wonderful world !'|trans() }}</p>
+<p>{{ 'Here\'s the important data regarding your account'|trans() }}</p>
+
+<ul>
+    <li>{{ 'Email address'|trans() }} : <strong>{{ user.email }}</strong></li>
+    {% if plainPassword %}<li>{{ 'Password'|trans() }} : <strong>{{ plainPassword }}</strong></li>{% endif %}
+</ul>
+
+<p>{{ 'We hope to see you soon in'|trans() }} <a href="{{ url }}">{{ url }}</a></p>

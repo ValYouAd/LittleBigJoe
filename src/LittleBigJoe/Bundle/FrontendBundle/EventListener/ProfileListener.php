@@ -11,14 +11,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class ProfileListener implements EventSubscriberInterface
 {
     protected $container;
+    protected $securityContext;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, SecurityContext $securityContext)
     {
         $this->container = $container;
+        $this->securityContext = $securityContext;
     }
 
     public static function getSubscribedEvents()
@@ -65,7 +68,11 @@ class ProfileListener implements EventSubscriberInterface
 	        	$em->persist($user);
 	        	$em->flush();
         }
-        
+
+        $request = $event->getRequest();
+        $request->setLocale($this->securityContext->getToken()->getUser()->getDefaultLanguage());
+        $request->getSession()->set('_locale', $this->securityContext->getToken()->getUser()->getDefaultLanguage());
+
         if (null === $response = $event->getResponse()) {
             $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
             return new RedirectResponse($url);

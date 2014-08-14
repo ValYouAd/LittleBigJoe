@@ -22,8 +22,8 @@
             </a>
         </div>
         <div class="media-body">
-            <h3 class="media-heading">{{ entity }}</h4>
-                {{ entity.bio|raw }}
+            <h3 class="media-heading">{{ entity }}</h3>
+            {{ entity.bio|raw }}
         </div>
     </div>
     
@@ -34,7 +34,7 @@
 		  <li><a href="#region">{{ 'backend.regional_infos'|trans() }}</a></li>
 		  <li><a href="#activity">{{ 'backend.activity_infos'|trans() }}</a></li>
 		  <li><a href="#mangopay">{{ 'backend.mangopay_infos'|trans() }}</a></li>
-		</ul>
+    </ul>
 				
    	<div class="tab-content">
   		<div class="tab-pane active" id="social">
@@ -44,37 +44,35 @@
 		    </p>
 		    <p>{{ 'backend.twitter_url'|trans() }} : {% if entity.twitterUrl %}
 		    <a target="_blank" href="{{ entity.twitterUrl }}">{{ entity.twitterUrl }}</a>{% else %}{{ 'backend.na'|trans() }}{% endif %}
-	       </p>
-	       <p>{{ 'backend.googleplus_url'|trans() }} : {% if entity.googleUrl %}<a target="_blank"
+	        </p>
+	        <p>{{ 'backend.googleplus_url'|trans() }} : {% if entity.googleUrl %}<a target="_blank"
 	                                                                                             href="{{ entity.googleUrl }}">{{ entity.googleUrl }}</a>{% else %}{{ 'backend.na'|trans() }}{% endif %}
-	       </p>
-	       <p>{{ 'backend.website_url'|trans() }} : {% if entity.websiteUrl %}<a target="_blank"
+	        </p>
+	        <p>{{ 'backend.website_url'|trans() }} : {% if entity.websiteUrl %}<a target="_blank"
 	                                                                                              href="{{ entity.websiteUrl }}">{{ entity.websiteUrl }}</a>{% else %}{{ 'backend.na'|trans() }}{% endif %}
-	       </p>
-		  </div>
+	        </p>
+		</div>
 		  
-		  <div class="tab-pane" id="region">
+		<div class="tab-pane" id="region">
 		  	<div class="clearfix">&nbsp;</div>
 		  	<p><strong>{{ entity.city }}, {{ entity.country }}</strong></p>
 		    <p>{{ 'backend.default_language'|trans() }} : <strong>{{ entity.defaultLanguage }}</strong></p>
-		  </div>
+		</div>
 		  
-		  <div class="tab-pane" id="activity">
+		<div class="tab-pane" id="activity">
 	  		<div class="clearfix">&nbsp;</div>
 		  	<p>{{ 'backend.related_projects'|trans() }} : <strong>{{ entity.projects|length }}</strong></p>
 		    <p>{{ 'backend.likes'|trans() }} : <strong>{{ entity.likes|length }}</strong></p>
 		    <p>{{ 'backend.contributions'|trans() }} : <strong>{{ entity.contributions|length }}</strong></p>
-		  </div>
+        </div>
 		  
-		  <div class="tab-pane" id="mangopay">
+        <div class="tab-pane" id="mangopay">
 	  		<div class="clearfix">&nbsp;</div>
-				 <p>{{ 'backend.mangopay_user_id'|trans() }} : <strong>{{ entity.mangopayUserId }}</strong></p>
-		    <p>{{ 'backend.mangopay_user_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong>
-		    </p>
-		    <p>{{ 'backend.mangopay_user_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong>
-			  </p>
-			</div>
-		</div>
+            <p>{{ 'backend.mangopay_user_id'|trans() }} : <strong>{{ entity.mangopayUserId }}</strong></p>
+		    <p>{{ 'backend.mangopay_user_created_at'|trans() }} : <strong>{{ entity.mangopayCreatedAt|date('d/m/y H:i:s') }}</strong></p>
+		    <p>{{ 'backend.mangopay_user_updated_at'|trans() }} : <strong>{{ entity.mangopayUpdatedAt|date('d/m/y H:i:s') }}</strong></p>
+        </div>
+    </div>
 		
     <div class="clearfix">&nbsp;</div>
     <p>

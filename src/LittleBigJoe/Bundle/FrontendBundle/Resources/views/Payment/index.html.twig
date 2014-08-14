@@ -16,7 +16,11 @@
             <div class="white-container">
 
                 <div class="inner-title">
-                    <img class="inner-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x690') }}" alt="alt-LBJ - project thumbnail" />
+                    {% if project.photo %}
+                        <img class="inner-thumbnail" src="{{ asset(project.photo)|apply_filter('690x690') }}" width="92" height="92">
+                    {% else %}
+                        <img class="inner-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x690') }}" width="92" height="92" alt="alt-LBJ - project thumbnail" />
+                    {% endif %}
                     <h1>{{ project.name }}</h1>
                     <div class="steps">{{ 'by'|trans() }} <strong>{{ project.user }}</strong></div>
                 </div>
@@ -72,17 +76,6 @@
 
                 <a href="{{ path('littlebigjoe_frontendbundle_page_show', {'slug': generalConditionsPage.slug}) }}" class="btn mosaic-style prev">{{ 'Read the terms'|trans() }}</a>
             </div>
-
-            {% if faqs %}
-            <div class="side-infos-block faq">
-                <div class="title">{{ 'FAQ'|trans() }}</div>
-
-                {% for faq in faqs %}
-                    {% set faq_var = {'faq': faq} %}
-                    {% include "LittleBigJoeFrontendBundle:includes:utils/aside-faq.html.twig" with faq_var %}
-                {% endfor %}
-            </div>
-            {% endif %}
 
             <div class="side-infos-block modes">
                 <div class="title">{{ 'Payment methods'|trans() }}</div>

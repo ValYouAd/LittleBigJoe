@@ -17,7 +17,7 @@ class FrontendController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-       
+
         $api = $this->get('little_big_joe_mango_pay.api');
 				
         $latestProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->findLatest();

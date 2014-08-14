@@ -280,37 +280,39 @@ class ProjectContributionController extends Controller
 		    		if (!$entity) {
 		    				throw $this->createNotFoundException('Unable to find ProjectContribution entity.');
 		    		}
-		    
+
 		    		// Make the refund request
 		    		$mangopayRefund = $api->createRefund($entity->getMangopayContributionId(), $currentUser->getMangopayUserId());
-		    		var_dump($mangopayRefund);
 		    		if (!empty($mangopayRefund) && !empty($entity))
 		    		{
-		    				if (!empty($mangopayRefund->ID) && $mangopayRefund->IsSucceeded && $mangopayRefund->IsCompleted)
-		    				{	
-				    				$entity->setIsRefunded(true);
-				    				$entity->setMangopayRefundId($mangopayRefund->ID);
-				    				
-				    				$em->persist($entity);
-				    				$em->flush();
-				    				
-				    				// Send contribution refund email
-				    				$email = \Swift_Message::newInstance()
-									    				->setContentType('text/html')
-									    				->setSubject($this->container->get('translator')->trans('You\'ve been refund for your contribution'))
-									    				->setFrom($this->container->getParameter('default_email_address'))
-									    				->setTo(array($entity->getUser()->getEmail() => $entity->getUser()))
-									    				->setBody(
-									    						$this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:contribution_refund.html.twig', array(
-									    								'user' => $entity->getUser(),
-									    								'contribution' => $entity,
-									    								'url' => $this->container->get('request')->getSchemeAndHttpHost()
-									    						), 'text/html')
-									    				);
-				    				$this->container->get('mailer')->send($email);
-				    				
-				    				return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_contributions_show', array('id' => $id)));
-		    				}		    				
+                        if (!empty($mangopayRefund->ID) && $mangopayRefund->IsSucceeded && $mangopayRefund->IsCompleted)
+                        {
+                            $entity->setIsRefunded(true);
+                            $entity->setMangopayRefundId($mangopayRefund->ID);
+                            // Decrement raised amount
+                            $amountRaised = $entity->getProject()->getAmountCount();
+                            $entity->getProject()->setAmountCount($amountRaised - $entity->getMangopayAmount());
+
+                            $em->persist($entity);
+                            $em->flush();
+
+                            // Send contribution refund email
+                            $email = \Swift_Message::newInstance()
+                                    ->setContentType('text/html')
+                                    ->setSubject($this->container->get('translator')->trans('You\'ve been refunded for your contribution'))
+                                    ->setFrom($this->container->getParameter('default_email_address'))
+                                    ->setTo(array($entity->getUser()->getEmail() => $entity->getUser()))
+                                    ->setBody(
+                                            $this->container->get('templating')->render('LittleBigJoeFrontendBundle:Email:contribution_refund.html.twig', array(
+                                                    'user' => $entity->getUser(),
+                                                    'contribution' => $entity,
+                                                    'url' => $this->container->get('request')->getSchemeAndHttpHost()
+                                            ), 'text/html')
+                                    );
+                            $this->container->get('mailer')->send($email);
+
+                            return $this->redirect($this->generateUrl('littlebigjoe_backendbundle_contributions_show', array('id' => $id)));
+                        }
 		    		}
 		    }
 	    	

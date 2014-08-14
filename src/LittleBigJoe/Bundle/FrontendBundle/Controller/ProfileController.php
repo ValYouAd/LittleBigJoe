@@ -37,40 +37,75 @@ class ProfileController extends BaseController
         }
 
         $formFactory = $this->container->get('fos_user.profile.form.factory');
+        $formFactoryPassword = $this->container->get('fos_user.change_password.form.factory');
 
         $form = $formFactory->createForm();
         $form->setData($user);
 
+        $formPassword = $formFactoryPassword->createForm();
+        $formPassword->setData($user);
+
         if ('POST' === $request->getMethod()) {
-            $form->bind($request);
+            if ($request->request->has('fos_user_profile_form')) {
+                $form->bind($request);
 
-            if ($form->isValid()) {
-                $userManager = $this->container->get('fos_user.user_manager');
-
-                $event = new FormEvent($form, $request);
-                $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
-
-                if ($user->getPhoto() == null)
+                if ($form->isValid())
                 {
-                    $user->setPhoto($oldPhoto);
+                    $userManager = $this->container->get('fos_user.user_manager');
+
+                    $event = new FormEvent($form, $request);
+                    $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
+
+                    if ($user->getPhoto() == null)
+                    {
+                        $user->setPhoto($oldPhoto);
+                    }
+
+                    $userManager->updateUser($user);
+
+                    if (null === $response = $event->getResponse()) {
+                        $url = $this->container->get('router')->generate('fos_user_profile_show');
+                        $response = new RedirectResponse($url);
+                    }
+
+                    $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+
+                    return $response;
                 }
+            }
+            else if($request->request->has('fos_user_change_password_form')){
+                $formPassword->bind($request);
 
-                $userManager->updateUser($user);
+                $encoder_service = $this->container->get('security.encoder_factory');
+                $encoder = $encoder_service->getEncoder($user);
+                $encoded_pass = $encoder->encodePassword($formPassword->get('current_password')->getData(), $user->getSalt());
 
-                if (null === $response = $event->getResponse()) {
-                    $url = $this->container->get('router')->generate('fos_user_profile_show');
-                    $response = new RedirectResponse($url);
+                if ($formPassword->isValid() && $user->getPassword() == $encoded_pass) {
+                    /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+                    $userManager = $this->container->get('fos_user.user_manager');
+
+                    $event = new FormEvent($formPassword, $request);
+                    $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $event);
+
+                    $userManager->updateUser($user);
+
+                    if (null === $response = $event->getResponse()) {
+                        $url = $this->container->get('router')->generate('fos_user_profile_edit');
+                        $response = new RedirectResponse($url);
+                    }
+
+                    $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+
                 }
-
-                $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
-
-                return $response;
             }
         }
 
         return $this->container->get('templating')->renderResponse(
             'FOSUserBundle:Profile:edit.html.'.$this->container->getParameter('fos_user.template.engine'),
-            array('form' => $form->createView())
+            array(
+                'form' => $form->createView(),
+                'formPassword' => $formPassword->createView(),
+            )
         );
     }
 }

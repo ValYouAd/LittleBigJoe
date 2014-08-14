@@ -994,6 +994,71 @@ class AjaxController extends Controller
     		return new JsonResponse(array('status' => 'OK'));
     		exit;
     }
+
+    /**
+     * Unlike a project
+     *
+     * @Route("/unlike-project", name="littlebigjoe_frontendbundle_ajax_unlike_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function unlikeProjectAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $projectId = (int)$this->get('request')->request->get('projectId');
+
+        // If it's not a correct project id
+        if (empty($projectId))
+        {
+            return new JsonResponse(array('status' => 'KO ID'));
+        }
+
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->find($projectId);
+
+        // If the project doesn't exist
+        if (empty($project))
+        {
+            return new JsonResponse(array('status' => 'KO PROJECT'));
+        }
+
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to unlike this project'
+            );
+
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())).'?likePopup=true');
+            return new JsonResponse(array('status' => 'KO USER'));
+        }
+
+        $projectLikeExists = $em->getRepository('LittleBigJoeCoreBundle:ProjectLike')->findOneBy(array(
+            'project' => $project->getId(),
+            'user' => $currentUser->getId()
+        ));
+
+        // If user has already liked the project
+        if (empty($projectLikeExists) || !($projectLikeExists instanceof ProjectLike))
+        {
+            return new JsonResponse(array('status' => 'KO VOTE'));
+        }
+
+        // Remove like in DB
+        $projectLikes = $project->getLikesCount();
+        $project->setLikesCount($projectLikes - 1);
+        $em->persist($project);
+
+        $em->remove($projectLikeExists);
+        $em->flush();
+
+        // Make sure no code is executed after it
+        return new JsonResponse(array('status' => 'OK'));
+        exit;
+    }
     
     /**
      * Fund a project
@@ -1235,6 +1300,47 @@ class AjaxController extends Controller
 	    	// Make sure no code is executed after it
 	    	return new JsonResponse(array('status' => 'OK', 'comment' => $commentJson));
 	    	exit;
+    }
+
+    /**
+     * Delete a comment
+     *
+     * @Route("/delete-comment-project", name="littlebigjoe_frontendbundle_ajax_delete_comment_project")
+     * @Method("POST")
+     * @Template()
+     */
+    public function deleteCommentProjectAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commentId = $this->get('request')->request->get('commentId');
+
+        // If there's no comment id
+        if (empty($commentId))
+        {
+            return new JsonResponse(array('status' => 'KO FIELD'));
+        }
+
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser) || (!$this->get('security.context')->isGranted('ROLE_ADMIN')))
+        {
+            return new JsonResponse(array('status' => 'KO USER'));
+        }
+
+        $comment = $em->getRepository('LittleBigJoeCoreBundle:Comment')->find($commentId);
+
+        if (empty($comment) || !($comment instanceof Comment))
+        {
+            return new JsonResponse(array('status' => 'KO FIELD'));
+        }
+
+        // Delete comment in DB
+        $em->remove($comment);
+        $em->flush();
+
+        // Make sure no code is executed after it
+        return new JsonResponse(array('status' => 'OK'));
+        exit;
     }
     
     /**

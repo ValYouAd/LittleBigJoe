@@ -23,11 +23,17 @@
 
                 <div class="top-main-project">
                     <div class="top-thumbnail-cont">
-                        {% if popularProjects.0.photo %}
-                            <img src="{{ asset(popularProjects.0.photo)|apply_filter('534x329') }}" alt="{{ popularProjects.0.name }}">
+                        {% if popularProjects.0.status == '1' or popularProjects.0.product is not defined %}
+                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProjects.0.id, 'slug': popularProjects.0.slug}) }}">
                         {% else %}
-                            <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('534x329')  }}" alt="{{ popularProjects.0.name }}"/>
+                            <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProjects.0.id, 'slug': popularProjects.0.slug}) }}">
                         {% endif %}
+                            {% if popularProjects.0.photo %}
+                                <img src="{{ asset(popularProjects.0.photo)|apply_filter('534x329') }}" alt="{{ popularProjects.0.name }}">
+                            {% else %}
+                                <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('534x329')  }}" alt="{{ popularProjects.0.name }}"/>
+                            {% endif %}
+                        </a>
                     </div>
 
                     <div class="top-infos">
@@ -73,7 +79,7 @@
 
                 {% for popularProject in popularProjects %}
                     {% if loop.index >= 2 and loop.index < 4 %}
-                        <div class="top-secondary-project">
+                        <div class="top-secondary-project img-container">
                             <a href="{{ path('littlebigjoe_frontendbundle_project_show', {'id': popularProject.id, 'slug': popularProject.slug}) }}">
                             {% if popularProject.photo %}
                                 <img class="top-thumbnail" src="{{ asset(popularProject.photo)|apply_filter('346x215') }}" alt="{{ popularProject.name }}" />
@@ -81,6 +87,11 @@
                                 <img class="top-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('346x215') }}" alt="{{ popularProject.name }}" />
                             {% endif %}
                             </a>
+                            <div class="project-label">
+                                <a href="/fr/marque/test" class="white">
+                                    Test
+                                </a>
+                            </div>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -144,7 +155,7 @@
         <article class="fPage">
             <div class="white-container">
                 <div class="article-header">
-                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-brands.png') }}" alt="alt-LBJ - brands icon" /> {{ 'Latest'|trans() }} <span class="grand-hotel">{{ 'brands quoted'|trans() }}</span></h2>
+		    <h2><img class="icon" src="{{ asset('static/img/icons/icon-brands.png') }}" alt="alt-LBJ - brands icon" /> {{ 'Latest brands'|trans|raw }}</h2>
                     <a href="{{ path('littlebigjoe_frontendbundle_brand') }}" class="btn classic-style">{{ 'See all brands'|trans() }}</a>
                 </div>
 

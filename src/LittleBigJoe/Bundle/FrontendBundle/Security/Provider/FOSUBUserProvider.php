@@ -41,7 +41,7 @@ class FOSUBUserProvider extends BaseClass
 		{
 				$property = $this->getProperty($response);
 				$username = $response->getUsername();
-		
+
 				// on connect - get the access token and the user ID
 				$service = $response->getResourceOwner()->getName();
 		
@@ -92,7 +92,8 @@ class FOSUBUserProvider extends BaseClass
 						// I have set all requested data with the user's username
 						// modify here with relevant data
 						$resp = $response->getResponse();
-						
+
+                        $session->set('oauth_gender', '0');
 						if (array_key_exists('name', $response->getResponse()))
 						{
 								if (preg_match('/[\s]+/', $resp['name']))
@@ -116,6 +117,7 @@ class FOSUBUserProvider extends BaseClass
 								$session->set('oauth_websiteUrl', $resp['url']);
 						if (array_key_exists('screen_name', $response->getResponse()))
 								$session->set('oauth_twitterUrl', 'https://www.twitter.com/'.$resp['screen_name']);
+
 				}
 		
 				// if user exists - go with the HWIOAuth way

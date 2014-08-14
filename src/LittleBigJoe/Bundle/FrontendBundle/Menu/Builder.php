@@ -52,23 +52,23 @@ class Builder extends ContainerAware
         $projects->addChild($this->container->get('translator')->trans('All projects'), array('route' => 'littlebigjoe_frontendbundle_project'))
             ->setAttribute('class', 'dark-item');
         
-        // Add "Projects I'm supporting" link
-        $projects->addChild($this->container->get('translator')->trans('Projects I\'m supporting'), array('route' => 'littlebigjoe_frontendbundle_project_supported_projects'))
+        // Add "Projects I support" link
+        $projects->addChild($this->container->get('translator')->trans('Projects I support'), array('route' => 'littlebigjoe_frontendbundle_project_supported_projects'))
             ->setAttribute('class', 'light-item');
-        
-        // Add "Projects of users I follow" link
-        $projects->addChild($this->container->get('translator')->trans('Projects of users I follow'), array('route' => 'littlebigjoe_frontendbundle_project_users_followed_projects'))
+
+        // Add "My brands" link
+        $projects->addChild($this->container->get('translator')->trans('My brands'), array('route' => 'littlebigjoe_frontendbundle_project_brands_followed_projects'))
+            ->setAttribute('class', 'light-item');
+
+        // Add "Members I follow" link
+        $projects->addChild($this->container->get('translator')->trans('Members I follow'), array('route' => 'littlebigjoe_frontendbundle_project_users_followed_projects'))
             ->setAttribute('class', 'dark-item');
 
-        // Add "Projects of brands I follow" link
-        $projects->addChild($this->container->get('translator')->trans('Projects of brands I follow'), array('route' => 'littlebigjoe_frontendbundle_project_brands_followed_projects'))
-            ->setAttribute('class', 'light-item');
-        
         // Add "Launch my project" link
         $labelFirst = $this->container->get('translator')->trans('Launch');
         $labelSecond = $this->container->get('translator')->trans('my project');
         $menu->addChild('<div class="blue-catch">'.$labelFirst.'</div><div class="white-catch">'.$labelSecond.'</div>', array(
-            'route' => 'littlebigjoe_frontendbundle_project_create_project'
+            'route' => 'littlebigjoe_frontendbundle_project_create_project_preamble'
         ))
         ->setExtra('safe_label', true)
         ->setAttribute('class', 'main-nav-item');
@@ -120,13 +120,13 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'categories-nav');
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $categories = $em->getRepository('LittleBigJoeCoreBundle:Category')->findBy(array('isVisible' => true));
+        $categories = $em->getRepository('LittleBigJoeCoreBundle:Category')->findBy(array('isVisible' => true), array('name' => 'ASC'));
 
         // Add categories
         if (!empty($categories)) {
             foreach ($categories as $category) {
 
-                $nbProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(null, null, null, null, $category->getId());
+                $nbProjects = $em->getRepository('LittleBigJoeCoreBundle:Project')->count(false, null, null, null, $category->getId());
                 $categoryName = $category->getName().' <span class="cat-count">'.$nbProjects.'</span>';
 
                 $menu->addChild($categoryName, array(
@@ -195,6 +195,16 @@ class Builder extends ContainerAware
                 }
             }
         }
+
+        $menu->addChild('FAQ | Best practices', array(
+            'route' => 'littlebigjoe_frontendbundle_faq',
+            'routeParameters' => array()
+        ));
+
+        $menu->addChild('Contact', array(
+            'route' => 'littlebigjoe_frontendbundle_contact',
+            'routeParameters' => array()
+        ));
 
         return $menu;
     }

@@ -44,6 +44,10 @@ class ProfileFormType extends BaseType
             ->add('email', 'email', array(
                 'label' => 'Email'
             ))
+            ->add('gender', 'choice', array(
+                'label' => 'Gender',
+                'choices' => array('0' => 'Mr', '1' => 'Ms')
+            ))
             ->add('firstname', 'text', array(
                 'label' => 'Firstname'
             ))
@@ -74,9 +78,11 @@ class ProfileFormType extends BaseType
             ))
             ->add('city', 'text', array(
                 'label' => 'City',
+                'required' => false
             ))
             ->add('country', 'country', array(
                 'label' => 'Country',
+                'required' => false
             ))
             ->add('defaultLanguage', 'locale', array(
                 'label' => 'Default language',

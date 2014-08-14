@@ -53,6 +53,8 @@
                             href="{{ path('littlebigjoe_backendbundle_pages') }}">{{ 'backend.pages'|trans() }}</a></li>
                 <li class="{{ 'littlebigjoe_backendbundle_users'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_users') }}">{{ 'backend.users'|trans() }}</a></li>
+                <li class="{{ 'code'|current() }}"><a
+                            href="{{ path('code') }}">{{ 'backend.code'|trans() }}</a></li>
                 <li class="dropdown {{ 'littlebigjoe_backendbundle_projects'|current() }}">
             		<a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ 'backend.projects'|trans() }} <b class="caret"></b></a>
             	<ul class="dropdown-menu">
@@ -80,9 +82,14 @@
                             href="{{ path('littlebigjoe_backendbundle_mangopay') }}">{{ 'backend.mangopay'|trans() }}</a></li>
                 <li class="{{ 'littlebigjoe_backendbundle_beneficiaries'|current() }}"><a
                             href="{{ path('littlebigjoe_backendbundle_beneficiaries') }}">{{ 'backend.beneficiaries'|trans() }}</a>
-                </li>            
-                <li class="{{ 'littlebigjoe_backendbundle_faqs'|current() }}"><a
-                            href="{{ path('littlebigjoe_backendbundle_faqs') }}">{{ 'backend.faq'|trans() }}</a></li>
+                </li>
+                <li class="dropdown {{ 'littlebigjoe_backendbundle_faqs'|current() }}">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ 'backend.faq'|trans() }} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('littlebigjoe_backendbundle_faq_categories') }}">{{ 'backend.faq_category'|trans() }}</a></li>
+                        <li><a href="{{ path('littlebigjoe_backendbundle_faqs') }}">{{ 'backend.faq'|trans() }}</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <!--/.nav-collapse -->

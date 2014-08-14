@@ -23,18 +23,19 @@
             {% endif %}
 
             {% set canCreateProduct = false %}
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                {% set canCreateProduct = true %}
-            {% elseif is_granted('ROLE_BRAND_ADMIN') %}
+            {% if is_granted('ROLE_BRAND_ADMIN') %}
                 {% for brand in app.user.brands %}
                     {% if brand.id == entity.brand.id %}
                         {% set canCreateProduct = true %}
                     {% endif %}
                 {% endfor %}
+            {% elseif is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+                {% set canCreateProduct = true %}
             {% endif %}
+
             {% if canCreateProduct and item.project.status == '1' and item.project.product and item.project.product.validatedAt is null %}
                 <div class="clearfix"></div>
-                <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': item.project.id, 'slug': item.project.slug}) }}" class="btn btn-primary">{{ 'Validate'|trans() }}</a></p>
+                <p><a href="{{ path('littlebigjoe_frontendbundle_project_create_product', {'id': item.project.id, 'slug': item.project.slug}) }}" class="btn btn-primary">{{ 'Phase 2'|trans() }}</a></p>
                 <div class="clearfix"></div>
             {% endif %}
 

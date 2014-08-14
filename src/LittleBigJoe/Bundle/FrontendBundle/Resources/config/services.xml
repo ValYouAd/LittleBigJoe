@@ -15,11 +15,16 @@
         <parameter key="littlebigjoe.media.provider.youtube.class">LittleBigJoe\Bundle\FrontendBundle\Provider\YoutubeProvider</parameter>
         <parameter key="littlebigjoe.media.provider.vimeo.class">LittleBigJoe\Bundle\FrontendBundle\Provider\VimeoProvider</parameter>
         <parameter key="littlebigjoe.media.provider.factory.class">LittleBigJoe\Bundle\FrontendBundle\Provider\ProviderFactory</parameter>
-    </parameters>		
+    </parameters>
 		
     <services>
-        <service id="littlebigjoefrontend.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormType" scope="request">
-            <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_registration"/>
+        <service id="littlebigjoefrontend.user_listener" class="LittleBigJoe\Bundle\FrontendBundle\EventListener\UserListener">
+            <argument type="service" id="security.context" />
+            <tag name="kernel.event_subscriber" />
+            <tag name="kernel.event_listener" event="security.interactive_login" />
+        </service>
+        <service id="littlebigjoefrontend.user.registration" class="LittleBigJoe\Bundle\FrontendBundle\Form\RegistrationFormTypeBeta" scope="request">
+            <tag name="form.type" alias="littlebigjoe_bundle_frontendbundle_user_registration_beta"/>
             <argument type="service" id="session" />
             <argument>%fos_user.model.user.class%</argument>
             <argument type="service" id="service_container" />
@@ -48,6 +53,7 @@
         <service id="littlebigjoefrontend.listener.user.profile" class="LittleBigJoe\Bundle\FrontendBundle\EventListener\ProfileListener">
             <tag name="kernel.event_subscriber"/>
             <argument type="service" id="service_container"/>
+            <argument type="service" id="security.context"/>
         </service>
         <service id="littlebigjoefrontend.project.createProject" class="LittleBigJoe\Bundle\FrontendBundle\Form\CreateProjectFormType">
             <tag name="form.type" alias="createProject" />

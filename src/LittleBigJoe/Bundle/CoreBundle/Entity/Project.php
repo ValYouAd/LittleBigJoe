@@ -67,6 +67,8 @@ class Project
      *
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
      * @Assert\Image(
+     *    minWidth = "534",
+     *    minHeight = "329",
      *    maxSize = "20971520",
      *    mimeTypes= {"image/gif", "image/jpeg", "image/png"},
      *    groups = {"flow_createProject_step1"}
@@ -104,14 +106,9 @@ class Project
      * @Assert\NotBlank(message = "You must enter the pitch", groups = {"Default", "flow_createProject_step1"})
      * @Assert\Length(
      *    min = "1",
-     *    max = "300",
-     *    minMessage = "Your pitch must contains at least {{ limit }} characters",
+     *    max = "140",
+     *    minMessage = "Your pitch must contain at least {{ limit }} characters",
      *    maxMessage = "Your pitch can't exceed {{ limit }} characters",
-     *    groups = {"Default", "flow_createProject_step1"}
-     * )
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z0-9 \-\(\)\[\]\.\,\:\;\!\']*$/i",
-     *    message = "Your pitch must only contains numbers, letters, spaces, dots, commas, exclamation marks or dashes",
      *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
@@ -163,6 +160,11 @@ class Project
      * @Assert\Regex(
      *    pattern = "/^[0-9]*$/",
      *    message = "Your required likes count must only contains numbers",
+     *    groups = {"Default", "flow_createProject_step3"}
+     * )
+     * @Assert\Range(
+     *    min = "1",
+     *    minMessage = "The required likes count can't be inferior to 1",
      *    groups = {"Default", "flow_createProject_step3"}
      * )
      */
@@ -1144,8 +1146,9 @@ class Project
     public function isDateInFuture(ExecutionContext $context)
 		{
 		    $propertyPath = $context->getPropertyPath();
-		
-		    if ($this->endingAt < new \DateTime()) 
+            $now = new \DateTime();
+
+		    if ($this->endingAt->getTimestamp() < $now->getTimestamp())
 		    {
 		        $context->addViolationAt('endingAt', 'The ending date cannot be in the past', array(), null);
 		    }

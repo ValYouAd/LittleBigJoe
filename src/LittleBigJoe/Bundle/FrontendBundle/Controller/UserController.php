@@ -2,9 +2,12 @@
 
 namespace LittleBigJoe\Bundle\FrontendBundle\Controller;
 
+use LittleBigJoe\Bundle\FrontendBundle\Form\ProfileDeletionFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller
 {
@@ -42,6 +45,36 @@ class UserController extends Controller
         return array(
             'entity' => $entity,
         	'distinctProjects' => $distinctProjects
+        );
+    }
+
+    /**
+     * Projects list
+     *
+     * @Route("/my-projects", name="littlebigjoe_frontendbundle_user_projects")
+     * @Template()
+     */
+    public function projectsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to access to your news'
+            );
+
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_user_projects'));
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+
+        return array(
+            'entity' => $currentUser,
         );
     }
     
@@ -90,6 +123,52 @@ class UserController extends Controller
         return array(
             'entity' => $currentUser,
             'notifications' => $notifications,
+        );
+    }
+
+    /**
+     * User deletion page
+     *
+     * @Route("/delete-account", name="littlebigjoe_frontendbundle_user_delete_account")
+     * @Template()
+     */
+    public function deleteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser))
+        {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to delete your account'
+            );
+
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_user_news'));
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+
+        $form = $this->get('form.factory')->create(new ProfileDeletionFormType());
+
+        if ($request->getMethod() == 'POST')
+        {
+            $form->handleRequest($request);
+
+            if ($form->isValid())
+            {
+                $em->remove($currentUser);
+                $em->flush();
+
+                return new RedirectResponse($this->generateUrl('littlebigjoe_frontendbundle_home'));
+            }
+        }
+
+        return array(
+            'entity' => $currentUser,
+            'form' => $form->createView()
         );
     }
 }

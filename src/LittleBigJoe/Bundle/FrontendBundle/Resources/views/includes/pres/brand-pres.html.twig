@@ -11,7 +11,7 @@
     </div>
 
     <div class="brand-infos-container">
-        <h3><a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': brand.slug}) }}">{{ brand.name }}</a></h3>
+        <h3><a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug': brand.slug}) }}">{{ brand.name|truncate(20) }}</a></h3>
 
         <div class="projects-nb">
             {{ brand.projects|length }} {{ 'project'|trans() }}{% if brand.projects|length > 1 %}s{% endif %}

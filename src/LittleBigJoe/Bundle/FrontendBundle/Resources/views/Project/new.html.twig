@@ -27,7 +27,7 @@
             <div class="white-container">
 
                 <div class="inner-title">
-                    {% if app.session.get('tmpUploadedFileRelativePath') %}
+                    {% if app.session.get('tmpUploadedFileRelativePath') and app.session.get('tmpUploadedFile') %}
                         <img class="inner-thumbnail" src="{{ asset(app.session.get('tmpUploadedFileRelativePath') ~ app.session.get('tmpUploadedFile'))|apply_filter('690x690') }}" width="92" height="92">
                     {% else %}
                         <img class="inner-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x690') }}" width="92" height="92" alt="alt-LBJ - project thumbnail" />
@@ -384,6 +384,19 @@
                     }
                 }
             });
+
+            $('#createProject_pitch').on('keyup', function(){
+                var max = 140;
+                var len = $(this).val().length;
+                if (len >= max) {
+                    $(this).val($(this).val().substring(0, max));
+                    $('#createProject_pitch_counter').text("{{ 'You have reached the limit'|trans() }}");
+                } else {
+                    var char = max - len;
+                    $('#createProject_pitch_counter').text(char + " {{ 'characters left'|trans() }}");
+                }
+            });
+            $('#createProject_pitch').parent().after().append('<p id="createProject_pitch_counter"></p>');
 
             $('.datepicker').datepicker({
                 language: '{{ app.request.locale }}'
