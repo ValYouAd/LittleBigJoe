@@ -170,6 +170,31 @@
     }
 }
 
+
+.img-container{
+  position: relative;
+  .favorite-icon{
+    .abs-position(@top: -@grid-gutter-width/3, @right: -@grid-gutter-width/3);
+  }
+  .pres-thumbnail{
+    .img-responsive();
+    .border-radius-select(@top-left: @radius, @top-right: @radius);
+  }
+  .project-label{
+    .abs-position(@bottom:0);
+    .color-it(@black-so);
+    .padding-by-plans(@grid-gutter-width/2, @grid-gutter-width/4);
+    width: 89%;
+
+    .mosaic-brand-logo{
+      float: left;
+      height: @grid-gutter-width;
+    }
+    .mosaic-project-type{float: right;}
+  }
+}
+
+
 .brand-mosaic-container{
     .make-xs-column(12, @grid-gutter-width);
     .make-sm-column(4, @grid-gutter-width);
