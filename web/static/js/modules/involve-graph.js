@@ -20,7 +20,7 @@ var involve_graph = function(){
                 spotRadius: 6,
                 fillColor: light_so_blue,
                 chartRangeMin: 0,
-                chartRangeMax: 10000
+                chartRangeMax: 5
             });
         };
 
