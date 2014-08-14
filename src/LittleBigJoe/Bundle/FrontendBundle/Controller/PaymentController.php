@@ -92,7 +92,6 @@ class PaymentController extends Controller
 
         $rewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findAvailable($data['project']->getId());
         $unavailableRewards = $em->getRepository('LittleBigJoeCoreBundle:ProjectReward')->findUnavailable($data['project']->getId(), $data['user']->getId());
-        $faqs = $em->getRepository('LittleBigJoeCoreBundle:Faq')->findBy(array('isVisible' => true));
         $generalConditionsPageId = $this->container->getParameter('cgu_page_id');
         $generalConditionsPage = $em->getRepository('LittleBigJoeCoreBundle:Page')->find($generalConditionsPageId);
 
@@ -104,7 +103,6 @@ class PaymentController extends Controller
         return array(
             'project'               => $data['project'],
             'generalConditionsPage' => $generalConditionsPage,
-            'faqs'                  => $faqs,
             'rewards'               => $rewards,
             'unavailableRewards'    => $unavailableRewards
         );

@@ -77,17 +77,6 @@
                 <a href="{{ path('littlebigjoe_frontendbundle_page_show', {'slug': generalConditionsPage.slug}) }}" class="btn mosaic-style prev">{{ 'Read the terms'|trans() }}</a>
             </div>
 
-            {% if faqs %}
-            <div class="side-infos-block faq">
-                <div class="title">{{ 'FAQ'|trans() }}</div>
-
-                {% for faq in faqs %}
-                    {% set faq_var = {'faq': faq} %}
-                    {% include "LittleBigJoeFrontendBundle:includes:utils/aside-faq.html.twig" with faq_var %}
-                {% endfor %}
-            </div>
-            {% endif %}
-
             <div class="side-infos-block modes">
                 <div class="title">{{ 'Payment methods'|trans() }}</div>
                 <img src="{{ asset('static/img/icons/icon-payment-modes.png') }}" alt="alt-LBJ - payment modes" />
