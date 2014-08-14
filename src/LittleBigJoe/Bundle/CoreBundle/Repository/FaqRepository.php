@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class FaqRepository extends EntityRepository
 {
+    public function findAllByCategory()
+    {
+        return $this->createQueryBuilder('f')
+                ->leftJoin('f.category', 'fc')
+                ->where('f.isVisible = :isVisible')
+                ->setParameter('isVisible', true)
+                ->orderBy('fc.name', 'ASC')
+                ->getQuery()
+                ->getResult();
+
+    }
 }

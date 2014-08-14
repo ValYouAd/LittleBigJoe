@@ -1,27 +1,51 @@
 {% extends '::base.html.twig' %}
 
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/faq-display.js') }}" ></script>
+{% endblock %}
+
 {% block body %}
     <section>
-        <article>
-            <div class="padding10 white-container">
+        <div class="aside-part wMosaic">
+            <div class="side-menu">
+                <div class="subdivision">
+                    <div class="side-menu-title">
+                        <span>{{ 'Categories'|trans() }}</span>
+                    </div>
+
+                    {% if categories %}
+                        <ul class="brands-nav">
+                            {% for category in categories %}
+                                <li><a href="#section_{{ category.id }}">{{ category }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <article class="top-content">
+            <div class="white-container cmsContent">
                 <div class="article-header">
                     <h2><span class="grand-hotel">{{ 'FAQ | Best practices'|trans() }}</span></h2>
                 </div>
 
-                {% if categories %}
-                    <ul>
-                        {% for category in categories %}
-                            <li><a href="#section_{{ category.id }}">{{ category }}</a></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-
                 {% if faqs %}
-                    <ul>
+                    <div class="side-infos-block faq feedbacksContainer">
+                        {% set currentCat = '' %}
                         {% for faq in faqs %}
-                            <li><a href="#section_{{ category.id }}">{{ category }}</a></li>
+                            {% if faq.category.id != currentCat %}
+                                {% if currentCat != '' %}</div><div class="separator">&nbsp;</div>{% endif %}
+                                {% set currentCat = faq.category.id %}
+                                <div id="section_{{ faq.category.id }}">
+                                    <h3>{{ faq.category }}</h3>
+                            {% endif %}
+                            {% set faq_var = {'faq': faq} %}
+                            {% include "LittleBigJoeFrontendBundle:includes:utils/aside-faq.html.twig" with faq_var %}
                         {% endfor %}
-                    </ul>
+                        </div>
+                    </div>
                 {% endif %}
             </div>
         </article>

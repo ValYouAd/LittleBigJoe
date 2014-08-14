@@ -19,8 +19,8 @@ class FaqController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $categories = $em->getRepository('LittleBigJoeCoreBundle:FaqCategory')->findAll(array(), array('name' => 'ASC'));
-        $faqs = $em->getRepository('LittleBigJoeCoreBundle:Faq')->findAll(array('isVisible' => true), array('category' => 'ASC'));
+        $categories = $em->getRepository('LittleBigJoeCoreBundle:FaqCategory')->findBy(array(), array('name' => 'ASC'));
+        $faqs = $em->getRepository('LittleBigJoeCoreBundle:Faq')->findAllByCategory();
 
         return array(
             'faqs' => $faqs,

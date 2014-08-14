@@ -56,6 +56,7 @@ class Faq
     /**
      * @ORM\ManyToOne(targetEntity="FaqCategory", inversedBy="faqs")
      * @ORM\JoinColumn(name="faq_category_id", referencedColumnName="id")
+     * @ORM\OrderBy({"name"="ASC"})
      */
     protected $category;
 

@@ -367,3 +367,38 @@
 
     // .follow-btn{width: 100%;}
 }
+
+.faq-container{
+  .make-xs-column(12, 0);
+  margin-bottom: @grid-gutter-width;
+  padding-bottom: @grid-gutter-width/2;
+  border-bottom: 1px solid @lbj-light-gray;
+
+  &:last-of-type{
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .faq-question{
+    .custom-transition(color);
+    .make-xs-column(12, 0);
+    .bold;
+    margin-bottom: @grid-gutter-width/2;
+    cursor: pointer;
+    &:hover{.color-it(@text-color: @lbj-light-blue);}
+
+    span{
+      float: left;
+      padding-right: @grid-gutter-width;
+    }
+    img{.abs-position(@top: 5px, @right: 0);}
+  }
+  .faq-answer{
+    .make-xs-column(12, 0);
+    display: inline-block;
+    float: left;
+    height: 0;
+    overflow: hidden;
+  }
+}
