@@ -108,6 +108,10 @@ City: Ville
 'Comment this entry': 'Commenter cet article'
 'Comment this project': 'Commenter ce projet'
 Comments: Commentaires
+
+'Congratulations %username%, your account is now activated':
+    '': 'Félicitations %username%, votre compte est désormais activé.'
+
 Contact: Contact
 'Contact request': 'Demande de contact'
 Continue: Continuer
@@ -148,6 +152,7 @@ Ended: Terminé(s)
 'Ending at': 'S''arrêtera à'
 Engagement: Engagement
 English: Anglais
+'Enter your beta code and get full access to LittleBigJoe: ': 'Enter your beta code and get full access to LittleBigJoe: '   # FIXME
 'Entry title': 'Titre de l''article'
 'Error during payment': 'Erreur durant le paiement'
 'Euros raised in total': 'Total d''Euros levés'
@@ -428,6 +433,10 @@ Yes: Oui
 'You already have unliked this project !': 'Vous n''"aimez" déjà plus ce projet !'
 'You can access to your project at': 'Vous pouvez accéder à votre projet sur'
 'You can directly access to the product details at': 'Vous pouvez directement accéder à la fiche produit sur'
+
+'You can fully enjoy Little Big Joe':
+    ' You should start by going back to the': 'You can fully enjoy Little Big Joe. You should start by going back to the'   # FIXME
+
 'You have reached the limit': 'Vous avez atteint la limite'
 'You should receive your money in the next two days': 'Vous recevrez votre argent dans les deux prochains jours'
 
@@ -448,7 +457,17 @@ Yes: Oui
 'Your project medias': 'Les médias de votre projet'
 'Your project needs YOU!': 'Votre projet a besoin de VOUS!'
 'about this project': 'à propos du projet'
+
+access_denied:
+    message1: access_denied.message1   # FIXME
+    title: access_denied.title   # FIXME
+
 available: disponible
+
+betacode:
+    incorrect: betacode.incorrect   # FIXME
+    used_too_many_times: betacode.used_too_many_times   # FIXME
+
 'brand wants to create an product for your project :': 'veut créer un produit pour le projet :'
 by: par
 'characters left': 'caractères restants'
@@ -463,6 +482,7 @@ funded: financés
 gived: donné(s)
 got: a
 'has declined your product ': 'a refusé votre produit'
+homepage: homepage   # FIXME
 'in projects right now, by': 'aux projets, en'
 'it work ?': 'ca marche ?'
 
