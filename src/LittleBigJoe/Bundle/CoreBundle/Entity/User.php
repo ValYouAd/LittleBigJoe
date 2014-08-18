@@ -199,6 +199,12 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="bio", type="text", nullable=true)
+     * @Assert\Length(
+     *    min = "2",
+     *    max = "300",
+     *    minMessage = "Your biography must contains at least {{ limit }} characters",
+     *    maxMessage = "Your biography can't exceed {{ limit }} characters"
+     * )
      */
     private $bio;
 

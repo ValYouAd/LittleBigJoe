@@ -532,3 +532,4 @@ Help: Aide
 Contact: Contact
 FAQ: FAQ
 Best practices: Bonnes pratiques
+'Your biography can''t exceed {{ limit }} characters': 'Votre biographie ne peut pas dépasser {{ limit }} caractères'
