@@ -38,12 +38,13 @@ class LittleBigJoeExtension extends \Twig_Extension
         $interval = $endingDate->diff($nowDate);
         $translator = $this->container->get('translator');
 
-        if ($interval->y >= 1)
+        /*if ($interval->y >= 1)
         	return $translator->transchoice('%years% year|%years% years', $interval->format('%y'), array('%years%' => $interval->format('%y')));
         else if ($interval->m >= 1)
             return $translator->transchoice('%months% month|%months% months', $interval->format('%m'), array('%months%' => $interval->format('%m')));
-        else if ($interval->days >= 1)
-            return $translator->transchoice('%days% day|%days% days', $interval->format('%d'), array('%days%' => $interval->format('%d')));
+        else*/
+        if ($interval->days >= 1)
+            return $translator->transchoice('%days% day|%days% days', $interval->days, array('%days%' => $interval->days));
         else if ($interval->days == 0 && $interval->h >= 1)
             return $translator->transchoice('%hours% hour|%hours% hours', $interval->format('%h'), array('%hours%' => $interval->format('%h')));
         else
