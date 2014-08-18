@@ -527,6 +527,22 @@
                     });
             });
 
+            // Delete entry comment
+            $('.deleteEntryComment').click(function (e) {
+                var commentId = $(this).attr('rel');
+                $.post("{{ path('littlebigjoe_frontendbundle_ajax_delete_entry_comment') }}", { 'commentId' : commentId })
+                        .done(function(data) {
+                            if (data.status == 'OK')
+                            {
+                                $('#entrycomment_' + commentId).remove();
+                            }
+                            else if (data.status == 'KO USER')
+                            {
+                                window.location = "{{ path('fos_user_security_login') }}";
+                            }
+                        });
+            });
+
             // Unlike project
             $('#unlikeProject').click(function (e) {
                 $.post("{{ path('littlebigjoe_frontendbundle_ajax_unlike_project') }}", { 'projectId' : currentProjectId })
