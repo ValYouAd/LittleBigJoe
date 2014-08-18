@@ -196,12 +196,12 @@ class Builder extends ContainerAware
             }
         }
 
-        $menu->addChild('FAQ | Best practices', array(
+        $menu->addChild($this->container->get('translator')->trans('Help'), array(
             'route' => 'littlebigjoe_frontendbundle_faq',
             'routeParameters' => array()
         ));
 
-        $menu->addChild('Contact', array(
+        $menu->addChild($this->container->get('translator')->trans('Contact'), array(
             'route' => 'littlebigjoe_frontendbundle_contact',
             'routeParameters' => array()
         ));
