@@ -39,10 +39,6 @@ class FaqCategory
      *    minMessage = "Your faq category name must contains at least {{ limit }} characters",
      *    maxMessage = "Your faq category name can't exceed {{ limit }} characters"
      * )
-     * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -]*$/",
-     *    message = "Your faq category name must only contains letters, spaces, or dashes"
-     * )
      */
     protected $name;
 
