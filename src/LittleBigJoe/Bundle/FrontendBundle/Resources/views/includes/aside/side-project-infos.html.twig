@@ -50,7 +50,7 @@
             </div>
             <div class="days">
                 <img class="icon" src="{{ asset('static/img/icons/icon-clock.png') }}" alt="alt-LBJ - clock icon" />
-                <span class="orange-text"><strong>{{ entity.endingAt|time_remaining }}</strong></span> {{ 'remaining'|trans() }}
+                <span class="orange-text"><strong>{{ entity.product.endingAt|time_remaining }}</strong></span> {{ 'remaining'|trans() }}
             </div>
         </div>
 
