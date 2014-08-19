@@ -32,13 +32,4 @@ var involve_graph = function(){
     $(window).resize(function(){
         def_sparkline($graph, values);
     });
-
-//    var $likeProject = $('#likeProject');
-//    $likeProject.click(function(){
-//        if ($likeProject.length > 0)
-//            console.log("isDisplayed");
-//        else
-//            console.log("isNotDisplayed");
-//        def_sparkline($graph, values);
-//    });
 }
