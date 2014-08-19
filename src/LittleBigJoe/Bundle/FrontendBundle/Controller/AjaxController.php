@@ -989,6 +989,16 @@ class AjaxController extends Controller
     		// Save like in DB
     		$em->persist($projectLike);
     		$em->flush();
+
+            // Get new stats for chart
+            $stats = $em->getRepository('LittleBigJoeCoreBundle:ProjectLike')->findLikesStats($project->getCreatedAt(), new \DateTime(), $project->getId());
+            $likesStats = array();
+            $maxLikes = 0;
+
+            foreach ($stats as $key => $stat) {
+                $likesStats[] = $stat['nbLikes'];
+                $maxLikes = $maxLikes < $stat['nbLikes'] ? $stat['nbLikes'] : $maxLikes;
+            }
     		
     		// Make sure no code is executed after it
     		return new JsonResponse(array('status' => 'OK'));
