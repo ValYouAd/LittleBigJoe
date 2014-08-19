@@ -307,6 +307,9 @@
                             $('.likes_count').text(likes);
                             $('#likeProject').hide();
                             $('#unlikeProject').show();
+                            $('#involve-graph').attr("data-values-array", data.likeStats.replace(/\[|\]/g, ''));
+                            $('#involve-graph').attr("data-max-likes", data.maxLikes);
+                            window.involve_graph();
                         });
                     }
                     else if (data.status == 'KO USER')
@@ -537,6 +540,9 @@
                             $('.likes_count').text(likes);
                             $('#likeProject').show();
                             $('#unlikeProject').hide();
+                            $('#involve-graph').attr("data-values-array", data.likeStats.replace(/\[|\]/g, ''));
+                            $('#involve-graph').attr("data-max-likes", data.maxLikes);
+                            window.involve_graph();
                         }
                         else if (data.status == 'KO USER')
                         {

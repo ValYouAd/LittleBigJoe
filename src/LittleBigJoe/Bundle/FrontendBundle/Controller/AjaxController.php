@@ -1001,7 +1001,7 @@ class AjaxController extends Controller
             }
     		
     		// Make sure no code is executed after it
-    		return new JsonResponse(array('status' => 'OK'));
+    		return new JsonResponse(array('status' => 'OK', 'likeStats' => json_encode($likesStats), 'maxLikes' => json_encode($maxLikes)));
     		exit;
     }
 
@@ -1065,8 +1065,18 @@ class AjaxController extends Controller
         $em->remove($projectLikeExists);
         $em->flush();
 
+        // Get new stats for chart
+        $stats = $em->getRepository('LittleBigJoeCoreBundle:ProjectLike')->findLikesStats($project->getCreatedAt(), new \DateTime(), $project->getId());
+        $likesStats = array();
+        $maxLikes = 0;
+
+        foreach ($stats as $key => $stat) {
+            $likesStats[] = $stat['nbLikes'];
+            $maxLikes = $maxLikes < $stat['nbLikes'] ? $stat['nbLikes'] : $maxLikes;
+        }
+
         // Make sure no code is executed after it
-        return new JsonResponse(array('status' => 'OK'));
+        return new JsonResponse(array('status' => 'OK', 'likeStats' => json_encode($likesStats), 'maxLikes' => json_encode($maxLikes)));
         exit;
     }
     
