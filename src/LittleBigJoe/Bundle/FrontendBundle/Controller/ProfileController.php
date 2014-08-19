@@ -64,7 +64,7 @@ class ProfileController extends BaseController
                     $userManager->updateUser($user);
 
                     if (null === $response = $event->getResponse()) {
-                        $url = $this->container->get('router')->generate('fos_user_profile_show');
+                        $url = $this->container->get('router')->generate('fos_user_profile_show', array('_locale' => $user->getDefaultLanguage()));
                         $response = new RedirectResponse($url);
                     }
 
