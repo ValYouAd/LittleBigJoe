@@ -1,4 +1,3 @@
-
 var involve_graph = function(){
 
     var dark_blue = '#348c93',
@@ -20,7 +19,8 @@ var involve_graph = function(){
                 spotRadius: 6,
                 fillColor: light_so_blue,
                 chartRangeMin: 0,
-                chartRangeMax: 5
+                chartRangeMax: $graph.attr('data-max-likes'),
+                tooltipSuffix: ' likes'
             });
         };
 
