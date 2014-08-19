@@ -1047,10 +1047,12 @@ class ProjectController extends Controller
         $stats = $em->getRepository('LittleBigJoeCoreBundle:ProjectLike')->findLikesStats($entity->getCreatedAt(), new \DateTime(), $entity->getId());
         $dateStats = array();
         $likesStats = array();
+        $maxLikes = 0;
 
         foreach ($stats as $key => $stat) {
             $dateStats[] = $stat['date'];
             $likesStats[] = $stat['nbLikes'];
+            $maxLikes = $maxLikes < $stat['nbLikes'] ? $stat['nbLikes'] : $maxLikes;
         }
 
         // Create the help project form
@@ -1154,6 +1156,7 @@ class ProjectController extends Controller
             'usersIds'           => $usersIds,
             'usersAmounts'       => $usersAmounts,
             'dateStats'          => $dateStats,
+            'maxLikes'           => json_encode($maxLikes),
             'likesStats'         => json_encode($likesStats),
             'showLikePopup'      => $showLikePopup,
             'showFundingPopup'   => $showFundingPopup,
