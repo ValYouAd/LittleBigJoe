@@ -82,7 +82,7 @@
 {% if involve %}
     <div class="side-infos-block">
         <div class="legend">{{ 'Engagement'|trans() }} <span class="grand-hotel">{{ 'evolution'|trans() }}</span></div>
-        <div id="involve-graph" data-values-array="{{ likesStats|raw|replace({'[':'', ']':''}) }}"></div>
+        <div id="involve-graph" data-values-array="{{ likesStats|raw|replace({'[':'', ']':''}) }}" data-max-likes="{{ maxLikes }}"></div>
     </div>
 {% endif %}
 
