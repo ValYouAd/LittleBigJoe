@@ -143,8 +143,8 @@ Discovering: Découvrir
 'Don''t hesitate to contribute to others projects to help creators !': 'N''hésitez pas à contributer à d''autres projets pour aider les créateurs !'
 EUR: EUR
 Edit: Editer
-'Edit my project': 'Modifier mon projet'
-'Edit project': 'Modifier le projet'
+'Edit my project': 'Editer mon projet'
+'Edit project': 'Editer le projet'
 Email: Email
 'Email address': 'Adresse email'
 Ended: Terminé(s)
@@ -537,3 +537,5 @@ Contact: Contact
 FAQ: FAQ
 Best practices: Bonnes pratiques
 'Your biography can''t exceed {{ limit }} characters': 'Votre biographie ne peut pas dépasser {{ limit }} caractères'
+Edit my product: 'Editer mon produit'
+Edit the: 'Editer le'

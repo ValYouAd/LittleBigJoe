@@ -1,0 +1,317 @@
+{% extends '::base.html.twig' %}
+
+{% block header_css %}
+    {{ parent() }}
+    <link href="{{ asset('js/datepicker/less/datepicker.css') }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block header_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('static/js/modules/faq-display.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('static/js/modules/reward-select.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/datepicker/js/locales/bootstrap-datepicker.' ~ app.request.locale ~ '.js') }}" charset="UTF-8"></script>
+{% endblock %}
+
+{% block body %}
+    <section>
+        <article class="wContent classic stuck">
+            <div class="white-container">
+
+                <div class="inner-title">
+                    <h1>{{ 'Edit the' }} <span class="grand-hotel">{{ 'product'|trans() }}</span></h1>
+                    <div class="steps">
+                        {{ flow.getCurrentStepNumber() }}. {{ flow.getCurrentStepLabel()|trans() }}
+                    </div>
+                </div>
+
+                <form class="formProject" method="POST" {{ form_enctype(form) }}>
+                    {{ form_errors(form) }}
+
+                    {% if flow.getCurrentStepNumber() == 2 %}
+                        {% include "LittleBigJoeFrontendBundle:includes:create_project/gallery_product.html.twig" with {'projectMedias': productMedias} %}
+                    {% elseif flow.getCurrentStepNumber() == 3 %}
+                        {{ form_row(form.amountRequired) }}
+                        <div class="clearfix"></div>
+                        {{ form_row(form.endingAt) }}
+                    {% elseif flow.getCurrentStepNumber() == 4 %}
+                        {% include "LittleBigJoeFrontendBundle:includes:create_project/rewards.html.twig" with {'projectRewards': form.rewards} %}
+                    {% elseif flow.getCurrentStepNumber() == 5 %}
+                        <p>{{ 'Please check below, if your data is correct. If so, please click on the "Finish" button to put your project online.'|trans() }}</p>
+                        <div class="clearfix"></div>
+                        {% render(controller('LittleBigJoeFrontendBundle:Project:preview', { 'entity':project,'product':projectProduct })) %}
+                    {% endif %}
+
+                    {{ form_rest(form) }}
+
+                    {% if flow.getCurrentStepNumber() == 2 %}
+                        <div class="clearfix">&nbsp;</div>
+                        <button id="addFile" class="btn btn-info" data-toggle="modal" data-target="#fileModal">{{ 'Add new file'|trans() }}</button>
+                        <button id="addAudioFile" class="btn btn-info" data-toggle="modal" data-target="#audioFileModal">{{ 'Add new audio file'|trans() }}</button>
+                    {% endif %}
+
+                    {% include "LittleBigJoeFrontendBundle:FormFlow:buttons.html.twig" %}
+                </form>
+            </div>
+        </article>
+    </section>
+{% endblock %}
+
+{% block modal %}
+    <div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Media gallery'|trans() }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{ 'Media gallery'|trans() }} - <span class="nbGalleryElements">{{ productMedias|length() }}</span> {{ 'element(s)'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="width:50%;float:left">
+                        <h5>{{ 'Images'|trans() }}</h5>
+                        <input type="file" class="btn btn-info btn-xs" id="selectGalleryImages" name="selectGalleryImages" style="padding:0;font-size:10px" value="{{ 'Add images'|trans() }}" multiple />
+                    </div>
+                    <div style="width:50%;float:left">
+                        <h5>{{ 'Videos'|trans() }}</h5>
+                        <p>{{ 'Paste your Youtube/Dailymotion/Vimeo video url'|trans() }}</p>
+                        <p>
+                            <input type="text" id="videoUrl" name="videoUrl" value="" size="15" />
+                            <span id="getVideoBtn" class="btn btn-info btn-xs" style="padding:0;font-size:10px">{{ 'Get the video'|trans() }}</span>
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="double-separator"></div>
+                    <div id="gallery_container">
+                        <h5>{{ 'Your product medias'|trans() }}</h5>
+                        <div id="gallery">
+                            {% if productMedias %}
+                                {% for productMedia in productMedias %}
+                                    {% include "LittleBigJoeFrontendBundle:includes:create_project/gallery_product_item.html.twig" with {'productMedia': productMedia} %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Upload new file'|trans() }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{ 'Upload new file'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    <p><input type="file" id="fileName" name="fileName" /></p>
+                    <div class="clearfix"></div>
+                    <div id="fileProgress" class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="audioFileModal" tabindex="-1" role="dialog" aria-labelledby="{{ 'Upload new audio file'|trans() }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{{ 'Upload new audio file'|trans() }}</h4>
+                </div>
+                <div class="modal-body">
+                    <p><input type="file" id="audioFileName"  name="audioFileName" /></p>
+                    <div class="clearfix"></div>
+                    <div id="audioFileProgress" class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+{% endblock %}
+
+{% block footer_javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/littlebigjoefrontend/js/vendor/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('bundles/littlebigjoefrontend/js/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('bundles/littlebigjoefrontend/js/jquery.fileupload.js') }}"></script>
+    <script type="text/javascript">
+        var default_language_ckeditor = 'en';
+        var addRewardLabel = "{{ 'Add new reward'|trans() }}";
+        var deleteRewardLabel = "{{ 'Delete reward'|trans() }}";
+        var selectAFileLabel = "{{ 'Please select a file before submitting the form'|trans() }}";
+        var wrongFileTypeLabel = "{{ 'The file type is not authorized. Authorized types are : .pdf, .xml, .zip, .csv, .txt, .doc'|trans() }}";
+        var wrongAudioFileTypeLabel = "{{ 'The file type is not authorized. Authorized audio types are : .mpeg, .mp3, .mp4, .wma, .wav'|trans() }}";
+        var fileSizeLabel = "{{ 'The file size is too big. Please upload files that do not exceed 20Mo'|trans() }}";
+        var audioFileSizeLabel = "{{ 'The file size is too big. Please upload audio files that do not exceed 20Mo'|trans() }}";
+
+        $(document).ready(function ()
+        {
+            // STEP 2
+            // Add buttons to download files
+            $('#addFile').click(function(){
+                $('#fileModal').modal();
+            });
+            $('#addAudioFile').click(function(){
+                $('#audioFileModal').modal();
+            });
+
+            $('#fileName').fileupload({
+                dataType: 'json',
+                url: "{{ path('littlebigjoe_frontendbundle_ajax_upload_file') }}",
+                progress: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#fileProgress .progress-bar').css('width', progress + '%');
+                    $('#fileProgress .progress-bar').attr('aria-valuenow', progress);
+                },
+                done: function (e, data) {
+                    console.log(data.result);
+                    if (data.result.status == 'OK' && data.result.html != '')
+                            {
+                            $('#fileProgress .progress-bar').css('width', '100%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '100');
+                        $('#fileModal').modal('hide');
+                        CKEDITOR.instances['createProduct_description'].insertHtml(data.result.html);
+                        $('#fileName').val('');
+                                $('#fileProgress .progress-bar').css('width', '0%');
+                            $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                            }
+                    else if (data.result.status == 'KO USER')
+                    {
+                            window.location = "{{ path('fos_user_security_login') }}";
+                    }
+                    else if (data.result.status == 'KO FILE')
+                    {
+                            $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                            alert(selectAFileLabel);
+                    }
+                    else if (data.result.status == 'KO SIZE')
+                    {
+                            $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                            alert(fileSizeLabel);
+                    }
+                    else if (data.result.status == 'KO TYPE')
+                    {
+                            $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                            alert(wrongFileTypeLabel);
+                    }
+                }
+            });
+            $('#audioFileName').fileupload({
+                dataType: 'json',
+                url: "{{ path('littlebigjoe_frontendbundle_ajax_upload_audio_file') }}",
+                progress: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#audioFileProgress .progress-bar').css('width', progress + '%');
+                    $('#audioFileProgress .progress-bar').attr('aria-valuenow', progress);
+                },
+                done: function (e, data) {
+                    console.log(data.result);
+                    if (data.result.status == 'OK' && data.result.html != '')
+                            {
+                            $('#audioFileProgress .progress-bar').css('width', '100%');
+                        $('#audioFileProgress .progress-bar').attr('aria-valuenow', '100');
+                        $('#audioFileModal').modal('hide');
+                        CKEDITOR.instances['createProduct_description'].insertHtml('<div>' + data.result.html + '</div>', 'unfiltered_html');
+                        $('#audioFileName').val('');
+                                $('#audioFileProgress .progress-bar').css('width', '0%');
+                            $('#audioFileProgress .progress-bar').attr('aria-valuenow', '0');
+                            }
+                    else if (data.result.status == 'KO USER')
+                    {
+                            window.location = "{{ path('fos_user_security_login') }}";
+                    }
+                    else if (data.result.status == 'KO FILE')
+                    {
+                            $('#audioFileProgress .progress-bar').css('width', '0%');
+                        $('#audioFileProgress .progress-bar').attr('aria-valuenow', '0');
+                            alert(selectAFileLabel);
+                    }
+                    else if (data.result.status == 'KO SIZE')
+                    {
+                            $('#fileProgress .progress-bar').css('width', '0%');
+                        $('#fileProgress .progress-bar').attr('aria-valuenow', '0');
+                            alert(audioFileSizeLabel);
+                    }
+                    else if (data.result.status == 'KO TYPE')
+                    {
+                            $('#audioFileProgress .progress-bar').css('width', '0%');
+                        $('#audioFileProgress .progress-bar').attr('aria-valuenow', '0');
+                            alert(wrongAudioFileTypeLabel);
+                    }
+                }
+            });
+
+            $('.datepicker').datepicker({
+                language: '{{ app.request.locale }}'
+            });
+
+            // STEP 4
+            // Handle rewards
+            if ($('#createProduct_giftProduct').val() == '1')
+            {
+                $('#createProduct_giftPercentageFundsRaised').hide();
+            }
+
+            $('#createProduct_giftProduct').change(function(){
+                if ($('#createProduct_giftProduct').val() == '1')
+                {
+                    $('#createProduct_giftPercentageFundsRaised').hide();
+                }
+                else
+                {
+                    $('#createProduct_giftPercentageFundsRaised').show();
+                }
+            });
+
+            var collectionHolder = $('ul.rewards');
+            var $addRewardLink = $('<a href="#" class="btn btn-success btn-sm" style="font-size: 12px;padding: 5px 10px;" >' + addRewardLabel + '</a>');
+            var $newLinkLi = $('<li></li>').append($addRewardLink);
+
+            collectionHolder.append($newLinkLi);
+            collectionHolder.find('li.added').each(function() {
+                addRewardFormDeleteLink($(this));
+            });
+
+            $addRewardLink.on('click', function(e) {
+                e.preventDefault();
+                addRewardForm(collectionHolder, $newLinkLi);
+            });
+
+            function addRewardForm(collectionHolder, $newLinkLi) {
+                var prototype = collectionHolder.attr('data-prototype');
+                var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+                var $newFormLi = $('<li class="added"></li>').append(newForm);
+
+                $newLinkLi.before($newFormLi);
+                addRewardFormDeleteLink($newFormLi);
+            }
+
+            function addRewardFormDeleteLink($rewardFormLi) {
+                var $removeFormA = $('<a href="#" class="btn btn-danger btn-sm" style="font-size: 12px;padding: 5px 10px;" >' + deleteRewardLabel + '</a>');
+                $rewardFormLi.append($removeFormA);
+
+                $removeFormA.on('click', function(e) {
+                    e.preventDefault();
+                    $rewardFormLi.remove();
+                });
+            }
+        });
+    </script>
+{% endblock %}

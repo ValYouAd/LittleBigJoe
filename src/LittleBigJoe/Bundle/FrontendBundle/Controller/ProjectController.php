@@ -995,6 +995,212 @@ class ProjectController extends Controller
     }
 
     /**
+     * Edit product associated to specific project
+     *
+     * @Route("/project/{id}-{slug}/edit-product", name="littlebigjoe_frontendbundle_project_edit_product")
+     * @Template("LittleBigJoeFrontendBundle:Project:Product/edit.html.twig")
+     */
+    public function editProductAction(Request $request, $id, $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        $project = $em->getRepository('LittleBigJoeCoreBundle:Project')->findBySlugI18n($id, $slug);
+
+        if (!$project) {
+            throw $this->createNotFoundException('Unable to find Project entity.');
+        }
+
+        if ($project->getProduct() == null || !($project->getProduct() instanceof ProjectProduct)) {
+            throw $this->createNotFoundException('Unable to find ProjectProduct entity.');
+        }
+
+        $projectProduct = $em->getRepository('LittleBigJoeCoreBundle:ProjectProduct')->find($project->getProduct()->getId());
+
+        // If the current user is not logged, redirect him to login page
+        if (!is_object($currentUser)) {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be logged in to edit a project'
+            );
+
+            // Force base url to make sure environment is not specified in the URL
+            $this->get('router')->getContext()->setBaseUrl('');
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('littlebigjoe_frontendbundle_project_edit', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+
+        // If the current user is not an LBJ admin or brand admin
+        $brandIds = array();
+        foreach ($currentUser->getBrands() as $brand) {
+            $brandIds[] = $brand->getId();
+        }
+        if (!$currentUser->hasRole('ROLE_ADMIN') && !$currentUser->hasRole('ROLE_SUPER_ADMIN')
+            && !$currentUser->hasRole('ROLE_BRAND_ADMIN') && !in_array($project->getBrand()->getId(), $brandIds)
+        ) {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'You must be an administrator to create a product'
+            );
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+        }
+
+        // If the product is already validated OR project already in "Funding phase"
+        if (($project->getProduct() != null && $project->getProduct()->getValidatedAt() != null)) {
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'The product is already validated !'
+            );
+
+            return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+        }
+
+        // Make sure the private user dir is created
+        $dirName = __DIR__ . '/../../../../../web/uploads/tmp/user/' . preg_replace('/[^a-z0-9_\-]/i', '_', $currentUser->getEmail());
+        if (!file_exists($dirName)) {
+            mkdir($dirName, 0755);
+        }
+
+        // Get session vars
+        $productMedias = $this->getRequest()->getSession()->get('productMedias');
+        $projectFields = $this->getRequest()->getSession()->get('projectFields', array());
+        if (empty($productMedias)) {
+            $productMedias = $project->getProduct()->getMedias();
+            $this->getRequest()->getSession()->set('productMedias', $productMedias);
+        }
+
+        // Create form flow
+        $flow = $this->get('littlebigjoefrontend.flow.project.editProduct');
+        $flow->bind($projectProduct);
+        $form = $flow->createForm();
+
+        foreach ($project->getRewards() as $reward)
+        {
+            $project->removeReward($reward);
+            $em->remove($reward);
+        }
+
+        if ($flow->isValid($form)) {
+            $flow->saveCurrentStepData($form);
+
+            // If we're not on the final step
+            if ($flow->nextStep()) {
+                // Create form for next step
+                $form = $flow->createForm();
+            } else {
+                $project->setProduct(null);
+
+                if (!empty($projectFields)) {
+                    $project->setAmountRequired($projectFields['amountRequired']);
+
+                    if (!empty($projectFields['rewards']))
+                    {
+                        foreach ($projectFields['rewards'] as $key => $reward) {
+                            $projectReward = new ProjectReward();
+                            $projectReward->setAmount($reward['amount']);
+                            $projectReward->setTitle($reward['title']);
+                            $projectReward->setDescription($reward['description']);
+                            $projectReward->setStock($reward['stock']);
+                            $projectReward->setMaxQuantityByUser($reward['maxQuantityByUser']);
+                            $projectReward->setProject($project);
+
+                            $em->persist($projectReward);
+                            $em->flush();
+                        }
+                    }
+                }
+
+                $projectProduct->setSubmittedAt(new \DateTime());
+
+                // Remap entities
+                $projectProduct->setProject($project);
+                $project->setProduct($projectProduct);
+
+                if (!empty($productMedias))
+                {
+                    foreach ($productMedias as $key => $productMedia)
+                    {
+                        if ($productMedia['type'] == 'image')
+                        {
+                            $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productMedia['id']);
+                            $projectProduct->addImage($productImage);
+                            $productImage->setProduct($projectProduct);
+                        }
+                        else if ($productMedia['type'] == 'video')
+                        {
+                            $productVideo = $em->getRepository('LittleBigJoeCoreBundle:ProjectVideo')->find($productMedia['id']);
+                            $projectProduct->addVideo($productVideo);
+                            $productVideo->setProduct($projectProduct);
+                        }
+                    }
+                }
+
+                // Persist form data
+                $em->persist($projectProduct);
+                $em->flush();
+
+                // Create product directory if it doesn't exist
+                if (!is_dir($this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product')) {
+                    mkdir($this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product', 0777);
+                }
+
+                // Move tmp file from server, to project directory
+                $matches = array();
+                preg_match_all('/\b(?:(?:https?):\/\/' . $this->getRequest()->getHost() . ')[-A-Z0-9+&@#\/%=~_|$?!:,.]*[A-Z0-9+&]/i', $projectProduct->getDescription(), $matches, PREG_PATTERN_ORDER);
+                foreach ($matches[0] as $key => $match) {
+                    if (@fopen($match, 'r')) {
+                        // Move file
+                        $filePath = preg_replace('/\b(?:(?:https?):\/\/' . $this->getRequest()->getHost() . ')/i', '', $match);
+                        copy($this->get('kernel')->getRootDir() . '/../web' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product/' . basename($filePath));
+
+                        // Update description field
+                        $description = preg_replace('#' . $filePath . '#', '/uploads/projects/' . $project->getId() . '/product/' . basename($filePath), $projectProduct->getDescription());
+                        $projectProduct->setDescription($description);
+                    }
+                }
+
+                // Move tmp project medias from server, to project directory
+                if (!empty($productMedias)) {
+                    foreach ($productMedias as $productMedia) {
+                        if ($productMedia['type'] == 'image') {
+                            $productImage = $em->getRepository('LittleBigJoeCoreBundle:ProjectImage')->find($productMedia['id']);
+                            $filePath = $productImage->getPath();
+
+                            copy($this->get('kernel')->getRootDir() . '/../web/' . $filePath, $this->get('kernel')->getRootDir() . '/../web/uploads/projects/' . $project->getId() . '/product/' . basename($filePath));
+                            $path = preg_replace('#' . $filePath . '#', 'uploads/projects/' . $project->getId() . '/product/' . basename($filePath), $productImage->getPath());
+                            $productImage->setPath($path);
+                        }
+                    }
+                }
+
+                // Persist form data and redirect user
+                $em->persist($projectProduct);
+                $em->flush();
+
+                // Delete session data
+                $this->getRequest()->getSession()->remove('tmpUploadedFile');
+                $this->getRequest()->getSession()->remove('tmpUploadedFilePath');
+
+                // Reset flow data
+                $flow->reset();
+                $this->getRequest()->getSession()->set('productMedias', null);
+                $this->getRequest()->getSession()->set('projectFields', null);
+
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
+            }
+        }
+
+        return $this->render('LittleBigJoeFrontendBundle:Project:Product/edit.html.twig', array(
+            'form'          => $form->createView(),
+            'flow'          => $flow,
+            'project'       => $project,
+            'projectProduct' => $projectProduct,
+            'productMedias' => $productMedias
+        ));
+    }
+
+    /**
      * Allows to save project logo in project creation during step 1
      *
      * @param UploadedFile $file
