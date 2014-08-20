@@ -98,7 +98,12 @@
         <li class="name"><a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}">{{ entity.user }}</a></li>
         <li class="links">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}">
-                <img class="icon" src="{{ asset('static/img/icons/icon-author-blue.png') }}" alt="alt-LBJ - author icon" />{{ 'See his profile'|trans() }}
+                <img class="icon" src="{{ asset('static/img/icons/icon-author-blue.png') }}" alt="alt-LBJ - author icon" />
+                {% if entity.user.gender == '0' %}
+                    {{ 'See his profile'|trans() }}
+                {% elseif entity.user.gender == '1' %}
+                    {{ 'See her profile'|trans() }}
+                {% endif %}
             </a>
         </li>
         <li class="links">
@@ -109,12 +114,9 @@
         <li class="links">
             <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': entity.user.id}) }}#projects">
                 <img class="icon" src="{{ asset('static/img/icons/icon-categories-blue.png') }}" alt="alt-LBJ - categories icon" />
-                {% if entity.user.getAvailableProjects > 0 and entity.user.gender == '0' %}
-                    {{ 'His'|trans() }}
-                {% elseif entity.user.getAvailableProjects > 0 and entity.user.gender == '1' %}
-                    {{ 'Her'|trans() }}
+                {% if entity.user.getAvailableProjects > 0 and entity.user.gender == '0' %}{% transchoice entity.user.getAvailableProjects %}{0} No project|{1} his project|]1,Inf] his projects{% endtranschoice %}
+                {% elseif entity.user.getAvailableProjects > 0 and entity.user.gender == '1' %}{% transchoice entity.user.getAvailableProjects %}{0} No project|{1} her project|]1,Inf] her projects{% endtranschoice %}
                 {% endif %}
-                {% transchoice entity.user.getAvailableProjects %}{0} No project|{1} project|]1,Inf] projects{% endtranschoice %}
                 ( <span class="orange-text">{{ entity.user.getAvailableProjects }}</span> )
             </a>
         </li>

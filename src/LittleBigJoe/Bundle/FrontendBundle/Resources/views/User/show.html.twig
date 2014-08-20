@@ -61,13 +61,12 @@
 
             {% if entity.getAvailableProjects|length > 0 %}
                 <div class="article-header">
-                    <h2><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" />
+                    <h2 style="text-transform:capitalize"><img class="icon" src="{{ asset('static/img/icons/icon-projects-blue.png') }}" alt="alt-LBJ - projects icon" />
                         {% if entity.getAvailableProjects > 0 and entity.gender == '0' %}
-                            {{ 'His'|trans() }}
+                            {% transchoice entity.getAvailableProjects %}{0} No project|{1} his project|]1,Inf] his projects{% endtranschoice %}
                         {% elseif entity.getAvailableProjects > 0 and entity.gender == '1' %}
-                            {{ 'Her'|trans() }}
+                            {% transchoice entity.getAvailableProjects %}{0} No project|{1} her project|]1,Inf] her projects{% endtranschoice %}
                         {% endif %}
-                        {% transchoice entity.getAvailableProjects %}{0} No project|{1} project|]1,Inf] projects{% endtranschoice %}
                     </h2>
                     <div class="separator"></div>
                 </div>
