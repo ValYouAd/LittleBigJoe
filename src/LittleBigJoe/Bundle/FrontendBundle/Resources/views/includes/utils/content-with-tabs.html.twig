@@ -72,7 +72,7 @@
         <div class="tab tabSmall" id="tab_0"><img class="icon" src="{{ asset('static/img/icons/icon-projects-gray.png') }}" alt="alt-LBJ - projects icon" />{{ 'Project'|trans() }}</div>
         <div class="tab tabSmall" id="tab_4"><img class="icon" src="{{ asset('static/img/icons/icon-coins.png') }}" alt="alt-LBJ - news icon" />{{ 'Product'|trans() }}</div>
         <div class="tab tabSmall" id="tab_1"><img class="icon" src="{{ asset('static/img/icons/icon-news.png') }}" alt="alt-LBJ - news icon" />{{ 'News'|trans() }}</div>
-        <div class="tab tabSmall" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{{ 'Participants'|trans() }}</div>
+        <div class="tab tabSmall" id="tab_2"><img class="icon" src="{{ asset('static/img/icons/icon-people-gray.png') }}" alt="alt-LBJ - people icon" />{% if entity.status == '1' %}{{ 'Likers'|trans() }}{% else %}{{ 'Participants'|trans() }}{% endif %}</div>
         <div class="tab tabSmall" id="tab_3"><img class="icon" src="{{ asset('static/img/icons/icon-comment.png') }}" alt="alt-LBJ - comment icon" />{{ 'Comments'|trans() }}</div>
     </div>
 
@@ -337,36 +337,68 @@
 
     {# ----- TAB 'PARTICIPANTS' ------ #}
     <div class="tab-content-container" id="tabcont_2">
-        <div class="article-header">
-            {% set countParticipants = 0 %}
-            {% if entity.contributions and entity.contributions|length() > 0 %}
-                {% set already_shown_users_ids = [] %}
-                {% for contribution in entity.contributions %}
-                    {% if contribution.user.id not in already_shown_users_ids %}
-                        {% set countParticipants = countParticipants+1 %}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-            <h2>{{ 'Other'|trans() }} <span class="grand-hotel">{% transchoice countParticipants %}{0} participant|{1} participant|]1,Inf] participants{% endtranschoice %}</span> {{ 'to this project'|trans() }}</h2>
-        </div>
-        <div class="description-infos">
-            {% if entity.contributions and entity.contributions|length() > 0 %}
+        {% if entity.status == '1' %}
+            <div class="article-header">
+                {% set countLikers = 0 %}
+                {% if entity.likes and entity.likes|length() > 0 %}
+                    {% set already_shown_users_ids = [] %}
+                    {% for like in entity.likes %}
+                        {% if like.user.id not in already_shown_users_ids %}
+                            {% set countLikers = countLikers+1 %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <h2>{{ 'Other'|trans() }} <span class="grand-hotel">{% transchoice countLikers %}{0} liker|{1} liker|]1,Inf] likers{% endtranschoice %}</span> {{ 'to this project'|trans() }}</h2>
+            </div>
+            <div class="description-infos">
+                {% if entity.likes and entity.likes|length() > 0 %}
                 {% set already_shown_users_ids = [] %}
                 <ul>
-                    {% for contribution in entity.contributions %}
-                        {% if contribution.user.id not in already_shown_users_ids %}
-                            {% set already_shown_users_ids = already_shown_users_ids|merge([contribution.user.id]) %}
+                    {% for like in entity.likes %}
+                        {% if like.user.id not in already_shown_users_ids %}
+                            {% set already_shown_users_ids = already_shown_users_ids|merge([like.user.id]) %}
                             <li>
-                                <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a>
-                                {% if usersAmounts[contribution.user.id] > 0 %}{{ 'gived'|trans() }} <strong>{{ usersAmounts[contribution.user.id] }} {{ '€'|trans() }}</strong>{% endif %}
+                                <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': like.user.id}) }}">{{ like.user }}</a>
                             </li>
                         {% endif %}
                     {% endfor %}
                 </ul>
-            {% else %}
-                <p><strong>{{ 'There\'s no participants for the moment'|trans() }}</strong><p>
-            {% endif %}
-        </div>
+                {% else %}
+                <p><strong>{{ 'There\'s no likers for the moment'|trans() }}</strong><p>
+                    {% endif %}
+            </div>
+        {% else %}
+            <div class="article-header">
+                {% set countParticipants = 0 %}
+                {% if entity.contributions and entity.contributions|length() > 0 %}
+                    {% set already_shown_users_ids = [] %}
+                    {% for contribution in entity.contributions %}
+                        {% if contribution.user.id not in already_shown_users_ids %}
+                            {% set countParticipants = countParticipants+1 %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <h2>{{ 'Other'|trans() }} <span class="grand-hotel">{% transchoice countParticipants %}{0} participant|{1} participant|]1,Inf] participants{% endtranschoice %}</span> {{ 'to this project'|trans() }}</h2>
+            </div>
+            <div class="description-infos">
+                {% if entity.contributions and entity.contributions|length() > 0 %}
+                    {% set already_shown_users_ids = [] %}
+                    <ul>
+                        {% for contribution in entity.contributions %}
+                            {% if contribution.user.id not in already_shown_users_ids %}
+                                {% set already_shown_users_ids = already_shown_users_ids|merge([contribution.user.id]) %}
+                                <li>
+                                    <a href="{{ path('littlebigjoe_frontendbundle_user_show', {'id': contribution.user.id}) }}">{{ contribution.user }}</a>
+                                    {% if usersAmounts[contribution.user.id] > 0 %}{{ 'gived'|trans() }} <strong>{{ usersAmounts[contribution.user.id] }} {{ '€'|trans() }}</strong>{% endif %}
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p><strong>{{ 'There\'s no participants for the moment'|trans() }}</strong><p>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 
     {# ----- TAB 'COMMENTS' ------ #}
