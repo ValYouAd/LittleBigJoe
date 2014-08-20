@@ -31,7 +31,7 @@
         "jms/i18n-routing-bundle": "dev-master",
         "craue/formflow-bundle": "~2.0",
         "Trsteel/ckeditor-bundle": "~1.2.1",
-        "helios-ag/fm-elfinder-bundle": "1.x",
+        "helios-ag/fm-elfinder-bundle": "1.4.2",
         "ensepar/html2pdf" : "1.0.1",
         "ensepar/html2pdf-bundle" : "dev-master",
         "knplabs/knp-time-bundle" : "dev-master",
