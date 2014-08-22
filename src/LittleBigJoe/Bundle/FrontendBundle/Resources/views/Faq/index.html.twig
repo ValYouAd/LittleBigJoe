@@ -42,7 +42,7 @@
                                     {% if currentCat != '' %}</div><div class="separator">&nbsp;</div>{% endif %}
                                     {% set currentCat = faq.category.id %}
                                     <div id="section_{{ faq.category.id }}">
-                                        <h3>{{ faq.category }}</h3>
+                                        <h2>{{ faq.category }}</h2>
                                 {% endif %}
                                 {% set faq_var = {'faq': faq} %}
                                 {% include "LittleBigJoeFrontendBundle:includes:utils/aside-faq.html.twig" with faq_var %}
