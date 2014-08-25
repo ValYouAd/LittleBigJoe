@@ -9,6 +9,7 @@ var quick_start = function(){
 
         if(!$qsc.opened){
 
+           $imc.find('.arrow').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
             $qsc.opened=true;
 
             $qsc.stop().animate({
@@ -30,6 +31,7 @@ var quick_start = function(){
 
         } else {
 
+           $imc.find('.arrow').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
             $qsc.stop().animate({
                 'height': '0px',
                 'padding': '0px'

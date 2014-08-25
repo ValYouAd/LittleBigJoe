@@ -21,7 +21,7 @@
     ' Launch my project': '3. Financez votre rêve'
 
 'A problem has occured during your payment':
-    '': 'Un problème est survenu lors de votre paiement.'
+    '': 'Désolé, un problème est survenu lors de votre paiement.'
 
 'A project has been reported': 'Un projet a été signalé'
 
@@ -143,8 +143,8 @@ Discovering: Découvrir
 'Don''t hesitate to contribute to others projects to help creators !': 'N''hésitez pas à contributer à d''autres projets pour aider les créateurs !'
 EUR: EUR
 Edit: Editer
-'Edit my project': 'Editer mon projet'
-'Edit project': 'Editer le projet'
+'Edit my project': 'Modifier mon projet'
+'Edit project': 'Modifier le projet'
 Email: Email
 'Email address': 'Adresse email'
 Ended: Terminé(s)
@@ -207,14 +207,14 @@ Images: Images
 'It is up to you!': 'C''est à vous!'
 JPY: JPY
 Lastname: Nom
-Latest: Dernier
+Latest: Derniers
 'Latest brands': 'Dernière <span class="grand-hotel">marques citées</span>'
 'Latest projects': 'Derniers projets'
 Launch: Lancer
 'Launch my project': 'Lancer mon projet'
 'Learn more about our': 'Apprenez en plus sur notre'
 'Likes to get': '''J''aime'' à obtenir'
-Limited: Limited
+Limited: Limité
 'Little Big Joe': 'Little Big Joe'
 
 'LittleBigJoe is here to guide you in the creation of your project : The <a href="%howdoesitworkroute%">How it works</a> page explains the 3 easy steps to launch a project':
@@ -268,7 +268,7 @@ Pitch: Pitch
 
 'Please check below, if your data is correct':
     ' If so, please click on the "Finish" button to put your project online':
-        '': 'Veuillez vérifier que toutes les informations sont correctes. Si c''est le cas, veuillez cliquer sur le bouton "Terminer" pour passer votre projet en ligne.'
+        '': 'Veuillez vérifier ci-dessous que les informations sont correctes. Si c''est le cas, veuillez cliquer sur le bouton "Terminer" pour passer votre projet en ligne.'
 
 'Please select a file before submitting the form': 'Veuillez sélectionner un fichier avant de soumettre le formulaire'
 
@@ -311,7 +311,7 @@ Report: Signaler
 'Reward title': 'Titre de la récompense'
 Rewards: Récompenses
 Save: Sauvegarder
-'Save feedback': 'Enregistrer le retour'
+'Save feedback': 'Enregistrer le commentaire'
 'Save modifications': 'Enregistrer les modifications'
 Search: Rechercher
 'Search for ': Rechercher
@@ -340,7 +340,7 @@ Submit: Soumettre
 'Thanks for your contribution': 'Merci de votre contribution'
 
 'Thanks for your payment':
-    '': 'Merci de votre paiement'
+    '': 'Merci pour votre paiement'
 
 'The brand': 'La marque'
 

@@ -30,7 +30,7 @@ class Faq
      * @var string
      *
      * @Gedmo\Translatable
-     * @ORM\Column(name="question", type="string", length=255)
+     * @ORM\Column(name="question", type="text")
      *
      * @Assert\NotBlank(message = "You must enter your question")
      */
@@ -40,7 +40,7 @@ class Faq
      * @var string
      *
      * @Gedmo\Translatable
-     * @ORM\Column(name="answer", type="string", length=255)
+     * @ORM\Column(name="answer", type="text")
      *
      * @Assert\NotBlank(message = "You must enter your answer")
      */
