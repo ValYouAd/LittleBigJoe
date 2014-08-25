@@ -18,7 +18,7 @@ class FaqRepository extends EntityRepository
                 ->leftJoin('f.category', 'fc')
                 ->where('f.isVisible = :isVisible')
                 ->setParameter('isVisible', true)
-                ->orderBy('fc.name', 'ASC')
+                ->orderBy('fc.id', 'ASC')
                 ->getQuery()
                 ->getResult();
 
