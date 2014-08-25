@@ -88,8 +88,8 @@
                             {% endif %}
                             </a>
                             <div class="project-label">
-                                <a href="/fr/marque/test" class="white">
-                                    Test
+                                <a href="{{ path('littlebigjoe_frontendbundle_brand_show', {'slug':popularProject.brand.slug}) }}" class="white">
+                                    {{ popularProject.brand }}
                                 </a>
                             </div>
                         </div>
