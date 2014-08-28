@@ -75,15 +75,15 @@ class FacebookProvider implements UserProviderInterface
             }
 
             // Upload user photo
-            $relativePath = 'uploads/users/'.$fbdata['username'].'.jpg';
+            $relativePath = 'uploads/users/'.$fbdata['id'].'.jpg';
             $localImage = $this->container->get('kernel')->getRootDir().'/../web/'.$relativePath;
-            $image = file_get_contents('http://graph.facebook.com/'.$fbdata['username'].'/picture?type=large');
+            $image = file_get_contents('http://graph.facebook.com/'.$fbdata['id'].'/picture?type=large');
             $fp = fopen($localImage, "w");
             fwrite($fp, $image);
             fclose($fp);
             $uploadedFile = new UploadedFile(
                 $relativePath,
-                $fbdata['username'].'.jpg'
+                $fbdata['id'].'.jpg'
             );
             $user->setPhoto($uploadedFile);
 

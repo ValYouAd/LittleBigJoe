@@ -153,7 +153,6 @@ class User extends BaseUser
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message = "You must enter your city")
      * @Assert\Length(
      *    min = "2",
      *    max = "250",
@@ -172,7 +171,6 @@ class User extends BaseUser
      *
      * @ORM\Column(name="country", type="string", length=255, nullable=true)
      *
-     * @Assert\NotBlank(message = "You must enter your country")
      * @Assert\Country(message = "Your country name is invalid")
      */
     private $country;
