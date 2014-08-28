@@ -80,7 +80,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="birthday", type="datetime")
      *
-     * @Assert\NotBlank(message = "You must enter your lastname")
+     * @Assert\NotBlank(message = "You must enter your birthday")
      */
     private $birthday;
 
