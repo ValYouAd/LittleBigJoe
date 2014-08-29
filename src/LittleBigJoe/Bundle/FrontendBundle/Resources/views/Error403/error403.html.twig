@@ -9,11 +9,12 @@
 
         <form action="{{ path('littlebigjoe_frontendbundle_registration_beta_confirmed') }}" {{ form_enctype(form) }} method="POST">
             {{ form_errors(form) }}
-            <p>
+           <p>
                {{ 'Enter your beta code and get full access to LittleBigJoe: '|trans() }}
                {{ form_widget(form.betaCodeValue) }}
                {{ form_widget(form.submitCode) }}
            </p>
+           {{ form_errors(form.betaCodeValue) }}
            {{ form_rest(form) }}
         </form>
     {% else %}

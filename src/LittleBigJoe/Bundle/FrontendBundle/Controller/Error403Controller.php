@@ -54,6 +54,8 @@ class Error403Controller extends Controller
                             'user' => $user,
                         ));
                     }
+                } else {
+                    $form->addError(new FormError(($this->get('translator')->trans('betacode.empty'))));
                 }
             }
         }
