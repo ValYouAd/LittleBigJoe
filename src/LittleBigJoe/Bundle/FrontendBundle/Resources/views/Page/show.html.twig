@@ -9,11 +9,11 @@
         <article>
             <div class="padding10 white-container cmsContent">
                 <div class="article-header">
-                    <h2><span class="grand-hotel">{{ entity.title }}</span></h2>
+                    <h2><span class="grand-hotel">{{ entity.0.title }}</span></h2>
                 </div>
 
                 <div class="nodata">
-                    {{ entity.content|raw }}
+                    {{ entity.0.content|raw }}
                 </div>
             </div>
         </article>
