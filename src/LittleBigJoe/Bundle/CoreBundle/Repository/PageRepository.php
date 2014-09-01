@@ -50,6 +50,7 @@ class PageRepository extends EntityRepository
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
                 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
             )
-            ->getSingleResult();
+            ->setMaxResults(1)
+            ->getResult();
     }
 }
