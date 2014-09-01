@@ -459,15 +459,12 @@ Yes: Oui
 'Your project needs YOU!': 'Votre projet a besoin de VOUS!'
 'about this project': 'à propos du projet'
 
-access_denied:
-    message1: access_denied.message1   # FIXME
-    title: access_denied.title   # FIXME
-
 available: disponible
 
 betacode:
-    incorrect: betacode.incorrect   # FIXME
-    used_too_many_times: betacode.used_too_many_times   # FIXME
+    incorrect: 'Le code beta est incorrect'
+    used_too_many_times: 'Le code beta a été trop utilisé'
+    empty: 'Vous devez entrer un code beta'
 
 '& bring ': '& donnez vie aux '
 'brand wants to create an product for your project :': 'veut créer un produit pour le projet :'
@@ -486,7 +483,7 @@ funded: financés
 gived: donné(s)
 got: a
 'has declined your product ': 'a refusé votre produit'
-homepage: homepage   # FIXME
+homepage: Accueil
 'in projects right now, by': 'aux projets, en'
 'it work ?': 'ca marche ?'
 

@@ -35,6 +35,8 @@ var hide_tabs_content = function(){
 $(window).on('hashchange', function() {
     var hash = window.location.hash,
         id = hash.split('_')[1].slice(0,1);
-    hide_tabs_content();
-    call_tab_content($("#tab_"+id),id);
+    if (hash.indexOf('tab') > -1) {
+       hide_tabs_content();
+       call_tab_content($("#tab_"+id),id);
+    }
 });

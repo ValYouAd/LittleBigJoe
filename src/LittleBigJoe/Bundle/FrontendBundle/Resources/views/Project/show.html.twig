@@ -23,6 +23,7 @@
 {% endblock %}
 
 {% block body %}
+
     <section>
         {% if entity.status == '1' %}
             {% set showLikeBox = true %}
@@ -132,7 +133,7 @@
                             .done(function(data) {
                                 if (data.status == 'OK')
                                 {
-                                    alert("{{ 'Thanks for liking the project !'|trans() }}");
+                                    alert("{{ 'Thanks for liking the project !'|trans()|raw }}");
                                     var likes = parseInt($('.likes_count').text()) + 1;
                                     $('.likes_count').text(likes);
                                     $('#likeProject').hide();
@@ -302,7 +303,7 @@
                     {
                         $('#helpProject').modal({'backdrop': true});
                         $('#helpProject').on('hidden.bs.modal', function (e) {
-                            alert("{{ 'Thanks for liking the project !'|trans() }}");
+                            alert("{{ 'Thanks for liking the project !'|trans()|escape('js') }}");
                             var likes = parseInt($('.likes_count').text()) + 1;
                             $('.likes_count').text(likes);
                             $('#likeProject').hide();
@@ -320,12 +321,12 @@
                     {
                         $('#helpProject').modal();
                         $('#helpProject').on('hidden.bs.modal', function (e) {
-                            alert("{{ 'You already have liked this project !'|trans() }}");
+                            alert("{{ 'You already have liked this project !'|trans()|escape('js') }}");
                         });
                     }
                     else
                     {
-                        alert("{{ 'An error has occured during project liking. Please try again'|trans() }}");
+                        alert("{{ 'An error has occured during project liking. Please try again'|trans()|escape('js') }}");
                     }
                 });
             });
@@ -348,7 +349,7 @@
                     }
                     else
                     {
-                        alert("{{ 'An error has occured during project liking. Please try again'|trans() }}");
+                        alert("{{ 'An error has occured during project liking. Please try again'|trans()|escape('js') }}");
                     }
                 });
             });
@@ -568,7 +569,7 @@
                         {
                             $('#helpProject').modal();
                             $('#helpProject').on('hidden.bs.modal', function (e) {
-                                alert("{{ 'You already have unliked this project !'|trans() }}");
+                                alert("{{ 'You already have unliked this project !'|trans()|escape('js') }}");
                             });
                         }
                         else

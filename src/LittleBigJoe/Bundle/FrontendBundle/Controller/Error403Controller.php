@@ -41,20 +41,25 @@ class Error403Controller extends Controller
                         $form->get('betaCodeValue')->addError(new FormError(($this->get('translator')->trans('betacode.incorrect'))));
                     }
                     $errors = $form->get('betaCodeValue')->getErrors();
+
                     if (empty($errors)) {
                         $em = $this->getDoctrine()->getManager();
                         $em->persist($user);
                         $em->flush();
                         $token->setAuthenticated(false);
+
                         return $this->render('LittleBigJoeFrontendBundle:Error403:error403.html.twig', array(
                             'form' => $form->createView(),
                             'is_beta_user' => true,
                             'user' => $user,
                         ));
                     }
+                } else {
+                    $form->addError(new FormError(($this->get('translator')->trans('betacode.empty'))));
                 }
             }
         }
+
         return $this->render('LittleBigJoeFrontendBundle:Error403:error403.html.twig', array(
             'form' => $form->createView(),
             'is_beta_user' => $is_beta_user,
