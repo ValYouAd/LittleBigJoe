@@ -143,8 +143,6 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="website_url", type="string", length=255, nullable=true)
-     *
-     * @Assert\Url(message = "Your website URL is invalid")
      */
     private $websiteUrl;
 
@@ -158,10 +156,6 @@ class User extends BaseUser
      *    max = "250",
      *    minMessage = "Your city must contains at least {{ limit }} characters",
      *    maxMessage = "Your city can't exceed {{ limit }} characters"
-     * )
-     * @Assert\Regex(
-     *        pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -,]*$/",
-     *    message = "Your city must only contains letters, spaces, or dashes"
      * )
      */
     private $city;
