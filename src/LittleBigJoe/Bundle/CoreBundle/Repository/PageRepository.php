@@ -38,7 +38,7 @@ class PageRepository extends EntityRepository
      * @param string $slug : contains slug
      * @return object entity
      */
-    public function findBySlugI18n($slug)
+    public function findBySlugI18n($slug, $locale)
     {
         return $this->getEntityManager()
             ->createQuery('SELECT p FROM LittleBigJoeCoreBundle:Page p WHERE p.slug = :slug AND p.isVisible = :isVisible')
@@ -50,6 +50,8 @@ class PageRepository extends EntityRepository
                 \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
                 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
             )
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
             ->setMaxResults(1)
             ->getResult();
     }
