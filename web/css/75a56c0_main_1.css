@@ -7549,6 +7549,7 @@ a.link {
   transition: color 200ms ease-out;
   letter-spacing: 0.001em;
   line-height: 90px;
+  position: relative;
 }
 .logo img {
   height: 47.6px;
@@ -7593,6 +7594,12 @@ a.link {
     transition: color 200ms ease-out;
     margin-right: 5px;
   }
+}
+.logo .beta {
+  position: absolute;
+  bottom: -50px;
+  left: 2px;
+  font-size: 22px;
 }
 .mascot {
   float: left;
@@ -8254,7 +8261,9 @@ article.top-content .top-main-project .top-thumbnail-cont img {
   border-radius: 3px;
 }
 article.top-content .top-main-project .top-infos {
-  margin-top: 15px;
+  margin-top: 10px;
+  border-top: 1px solid #f0ede8;
+  padding-top: 10px;
 }
 article.top-content .top-main-project .top-infos h3 {
   font-size: 21px;
@@ -9360,6 +9369,14 @@ article .article-footer .back-link {
 .nodata {
   padding: 0 15px;
 }
+.cmsContent h1,
+.cmsContent h2,
+.cmsContent h3 {
+  margin: 20px 0 10px 0;
+}
+.cmsContent p {
+  margin-bottom: 10px;
+}
 .keyword span a,
 .keyword span a:hover {
   color: white;
@@ -10029,8 +10046,8 @@ article .article-footer .back-link {
   min-height: 1px;
   padding-left: 0;
   padding-right: 0;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
+  margin-bottom: 10px;
+  padding-bottom: 0px;
   border-bottom: 1px solid #f0ede8;
 }
 .aside-part .side-infos-block .faq-container:last-of-type {
@@ -10051,7 +10068,7 @@ article .article-footer .back-link {
   padding-left: 0;
   padding-right: 0;
   font-family: "Proxima-Nova-SemiBold";
-  margin-bottom: 15px;
+  margin-bottom: 0px;
   cursor: pointer;
 }
 .aside-part .side-infos-block .faq-container .faq-question:hover {
@@ -10215,6 +10232,69 @@ article .article-footer .back-link {
     -o-transition: color 200ms ease-out;
     transition: color 200ms ease-out;
   }
+}
+.faq-container {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 10px;
+  padding-bottom: 0px;
+  border-bottom: 1px solid #f0ede8;
+}
+.faq-container:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.faq-container .faq-question {
+  -webkit-transition: color 200ms ease-out;
+  -moz-transition: color 200ms ease-out;
+  -ms-transition: color 200ms ease-out;
+  -o-transition: color 200ms ease-out;
+  transition: color 200ms ease-out;
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+  font-family: "Proxima-Nova-SemiBold";
+  margin-bottom: 0px;
+  cursor: pointer;
+}
+.faq-container .faq-question:hover {
+  background: transparent;
+  color: #78c8cf;
+  -webkit-transition: color 200ms ease-out;
+  -moz-transition: color 200ms ease-out;
+  -ms-transition: color 200ms ease-out;
+  -o-transition: color 200ms ease-out;
+  transition: color 200ms ease-out;
+}
+.faq-container .faq-question span {
+  float: left;
+  padding-right: 30px;
+}
+.faq-container .faq-question img {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  bottom: auto;
+  left: auto;
+}
+.faq-container .faq-answer {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 0;
+  padding-right: 0;
+  display: inline-block;
+  float: left;
+  height: 0;
+  overflow: hidden;
 }
 .mosaic-container {
   float: left;
@@ -10562,6 +10642,60 @@ article .article-footer .back-link {
   -ms-transition: color 200ms ease-out;
   -o-transition: color 200ms ease-out;
   transition: color 200ms ease-out;
+}
+.img-container {
+  position: relative;
+}
+.img-container .favorite-icon {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  bottom: auto;
+  left: auto;
+}
+.img-container .pres-thumbnail {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  -webkit-border-top-left-radius: 3px;
+  -khtml-border-top-left-radius: 3px;
+  -moz-border-top-left-radius: 3px;
+  border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -khtml-border-top-right-radius: 3px;
+  -moz-border-top-right-radius: 3px;
+  border-top-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 0px;
+  -khtml-border-bottom-left-radius: 0px;
+  -moz-border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -khtml-border-bottom-right-radius: 0px;
+  -moz-border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.img-container .project-label {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: auto;
+  background: rgba(34, 34, 34, 0.66);
+  color: #484e5a;
+  -webkit-transition: color 200ms ease-out;
+  -moz-transition: color 200ms ease-out;
+  -ms-transition: color 200ms ease-out;
+  -o-transition: color 200ms ease-out;
+  transition: color 200ms ease-out;
+  padding: 7.5px 15px 7.5px 15px;
+  width: 89%;
+}
+.img-container .project-label .mosaic-brand-logo {
+  float: left;
+  height: 30px;
+}
+.img-container .project-label .mosaic-project-type {
+  float: right;
 }
 .brand-mosaic-container {
   float: left;
@@ -11043,4 +11177,46 @@ article .article-footer .back-link {
   src: url('../fonts/ProximaNova-Semibold.ttf') format('truetype'), url('../fonts/ProximaNova-Semibold.eot?') format('eot'), url('../fonts/ProximaNova-Semibold.woff') format('woff'), url('../fonts/ProximaNova-Semibold.svg#Proxima-Nova-SemiBold') format('svg');
   font-weight: normal;
   font-style: normal;
+}
+.error403submit {
+  width: 90px;
+}
+.error403submit {
+  background: #8ab424;
+  color: #ffffff;
+  -webkit-transition: color 200ms ease-out;
+  -moz-transition: color 200ms ease-out;
+  -ms-transition: color 200ms ease-out;
+  -o-transition: color 200ms ease-out;
+  transition: color 200ms ease-out;
+  background-image: -webkit-linear-gradient(top, #8ab424 50%, #698a1c 120%);
+  background-image: linear-gradient(to bottom, #8ab424 50%, #698a1c 120%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8ab424', endColorstr='#ff698a1c', GradientType=0);
+  -webkit-text-shadow: 1px -1px 0px #698a1c;
+  -moz-text-shadow: 1px -1px 0px #698a1c;
+  -ms-text-shadow: 1px -1px 0px #698a1c;
+  -o-text-shadow: 1px -1px 0px #698a1c;
+  text-shadow: 1px -1px 0px #698a1c;
+  border-color: #f0ede8;
+}
+.error403submit:hover {
+  background: #78c8cf;
+  color: #ffffff;
+  -webkit-transition: color 200ms ease-out;
+  -moz-transition: color 200ms ease-out;
+  -ms-transition: color 200ms ease-out;
+  -o-transition: color 200ms ease-out;
+  transition: color 200ms ease-out;
+  -webkit-text-shadow: none;
+  -moz-text-shadow: none;
+  -ms-text-shadow: none;
+  -o-text-shadow: none;
+  text-shadow: none;
+}
+.error403code {
+  display: inline;
+  width: 150px;
+  height: 20px;
+  padding: 3px;
 }

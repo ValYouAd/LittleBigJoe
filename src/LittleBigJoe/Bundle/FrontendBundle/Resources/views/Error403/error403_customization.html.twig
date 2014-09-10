@@ -14,7 +14,7 @@
 
 {% block form_widget_simple -%}
     {% set type = type|default('text') -%}
-    <input type="{{ type }}" class="error403code" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <input type="{{ type }}" class="error403code form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {%- endblock form_widget_simple %}
 
 {% block form_errors -%}
