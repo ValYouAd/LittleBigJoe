@@ -1,6 +1,8 @@
 {% form_theme form 'LittleBigJoeFrontendBundle:Error403:error403_customization.html.twig' %}
 
 {% block content %}
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
     {% if not is_beta_user %}
         <h1>{{ 'access_denied.title'|trans() }}</h1>
         <p>{{ 'access_denied.message1'|trans|raw }}</p>
@@ -23,4 +25,8 @@
             <p>{{ 'You can fully enjoy Little Big Joe. You should start by going back to the'|trans() }} <a href="{{ path('littlebigjoe_frontendbundle_home') }}">{{ 'homepage'|trans() }}</a>.</p>
             </div>
     {% endif %}
+    <div class="clearfix">&nbsp;</div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="fb-like" data-lang="{{ app.request.locale }}" data-href="{{ url('littlebigjoe_frontendbundle_registration_beta_confirmed') }}" data-width="116" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
+    <a data-size="medium" href="https://twitter.com/share" class="twitter-share-button" data-url="{{ url('littlebigjoe_frontendbundle_registration_beta_confirmed') }}" data-lang="{{ app.request.locale }}">{{ 'Tweet'|trans() }}</a>
 {% endblock %}
