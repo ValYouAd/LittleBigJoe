@@ -68,19 +68,23 @@ class RegistrationFormType extends BaseType
             ->remove('username_canonical')
             ->add('email', 'email', array(
         				'label' => 'Email address',
-            		'data' => $email
+            		    'data' => $email,
+                        'label_attr' => array('style' => 'display: none')
         		))
-            ->add('gender', 'choice', array(
+/*            ->add('gender', 'choice', array(
                 'label' => 'Gender',
                 'choices' => array('0' => 'Mr', '1' => 'Ms')
-            ))
+            ))*/
             ->add('firstname', 'text', array(
                 'label' => 'Firstname',
-            		'data' => $firstname
-            ))
+                'data' => $firstname,
+                'label_attr' => array('style' => 'display: none')
+
+))
             ->add('lastname', 'text', array(
                 'label' => 'Lastname',
-            		'data' => $lastname
+                'data' => $lastname,
+                'label_attr' => array('style' => 'display: none')
             ))
             ->add('birthday', 'date', array(
                 'label' => 'Birthday date',
@@ -88,8 +92,16 @@ class RegistrationFormType extends BaseType
                 'data' => $defaultDate,
                 'format' => $format,
                 'attr' => array('class' => 'form-control datepicker'),
+                'label_attr' => array('style' => 'display: none')
             ))
-            ->add('facebookUrl', 'url', array(
+            ->add('plainPassword', 'repeated', array(
+                'type' => 'password',
+                'options' => array('translation_domain' => 'FOSUserBundle'),
+                'first_options' => array('label' => 'form.password', 'label_attr' => array('style' => 'display: none')),
+                'second_options' => array('label' => 'form.password_confirmation', 'label_attr' => array('style' => 'display: none')),
+                'invalid_message' => 'fos_user.password.mismatch'
+            ))
+            /*->add('facebookUrl', 'url', array(
                 'label' => 'Facebook URL',
                 'required' => false
             ))
@@ -134,7 +146,7 @@ class RegistrationFormType extends BaseType
                 'label' => 'Bio',
             		'data' => $bio,
                 'required' => false
-            ))
+            ))*/
             ->add('cgv', 'checkbox', array(
                 'mapped' => false,
                 'empty_data' => false,

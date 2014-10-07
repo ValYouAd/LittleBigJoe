@@ -29,7 +29,7 @@ class RegistrationListener implements EventSubscriberInterface
     {
         return array(
             FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
-            FOSUserEvents::REGISTRATION_INITIALIZE => 'onRegistrationInitialize',
+//            FOSUserEvents::REGISTRATION_INITIALIZE => 'onRegistrationInitialize',
         );
     }
 
@@ -134,13 +134,13 @@ class RegistrationListener implements EventSubscriberInterface
         // Redirect user to confirmation page
         if (null === $response = $event->getResponse()) 
         {
-            $betaCodeValue = $user->getBetaCodeValue();
-            if (!empty($betaCodeValue))
-            {
-                $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
-            } else {
-                $url = $this->container->get('router')->generate('littlebigjoe_frontendbundle_registration_beta_confirmed');
-            }
+//            $betaCodeValue = $user->getBetaCodeValue();
+//            if (!empty($betaCodeValue))
+//            {
+            $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
+//            } else {
+//                $url = $this->container->get('router')->generate('littlebigjoe_frontendbundle_registration_beta_confirmed');
+//            }
             $event->setResponse(new RedirectResponse($url));
             return (true);
         }

@@ -1,62 +1,59 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="form-signin">
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="form-signin-custom">
+
     <h1>{{ 'Register'|trans() }}</h1>
 
     {{ form_errors(form) }}
-    
+    <div class="clearfix">&nbsp;</div>
+    <div class="clearfix">&nbsp;</div>
 
     <div class="row">
-        <section class="col-md-5">
-            {{ form_row(form.email) }}
-            {{ form_row(form.plainPassword) }}
-            {{ form_row(form.gender) }}
-            {{ form_row(form.firstname) }}
-            {{ form_row(form.lastname) }}
-            {{ form_row(form.birthday) }}
-            {{ form_row(form.city) }}
-            {{ form_row(form.country) }}
-            {{ form_row(form.defaultLanguage) }}
-            <div class="checkbox">
-                <label>
-                {{ form_widget(form.cgv) }}
-                {{ 'I accept the applicable <a class="link" href="%url%">Terms of Use</a>'|trans({'%url%': path('littlebigjoe_frontendbundle_page_show', {'slug':'cgv'})})|raw }}
-                </label>
-            </div>
-            <div>
-                <button class="btn validate-style">{{ 'Register'|trans }}</button>
-            </div>
-        </section>
-        <section class="col-md-2"></section>
-        <section class="col-md-5">
-            <div class="row">
-                <div class="col-sm-6">
-                    {{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
-                </div>
-                <div class="col-sm-6">
-                    <a style="font-size: 12px;padding: 5px 0px 5px 38px;" href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
-                        <i class="fa fa-twitter" style="line-height: 28px;"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
-                    </a>
-                </div>
-            </div>
-            <div class="clearfix">&nbsp;</div>
-
-            {{ form_row(form.facebookUrl) }}
-            {{ form_row(form.twitterUrl) }}
-            {{ form_row(form.googleUrl) }}
-            {{ form_row(form.websiteUrl) }}
-            {{ form_row(form.photo) }}
-            {{ form_row(form.bio) }}
-
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{ form_label(form.betaCodeValue) }}</h3>
-                </div>
-                <div class="panel-body">
-                    {{ form_widget(form.betaCodeValue) }}
-                </div>
-            </div>
-            {{ form_rest(form) }}
-        </section>
+        <div class="col-sm-6">
+            {{ facebook_login_button({'autologoutlink': false, 'size':'large', 'label': 'Login via Facebook'|trans() }) }}
+        </div>
+        <div class="col-sm-6">
+            <a style="font-size: 12px;padding: 5px 0px 5px 38px;" href="{{ path('hwi_oauth_service_redirect', {service: 'twitter'}) }}" class="btn btn-block btn-social btn-twitter">
+                <i class="fa fa-twitter" style="line-height: 28px;"></i>&nbsp;{{ 'Login via Twitter'|trans() }}
+            </a>
+        </div>
     </div>
+    <div class="clearfix">&nbsp;</div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.firstname) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.lastname) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_row(form.email) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_row(form.birthday) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_row(form.plainPassword) }}
+        </div>
+    </div>
+    <div class="checkbox">
+        <label>
+            {{ form_widget(form.cgv) }}
+            {{ 'I accept the applicable <a class="link" href="%url%">Terms of Use</a>'|trans({'%url%': path('littlebigjoe_frontendbundle_page_show', {'slug':'cgv'})})|raw }}
+        </label>
+    </div>
+    <div>
+        <button class="btn validate-style">{{ 'Register'|trans }}</button>
+    </div>
+    {{ form_rest(form) }}
 </form>

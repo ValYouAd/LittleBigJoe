@@ -33,7 +33,7 @@
                         <img class="inner-thumbnail" src="{{ asset('static/img/mascot-square.png')|apply_filter('690x690') }}" width="92" height="92" alt="alt-LBJ - project thumbnail" />
                     {% endif %}
 
-                    <h1>{{ 'Launch my' }} <span class="grand-hotel">{{ 'project'|trans() }}</span></h1>
+                    <h1>{{ 'Launch my'|trans }} <span class="grand-hotel">{{ 'project'|trans() }}</span></h1>
                     <div class="steps">
                         {{ flow.getCurrentStepNumber() }}. {{ flow.getCurrentStepLabel()|trans() }}
                     </div>
