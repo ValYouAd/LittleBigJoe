@@ -61,7 +61,7 @@ class BrandController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
 
-        		if ($entity->getLogo() != null) {
+        	if ($entity->getLogo() != null) {
                 $evm = $em->getEventManager();
                 $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
                 $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
@@ -204,6 +204,9 @@ class BrandController extends Controller
             throw $this->createNotFoundException('Unable to find Brand entity.');
         }
 
+        // Save previous logo to avoid loosing it
+        $previousLogo = $entity->getLogo();
+
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
@@ -214,6 +217,8 @@ class BrandController extends Controller
                 $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
                 $evm->removeEventListener(array('postFlush'), $uploadableManager->getUploadableListener());
                 $uploadableManager->markEntityToUpload($entity, $entity->getLogo());
+            } else {
+                $entity->setLogo($previousLogo);
             }
 
             $em->flush();

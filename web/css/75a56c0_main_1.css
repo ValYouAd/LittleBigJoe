@@ -11220,3 +11220,8 @@ article .article-footer .back-link {
   height: 20px;
   padding: 3px;
 }
+.form-signin-custom {
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
