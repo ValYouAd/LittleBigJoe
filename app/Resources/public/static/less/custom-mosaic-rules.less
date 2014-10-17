@@ -200,6 +200,7 @@
     .make-sm-column(4, @grid-gutter-width);
     .make-md-column(3, @grid-gutter-width);
     margin-bottom: @grid-gutter-width;
+    height: 150px;
 
     .img-container{
 	position: relative;
@@ -207,7 +208,7 @@
 	.pres-thumbnail{
 	    .img-responsive();
 	    .border-radius-select(@top-left: @radius, @top-right: @radius);
-        height: 150px;
+        max-height: 150px;
 	}
     }
 

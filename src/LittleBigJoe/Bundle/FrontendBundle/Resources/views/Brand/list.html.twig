@@ -8,11 +8,14 @@
         <article class="fPage">
 
             <div class="article-header">
-                <h2><img class="icon" src="{{ asset('static/img/icons/icon-brands.png') }}"alt="alt-LBJ - brands icon"> <span class="grand-hotel">{{ title|trans() }}</span></h2>
+                <h2><img class="icon" src="{{ asset('static/img/icons/icon-brands.png') }}"alt="alt-LBJ - brands icon"></img> <span class="grand-hotel">{{ title|trans() }}</span></h2>
             </div>
 
             {% if brands %}
                 {% for brand in brands %}
+                    {% if loop.index0 % 4 == 0 and loop.index0 > 0 %}
+                        <div class="clearfix">&nbsp;</div>
+                    {% endif %}
                     <div class="brand-mosaic-container">
                         {% set brand_pres_vars = {'brand': brand} %}
                         {% include "LittleBigJoeFrontendBundle:includes:pres/brand-pres.html.twig" with brand_pres_vars %}
