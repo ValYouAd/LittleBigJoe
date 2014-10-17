@@ -627,10 +627,11 @@ class ProjectController extends Controller
             $editForm->handleRequest($request);
 
             if ($editForm->isValid()) {
+                $project->setEndedAt(null);
                 $em->persist($project);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_home'));
+                return $this->redirect($this->generateUrl('littlebigjoe_frontendbundle_project_show', array('id' => $project->getId(), 'slug' => $project->getSlug())));
             }
 
             // Project deletion
