@@ -42,8 +42,8 @@ class Brand
      *    maxMessage = "Your brand name can't exceed {{ limit }} characters"
      * )
      * @Assert\Regex(
-     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿa-zA-Z -]*$/",
-     *    message = "Your brand name must only contains letters, spaces, or dashes"
+     *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ0-9a-zA-Z \'-]*$/i",
+     *    message = "Your brand name must only contains letters, spaces, numbers or dashes"
      * )
      */
     protected $name;

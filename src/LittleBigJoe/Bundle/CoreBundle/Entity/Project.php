@@ -48,7 +48,7 @@ class Project
      * )
      * @Assert\Regex(
      *    pattern = "/^[ÀÁÅÃÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ0-9a-zA-Z \'-]*$/i",
-     *    message = "Your project name must only contains letters, spaces, or dashes",
+     *    message = "Your project name must only contains letters, spaces, numbers or dashes",
      *    groups = {"Default", "flow_createProject_step1"}
      * )
      */
