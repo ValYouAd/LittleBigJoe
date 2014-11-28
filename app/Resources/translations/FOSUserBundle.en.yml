@@ -1,3 +1,4 @@
 form:
     password: 'Password'
     password_confirmation: 'Confirm password'
+terms-of-use: 'I accept the applicable <a class="link" href="%url%">Terms of Use</a>'

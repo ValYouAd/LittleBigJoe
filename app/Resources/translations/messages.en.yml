@@ -3,3 +3,5 @@ access_denied:
     message1: 'Follow us on <a href="https://www.facebook.com/pages/LittleBigJoe/216230115202124?ref=br_tf">Facebook</a> and on <a href="https://twitter.com/_LittleBigJoe">Twitter</a> to stay tuned'
 
 'Enter your beta code and get full access to LittleBigJoe: ': 'Enter your beta code and get full access to LittleBigJoe: '
+
+terms-of-use: 'I accept the applicable <a class="link" href="%url%">Terms of Use</a>'

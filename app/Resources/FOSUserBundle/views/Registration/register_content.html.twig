@@ -49,7 +49,7 @@
     <div class="checkbox">
         <label>
             {{ form_widget(form.cgv) }}
-            {{ 'I accept the applicable <a class="link" href="%url%">Terms of Use</a>'|trans({'%url%': path('littlebigjoe_frontendbundle_page_show', {'slug':'cgv'})})|raw }}
+            {{ 'terms-of-use'|trans({'%url%': path('littlebigjoe_frontendbundle_page_show', {'slug': (app.request.locale == 'fr' ? 'cgu' : 'terms-of-use') })})|raw }}
         </label>
     </div>
     <div>
